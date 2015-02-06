@@ -11,6 +11,9 @@ import java.net.URISyntaxException;
 public class LocalServer {
 
 	public static void main(String... args) {
+		// set static files folder
+		Spark.staticFileLocation("/static");
+
 		// set up the dummy route
 		Spark.get("/", new DummyPageRoute());
 

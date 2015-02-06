@@ -8,6 +8,13 @@ public class DummyPageRoute implements Route {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		return "This is a test route.";
+		return "<html>" +
+				"<head>" +
+				"<link type=\"text/css\" href=\"/style.css\" rel=\"stylesheet\" />" +
+				"</head>" +
+				"<body>" +
+				"<p>This is a test route.</p>" +
+				"</body>" +
+				"</html>";
 	}
 }
