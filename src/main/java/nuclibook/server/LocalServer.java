@@ -1,31 +1,47 @@
 package nuclibook.server;
 
-import nuclibook.page_routes.DummyPageRoute;
+import nuclibook.routes.BlankRoute;
 import spark.Spark;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class LocalServer {
 
 	public static void main(String... args) {
-		// set static files folder
+		/*
+		SERVER SETTINGS
+		 */
+
+		// static files folder
 		Spark.staticFileLocation("/static");
 
-		// set up the dummy route
-		Spark.get("/", new DummyPageRoute());
+		// page security
+		Spark.before((request, response) -> {
+			boolean authenticated = false;
+			boolean needsAuthentication = true;
 
-		// open the browser
-		if (Desktop.isDesktopSupported()) {
-			try {
-				Desktop.getDesktop().browse(new URI("http://localhost:4567"));
-			} catch (IOException | URISyntaxException e) {
-				System.out.println("Failed to open web browser.");
-				e.printStackTrace();
+			// check if they are accessing a non-secure page
+			String path = request.pathInfo();
+			if (path.equals("/login")
+					|| path.startsWith("/css/")
+					|| path.startsWith("/js/")) {
+				needsAuthentication = false;
 			}
-		}
+
+			// TODO: check if they are authenticated
+
+			// need authentication and not authenticated?
+			if (needsAuthentication && !authenticated) {
+				// send them back to the login page
+				response.redirect("/login");
+			}
+		});
+
+		/*
+		ROUTES
+		 */
+
+		Spark.get("/", new BlankRoute());
+
+		Spark.get("/login", new BlankRoute("login"));
 	}
 
 }
