@@ -20,7 +20,7 @@ public class LocalServer {
 
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
-			if (path.equals("/login/")
+			if (path.startsWith("/login/")
 					|| path.startsWith("/css/")
 					|| path.startsWith("/js/")) {
 				needsAuthentication = false;
