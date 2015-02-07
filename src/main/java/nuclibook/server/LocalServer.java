@@ -16,20 +16,20 @@ public class LocalServer {
 		// page security
 		Spark.before((request, response) -> {
 			boolean authenticated = false;
-			boolean needsAuthentication = true;
 
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
 			if (path.startsWith("/login")
-					|| path.startsWith("/css/")
-					|| path.startsWith("/js/")) {
-				needsAuthentication = false;
+					|| path.startsWith("/css")
+					|| path.startsWith("/js")) {
+				// nothing more to do - everything is fine
+				return;
 			}
 
 			// TODO: check if they are authenticated
 
-			// need authentication and not authenticated?
-			if (needsAuthentication && !authenticated) {
+			// not authenticated?
+			if (!authenticated) {
 				// send them back to the login page
 				response.redirect("/login");
 			}
