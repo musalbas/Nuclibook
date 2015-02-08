@@ -1,7 +1,15 @@
 # IntelliJ
 *.iml
+*.ipr
+*.iws
 .idea/
+out/
 
 # Java
 *.class
 *.java~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
