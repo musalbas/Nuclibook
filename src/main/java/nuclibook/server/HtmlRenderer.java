@@ -56,45 +56,53 @@ public class HtmlRenderer {
 		}
 	}
 
-	private void parseConditionalFields() {
+	private String parseConditionalFields(String html) {
+		return parseConditionalFields(html, fields);
+	}
+
+	private String parseConditionalFields(String html, HashMap<String, String> fields) {
 		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-		Matcher fieldMatcher = fieldPattern.matcher(parsedHtml);
+		Matcher fieldMatcher = fieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
-			fieldMatcher.appendReplacement(output, getConditionalFieldValue(fieldMatcher.group(1), fieldMatcher.group(2)));
+			fieldMatcher.appendReplacement(output, getConditionalFieldValue(fieldMatcher.group(1), fieldMatcher.group(2), fields));
 		}
 		fieldMatcher.appendTail(output);
-		parsedHtml = output.toString();
+		return output.toString();
 	}
 
-	private void parseFields() {
+	private String parseFields(String html) {
+		return parseFields(html, fields);
+	}
+
+	private String parseFields(String html, HashMap<String, String> fields) {
 		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-		Matcher fieldMatcher = fieldPattern.matcher(parsedHtml);
+		Matcher fieldMatcher = fieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
-			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(1)));
+			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(1), fields));
 		}
 		fieldMatcher.appendTail(output);
-		parsedHtml = output.toString();
+		return output.toString();
 	}
 
-	private String getFieldValue(String key) {
+	private String getFieldValue(String key, HashMap<String, String> fields) {
 		return (fields.containsKey(key) && fields.get(key) != null) ? fields.get(key) : "";
 	}
 
-	private String getConditionalFieldValue(String key, String original) {
+	private String getConditionalFieldValue(String key, String original, HashMap<String, String> fields) {
 		return (fields.containsKey(key) && fields.get(key) != null) ? original : "";
 	}
 
-	private void parseCollections() {
+	private String parseCollections(String html) {
 		Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-		Matcher collectionMatcher = collectionPattern.matcher(parsedHtml);
+		Matcher collectionMatcher = collectionPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (collectionMatcher.find()) {
 			collectionMatcher.appendReplacement(output, getCollectionHtml(collectionMatcher.group(1), collectionMatcher.group(2)));
 		}
 		collectionMatcher.appendTail(output);
-		parsedHtml = output.toString();
+		return output.toString();
 	}
 
 	private String getCollectionHtml(String key, String original) {
@@ -119,10 +127,12 @@ public class HtmlRenderer {
 		// add to output for each element in the collection
 		Iterator iterator = collection.iterator();
 		Renderable entry;
+		String entryHtml;
 		while (iterator.hasNext()) {
 			entry = (Renderable) iterator.next();
-
-			sb.append(each);
+			entryHtml = parseConditionalFields(each, entry.getHashMap());
+			entryHtml = parseFields(entryHtml, entry.getHashMap());
+			sb.append(entryHtml);
 		}
 
 		// finish output
@@ -143,9 +153,9 @@ public class HtmlRenderer {
 
 	public String render() {
 		parsedHtml = readSimpleFile();
-		parseCollections();
-		parseConditionalFields();
-		parseFields();
+		parsedHtml = parseCollections(parsedHtml);
+		parsedHtml = parseConditionalFields(parsedHtml);
+		parsedHtml = parseFields(parsedHtml);
 		return parsedHtml;
 	}
 

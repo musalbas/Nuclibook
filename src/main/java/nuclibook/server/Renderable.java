@@ -1,7 +1,9 @@
 package nuclibook.server;
 
+import java.util.HashMap;
+
 public interface Renderable {
 
-	public String getField(String fieldName);
+	public HashMap<String, String> getHashMap();
 
 }

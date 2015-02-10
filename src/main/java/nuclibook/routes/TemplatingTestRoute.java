@@ -6,6 +6,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TemplatingTestRoute extends DefaultRoute {
 
@@ -41,8 +42,10 @@ public class TemplatingTestRoute extends DefaultRoute {
 		}
 
 		@Override
-		public String getField(String fieldName) {
-			return name;
+		public HashMap<String, String> getHashMap() {
+			HashMap<String, String> output = new HashMap<>();
+			output.put("name", name);
+			return output;
 		}
 	}
 }
