@@ -6,8 +6,6 @@ import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
 import nuclibook.models.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SqlServerConnection {
@@ -23,9 +21,9 @@ public class SqlServerConnection {
 	public static ConnectionSource acquireConnection() {
 		if (connection == null) {
 			try {
-                connection = new JdbcConnectionSource(C.MYSQL_URI);
-                ((JdbcConnectionSource)connection).setUsername(C.MYSQL_USERNAME);
-                ((JdbcConnectionSource)connection).setPassword(C.MYSQL_PASSWORD);
+				connection = new JdbcConnectionSource(C.MYSQL_URI);
+				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
+				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -36,7 +34,7 @@ public class SqlServerConnection {
 		return connection;
 	}
 
-    public static void initDB(ConnectionSource connectionSource) {
+	public static void initDB(ConnectionSource connectionSource) {
 		try {
 			TableUtils.createTableIfNotExists(connectionSource, User.class);
 		} catch (SQLException e) {

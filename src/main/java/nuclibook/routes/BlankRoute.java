@@ -1,14 +1,12 @@
 package nuclibook.routes;
 
 import com.j256.ormlite.support.ConnectionSource;
+import nuclibook.server.SecurityUtils;
 import nuclibook.server.SqlServerConnection;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 
-import java.sql.Connection;
-
-public class BlankRoute implements Route {
+public class BlankRoute extends DefaultRoute {
 
 	/**
 	 * This route provides a simple "debugging" page for development use.
@@ -37,7 +35,8 @@ public class BlankRoute implements Route {
 				"</head>" +
 				"<body>" +
 				"<h1>Blank route" + (label == null ? "" : ": " + label) + "</h1>" +
-				"<p>Connection test: " + (connection == null ? "nope =/" : "awesome! :D") + "</p>" +
+				"<p>Connection test: " + (connection == null ? "failed" : "okay") + "</p>" +
+				"<p>Logged in as: " + (SecurityUtils.getCurrentUser() == null ? "no one" : SecurityUtils.getCurrentUser().getName() + " (" + SecurityUtils.getCurrentUser().getId() + ")") + "</p>" +
 				"</body>" +
 				"</html>";
 	}

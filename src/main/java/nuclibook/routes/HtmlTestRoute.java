@@ -2,13 +2,12 @@ package nuclibook.routes;
 
 import spark.Request;
 import spark.Response;
-import spark.Route;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-public class HtmlTestRoute implements Route {
+public class HtmlTestRoute extends DefaultRoute {
 
 	/**
 	 * This route provides a testing page for static HTML.

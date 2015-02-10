@@ -1,7 +1,10 @@
 package nuclibook.server;
 
+import nuclibook.constants.RequestType;
 import nuclibook.routes.BlankRoute;
 import nuclibook.routes.HtmlTestRoute;
+import nuclibook.routes.LoginRoute;
+import nuclibook.routes.LogoutRoute;
 import spark.Spark;
 
 public class LocalServer {
@@ -23,29 +26,41 @@ public class LocalServer {
 			if (path.startsWith("/login")
 					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
-					|| path.startsWith("/js")) {
+					|| path.startsWith("/js")
+					|| path.startsWith("/font-awesome")) {
 				// nothing more to do - everything is fine
 				return;
 			}
 
-			// TODO: check if they are authenticated
-
 			// not authenticated?
-			if (!authenticated) {
+			if (!SecurityUtils.checkLoggedIn()) {
 				// send them back to the login page
 				response.redirect("/login");
 			}
+		});
+
+		// prevent viewing pages after logout
+		Spark.after((request, response) -> {
+			response.header("Cache-Control", "no-cache, no-store, must-revalidate");
+			response.header("Pragma", "no-cache");
+			response.header("Expires", "0");
 		});
 
 		/*
 		ROUTES
 		 */
 
-		Spark.get("/", new BlankRoute());
+		// basic pages
+		Spark.get("/", new BlankRoute("Home page"));
 
+		// login
+		Spark.get("/login", new LoginRoute(RequestType.GET));
+		Spark.post("/login", new LoginRoute(RequestType.POST));
+		Spark.get("/logout", new LogoutRoute());
+
+		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 
-		Spark.get("/login", new BlankRoute("login"));
 	}
 
 }
