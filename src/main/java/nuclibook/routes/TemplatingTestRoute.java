@@ -20,7 +20,7 @@ public class TemplatingTestRoute extends DefaultRoute {
 		renderer.setField("status", "win");
 
 		// make collection
-		ArrayList<DummyItem> testCollection = new ArrayList<>();
+		ArrayList<Renderable> testCollection = new ArrayList<>();
 		testCollection.add(new DummyItem("item a"));
 		testCollection.add(new DummyItem("item b"));
 		testCollection.add(new DummyItem("item c"));

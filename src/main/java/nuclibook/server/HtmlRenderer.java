@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,11 +168,18 @@ public class HtmlRenderer {
 		Iterator iterator = collection.iterator();
 		Renderable entry;
 		String entryHtml;
+		int i = 0;
 		while (iterator.hasNext()) {
+			// get entry and handle fields
 			entry = (Renderable) iterator.next();
 			entryHtml = parseConditionalFields(each, entry.getHashMap());
 			entryHtml = parseFields(entryHtml, entry.getHashMap());
+
+			// insert index and guid
+			entryHtml = basicReplace(entryHtml, "index", "" + i);
+			entryHtml = basicReplace(entryHtml, "guid", UUID.randomUUID().toString());
 			sb.append(entryHtml);
+			++i;
 		}
 
 		// finish output
@@ -182,13 +190,25 @@ public class HtmlRenderer {
 
 	// get an HTML segment between basic <!--[tag]--> and <!--[/tag]--> wrappers
 	private String getSegment(String html, String tag) {
-		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", regexOptions);
 		Matcher segmentMatcher = segmentPattern.matcher(html);
 		if (segmentMatcher.find()) {
 			return segmentMatcher.group(1);
 		} else {
 			return "";
 		}
+	}
+
+	// replace a given keyword with a given value
+	private String basicReplace(String html, String tag, String value) {
+		Pattern basicReplacePattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->", regexOptions);
+		Matcher basicReplaceMatcher = basicReplacePattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (basicReplaceMatcher.find()) {
+			basicReplaceMatcher.appendReplacement(output, value);
+		}
+		basicReplaceMatcher.appendTail(output);
+		return output.toString();
 	}
 
 	// run the parsing methods in the right order
