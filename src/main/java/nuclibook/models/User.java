@@ -75,7 +75,7 @@ public class User {
             throw new CannotHashPasswordException("Unsupported text encoding");
         }
 
-        return hash.toString();
+        return String.format("%0128x", new BigInteger(1, hash));
     }
 
 }
