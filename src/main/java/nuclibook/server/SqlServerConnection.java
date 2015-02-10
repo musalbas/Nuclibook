@@ -2,10 +2,13 @@ package nuclibook.server;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
+import nuclibook.models.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class SqlServerConnection {
 
@@ -30,4 +33,7 @@ public class SqlServerConnection {
 		return connection;
 	}
 
+    public static void initDB(ConnectionSource connectionSource) throws SQLException {
+        TableUtils.createTableIfNotExists(connectionSource, User.class);
+    }
 }
