@@ -15,14 +15,14 @@ public class SqlServerConnection {
 
 	}
 
-	private static Connection connection = null;
+	private static ConnectionSource connection = null;
 
-	public static Connection acquireConnection() {
+	public static ConnectionSource acquireConnection() {
 		if (connection == null) {
 			try {
-                ConnectionSource connectionSource = new JdbcConnectionSource(C.MYSQL_URI);
-                ((JdbcConnectionSource)connectionSource).setUsername(C.MYSQL_USERNAME);
-                ((JdbcConnectionSource)connectionSource).setPassword(C.MYSQL_PASSWORD);
+                connection = new JdbcConnectionSource(C.MYSQL_URI);
+                ((JdbcConnectionSource)connection).setUsername(C.MYSQL_USERNAME);
+                ((JdbcConnectionSource)connection).setPassword(C.MYSQL_PASSWORD);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
