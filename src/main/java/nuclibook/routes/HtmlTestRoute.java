@@ -11,9 +11,7 @@ import java.io.FileReader;
 public class HtmlTestRoute implements Route {
 
 	/**
-	 * This route provides a simple "debugging" page for development use.
-	 * It will display whatever message is passed in the constructor, and
-	 * some diagnostic information.
+	 * This route provides a testing page for static HTML.
 	 */
 
 	public HtmlTestRoute() {
