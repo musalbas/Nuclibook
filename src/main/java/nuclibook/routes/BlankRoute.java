@@ -1,5 +1,6 @@
 package nuclibook.routes;
 
+import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
 import spark.Request;
 import spark.Response;
@@ -27,7 +28,7 @@ public class BlankRoute implements Route {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// carry out connection test
-		Connection connection = SqlServerConnection.acquireConnection();
+		ConnectionSource connection = SqlServerConnection.acquireConnection();
 
 		// return HTML
 		return "<html>" +
