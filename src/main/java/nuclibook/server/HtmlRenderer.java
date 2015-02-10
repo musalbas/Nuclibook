@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,7 @@ public class HtmlRenderer {
 	private String templateFile;
 
 	private HashMap<String, String> fields;
-	private HashMap<String, Collection> collections;
+	private HashMap<String, Collection<Renderable>> collections;
 
 	private String parsedHtml = "";
 
@@ -103,7 +104,31 @@ public class HtmlRenderer {
 		String empty = getSegment(original, "empty");
 		String each = getSegment(original, "each");
 
-		return pre + " / " + post + " / " + empty + " / " + each + " / ";
+		// no collection?
+		if (!collections.containsKey(key) || collections.get(key) == null || collections.get(key).isEmpty()) {
+			return empty;
+		}
+
+		// get collection
+		Collection collection = collections.get(key);
+
+		// start output
+		StringBuilder sb = new StringBuilder();
+		sb.append(pre);
+
+		// add to output for each element in the collection
+		Iterator iterator = collection.iterator();
+		Renderable entry;
+		while (iterator.hasNext()) {
+			entry = (Renderable) iterator.next();
+
+			sb.append(each);
+		}
+
+		// finish output
+		sb.append(post);
+
+		return sb.toString();
 	}
 
 	private String getSegment(String html, String tag) {
@@ -112,7 +137,7 @@ public class HtmlRenderer {
 		if (segmentMatcher.find()) {
 			return segmentMatcher.group(1);
 		} else {
-			return null;
+			return "";
 		}
 	}
 
