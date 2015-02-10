@@ -14,10 +14,17 @@ public class LoginRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		if (getRequestType() == RequestType.GET) {
-			return handleGet(request, response);
-		} else {
+		// check they are not already logged in
+		if (SecurityUtils.checkLoggedIn()) {
+			response.redirect("/");
+			return null;
+		}
+
+		// handle with GET or POST
+		if (getRequestType() == RequestType.POST) {
 			return handlePost(request, response);
+		} else {
+			return handleGet(request, response);
 		}
 	}
 
