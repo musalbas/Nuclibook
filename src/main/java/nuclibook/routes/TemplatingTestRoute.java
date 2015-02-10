@@ -8,7 +8,7 @@ public class TemplatingTestRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		// start our renderer
+		// start renderer
 		HtmlRenderer renderer = new HtmlRenderer("test.html");
 
 		// input field values
