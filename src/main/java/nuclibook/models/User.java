@@ -1,3 +1,5 @@
+package nuclibook.models;
+
 public class User {
 
     private String name;
