@@ -192,48 +192,32 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="col-lg-3">Name</th>
-                            <th class="col-lg-3">Time to be delivered</th>
+                            <th class="col-lg-3 text-center">Name</th>
+                            <th class="col-lg-3 text-center">Time to be delivered</th>
                             <th class="col-lg-1 text-center">Remove</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th> Radiotracer 1</th>
-                            <th> 2 days</th>
-                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
-                                                       onmouseover="this.style.color='#2f2f8b';"
-                                                       onmouseout="this.style.color='';" onclick="removeRadiotracer()">Remove</u>
+                        <tbody id="tableBodyRadioTracer">
+                        <tr id="trRadioTracer">
+                            <th id="nameRadiotracer"> Radiotracer added by default</th>
+                            <th id="etaRadiotracer"> 1 day</th>
+                            <th id="removeRadioTracer" class="text-center"><u id="mataclass" data-backdrop="static"
+                                                                              data-keyboard="false" data-toggle="modal"
+                                                                              data-target="#bs-example-modal-smRadioTracerRemoval"
+                                                                              style="cursor:pointer;"
+                                                                              onmouseover="this.style.color='#2f2f8b';"
+                                                                              onmouseout="this.style.color='';">Remove</u>
                             </th>
                         </tr>
-                        <tr>
-                            <th> Radiotracer 2</th>
-                            <th> 3 days</th>
-                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
-                                                       onmouseover="this.style.color='#2f2f8b';"
-                                                       onmouseout="this.style.color='';" onclick="removeRadiotracer()">Remove</u>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th> Radiotracer 3</th>
-                            <th> 1 day</th>
-                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
-                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
-                                                       onmouseover="this.style.color='#2f2f8b';"
-                                                       onmouseout="this.style.color='';"">Remove</u></th>
-                        </tr>
-                        <tr>
-                            <th> Radiotracer 4</th>
-                            <th> 10 days</th>
-                            <th class="text-center"><u style="cursor:pointer;" onmouseover="this.style.color='#2f2f8b';"
-                                                       onmouseout="this.style.color='';">Remove</u></th>
-                        </tr>
-                        </tbody>
                     </table>
                     <div class="text-right">
-                        <a href="#">Add Radiotracer <i class="fa fa-arrow-circle-right"></i></a>
+                        <label data-backdrop="static"
+                           data-keyboard="false" data-toggle="modal"
+                           data-target="#bs-example-modal-sm-RadioTracerData"
+                           style="cursor:pointer;"
+                           onmouseover="this.style.color='#2f2f8b';"
+                           onmouseout="this.style.color='';">Add Radiotracer <i
+                                class="fa fa-arrow-circle-right"></i></label>
                     </div>
                 </div>
             </div>
@@ -241,12 +225,13 @@
             <!-- /Table Radiotracers -->
             <!-- /.row -->
         </div>
-
         <!-- /.row -->
 
     </div>
     <!-- /.container-fluid -->
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    <!-- Modal for Asking the user if it is sure to continue deleting the radiotracer -->
+    <div class="modal fade" id="bs-example-modal-smRadioTracerRemoval" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -256,7 +241,7 @@
                     <p class="text-center"><b><h5 class="text-center">Are you sure you want to remove this
                         Radiotracer?</h5></b></p>
                     <div class="text-center">
-                        <button class="btn btn-primary" data-dismiss="modal"> Cancel</button>
+                        <button class="btn" data-dismiss="modal"> Cancel</button>
                         <button id="okRemoveRadiotracer" class="btn btn-primary" onclick="removeRadiotracerOkClick()">
                             Ok
                         </button>
@@ -265,6 +250,48 @@
             </div>
         </div>
     </div>
+    <!-- /Modal for Asking the user if it is sure to continue deleting the radiotracer -->
+
+    <!-- Modal for Asking the user for data regarding the radiotracer he wants to add -->
+    <div class="modal fade" id="bs-example-modal-sm-RadioTracerData" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="form-group">
+                    <p class="text-center"><b><h5 class="text-center">Please complete the following fields</h5></b></p>
+                    <form>
+                        <div class="form-group">
+                            <label for="nameOfRTInput" class="col-sm-5 control-label">Name of Radiotracer: </label>
+
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nameOfRTInput"
+                                       placeholder="Name of Radiotracer"  style="margin-bottom: 10px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="etaOfRTInput" class="col-sm-5 control-label">Estimated time of
+                                delivery: </label>
+
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="etaOfRTInput"
+                                       placeholder="Please enter a number"  style="margin-bottom: 10px">
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn" data-dismiss="modal"> Cancel</button>
+                            <button class="btn btn-primary" type = "button" id="okAddRadiotracer"
+                                    onclick="addRadiotracer()">
+                                Ok
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal for Asking the user for data regarding the radiotracer he wants to add -->
+
 </div>
 <!-- /#page-wrapper -->
 </div>
