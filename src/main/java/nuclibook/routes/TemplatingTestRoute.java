@@ -12,7 +12,7 @@ public class TemplatingTestRoute extends DefaultRoute {
 		HtmlRenderer renderer = new HtmlRenderer("test.html");
 
 		// input field values
-		renderer.setField("testfield", "It works!");
+		renderer.setField("test-field", "It works!");
 		renderer.setField("status", "win");
 
 		return renderer.render();
