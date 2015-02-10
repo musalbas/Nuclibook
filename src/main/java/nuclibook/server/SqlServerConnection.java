@@ -40,6 +40,7 @@ public class SqlServerConnection {
 		try {
 			TableUtils.createTableIfNotExists(connectionSource, User.class);
 		} catch (SQLException e) {
+			System.out.println(e.getStackTrace());
 			// TODO deal with exception
 		}
 	}
