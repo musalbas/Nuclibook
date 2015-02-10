@@ -5,6 +5,9 @@ import nuclibook.models.User;
 public class SecurityUtils {
 
 	public static User attemptLogin(String username, String password) {
+		if (username.equals("test") && password.equals("test")) {
+			return new User();
+		}
 		return null;
 	}
 
