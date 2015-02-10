@@ -10,6 +10,11 @@ public class TemplatingTestRoute extends DefaultRoute {
 	public Object handle(Request request, Response response) throws Exception {
 		// start our renderer
 		HtmlRenderer renderer = new HtmlRenderer("test.html");
+
+		// input field values
+		renderer.setField("testfield", "It works!");
+		renderer.setField("status", "win");
+
 		return renderer.render();
 	}
 }
