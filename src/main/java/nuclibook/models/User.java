@@ -41,7 +41,7 @@ public class User {
         password = this.passwordSalt + password;
 
         // Check password
-        return generateHash(password) == this.passwordHash;
+        return generateHash(password).equals(this.passwordHash);
     }
 
     public void setPassword(String password) throws CannotHashPasswordException {
