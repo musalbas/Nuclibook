@@ -1,6 +1,7 @@
 package nuclibook.server;
 
 import nuclibook.routes.BlankRoute;
+import nuclibook.routes.HtmlTestRoute;
 import spark.Spark;
 
 public class LocalServer {
@@ -20,6 +21,7 @@ public class LocalServer {
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
 			if (path.startsWith("/login")
+					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
 					|| path.startsWith("/js")) {
 				// nothing more to do - everything is fine
@@ -40,6 +42,8 @@ public class LocalServer {
 		 */
 
 		Spark.get("/", new BlankRoute());
+
+		Spark.get("/htmltest/:file", new HtmlTestRoute());
 
 		Spark.get("/login", new BlankRoute("login"));
 	}
