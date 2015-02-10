@@ -21,7 +21,11 @@ public class HtmlRenderer {
 	private HashMap<String, Collection<Renderable>> collections;
 
 	// set up patterns and options
-	// todo
+	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
+	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
+	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
+	private static Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->", regexOptions);
+	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
 	// initialise
 	public HtmlRenderer(String templateFile) {
@@ -36,7 +40,7 @@ public class HtmlRenderer {
 	}
 
 	// set a data collection (set null to "remove")
-	public void setCollection(String key, Collection collection) {
+	public void setCollection(String key, Collection<Renderable> collection) {
 		collections.put(key, collection);
 	}
 
@@ -77,8 +81,7 @@ public class HtmlRenderer {
 	// parse any conditional field statements with a specific set of fields
 	private String parseConditionalFields(String html, HashMap<String, String> fields) {
 		// "positive" conditionals
-		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-		Matcher fieldMatcher = fieldPattern.matcher(html);
+		Matcher fieldMatcher = conditionalFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
 			fieldMatcher.appendReplacement(output, getConditionalFieldValue(fieldMatcher.group(1), fieldMatcher.group(2), fields));
@@ -87,8 +90,7 @@ public class HtmlRenderer {
 		html = output.toString();
 
 		// negated conditionals
-		Pattern negatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-		Matcher negatedFieldMatcher = negatedFieldPattern.matcher(html);
+		Matcher negatedFieldMatcher = conditionalNegatedFieldPattern.matcher(html);
 		output = new StringBuffer();
 		while (negatedFieldMatcher.find()) {
 			negatedFieldMatcher.appendReplacement(output, getNegatedConditionalFieldValue(negatedFieldMatcher.group(1), negatedFieldMatcher.group(2), fields));
@@ -106,7 +108,6 @@ public class HtmlRenderer {
 
 	// parse any conditional field statements with a specific set of fields
 	private String parseFields(String html, HashMap<String, String> fields) {
-		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher fieldMatcher = fieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
@@ -118,7 +119,6 @@ public class HtmlRenderer {
 
 	// parse any collection statements
 	private String parseCollections(String html) {
-		Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher collectionMatcher = collectionPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (collectionMatcher.find()) {
