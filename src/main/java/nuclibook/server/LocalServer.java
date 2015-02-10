@@ -1,7 +1,9 @@
 package nuclibook.server;
 
+import nuclibook.constants.RequestType;
 import nuclibook.routes.BlankRoute;
 import nuclibook.routes.HtmlTestRoute;
+import nuclibook.routes.LoginRoute;
 import spark.Spark;
 
 public class LocalServer {
@@ -39,11 +41,16 @@ public class LocalServer {
 		ROUTES
 		 */
 
-		Spark.get("/", new BlankRoute());
+		// basic pages
+		Spark.get("/", new BlankRoute("Home page"));
 
+		// login
+		Spark.get("/login", new LoginRoute(RequestType.GET));
+		Spark.post("/login", new LoginRoute(RequestType.POST));
+
+		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 
-		Spark.get("/login", new BlankRoute("login"));
 	}
 
 }
