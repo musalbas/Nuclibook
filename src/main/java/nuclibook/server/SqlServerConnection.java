@@ -8,8 +8,6 @@ import nuclibook.models.Radiographer;
 import nuclibook.models.RadiographerAvailability;
 import nuclibook.models.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SqlServerConnection {
@@ -24,9 +22,9 @@ public class SqlServerConnection {
 	public static ConnectionSource acquireConnection() {
 		if (connection == null) {
 			try {
-                connection = new JdbcConnectionSource(C.MYSQL_URI);
-                ((JdbcConnectionSource)connection).setUsername(C.MYSQL_USERNAME);
-                ((JdbcConnectionSource)connection).setPassword(C.MYSQL_PASSWORD);
+				connection = new JdbcConnectionSource(C.MYSQL_URI);
+				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
+				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
 			} catch (Exception e) {
 				e.printStackTrace(); // TODO deal with exception
 			}
