@@ -14,6 +14,84 @@ import java.util.regex.Pattern;
 
 public class HtmlRenderer {
 
+	/**
+	 * This class allows front-end HTML templates to be rendered with the inclusion of data
+	 * from the Java backend. This is achieved via HTML comments following a specific
+	 * format, as detailed below.
+	 *
+	 * An HtmlRenderer object is created with the name of the HTML template file, relative to
+	 * the resources/static/ folder, e.g.:
+	 *
+	 * HtmlRenderer renderer = new HtmlRenderer("login.html");
+	 *
+	 *
+	 * Fields
+	 * ------
+	 *
+	 * Fields are the most basic method of integrating data into an HTML template. They
+	 * contain simple string values only, and can be used as follows:
+	 *
+	 * You are logged in as <!--[field: user-first-name]-->
+	 *
+	 * The field-name may consist only of a combination of lower-case letters, digits, and
+	 * dashes (-). The corresponding string value is given on the backend as follows:
+	 *
+	 * renderer.setField(String name, String value);
+	 *
+	 * A missing or null-valued field will result in an empty string when rendered.
+	 *
+	 *
+	 * Conditional Fields
+	 * ------------------
+	 *
+	 * These introduce some degree of conditional control based on whether a field has been
+	 * set, and can be used as such:
+	 *
+	 * <!--[if field: status]-->The status is <!--[field: status]-->.<!--[/if]-->
+	 * <!--[if no field: status]-->No status is set.<!--[/if]-->
+	 *
+	 *
+	 * Collections
+	 * -----------
+	 *
+	 * Collection tags allow you to iterate over a collection of objects that implement the
+	 * Renderable interface. This is useful for lists, tables, etc. A collection has a
+	 * unique name (of the same format as field names) and is defined as follows:
+	 *
+	 * <!--[collection: names]-->
+	 *     <!--[pre]--><ul><!--[/pre]-->
+	 *     <!--[each]-->
+	 *         <li><!--[field: first-name]--> <!--[field: last-name]--></li>
+	 *     <!--[/each]-->
+	 *     <!--[post]--></ul><!--[/post]-->
+	 *     <!--[empty]--><p>Empty collection.</p><!--[/empty]-->
+	 * <!--[/collection]-->
+	 *
+	 * A collection tag MUST have 4 internal sections:
+	 *     pre:   this is printed before the iterative section
+	 *     post:  this is printed after the iterative section
+	 *     each:  this is printed for each iteration and may contain fields from the global
+	 *            set and/or the iterated Renderable object
+	 *     empty: this is printed if the collection is empty, or not set
+	 *
+	 * The collection can be specified on the back-end as:
+	 *
+	 * renderer.setCollection(String name, Collection<Renderable> data)
+	 *
+	 * Two "helper" tags exist within the 'each' section:
+	 *     <!--[index]--> prints the index of the current iteration, starting from zero
+	 *     <!--[guid]-->  prints a GUID for that iteration (useful for an identifier when
+	 *                    the index is unsuitable)
+	 *
+	 *
+	 * Rendering
+	 * ---------
+	 *
+	 * Once all of the data has been set, the rendered HTML can be obtained via:
+	 *
+	 * renderer.render();
+	 */
+
 	// location of template HTML file
 	private String templateFile;
 
@@ -23,10 +101,10 @@ public class HtmlRenderer {
 
 	// set up patterns and options
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
-	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
-	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
-	private static Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->", regexOptions);
-	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
+	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
+	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
+	private static Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-z0-9\\-]+)\\]\\-\\->", regexOptions);
+	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
 	// initialise
 	public HtmlRenderer(String templateFile) {
