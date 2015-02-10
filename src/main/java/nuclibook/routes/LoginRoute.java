@@ -46,7 +46,7 @@ public class LoginRoute extends DefaultRoute {
 
 		// output html
 		output += "<form action=\"/login\" method=\"post\">" +
-				"<input type=\"text\" name=\"username\" /><br />" +
+				"<input type=\"text\" name=\"userid\" /><br />" +
 				"<input type=\"text\" name=\"password\" /><br />" +
 				"<input type=\"Submit\" value=\"Login\" />" +
 				"</form>";
@@ -55,12 +55,20 @@ public class LoginRoute extends DefaultRoute {
 	}
 
 	public Object handlePost(Request request, Response response) throws Exception {
-		// get username and password from POST
-		String username = request.queryParams("username");
-		String password = request.queryParams("password");
+		// get user id and password from POST
+		int userId;
+		String password;
+		try {
+			userId = Integer.parseInt(request.queryParams("userid"));
+			password = request.queryParams("password");
+		} catch (NumberFormatException e) {
+			// force failure
+			response.redirect("/login?msg=1");
+			return null;
+		}
 
 		// check credentials
-		User user = SecurityUtils.attemptLogin(username, password);
+		User user = SecurityUtils.attemptLogin(userId, password);
 		if (user == null) {
 			response.redirect("/login?msg=1");
 			return null;

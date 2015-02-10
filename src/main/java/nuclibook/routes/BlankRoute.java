@@ -36,7 +36,7 @@ public class BlankRoute extends DefaultRoute {
 				"<body>" +
 				"<h1>Blank route" + (label == null ? "" : ": " + label) + "</h1>" +
 				"<p>Connection test: " + (connection == null ? "failed" : "okay") + "</p>" +
-				"<p>Logged in as: " + (SecurityUtils.getCurrentUser() == null ? "no one" : SecurityUtils.getCurrentUser()) + "</p>" +
+				"<p>Logged in as: " + (SecurityUtils.getCurrentUser() == null ? "no one" : SecurityUtils.getCurrentUser().getName() + " (" + SecurityUtils.getCurrentUser().getId() + ")") + "</p>" +
 				"</body>" +
 				"</html>";
 	}
