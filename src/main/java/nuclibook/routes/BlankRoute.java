@@ -4,11 +4,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 
 import java.sql.Connection;
 
-public class BlankRoute implements Route {
+public class BlankRoute extends DefaultRoute {
 
 	/**
 	 * This route provides a simple "debugging" page for development use.

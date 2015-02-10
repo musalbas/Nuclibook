@@ -28,10 +28,8 @@ public class LocalServer {
 				return;
 			}
 
-			// TODO: check if they are authenticated
-
 			// not authenticated?
-			if (!authenticated) {
+			if (!SecurityUtils.checkLoggedIn()) {
 				// send them back to the login page
 				response.redirect("/login");
 			}
