@@ -56,7 +56,7 @@ public class HtmlRenderer {
 	}
 
 	private void parseConditionalFields() {
-		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[end if\\]\\-\\->");
+		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher fieldMatcher = fieldPattern.matcher(parsedHtml);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
@@ -67,7 +67,7 @@ public class HtmlRenderer {
 	}
 
 	private void parseFields() {
-		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->");
+		Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-zA-Z0-9\\-]+)\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 		Matcher fieldMatcher = fieldPattern.matcher(parsedHtml);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
@@ -85,11 +85,43 @@ public class HtmlRenderer {
 		return (fields.containsKey(key) && fields.get(key) != null) ? original : "";
 	}
 
+	private void parseCollections() {
+		Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-zA-Z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+		Matcher collectionMatcher = collectionPattern.matcher(parsedHtml);
+		StringBuffer output = new StringBuffer();
+		while (collectionMatcher.find()) {
+			collectionMatcher.appendReplacement(output, getCollectionHtml(collectionMatcher.group(1), collectionMatcher.group(2)));
+		}
+		collectionMatcher.appendTail(output);
+		parsedHtml = output.toString();
+	}
+
+	private String getCollectionHtml(String key, String original) {
+		// get collection iteration "chunks"
+		String pre = getSegment(original, "pre");
+		String post = getSegment(original, "post");
+		String empty = getSegment(original, "empty");
+		String each = getSegment(original, "each");
+
+		return pre + " / " + post + " / " + empty + " / " + each + " / ";
+	}
+
+	private String getSegment(String html, String tag) {
+		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+		Matcher segmentMatcher = segmentPattern.matcher(html);
+		if (segmentMatcher.find()) {
+			return segmentMatcher.group(1);
+		} else {
+			return null;
+		}
+	}
+
 	public String render() {
-		String html = readSimpleFile();
+		parsedHtml = readSimpleFile();
+		parseCollections();
 		parseConditionalFields();
 		parseFields();
-		return html;
+		return parsedHtml;
 	}
 
 }
