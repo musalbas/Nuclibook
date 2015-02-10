@@ -4,6 +4,8 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
+import nuclibook.models.Radiographer;
+import nuclibook.models.RadiographerAvailability;
 import nuclibook.models.User;
 
 import java.sql.Connection;
@@ -15,7 +17,6 @@ public class SqlServerConnection {
 	/* singleton pattern */
 
 	private SqlServerConnection() {
-
 	}
 
 	private static ConnectionSource connection = null;
@@ -27,21 +28,22 @@ public class SqlServerConnection {
                 ((JdbcConnectionSource)connection).setUsername(C.MYSQL_USERNAME);
                 ((JdbcConnectionSource)connection).setPassword(C.MYSQL_PASSWORD);
 			} catch (Exception e) {
-				e.printStackTrace();
+				e.printStackTrace(); // TODO deal with exception
 			}
-		}
 
-		initDB(connection);
+			initDB(connection);
+		}
 
 		return connection;
 	}
 
-    public static void initDB(ConnectionSource connectionSource) {
+    public static void initDB(ConnectionSource connection) {
 		try {
-			TableUtils.createTableIfNotExists(connectionSource, User.class);
+			TableUtils.createTableIfNotExists(connection, User.class);
+			TableUtils.createTableIfNotExists(connection, Radiographer.class);
+			TableUtils.createTableIfNotExists(connection, RadiographerAvailability.class);
 		} catch (SQLException e) {
-			System.out.println(e.getStackTrace());
-			// TODO deal with exception
+			e.printStackTrace(); // TODO deal with exception
 		}
 	}
 }
