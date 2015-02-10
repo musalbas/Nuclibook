@@ -1,5 +1,6 @@
 package nuclibook.routes;
 
+import nuclibook.server.SecurityUtils;
 import nuclibook.server.SqlServerConnection;
 import spark.Request;
 import spark.Response;
@@ -35,7 +36,8 @@ public class BlankRoute extends DefaultRoute {
 				"</head>" +
 				"<body>" +
 				"<h1>Blank route" + (label == null ? "" : ": " + label) + "</h1>" +
-				"<p>Connection test: " + (connection == null ? "nope =/" : "awesome! :D") + "</p>" +
+				"<p>Connection test: " + (connection == null ? "failed" : "okay") + "</p>" +
+				"<p>Logged in as: " + (SecurityUtils.getCurrentUser() == null ? "no one" : SecurityUtils.getCurrentUser()) + "</p>" +
 				"</body>" +
 				"</html>";
 	}
