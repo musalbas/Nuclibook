@@ -194,30 +194,41 @@
                         <tr>
                             <th class="col-lg-3">Name</th>
                             <th class="col-lg-3">Time to be delivered</th>
-                            <th class="col-lg-1 text-center">Select</th>
+                            <th class="col-lg-1 text-center">Remove</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <th> Radiotracer 1</th>
                             <th> 2 days</th>
-                            <th class="text-center"><input type="checkbox"></th>
+                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
+                                                       onmouseover="this.style.color='#2f2f8b';"
+                                                       onmouseout="this.style.color='';" onclick="removeRadiotracer()">Remove</u>
+                            </th>
                         </tr>
                         <tr>
                             <th> Radiotracer 2</th>
                             <th> 3 days</th>
-                            <th class="text-center"><input type="checkbox"></th>
+                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
+                                                       onmouseover="this.style.color='#2f2f8b';"
+                                                       onmouseout="this.style.color='';" onclick="removeRadiotracer()">Remove</u>
+                            </th>
                         </tr>
                         <tr>
                             <th> Radiotracer 3</th>
                             <th> 1 day</th>
-                            <th class="text-center"><input type="checkbox"></th>
+                            <th class="text-center"><u data-backdrop="static" data-keyboard="false" data-toggle="modal"
+                                                       data-target=".bs-example-modal-sm" style="cursor:pointer;"
+                                                       onmouseover="this.style.color='#2f2f8b';"
+                                                       onmouseout="this.style.color='';"">Remove</u></th>
                         </tr>
                         <tr>
                             <th> Radiotracer 4</th>
                             <th> 10 days</th>
                             <th class="text-center"><u style="cursor:pointer;" onmouseover="this.style.color='#2f2f8b';"
-                                                       onmouseout="this.style.color='';" onclick="removeRadiotracer()">Remove</u></th>
+                                                       onmouseout="this.style.color='';">Remove</u></th>
                         </tr>
                         </tbody>
                     </table>
@@ -235,6 +246,25 @@
 
     </div>
     <!-- /.container-fluid -->
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="form-group">
+                    <p></p>
+
+                    <p class="text-center"><b><h5 class="text-center">Are you sure you want to remove this
+                        Radiotracer?</h5></b></p>
+                    <div class="text-center">
+                        <button class="btn btn-primary" data-dismiss="modal"> Cancel</button>
+                        <button id="okRemoveRadiotracer" class="btn btn-primary" onclick="removeRadiotracerOkClick()">
+                            Ok
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /#page-wrapper -->
 </div>
@@ -252,7 +282,7 @@
 <script src="/js/plugins/morris/morris-data.js"></script>
 
 <!-- Owned Script -->
-<script src = "/js/radiotracers.js"></script>
+<script src="/js/radiotracers.js"></script>
 </body>
 
 </html>
