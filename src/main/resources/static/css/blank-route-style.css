@@ -1,4 +1,10 @@
-p {
+h1 {
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 2em;
+	font-weight: bold;
+}
+
+p {
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.9em;
 }
