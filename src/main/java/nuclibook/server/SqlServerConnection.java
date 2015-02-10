@@ -30,10 +30,17 @@ public class SqlServerConnection {
 				e.printStackTrace();
 			}
 		}
+
+		initDB(connection);
+
 		return connection;
 	}
 
-    public static void initDB(ConnectionSource connectionSource) throws SQLException {
-        TableUtils.createTableIfNotExists(connectionSource, User.class);
-    }
+    public static void initDB(ConnectionSource connectionSource) {
+		try {
+			TableUtils.createTableIfNotExists(connectionSource, User.class);
+		} catch (SQLException e) {
+			// TODO deal with exception
+		}
+	}
 }
