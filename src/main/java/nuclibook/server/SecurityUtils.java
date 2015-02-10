@@ -4,19 +4,32 @@ import nuclibook.models.User;
 
 public class SecurityUtils {
 
+	/* singleton pattern */
+
+	private static User loggedInAs = null;
+
+	private SecurityUtils() {
+		// prevent instantiation
+	}
+
 	public static User attemptLogin(String username, String password) {
 		if (username.equals("test") && password.equals("test")) {
-			return new User();
+			loggedInAs = new User();
+			return loggedInAs;
 		}
 		return null;
 	}
 
 	public static boolean checkLoggedIn() {
-		return false;
+		return loggedInAs != null;
 	}
 
 	public static void destroyLogin() {
+		loggedInAs = null;
+	}
 
+	public static User getCurrentUser() {
+		return loggedInAs;
 	}
 
 }
