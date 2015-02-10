@@ -1,0 +1,15 @@
+package nuclibook.routes;
+
+import nuclibook.server.HtmlRenderer;
+import spark.Request;
+import spark.Response;
+
+public class TemplatingTestRoute extends DefaultRoute {
+
+	@Override
+	public Object handle(Request request, Response response) throws Exception {
+		// start our renderer
+		HtmlRenderer renderer = new HtmlRenderer("test.html");
+		return renderer.render();
+	}
+}

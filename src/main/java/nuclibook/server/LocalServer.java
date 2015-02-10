@@ -1,10 +1,7 @@
 package nuclibook.server;
 
 import nuclibook.constants.RequestType;
-import nuclibook.routes.BlankRoute;
-import nuclibook.routes.HtmlTestRoute;
-import nuclibook.routes.LoginRoute;
-import nuclibook.routes.LogoutRoute;
+import nuclibook.routes.*;
 import spark.Spark;
 
 public class LocalServer {
@@ -25,6 +22,7 @@ public class LocalServer {
 			String path = request.pathInfo();
 			if (path.startsWith("/login")
 					|| path.startsWith("/htmltest")
+					|| path.startsWith("/test")
 					|| path.startsWith("/css")
 					|| path.startsWith("/js")
 					|| path.startsWith("/font-awesome")) {
@@ -60,6 +58,7 @@ public class LocalServer {
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
+		Spark.get("/test", new TemplatingTestRoute());
 
 	}
 
