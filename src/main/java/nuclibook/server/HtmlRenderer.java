@@ -18,8 +18,6 @@ public class HtmlRenderer {
 	private HashMap<String, String> fields;
 	private HashMap<String, Collection<Renderable>> collections;
 
-	private String parsedHtml = "";
-
 	public HtmlRenderer(String templateFile) {
 		this.templateFile = templateFile;
 		fields = new HashMap<>();
@@ -152,7 +150,7 @@ public class HtmlRenderer {
 	}
 
 	public String render() {
-		parsedHtml = readSimpleFile();
+		String parsedHtml = readSimpleFile();
 		parsedHtml = parseCollections(parsedHtml);
 		parsedHtml = parseConditionalFields(parsedHtml);
 		parsedHtml = parseFields(parsedHtml);
