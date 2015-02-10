@@ -1,5 +1,6 @@
 package nuclibook.server;
 
+import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.constants.C;
 
 import java.sql.Connection;
@@ -18,8 +19,8 @@ public class SqlServerConnection {
 	public static Connection acquireConnection() {
 		if (connection == null) {
 			try {
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				connection = DriverManager.getConnection(C.MYSQL_URI, C.MYSQL_USERNAME, C.MYSQL_PASSWORD);
+				ConnectionSource connectionSource = new JdbcConnectionSource(C.MYSQL_URI);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
