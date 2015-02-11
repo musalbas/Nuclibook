@@ -5,6 +5,6 @@
 $(document).ready(function(){
 
     $(function dateTimePicker() {
-        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker').datetimepicker();
     });
 })
