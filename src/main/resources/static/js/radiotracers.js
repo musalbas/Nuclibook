@@ -21,6 +21,7 @@ function removeRadiotracerClick(id) {
 // Function which will remove the radiotracer from the table
 function removeRadiotracerOkClick(who) {
     var rowToDelete = document.getElementById(who);
+    console.log(rowToDelete);
     rowToDelete.parentNode.remove();
     document.getElementById("okRemoveRadiotracer").setAttribute("data-dismiss", "modal");
 }

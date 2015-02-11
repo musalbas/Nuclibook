@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>NHS Nuclear Medicine Booking System | Radiotracers</title>
+
+    <title>NHS Nuclear Medicine Booking System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -23,15 +26,14 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="fhttps://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![end if]-->
-
-    <!-- Custom CSS -->
+    <![endif]-->
 
 </head>
 
 <body>
+
 <div id="wrapper">
 
     <!-- Navigation DO NOT TOUCH -->
@@ -44,10 +46,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Nuclibook</a>
-
-            <p class="navbar-brand">|</p>
-            <a class="navbar-brand" href="radiotracers.html"> Radiotracers </a>
+            <a class="navbar-brand" href="index.html">Nuclibook &nbsp;&nbsp;&nbsp;&nbsp;|</a>
+            <a class="navbar-brand" href="appointments.html"> Cameras </a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -55,6 +55,42 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b
                         class="caret"></b></a>
                 <ul class="dropdown-menu message-dropdown">
+                    <li class="message-preview">
+                        <a href="#">
+                            <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+
+                                <div class="media-body">
+                                    <h5 class="media-heading"><strong>USERNAME</strong>
+                                    </h5>
+
+                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+
+                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="message-preview">
+                        <a href="#">
+                            <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+
+                                <div class="media-body">
+                                    <h5 class="media-heading"><strong>USERNAME</strong>
+                                    </h5>
+
+                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+
+                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                     <li class="message-preview">
                         <a href="#">
                             <div class="media">
@@ -144,10 +180,10 @@
                 <li>
                     <a href="radiographers.html"><i class="fa fa-fw fa-stethoscope"></i> Radiographers</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="radiotracers.html"><i class="fa fa-fw fa-flask"></i> Radiotracers</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="cameras.html"><i class="fa fa-fw fa-camera"></i> Cameras</a>
                 </li>
                 <li>
@@ -157,7 +193,6 @@
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-cog"></i>
                         Users <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="demo" class="collapse">
-                        <li>
                         <li>
                             <a href="activity.html"><i class="fa fa-fw fa-list"></i> Activity Log</a>
                         </li>
@@ -180,117 +215,124 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Radiotracers <!-- <small>Overview</small> -->
+                        Cameras
                     </h1>
                 </div>
             </div>
             <!-- /.row -->
 
-            <!-- Radiotracers Table-->
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12 col-md-12">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="col-lg-3 text-center">Name</th>
-                            <th class="col-lg-3 text-center">Time to be delivered</th>
-                            <th class="col-lg-1 text-center">Remove</th>
+                            <th class="col-lg-1 text-center">ID</th>
+                            <th class="col-lg-2 text-center">Name of camera</th>
+                            <th class="col-lg-4 text-center">Description</th>
+                            <th class="col-lg-4 text-center">Facilities</th>
+                            <th class="col-lg-1 text-center">Action</th>
                         </tr>
                         </thead>
-                        <tbody id="tableBodyRadioTracer">
-                        <tr id="trRadioTracer">
-                            <th id="nameRadiotracer"> default(Cannot be removed)</th>
-                            <th id="etaRadiotracer"> 1 day</th>
-                            <th id="removeRadioTracer" class="text-center"><u onclick="removeRadiotracerClick(id)" id="removeclass"
-                                                                              style="cursor:pointer;"
-                                                                              onmouseover="this.style.color='#2f2f8b';"
-                                                                              onmouseout="this.style.color='';">Remove</u>
+                        <tbody id="tableBodyCameras">
+                        <tr id="TRBathroom">
+                            <th id="1" class="text-center">#1</th>
+                            <th id="THBathroomName" class="text-center">Bathroom</th>
+                            <th id="THBathroomDescription" class="text-center">A must have in your house.</th>
+                            <th id="THBathroomFacilities" class="text-center">Will see about this. Maybe check boxes for
+                                user to select
+                                therapies in this room
                             </th>
+                            <th id="THBathroomEdit" class="text-center"><u id="uBathroomEdit" class="fa fa-pencil-square-o" style="cursor:pointer;"
+                                                                   onmouseover="this.style.color='#2f2f8b';"
+                                                                   onmouseout="this.style.color='';" onclick="editCamera(id)">
+                                Edit</u></th>
                         </tr>
+                        </tbody>
                     </table>
                     <div class="text-right">
-                        <label onclick="emptyFieldsAddRadioTracer()" data-backdrop="static"
+                        <label data-backdrop="static"
                                data-keyboard="false" data-toggle="modal"
-                               data-target="#bs-example-modal-sm-RadioTracerData"
+                               data-target="#bs-example-modal-sm-add-new-camera"
                                style="cursor:pointer;"
                                onmouseover="this.style.color='#2f2f8b';"
-                               onmouseout="this.style.color='';">Add Radiotracer <i
-                                class="fa fa-arrow-circle-right"></i></label>
+                               onmouseout="this.style.color='';"
+                               onclick="emptyFieldsAddRadioTracer()" >Add new Camera <i
+                                class="fa fa-plus-circle"></i></label>
                     </div>
                 </div>
             </div>
-
-            <!-- /Table Radiotracers -->
             <!-- /.row -->
         </div>
-        <!-- /.row -->
-
-    </div>
-    <!-- /.container-fluid -->
-    <!-- Modal for Asking the user if it is sure to continue deleting the radiotracer -->
-    <div class="modal fade" id="bs-example-modal-smRadioTracerRemoval" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="form-group">
-                    <p></p>
-
-                    <p  class="text-center"><b id="removeTextModalID"><h5 class="text-center"></h5></b></p>
-                    <div class="text-center">
-                        <button class="btn" data-dismiss="modal"> Cancel</button>
-                        <button id="okRemoveRadiotracer" class="btn btn-primary" onclick=removeRadiotracerOkClick(name)>
-                            Ok
-                        </button>
+        <!-- /.container-fluid -->
+        <!-- Start Modal for adding a new camera, asking the user for data -->
+        <div class="modal fade" id="bs-example-modal-sm-add-new-camera">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center">Add a new camera</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="nameOfCameraInput" class="control-label">Name:</label>
+                                <input type="text" class="form-control" id="nameOfCameraInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionOfCameraInput" class="control-label">Description:</label>
+                                <textarea class="form-control" id="descriptionOfCameraInput"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="facilitiesOfCameraInput" class="control-label">Facilities:</label>
+                                <input type="text" class="form-control" id="facilitiesOfCameraInput">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id = "saveCameraButton" type="button" class="btn btn-primary" disabled onclick="addNewCamera()">Add camera</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /Modal for Asking the user if it is sure to continue deleting the radiotracer -->
+        <!-- END/Modal for adding a new camera, asking the user for data -->
 
-    <!-- Modal for Asking the user for data regarding the radiotracer he wants to add -->
-    <div class="modal fade" id="bs-example-modal-sm-RadioTracerData" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="form-group">
-                    <p class="text-center"><b><h5 class="text-center">Please complete the following fields</h5></b></p>
-                    <form>
-                        <div class="form-group">
-                            <label for="nameOfRTInput" class="col-sm-5 control-label">Name of Radiotracer: </label>
-
-                            <div class="col-sm-7">
-                                <input type="text" autocomplete="off" class="form-control" id="nameOfRTInput"
-                                       placeholder="Name of Radiotracer" style="margin-bottom: 10px">
+        <!-- START Modal for editing a camera, asking the user for data -->
+        <div class="modal fade" id="bs-example-modal-sm-edit-camera">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="headEditCamera">Edit camera</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="editNameOfCameraInput" class="control-label">Name:</label>
+                                <input type="text" class="form-control" id="editNameOfCameraInput">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="etaOfRTInput" class="col-sm-5 control-label">Estimated time of
-                                delivery: </label>
-
-                            <div class="col-sm-7">
-                                <input type="text" autocomplete="off" class="form-control" id="etaOfRTInput"
-                                       placeholder="Please enter a number" style="margin-bottom: 10px">
+                            <div class="form-group">
+                                <label for="editDescriptionOfCameraInput" class="control-label">Description:</label>
+                                <textarea class="form-control" id="editDescriptionOfCameraInput"></textarea>
                             </div>
-                        </div>
-                        <div class="form-group text-center">
-                            <button class="btn" data-dismiss="modal"> Cancel</button>
-                            <button class="btn btn-primary" type="button" id="okAddRadiotracer"
-                                    onclick="addRadiotracer()" disabled>
-                                Ok
-                            </button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label for="editFacilitiesOfCameraInput" class="control-label">Facilities:</label>
+                                <input type="text" class="form-control" id="editFacilitiesOfCameraInput">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id = "editSaveCameraButton" type="button" class="btn btn-primary" name="Bathroom" onclick="editSaveCamera()">Save Changes</button>
+                        <button id = "editDeleteCameraButton" type="button" class="btn btn-danger" name="Bathroom" onclick="editDeleteCamera(name)">Delete Camera</button>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- END/Modal for editing a camera, asking the user for data -->
     </div>
-    <!-- /Modal for Asking the user for data regarding the radiotracer he wants to add -->
+    <!-- /#page-wrapper -->
 
-</div>
-<!-- /#page-wrapper -->
 </div>
 <!-- /#wrapper -->
 
@@ -306,7 +348,7 @@
 <script src="/js/plugins/morris/morris-data.js"></script>
 
 <!-- Own Script -->
-<script src="/js/radiotracers.js"></script>
+<script src="/js/cameras.js"></script>
 </body>
 
 </html>
