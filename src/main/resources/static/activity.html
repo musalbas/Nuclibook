@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>NHS Nuclear Medicine Booking System</title>
 
+    <link rel="stylesheet" href="/css/jquery-ui.css" />
+    <script src="/js/jquery.min.js"></script>
+    <script type=text/javascript src = "/js/jquery-1.9.1.js"></script>
+    <script type=text/javascript src = "/js/jquery-ui.js"></script>
+
+
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,7 +29,11 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src = "/js/activity.js"></script>
 
+    <script src="/js/jquery.min.js"></script>
+    <script type=text/javascript src = "/js/jquery-1.9.1.js"></script>
+    <script type=text/javascript src = "/js/jquery-ui.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -193,7 +203,18 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">User Activity</h1>
-
+                        <table style = "width: 100%;" class = "userActivityInfo">
+                            <tr>
+                                <th>Username</th>
+                                <th>Timestamp</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr>
+                                <td>Someone</td>
+                                <td><input id ="dateTimePicker" type = "text" onclick= "dateTimePicker()"></td>
+                                <td>Navigated to Dashboard</td>
+                            </tr>
+                        </table>
 
 
                     </div>
