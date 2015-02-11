@@ -199,11 +199,9 @@
                         </thead>
                         <tbody id="tableBodyRadioTracer">
                         <tr id="trRadioTracer">
-                            <th id="nameRadiotracer"> Radiotracer added by default</th>
+                            <th id="nameRadiotracer"> default(Cannot be removed)</th>
                             <th id="etaRadiotracer"> 1 day</th>
-                            <th id="removeRadioTracer" class="text-center"><u id="mataclass" data-backdrop="static"
-                                                                              data-keyboard="false" data-toggle="modal"
-                                                                              data-target="#bs-example-modal-smRadioTracerRemoval"
+                            <th id="removeRadioTracer" class="text-center"><u onclick="removeRadiotracerClick(id)" id="removeclass"
                                                                               style="cursor:pointer;"
                                                                               onmouseover="this.style.color='#2f2f8b';"
                                                                               onmouseout="this.style.color='';">Remove</u>
@@ -211,12 +209,12 @@
                         </tr>
                     </table>
                     <div class="text-right">
-                        <label data-backdrop="static"
-                           data-keyboard="false" data-toggle="modal"
-                           data-target="#bs-example-modal-sm-RadioTracerData"
-                           style="cursor:pointer;"
-                           onmouseover="this.style.color='#2f2f8b';"
-                           onmouseout="this.style.color='';">Add Radiotracer <i
+                        <label onclick="emptyFieldsAddRadioTracer()" data-backdrop="static"
+                               data-keyboard="false" data-toggle="modal"
+                               data-target="#bs-example-modal-sm-RadioTracerData"
+                               style="cursor:pointer;"
+                               onmouseover="this.style.color='#2f2f8b';"
+                               onmouseout="this.style.color='';">Add Radiotracer <i
                                 class="fa fa-arrow-circle-right"></i></label>
                     </div>
                 </div>
@@ -238,11 +236,10 @@
                 <div class="form-group">
                     <p></p>
 
-                    <p class="text-center"><b><h5 class="text-center">Are you sure you want to remove this
-                        Radiotracer?</h5></b></p>
+                    <p  class="text-center"><b id="removeTextModalID"><h5 class="text-center"></h5></b></p>
                     <div class="text-center">
                         <button class="btn" data-dismiss="modal"> Cancel</button>
-                        <button id="okRemoveRadiotracer" class="btn btn-primary" onclick="removeRadiotracerOkClick()">
+                        <button id="okRemoveRadiotracer" class="btn btn-primary" onclick=removeRadiotracerOkClick(name)>
                             Ok
                         </button>
                     </div>
@@ -265,8 +262,8 @@
                             <label for="nameOfRTInput" class="col-sm-5 control-label">Name of Radiotracer: </label>
 
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="nameOfRTInput"
-                                       placeholder="Name of Radiotracer"  style="margin-bottom: 10px">
+                                <input type="text" autocomplete="off" class="form-control" id="nameOfRTInput"
+                                       placeholder="Name of Radiotracer" style="margin-bottom: 10px">
                             </div>
                         </div>
                         <div class="form-group">
@@ -274,14 +271,14 @@
                                 delivery: </label>
 
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="etaOfRTInput"
-                                       placeholder="Please enter a number"  style="margin-bottom: 10px">
+                                <input type="text" autocomplete="off" class="form-control" id="etaOfRTInput"
+                                       placeholder="Please enter a number" style="margin-bottom: 10px">
                             </div>
                         </div>
                         <div class="form-group text-center">
                             <button class="btn" data-dismiss="modal"> Cancel</button>
-                            <button class="btn btn-primary" type = "button" id="okAddRadiotracer"
-                                    onclick="addRadiotracer()">
+                            <button class="btn btn-primary" type="button" id="okAddRadiotracer"
+                                    onclick="addRadiotracer()" disabled>
                                 Ok
                             </button>
                         </div>
