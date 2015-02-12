@@ -41,14 +41,19 @@ public class LoginRoute extends DefaultRoute {
 	public Object handleGet(Request request, Response response, Status status, String userIdPreFill) throws Exception {
 		// any status message?
 		String msg = null;
-		if (status == Status.FAILED_LOGIN)
+		String statusType = null;
+		if (status == Status.FAILED_LOGIN) {
 			msg = "Incorrect user ID and/or password";
-		if (status == Status.INVALID_DETAILS)
+			statusType = "danger";
+		}
+		if (status == Status.INVALID_DETAILS) {
 			msg = "You did not enter a valid user ID";
-
+			statusType = "danger";
+		}
 
 		HtmlRenderer renderer = new HtmlRenderer("login.html");
 		renderer.setField("message", msg);
+		renderer.setField("status", statusType);
 		renderer.setField("userid", userIdPreFill);
 		return renderer.render();
 	}
