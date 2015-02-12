@@ -3,8 +3,12 @@
  */
 
 $(document).ready(function(){
+    console.log("Activity.js started");
 
     $(function dateTimePicker() {
-        $('#datetimepicker').datetimepicker();
+
+        $('#dateTimePicker').datetimepicker();
     });
+
+    console.log("Activity.js ended");
 })
