@@ -134,6 +134,16 @@ public class HtmlRenderer {
 		collections.put(key, collection);
 	}
 
+	// set all fields in one go (replaces any existing fields)
+	protected void setBulkFields(HashMap<String, String> fields) {
+		this.fields = fields;
+	}
+
+	// set all collections in one go (replaces any existing collections)
+	protected void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
+		this.collections = collections;
+	}
+
 	// read the plain template in as a string
 	private String readSimpleFile() {
 		// load file
@@ -291,7 +301,8 @@ public class HtmlRenderer {
 	// get a referenced file
 	private String getFile(String path) {
 		HtmlRenderer renderer = new HtmlRenderer(path);
-		// TODO set fields and collections
+		renderer.setBulkFields(fields);
+		renderer.setBulkCollections(collections);
 		return renderer.render();
 	}
 
