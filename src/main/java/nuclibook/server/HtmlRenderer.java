@@ -16,8 +16,8 @@ public class HtmlRenderer {
 
 	/**
 	 * This class allows front-end HTML templates to be rendered with the inclusion of data
-	 * from the Java backend. This is achieved via HTML comments following a specific
-	 * format, as detailed below.
+	 * from the Java backend. This is achieved via HTML comments and other text elements
+	 * following a specific format, as detailed below.
 	 *
 	 * An HtmlRenderer object is created with the name of the HTML template file, relative to
 	 * the resources/static/ folder, e.g.:
@@ -29,9 +29,10 @@ public class HtmlRenderer {
 	 * ------
 	 *
 	 * Fields are the most basic method of integrating data into an HTML template. They
-	 * contain simple string values only, and can be used as follows:
+	 * contain simple string values only, and can be reference with a hash (#), followed by
+	 * their name:
 	 *
-	 * You are logged in as <!--[field: user-first-name]-->
+	 * You are logged in as #user-first-name
 	 *
 	 * The field-name may consist only of a combination of lower-case letters, digits, and
 	 * dashes (-). The corresponding string value is given on the backend as follows:
@@ -47,7 +48,7 @@ public class HtmlRenderer {
 	 * These introduce some degree of conditional control based on whether a field has been
 	 * set, and can be used as such:
 	 *
-	 * <!--[if field: status]-->The status is <!--[field: status]-->.<!--[/if]-->
+	 * <!--[if field: status]-->The status is $status.<!--[/if]-->
 	 * <!--[if no field: status]-->No status is set.<!--[/if]-->
 	 *
 	 *
@@ -61,7 +62,7 @@ public class HtmlRenderer {
 	 * <!--[collection: names]-->
 	 *     <!--[pre]--><ul><!--[/pre]-->
 	 *     <!--[each]-->
-	 *         <li><!--[field: first-name]--> <!--[field: last-name]--></li>
+	 *         <li>#first-name #last-name</li>
 	 *     <!--[/each]-->
 	 *     <!--[post]--></ul><!--[/post]-->
 	 *     <!--[empty]--><p>Empty collection.</p><!--[/empty]-->
@@ -79,8 +80,8 @@ public class HtmlRenderer {
 	 * renderer.setCollection(String name, Collection<Renderable> data)
 	 *
 	 * Two "helper" tags exist within the 'each' section:
-	 *     <!--[index]--> prints the index of the current iteration, starting from zero
-	 *     <!--[guid]-->  prints a GUID for that iteration (useful for an identifier when
+	 *     #_index        prints the index of the current iteration, starting from zero
+	 *     #_guid         prints a GUID for that iteration (useful for an identifier when
 	 *                    the index is unsuitable)
 	 *
 	 *
@@ -103,7 +104,7 @@ public class HtmlRenderer {
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
 	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
-	private static Pattern fieldPattern = Pattern.compile("<!\\-\\-\\[field: ([a-z0-9\\-]+)\\]\\-\\->", regexOptions);
+	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
 	// initialise
@@ -254,8 +255,8 @@ public class HtmlRenderer {
 			entryHtml = parseFields(entryHtml, entry.getHashMap());
 
 			// insert index and guid
-			entryHtml = basicReplace(entryHtml, "index", "" + i);
-			entryHtml = basicReplace(entryHtml, "guid", UUID.randomUUID().toString());
+			entryHtml = basicReplace(entryHtml, "_index", "" + i);
+			entryHtml = basicReplace(entryHtml, "_guid", UUID.randomUUID().toString());
 			sb.append(entryHtml);
 			++i;
 		}
@@ -279,7 +280,7 @@ public class HtmlRenderer {
 
 	// replace a given keyword with a given value
 	private String basicReplace(String html, String tag, String value) {
-		Pattern basicReplacePattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->", regexOptions);
+		Pattern basicReplacePattern = Pattern.compile("#" + tag, regexOptions);
 		Matcher basicReplaceMatcher = basicReplacePattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (basicReplaceMatcher.find()) {
