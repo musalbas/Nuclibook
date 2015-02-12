@@ -2,17 +2,18 @@
  * Created by GEORGE RADUTA on 11.02.2015.
  */
 
-
-
-// Function which will empty the fields from radiotracer
-// Preventing browser cache
-function emptyFieldsAddRadioTracer() {
+// Function which will empty the fields from Add
+// (Not calling this function will leave the fields full with last camera added)
+function emptyModalFields() {
     document.getElementById("nameOfCameraInput").value = "";
     document.getElementById("descriptionOfCameraInput").value="";
     document.getElementById("facilitiesOfCameraInput").value = "";
     document.getElementById("saveCameraButton").disabled = true;
 }
 
+//Function to add a new camera
+//Creating a new row in the table and all elements that we need filled with data from the user
+//TODO Create the relation to the databese
 function addNewCamera() {
     var table = document.getElementById("tableBodyCameras");
     //Data entered by user
@@ -57,7 +58,7 @@ function addNewCamera() {
         ueditCamera.setAttribute("onmouseover","this.style.color='#2f2f8b';");
         ueditCamera.setAttribute("onmouseout","this.style.color='';");
         ueditCamera.setAttribute("onclick","editCamera(id)");
-        ueditCamera.innerHTML = "Edit";
+        ueditCamera.innerHTML = "&nbsp;Edit";
     editCamera.appendChild(ueditCamera);
 
     //Add elements to the table
@@ -69,7 +70,9 @@ function addNewCamera() {
 
     document.getElementById("saveCameraButton").setAttribute("data-dismiss", "modal");
 }
-//Edit Camera
+//Edit Camera / More like opening the modal and complete the fields of the modal
+//Parameter is the id of the "edit" field; u(NameOfCamera)Edit
+//So in this way we can obtain the name of the camera by replacing u and edit in the string;
 function editCamera(id) {
 
     //Getting the name of the camera;
@@ -88,13 +91,19 @@ function editCamera(id) {
     document.getElementById("editDescriptionOfCameraInput").value = document.getElementById("TH" + nameOfCamera + "Description").innerHTML;
     document.getElementById("editFacilitiesOfCameraInput").value = document.getElementById("TH" + nameOfCamera + "Facilities").innerHTML;
 
+    //Setting the header of the modal
     document.getElementById("headEditCamera").innerHTML = "Edit camera " + "<b><u>" + nameOfCamera + "</u></b>";
+
+    //Setting the footer of the modal (Buttons)
     document.getElementById("editDeleteCameraButton").setAttribute("name",nameOfCamera);
     document.getElementById("editDeleteCameraButton").setAttribute("onclick","editDeleteCamera(name)");
     document.getElementById("editSaveCameraButton").setAttribute("name",nameOfCamera);
     document.getElementById("editSaveCameraButton").setAttribute("onclick","editSaveCamera(name)");
 }
 
+//Fcuntion for when the Save button is clicked;
+//Will update the table with the changes
+//TODO connect to database
 function editSaveCamera(name) {
     //Data entered by user
     var nameOfCameraInput = document.getElementById("editNameOfCameraInput").value;
@@ -124,7 +133,7 @@ function editSaveCamera(name) {
     editCamera.setAttribute("id","TH" + nameOfCameraInput + "Edit");
     var ueditCamera = document.getElementById("u" + name + "Edit");
         ueditCamera.setAttribute("id","u" + nameOfCameraInput + "Edit");
-        ueditCamera.setAttribute("style","cursor:pointer");
+
     document.getElementById("editSaveCameraButton").setAttribute("data-dismiss", "modal");
 }
 

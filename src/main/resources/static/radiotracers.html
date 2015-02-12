@@ -44,9 +44,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Nuclibook</a>
-
-            <p class="navbar-brand">|</p>
+            <a class="navbar-brand" href="index.html">Nuclibook&nbsp;&nbsp;&nbsp;&nbsp;|</a>
             <a class="navbar-brand" href="radiotracers.html"> Radiotracers </a>
         </div>
         <!-- Top Menu Items -->
@@ -188,34 +186,37 @@
 
             <!-- Radiotracers Table-->
             <div class="row">
+                <div class="col-lg-2"></div>
                 <div class="col-lg-8">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="col-lg-3 text-center">Name</th>
-                            <th class="col-lg-3 text-center">Time to be delivered</th>
-                            <th class="col-lg-1 text-center">Remove</th>
+                            <th class="col-lg-3 text-center" style="vertical-align: middle">Name</th>
+                            <th class="col-lg-3 text-center" style="vertical-align: middle">Time to be delivered</th>
+                            <th class="col-lg-1 text-center" style="vertical-align: middle">Action</th>
                         </tr>
                         </thead>
                         <tbody id="tableBodyRadioTracer">
-                        <tr id="trRadioTracer">
-                            <th id="nameRadiotracer"> default(Cannot be removed)</th>
-                            <th id="etaRadiotracer"> 1 day</th>
-                            <th id="removeRadioTracer" class="text-center"><u onclick="removeRadiotracerClick(id)" id="removeclass"
-                                                                              style="cursor:pointer;"
-                                                                              onmouseover="this.style.color='#2f2f8b';"
-                                                                              onmouseout="this.style.color='';">Remove</u>
+                        <tr id="TRDefault">
+                            <th id="THDefaultName" class="text-center" style="vertical-align: middle"> Default</th>
+                            <th id="THDefaultEta" class="text-center" style="vertical-align: middle"> 1 day(s)</th>
+                            <th id="THDefaultEdit" class="text-center" style="vertical-align: middle"><u
+                                    onclick="editRadiotracerClick(id)"
+                                    id="uDefaultEdit"
+                                    style="cursor:pointer;"
+                                    class="fa fa-pencil-square-o"
+                                    onmouseover="this.style.color='#2f2f8b';"
+                                    onmouseout="this.style.color='';">&nbsp;Edit</u>
                             </th>
                         </tr>
                     </table>
                     <div class="text-right">
-                        <label onclick="emptyFieldsAddRadioTracer()" data-backdrop="static"
+                        <label onclick="emptyFieldsOfAddModal()" data-backdrop="static"
                                data-keyboard="false" data-toggle="modal"
-                               data-target="#bs-example-modal-sm-RadioTracerData"
+                               data-target="#bs-example-modal-sm-add-new-radio-tracer"
                                style="cursor:pointer;"
                                onmouseover="this.style.color='#2f2f8b';"
-                               onmouseout="this.style.color='';">Add Radiotracer <i
-                                class="fa fa-arrow-circle-right"></i></label>
+                               onmouseout="this.style.color='';"> <i class="fa fa-plus-circle"></i>&nbsp;Add Radiotracer</label>
                     </div>
                 </div>
             </div>
@@ -227,67 +228,84 @@
 
     </div>
     <!-- /.container-fluid -->
-    <!-- Modal for Asking the user if it is sure to continue deleting the radiotracer -->
-    <div class="modal fade" id="bs-example-modal-smRadioTracerRemoval" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="form-group">
-                    <p></p>
 
-                    <p  class="text-center"><b id="removeTextModalID"><h5 class="text-center"></h5></b></p>
-                    <div class="text-center">
-                        <button class="btn" data-dismiss="modal"> Cancel</button>
-                        <button id="okRemoveRadiotracer" class="btn btn-primary" onclick=removeRadiotracerOkClick(name)>
-                            Ok
-                        </button>
-                    </div>
+    <!-- START Modal for Asking the user for data regarding the radiotracer he wants to ADD -->
+    <div class="modal fade" id="bs-example-modal-sm-add-new-radio-tracer">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title text-center">Add a new radiotracer<h5 class="text-center"
+                                                                                 style="opacity: 0.4;">Please complete
+                        the
+                        following fields.</h5></h3>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Modal for Asking the user if it is sure to continue deleting the radiotracer -->
-
-    <!-- Modal for Asking the user for data regarding the radiotracer he wants to add -->
-    <div class="modal fade" id="bs-example-modal-sm-RadioTracerData" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="form-group">
-                    <p class="text-center"><b><h5 class="text-center">Please complete the following fields</h5></b></p>
+                <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="nameOfRTInput" class="col-sm-5 control-label">Name of Radiotracer: </label>
-
-                            <div class="col-sm-7">
-                                <input type="text" autocomplete="off" class="form-control" id="nameOfRTInput"
-                                       placeholder="Name of Radiotracer" style="margin-bottom: 10px">
-                            </div>
+                            <label for="nameOfRadiotracerInput" class="control-label">Name:</label>
+                            <input type="text" class="form-control" id="nameOfRadiotracerInput"
+                                   placeholder="Name of the Radiotracer">
                         </div>
                         <div class="form-group">
-                            <label for="etaOfRTInput" class="col-sm-5 control-label">Estimated time of
-                                delivery: </label>
-
-                            <div class="col-sm-7">
-                                <input type="text" autocomplete="off" class="form-control" id="etaOfRTInput"
-                                       placeholder="Please enter a number" style="margin-bottom: 10px">
-                            </div>
-                        </div>
-                        <div class="form-group text-center">
-                            <button class="btn" data-dismiss="modal"> Cancel</button>
-                            <button class="btn btn-primary" type="button" id="okAddRadiotracer"
-                                    onclick="addRadiotracer()" disabled>
-                                Ok
-                            </button>
+                            <label for="etaOfRadiotracerInput" class="control-label">Estimated time to be
+                                delivered:</label>
+                            <input type="text" class="form-control" id="etaOfRadiotracerInput"
+                                   placeholder="Please enter a number">
                         </div>
                     </form>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="saveRadiotracerButton" type="button" class="btn btn-primary" disabled
+                            onclick="addRadiotracer()">Add Radiotracer
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /Modal for Asking the user for data regarding the radiotracer he wants to add -->
+    <!-- END/Modal for Asking the user for data regarding the radiotracer he wants to ADD -->
+
+    <!-- START Modal for Asking the user if it is sure to continue deleting the radiotracer -->
+    <div class="modal fade" id="bs-example-modal-sm-edit-radio-tracer">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title text-center" id="headEditRadiotracer">Edit radiotracer<h5 class="text-center"
+                                                                                 style="opacity: 0.4;">Please complete
+                        the
+                        following fields.</h5></h3>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="editNameOfRadiotracerInput" class="control-label">Name:</label>
+                            <input type="text" class="form-control" id="editNameOfRadiotracerInput"
+                                   placeholder="Name of the Radiotracer">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEtaOfRadiotracerInput" class="control-label">Estimated time to be
+                                delivered:</label>
+                            <input type="text" class="form-control" id="editEtaOfRadiotracerInput"
+                                   placeholder="Please enter a number">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="editSaveRadiotracerButton" type="button" class="btn btn-primary" onclick="">Save changes
+                    </button>
+                    <button id="editDeleteRadiotracerButton" type="button" class="btn btn-danger" name="Default"
+                            onclick="editSaveRadiotracer(name)">Delete Radiotracer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END/Modal for Asking the user if it is sure to continue deleting the radiotracer -->
 
 </div>
 <!-- /#page-wrapper -->

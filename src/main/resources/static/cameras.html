@@ -235,27 +235,32 @@
                         <tbody id="tableBodyCameras">
                         <tr id="TRBathroom">
                             <th id="THBathroomName" class="text-center" style="vertical-align: middle">Bathroom</th>
-                            <th id="THBathroomDescription" class="text-center" style="vertical-align: middle">A must have in your house.</th>
-                            <th id="THBathroomFacilities" class="text-center" style="vertical-align: middle">Will see about this. Maybe check boxes for
+                            <th id="THBathroomDescription" class="text-center" style="vertical-align: middle">A must
+                                have in your house.
+                            </th>
+                            <th id="THBathroomFacilities" class="text-center" style="vertical-align: middle">Will see
+                                about this. Maybe check boxes for
                                 user to select
                                 therapies in this room
                             </th>
-                            <th id="THBathroomEdit" class="text-center" style="vertical-align: middle"><u id="uBathroomEdit" class="fa fa-pencil-square-o" style="cursor:pointer;"
-                                                                   onmouseover="this.style.color='#2f2f8b';"
-                                                                   onmouseout="this.style.color='';" onclick="editCamera(id)">
-                                Edit</u></th>
+                            <th id="THBathroomEdit" class="text-center" style="vertical-align: middle"><u
+                                    id="uBathroomEdit" class="fa fa-pencil-square-o" style="cursor:pointer;"
+                                    onmouseover="this.style.color='#2f2f8b';"
+                                    onmouseout="this.style.color='';" onclick="editCamera(id)">
+                                &nbsp;Edit</u></th>
                         </tr>
                         </tbody>
                     </table>
                     <div class="text-right">
+
                         <label data-backdrop="static"
                                data-keyboard="false" data-toggle="modal"
                                data-target="#bs-example-modal-sm-add-new-camera"
                                style="cursor:pointer;"
                                onmouseover="this.style.color='#2f2f8b';"
                                onmouseout="this.style.color='';"
-                               onclick="emptyFieldsAddRadioTracer()" >Add new Camera <i
-                                class="fa fa-plus-circle"></i></label>
+                               onclick="emptyModalFields()"> <i class="fa fa-plus-circle"></i> &nbsp;Add new
+                            Camera</label>
                     </div>
                 </div>
             </div>
@@ -267,28 +272,32 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title text-center">Add a new camera</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title text-center">Add a new camera<h5 class="text-center" style="opacity: 0.4;">Please complete the
+                            following fields.</h5></h3>
                     </div>
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
                                 <label for="nameOfCameraInput" class="control-label">Name:</label>
-                                <input type="text" class="form-control" id="nameOfCameraInput">
+                                <input type="text" class="form-control" id="nameOfCameraInput" placeholder="Name of the camera">
                             </div>
                             <div class="form-group">
                                 <label for="descriptionOfCameraInput" class="control-label">Description:</label>
-                                <textarea class="form-control" id="descriptionOfCameraInput"></textarea>
+                                <textarea class="form-control" id="descriptionOfCameraInput" placeholder="Description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="facilitiesOfCameraInput" class="control-label">Facilities:</label>
-                                <input type="text" class="form-control" id="facilitiesOfCameraInput">
+                                <input type="text" class="form-control" id="facilitiesOfCameraInput" placeholder="Facilities provided">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id = "saveCameraButton" type="button" class="btn btn-primary" disabled onclick="addNewCamera()">Add camera</button>
+                        <button id="saveCameraButton" type="button" class="btn btn-primary" disabled
+                                onclick="addNewCamera()">Add camera
+                        </button>
                     </div>
                 </div>
             </div>
@@ -300,7 +309,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title text-center" id="headEditCamera">Edit camera</h4>
                     </div>
                     <div class="modal-body">
@@ -321,8 +331,12 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id = "editSaveCameraButton" type="button" class="btn btn-primary" name="Bathroom" onclick="editSaveCamera()">Save Changes</button>
-                        <button id = "editDeleteCameraButton" type="button" class="btn btn-danger" name="Bathroom" onclick="editDeleteCamera(name)">Delete Camera</button>
+                        <button id="editSaveCameraButton" type="button" class="btn btn-primary" name="Bathroom"
+                                onclick="editSaveCamera()">Save Changes
+                        </button>
+                        <button id="editDeleteCameraButton" type="button" class="btn btn-danger" name="Bathroom"
+                                onclick="editDeleteCamera(name)">Delete Camera
+                        </button>
                     </div>
                 </div>
             </div>
