@@ -1,6 +1,5 @@
 package nuclibook.routes;
 
-import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.models.User;
 import nuclibook.server.HtmlRenderer;
@@ -9,6 +8,11 @@ import spark.Request;
 import spark.Response;
 
 public class LoginRoute extends DefaultRoute {
+
+	private enum Status {
+		FAILED_LOGIN,
+		INVALID_DETAILS
+	}
 
 	public LoginRoute(RequestType requestType) {
 		super(requestType);
@@ -31,21 +35,21 @@ public class LoginRoute extends DefaultRoute {
 	}
 
 	public Object handleGet(Request request, Response response) throws Exception {
+		return handleGet(request, response, null, null);
+	}
+
+	public Object handleGet(Request request, Response response, Status status, String userIdPreFill) throws Exception {
 		// any status message?
-		String statusCookie = request.cookie("login-status");
 		String msg = null;
-		if (statusCookie != null) {
-			if (statusCookie.equals(C.LOGIN_STATUS_COOKIE_VALUE_FAILED))
-				msg = "Incorrect user ID and/or password!";
+		if (status == Status.FAILED_LOGIN)
+			msg = "Incorrect user ID and/or password";
+		if (status == Status.INVALID_DETAILS)
+			msg = "You did not enter a valid user ID";
 
-			if (statusCookie.equals(C.LOGIN_STATUS_COOKIE_VALUE_LOGGED_OUT))
-				msg = "You have been logged out.";
-
-			response.removeCookie(C.LOGIN_STATUS_COOKIE_NAME);
-		}
 
 		HtmlRenderer renderer = new HtmlRenderer("login.html");
 		renderer.setField("message", msg);
+		renderer.setField("userid", userIdPreFill);
 		return renderer.render();
 	}
 
@@ -58,17 +62,13 @@ public class LoginRoute extends DefaultRoute {
 			password = request.queryParams("password");
 		} catch (NumberFormatException e) {
 			// force failure
-			response.cookie(C.LOGIN_STATUS_COOKIE_NAME, C.LOGIN_STATUS_COOKIE_VALUE_FAILED);
-			response.redirect("/login");
-			return null;
+			return handleGet(request, response, Status.INVALID_DETAILS, null);
 		}
 
 		// check credentials
 		User user = SecurityUtils.attemptLogin(userId, password);
 		if (user == null) {
-			response.cookie(C.LOGIN_STATUS_COOKIE_NAME, C.LOGIN_STATUS_COOKIE_VALUE_FAILED);
-			response.redirect("/login");
-			return null;
+			return handleGet(request, response, Status.FAILED_LOGIN, userId + "");
 		} else {
 			response.redirect("/");
 			return null;
