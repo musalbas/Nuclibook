@@ -53,14 +53,13 @@ public class LocalServer {
 		// basic pages
 		Spark.get("/", new BlankRoute("Home page"));
 
-		// login
+		// login/logout
 		Spark.get("/login", new LoginRoute(RequestType.GET));
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
-
 	}
 
 }

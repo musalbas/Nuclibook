@@ -2,11 +2,17 @@ package nuclibook.routes;
 
 import nuclibook.constants.RequestType;
 import nuclibook.models.User;
+import nuclibook.server.HtmlRenderer;
 import nuclibook.server.SecurityUtils;
 import spark.Request;
 import spark.Response;
 
 public class LoginRoute extends DefaultRoute {
+
+	private enum Status {
+		FAILED_LOGIN,
+		INVALID_DETAILS
+	}
 
 	public LoginRoute(RequestType requestType) {
 		super(requestType);
@@ -29,29 +35,27 @@ public class LoginRoute extends DefaultRoute {
 	}
 
 	public Object handleGet(Request request, Response response) throws Exception {
-		// TODO: implement actual front end login form
+		return handleGet(request, response, null, null);
+	}
 
-		// start building html output
-		String output = "<p>Login form</p>";
-
-		// any message?
-		String msg = request.queryParams("msg");
-		if (msg != null) {
-			if (msg.equals("1")) {
-				output += "<p>Invalid login!</p>";
-			} else if (msg.equals("2")) {
-				output += "<p>You have been logged out</p>";
-			}
+	public Object handleGet(Request request, Response response, Status status, String userIdPreFill) throws Exception {
+		// any status message?
+		String msg = null;
+		String statusType = null;
+		if (status == Status.FAILED_LOGIN) {
+			msg = "Incorrect user ID and/or password";
+			statusType = "danger";
+		}
+		if (status == Status.INVALID_DETAILS) {
+			msg = "You did not enter a valid user ID";
+			statusType = "danger";
 		}
 
-		// output html
-		output += "<form action=\"/login\" method=\"post\">" +
-				"<input type=\"text\" name=\"userid\" /><br />" +
-				"<input type=\"text\" name=\"password\" /><br />" +
-				"<input type=\"Submit\" value=\"Login\" />" +
-				"</form>";
-
-		return output;
+		HtmlRenderer renderer = new HtmlRenderer("login.html");
+		renderer.setField("message", msg);
+		renderer.setField("status", statusType);
+		renderer.setField("userid", userIdPreFill);
+		return renderer.render();
 	}
 
 	public Object handlePost(Request request, Response response) throws Exception {
@@ -63,15 +67,13 @@ public class LoginRoute extends DefaultRoute {
 			password = request.queryParams("password");
 		} catch (NumberFormatException e) {
 			// force failure
-			response.redirect("/login?msg=1");
-			return null;
+			return handleGet(request, response, Status.INVALID_DETAILS, null);
 		}
 
 		// check credentials
 		User user = SecurityUtils.attemptLogin(userId, password);
 		if (user == null) {
-			response.redirect("/login?msg=1");
-			return null;
+			return handleGet(request, response, Status.FAILED_LOGIN, userId + "");
 		} else {
 			response.redirect("/");
 			return null;

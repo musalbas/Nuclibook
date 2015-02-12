@@ -9,7 +9,7 @@ public class LogoutRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		SecurityUtils.destroyLogin();
-		response.redirect("/login?msg=2");
+		response.redirect("/login");
 		return null;
 	}
 

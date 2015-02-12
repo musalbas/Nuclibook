@@ -1,0 +1,22 @@
+<!-- TODO: this needs to be replaced with the actual login page -->
+#[def: title = Login Page]
+##_header.html
+		<form action="/login" method="post">
+			#[if: message]
+			<div class="note note-#status">
+				<p><strong>#message</strong></p>
+			</div>
+			#[/if]
+			<p>
+				User ID:<br />
+				<input type="number" name="userid" value="#userid" />
+			</p>
+			<p>
+				Password:<br />
+				<input type="password" name="password" value="" />
+			</p>
+			<p>
+				<input type="submit" value="Login">
+			</p>
+		</form>
+##_footer.html
