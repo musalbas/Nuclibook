@@ -16,8 +16,8 @@ public class HtmlRenderer {
 
 	/**
 	 * This class allows front-end HTML templates to be rendered with the inclusion of data
-	 * from the Java backend. This is achieved via HTML comments and other text elements
-	 * following a specific format, as detailed below.
+	 * from the Java backend. This is achieved via text elements following a specific format,
+	 * as detailed below.
 	 *
 	 * An HtmlRenderer object is created with the name of the HTML template file, relative to
 	 * the resources/static/ folder, e.g.:
@@ -47,12 +47,12 @@ public class HtmlRenderer {
 	 *
 	 * Fields can be defined in HTML using the following format:
 	 *
-	 * <!--[define: name = value]-->
+	 * #[def: name = value]
 	 *
 	 * This is useful in conjunction with referenced files (see below), such as in the following
 	 * example:
 	 *
-	 * <!--[define: page-title = Login Page]-->
+	 * #[def: page-title = Login Page]
 	 * ##_header.html
 	 *
 	 *
@@ -62,8 +62,8 @@ public class HtmlRenderer {
 	 * These introduce some degree of conditional control based on whether a field has been
 	 * set, and can be used as such:
 	 *
-	 * <!--[if field: status]-->The status is $status.<!--[/if]-->
-	 * <!--[if no field: status]-->No status is set.<!--[/if]-->
+	 * #[if: status]The status is #status.#[/if]
+	 * #[nif: status]No status is set.#[/nif]
 	 *
 	 *
 	 * Collections
@@ -73,14 +73,20 @@ public class HtmlRenderer {
 	 * Renderable interface. This is useful for lists, tables, etc. A collection has a
 	 * unique name (of the same format as field names) and is defined as follows:
 	 *
-	 * <!--[collection: names]-->
-	 *     <!--[pre]--><ul><!--[/pre]-->
-	 *     <!--[each]-->
+	 * #[collection: names]
+	 *     #[pre]
+	 *         <ul>
+	 *     #[/pre]
+	 *     #[each]
 	 *         <li>#first-name #last-name</li>
-	 *     <!--[/each]-->
-	 *     <!--[post]--></ul><!--[/post]-->
-	 *     <!--[empty]--><p>Empty collection.</p><!--[/empty]-->
-	 * <!--[/collection]-->
+	 *     #[/each]
+	 *     #[post]
+	 *         </ul>
+	 *     #[/post]
+	 *     #[empty]
+	 *         <p>Empty collection.</p>
+	 *     #[/empty]
+	 * #[/collection]
 	 *
 	 * A collection tag MUST have 4 internal sections:
 	 *     pre:   this is printed before the iterative section
@@ -128,11 +134,11 @@ public class HtmlRenderer {
 	 */
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
 	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
-	private static Pattern definitionPattern = Pattern.compile("<!\\-\\-\\[define: ([a-z0-9\\-]+) = (.*?)\\]\\-\\->", regexOptions);
-	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
-	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
+	private static Pattern definitionPattern = Pattern.compile("#\\[def: ([a-z0-9\\-]+) = (.*?)\\]", regexOptions);
+	private static Pattern conditionalFieldPattern = Pattern.compile("#\\[if: ([a-z0-9\\-]+)\\](.*?)#\\[/if\\]", regexOptions);
+	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("#\\[nif: ([a-z0-9\\-]+)\\]\\-\\->(.*?)#\\[/nif\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
-	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
+	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
 
 	/**
 	 * CONSTRUCTOR
@@ -363,9 +369,9 @@ public class HtmlRenderer {
 		}
 	}
 
-	// get an HTML segment between basic <!--[tag]--> and <!--[/tag]--> wrappers
+	// get an HTML segment between basic #[tag] and #[/tag] wrappers
 	private String getSegment(String html, String tag) {
-		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", regexOptions);
+		Pattern segmentPattern = Pattern.compile("#\\[" + tag + "\\](.*?)#\\[/" + tag + "\\]", regexOptions);
 		Matcher segmentMatcher = segmentPattern.matcher(html);
 		if (segmentMatcher.find()) {
 			return segmentMatcher.group(1);

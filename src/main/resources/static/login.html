@@ -1,10 +1,10 @@
 <!-- TODO: this is a basic mock-up to demo the templating tools -->
-<!--[define: title = Login Page]-->
+#[def: title = Login Page]
 ##_header.html
 		<form action="/login" method="post">
-			<!--[if field: message]-->
+			#[if: message]
 			<p><strong>#message</strong></p>
-			<!--[/if]-->
+			#[/if]
 			<p>
 				User ID:<br />
 				<input type="number" name="userid" value="#userid" />
