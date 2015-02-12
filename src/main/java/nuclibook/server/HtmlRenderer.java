@@ -85,6 +85,15 @@ public class HtmlRenderer {
 	 *                    the index is unsuitable)
 	 *
 	 *
+	 * Files
+	 * -----
+	 *
+	 * Another static HTML file can be included using a double-hash, as follows:
+	 *
+	 * ##header.html
+	 *
+	 * Included files will also be rendered.
+	 *
 	 * Rendering
 	 * ---------
 	 *
@@ -105,6 +114,7 @@ public class HtmlRenderer {
 	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
+	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
 	// initialise
@@ -267,6 +277,24 @@ public class HtmlRenderer {
 		return sb.toString();
 	}
 
+	// include referenced files
+	private String parseFiles(String html) {
+		Matcher fileMatcher = filePattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (fileMatcher.find()) {
+			fileMatcher.appendReplacement(output, getFile(fileMatcher.group(1)));
+		}
+		fileMatcher.appendTail(output);
+		return output.toString();
+	}
+
+	// get a referenced file
+	private String getFile(String path) {
+		HtmlRenderer renderer = new HtmlRenderer(path);
+		// TODO set fields and collections
+		return renderer.render();
+	}
+
 	// get an HTML segment between basic <!--[tag]--> and <!--[/tag]--> wrappers
 	private String getSegment(String html, String tag) {
 		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", regexOptions);
@@ -293,6 +321,7 @@ public class HtmlRenderer {
 	// run the parsing methods in the right order
 	public String render() {
 		String parsedHtml = readSimpleFile();
+		parsedHtml = parseFiles(parsedHtml);
 		parsedHtml = parseCollections(parsedHtml);
 		parsedHtml = parseConditionalFields(parsedHtml);
 		parsedHtml = parseFields(parsedHtml);
