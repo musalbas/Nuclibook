@@ -123,21 +123,30 @@ public class HtmlRenderer {
 	private HashMap<String, String> fields;
 	private HashMap<String, Collection<Renderable>> collections;
 
-	// set up patterns and options
+	/**
+	 * PATTERNS
+	 */
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
 	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
-	private static Pattern definitionPatterm = Pattern.compile("<!\\-\\-\\[define: ([a-z0-9\\-]+) = (.*?)\\]\\-\\->", regexOptions);
+	private static Pattern definitionPattern = Pattern.compile("<!\\-\\-\\[define: ([a-z0-9\\-]+) = (.*?)\\]\\-\\->", regexOptions);
 	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
-	// initialise
+	/**
+	 * CONSTRUCTOR
+	 */
+
 	public HtmlRenderer(String templateFile) {
 		this.templateFile = templateFile;
 		fields = new HashMap<>();
 		collections = new HashMap<>();
 	}
+
+	/**
+	 * DATA SETTERS
+	 */
 
 	// set a data field (set null to "remove")
 	public void setField(String key, String value) {
@@ -159,78 +168,48 @@ public class HtmlRenderer {
 		this.collections = collections;
 	}
 
-	// read the plain template in as a string
-	private String readSimpleFile() {
-		// load file
-		try {
-			URL url = getClass().getClassLoader().getResource("static/" + templateFile);
-			if (url == null) throw new NullPointerException();
-			File file = new File(url.getFile());
+	/**
+	 * DEFINITION PARSING
+	 */
 
-			// read HTML
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-			return sb.toString();
-		} catch (IOException | NullPointerException e) {
-			return "<html>" +
-					"<head>" +
-					"</head>" +
-					"<body>" +
-					"Failed to load template: <em>" + templateFile + "</em>" +
-					"</body>" +
-					"</html>";
-		}
-	}
-
-	// parse any conditional field statements, defaulting to the global fields
-	private String parseConditionalFields(String html) {
-		return parseConditionalFields(html, fields);
-	}
-
-	// parse any conditional field statements with a specific set of fields
-	private String parseConditionalFields(String html, HashMap<String, String> fields) {
-		// "positive" conditionals
-		Matcher fieldMatcher = conditionalFieldPattern.matcher(html);
+	// parse any defined fields
+	private String parseDefinitions(String html) {
+		Matcher definitionMatcher = definitionPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
-		while (fieldMatcher.find()) {
-			fieldMatcher.appendReplacement(output, getConditionalFieldValue(fieldMatcher.group(1), fieldMatcher.group(2), fields));
+		while (definitionMatcher.find()) {
+			definitionMatcher.appendReplacement(output, "");
+			fields.put(definitionMatcher.group(1), definitionMatcher.group(2));
 		}
-		fieldMatcher.appendTail(output);
-		html = output.toString();
-
-		// negated conditionals
-		Matcher negatedFieldMatcher = conditionalNegatedFieldPattern.matcher(html);
-		output = new StringBuffer();
-		while (negatedFieldMatcher.find()) {
-			negatedFieldMatcher.appendReplacement(output, getNegatedConditionalFieldValue(negatedFieldMatcher.group(1), negatedFieldMatcher.group(2), fields));
-		}
-		negatedFieldMatcher.appendTail(output);
-
-		// done
+		definitionMatcher.appendTail(output);
 		return output.toString();
 	}
 
-	// parse any field statements, defaulting to the global fields
-	private String parseFields(String html) {
-		return parseFields(html, fields);
-	}
+	/**
+	 * FILE PARSING
+	 */
 
-	// parse any conditional field statements with a specific set of fields
-	private String parseFields(String html, HashMap<String, String> fields) {
-		Matcher fieldMatcher = fieldPattern.matcher(html);
+	// include referenced files
+	private String parseFiles(String html) {
+		Matcher fileMatcher = filePattern.matcher(html);
 		StringBuffer output = new StringBuffer();
-		while (fieldMatcher.find()) {
-			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(1), fields));
+		while (fileMatcher.find()) {
+			fileMatcher.appendReplacement(output, getFile(fileMatcher.group(1)));
 		}
-		fieldMatcher.appendTail(output);
+		fileMatcher.appendTail(output);
 		return output.toString();
 	}
+
+	// get a referenced file
+	private String getFile(String path) {
+		HtmlRenderer renderer = new HtmlRenderer(path);
+		renderer.setBulkFields(fields);
+		renderer.setBulkCollections(collections);
+		return renderer.render();
+	}
+
+	/**
+	 * COLLECTION PARSING
+	 */
 
 	// parse any collection statements
 	private String parseCollections(String html) {
@@ -241,21 +220,6 @@ public class HtmlRenderer {
 		}
 		collectionMatcher.appendTail(output);
 		return output.toString();
-	}
-
-	// return the value, or "", for a given field key
-	private String getFieldValue(String key, HashMap<String, String> fields) {
-		return (fields.containsKey(key) && fields.get(key) != null) ? fields.get(key) : "";
-	}
-
-	// return the original text, or "", for a conditional field statement
-	private String getConditionalFieldValue(String key, String original, HashMap<String, String> fields) {
-		return (fields.containsKey(key) && fields.get(key) != null) ? original : "";
-	}
-
-	// return the original text, or "", for a negated conditional field statement
-	private String getNegatedConditionalFieldValue(String key, String original, HashMap<String, String> fields) {
-		return (!fields.containsKey(key) || fields.get(key) == null) ? original : "";
 	}
 
 	// return the HTML for an iterated collection
@@ -302,40 +266,102 @@ public class HtmlRenderer {
 		return sb.toString();
 	}
 
-	// include referenced files
-	private String parseFiles(String html) {
-		Matcher fileMatcher = filePattern.matcher(html);
-		StringBuffer output = new StringBuffer();
-		while (fileMatcher.find()) {
-			fileMatcher.appendReplacement(output, getFile(fileMatcher.group(1)));
-		}
-		fileMatcher.appendTail(output);
-		return output.toString();
+	/**
+	 * CONDITIONAL FIELD PARSING
+	 */
+
+	// parse any conditional field statements, defaulting to the global fields
+	private String parseConditionalFields(String html) {
+		return parseConditionalFields(html, fields);
 	}
 
-	// get a referenced file
-	private String getFile(String path) {
-		HtmlRenderer renderer = new HtmlRenderer(path);
-		renderer.setBulkFields(fields);
-		renderer.setBulkCollections(collections);
-		return renderer.render();
-	}
-
-	// parse any defined fields
-	private String parseDefinitions(String html) {
+	// parse any conditional field statements with a specific set of fields
+	private String parseConditionalFields(String html, HashMap<String, String> fields) {
 		// "positive" conditionals
-		Matcher definitonMatcher = definitionPatterm.matcher(html);
+		Matcher fieldMatcher = conditionalFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
-		while (definitonMatcher.find()) {
-			definitonMatcher.appendReplacement(output, "");
-			fields.put(definitonMatcher.group(1), definitonMatcher.group(2));
+		while (fieldMatcher.find()) {
+			fieldMatcher.appendReplacement(output, getConditionalFieldValue(fieldMatcher.group(1), fieldMatcher.group(2), fields, false));
 		}
-		definitonMatcher.appendTail(output);
+		fieldMatcher.appendTail(output);
+		html = output.toString();
+
+		// negated conditionals
+		Matcher negatedFieldMatcher = conditionalNegatedFieldPattern.matcher(html);
+		output = new StringBuffer();
+		while (negatedFieldMatcher.find()) {
+			negatedFieldMatcher.appendReplacement(output, getConditionalFieldValue(negatedFieldMatcher.group(1), negatedFieldMatcher.group(2), fields, true));
+		}
+		negatedFieldMatcher.appendTail(output);
 
 		// done
 		return output.toString();
 	}
 
+	// return the original text, or "", for a conditional field statement
+	private String getConditionalFieldValue(String key, String original, HashMap<String, String> fields, boolean negated) {
+		return negated ?
+				((!fields.containsKey(key) || fields.get(key) == null) ? original : ""):
+				((fields.containsKey(key) && fields.get(key) != null) ? original : "");
+	}
+
+	/**
+	 * SIMPLE FIELD PARSING
+	 */
+
+	// parse any field statements, defaulting to the global fields
+	private String parseFields(String html) {
+		return parseFields(html, fields);
+	}
+
+	// parse any conditional field statements with a specific set of fields
+	private String parseFields(String html, HashMap<String, String> fields) {
+		Matcher fieldMatcher = fieldPattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (fieldMatcher.find()) {
+			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(1), fields));
+		}
+		fieldMatcher.appendTail(output);
+		return output.toString();
+	}
+
+	// return the value, or "", for a given field key
+	private String getFieldValue(String key, HashMap<String, String> fields) {
+		return (fields.containsKey(key) && fields.get(key) != null) ? fields.get(key) : "";
+	}
+
+	/**
+	 * HELPER METHODS
+	 */
+
+	// read the plain template in as a string
+	private String readSimpleFile() {
+		// load file
+		try {
+			URL url = getClass().getClassLoader().getResource("static/" + templateFile);
+			if (url == null) throw new NullPointerException();
+			File file = new File(url.getFile());
+
+			// read HTML
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			return sb.toString();
+		} catch (IOException | NullPointerException e) {
+			return "<html>" +
+					"<head>" +
+					"</head>" +
+					"<body>" +
+					"Failed to load template: <em>" + templateFile + "</em>" +
+					"</body>" +
+					"</html>";
+		}
+	}
 
 	// get an HTML segment between basic <!--[tag]--> and <!--[/tag]--> wrappers
 	private String getSegment(String html, String tag) {
@@ -359,6 +385,10 @@ public class HtmlRenderer {
 		basicReplaceMatcher.appendTail(output);
 		return output.toString();
 	}
+
+	/**
+	 * RENDERER
+	 */
 
 	// run the parsing methods in the right order
 	public String render() {
