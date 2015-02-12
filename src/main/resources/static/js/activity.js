@@ -2,13 +2,14 @@
  * Created by Navi on 11/02/2015.
  */
 
-$(document).ready(function(){
+ var j = jQuery.noConflict();
+
+ j(document).ready(function(){
     console.log("Activity.js started");
 
-    $(function dateTimePicker() {
 
-        $('#dateTimePicker').datetimepicker();
+       j('#dateTimePicker').datetimepicker();
     });
 
     console.log("Activity.js ended");
-})
+
