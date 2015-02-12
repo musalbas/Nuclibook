@@ -1,5 +1,7 @@
 package nuclibook.server;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -333,7 +335,7 @@ public class HtmlRenderer {
 
 	// return the value, or "", for a given field key
 	private String getFieldValue(String key, HashMap<String, String> fields) {
-		return (fields.containsKey(key) && fields.get(key) != null) ? fields.get(key) : "";
+		return (fields.containsKey(key) && fields.get(key) != null) ? StringEscapeUtils.escapeHtml(fields.get(key)) : "";
 	}
 
 	/**
