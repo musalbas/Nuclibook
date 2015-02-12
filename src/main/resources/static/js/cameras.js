@@ -24,35 +24,32 @@ function addNewCamera() {
     var cameraTR = document.createElement("tr");
     cameraTR.setAttribute("id", "TR" + nameOfCameraInput);
 
-    //TH ID
-    var idOfCamera= document.createElement("th");
-
-    idOfCamera.setAttribute("id", table.rows.length + 1);
-    idOfCamera.setAttribute("class", "text-center");
-    idOfCamera.innerHTML = "#" + (table.rows.length + 1);
-
     //TH Name
     var nameOfCamera = document.createElement("th");
     nameOfCamera.setAttribute("id", "TH" + nameOfCameraInput + "Name");
     nameOfCamera.setAttribute("class", "text-center");
+    nameOfCamera.setAttribute("style", "vertical-align: middle")
     nameOfCamera.innerHTML = nameOfCameraInput;
 
     //TH Description
     var descriptionOfCamera = document.createElement("th");
     descriptionOfCamera.setAttribute("id","TH" + nameOfCameraInput + "Description");
     descriptionOfCamera.setAttribute("class","text-center");
+    descriptionOfCamera.setAttribute("style", "vertical-align: middle")
     descriptionOfCamera.innerHTML = descriptionOfCameraInput;
 
     //TH Facilities
     var facilitiesOfCamera = document.createElement("th");
     facilitiesOfCamera.setAttribute("id","TH" + nameOfCameraInput + "Facilities");
     facilitiesOfCamera.setAttribute("class","text-center");
+    facilitiesOfCamera.setAttribute("style", "vertical-align: middle")
     facilitiesOfCamera.innerHTML = facilitiesOfCameraInput;
 
-    //TH
+    //TH edit
     var editCamera = document.createElement("th");
     editCamera.setAttribute("id","TH" + nameOfCameraInput + "Edit");
     editCamera.setAttribute("class","text-center");
+    editCamera.setAttribute("style", "vertical-align: middle")
         var ueditCamera = document.createElement("u");
         ueditCamera.setAttribute("class","fa fa-pencil-square-o");
         ueditCamera.setAttribute("id","u" + nameOfCameraInput + "Edit");
@@ -62,8 +59,8 @@ function addNewCamera() {
         ueditCamera.setAttribute("onclick","editCamera(id)");
         ueditCamera.innerHTML = "Edit";
     editCamera.appendChild(ueditCamera);
+
     //Add elements to the table
-    cameraTR.appendChild(idOfCamera);
     cameraTR.appendChild(nameOfCamera);
     cameraTR.appendChild(descriptionOfCamera);
     cameraTR.appendChild(facilitiesOfCamera);
@@ -97,13 +94,12 @@ function editCamera(id) {
     document.getElementById("editSaveCameraButton").setAttribute("name",nameOfCamera);
     document.getElementById("editSaveCameraButton").setAttribute("onclick","editSaveCamera(name)");
 }
+
 function editSaveCamera(name) {
-    console.log("start edit Save camera");
     //Data entered by user
     var nameOfCameraInput = document.getElementById("editNameOfCameraInput").value;
     var descriptionOfCameraInput = document.getElementById("editDescriptionOfCameraInput").value;
     var facilitiesOfCameraInput = document.getElementById("editFacilitiesOfCameraInput").value;
-    console.log(nameOfCameraInput);
     //TR
     var cameraTR = document.getElementById("TR" + name);
     cameraTR.setAttribute("id", "TR" + nameOfCameraInput);
@@ -136,9 +132,6 @@ function editSaveCamera(name) {
 function editDeleteCamera(name) {
     name = "TH"+name+"Name";
     var rowToDelete = document.getElementById(name);
-    console.log(name);
-    console.log(rowToDelete);
-
     rowToDelete.parentNode.remove();
     document.getElementById("editDeleteCameraButton").setAttribute("data-dismiss", "modal");
 }
