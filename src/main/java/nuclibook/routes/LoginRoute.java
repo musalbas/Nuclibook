@@ -1,7 +1,9 @@
 package nuclibook.routes;
 
+import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.models.User;
+import nuclibook.server.HtmlRenderer;
 import nuclibook.server.SecurityUtils;
 import spark.Request;
 import spark.Response;
@@ -29,29 +31,22 @@ public class LoginRoute extends DefaultRoute {
 	}
 
 	public Object handleGet(Request request, Response response) throws Exception {
-		// TODO: implement actual front end login form
+		// any status message?
+		String statusCookie = request.cookie("login-status");
+		String msg = null;
+		if (statusCookie != null) {
+			if (statusCookie.equals(C.LOGIN_STATUS_COOKIE_VALUE_FAILED))
+				msg = "Incorrect user ID and/or password!";
 
-		// start building html output
-		String output = "<p>Login form</p>";
+			if (statusCookie.equals(C.LOGIN_STATUS_COOKIE_VALUE_LOGGED_OUT))
+				msg = "You have been logged out.";
 
-		// any message?
-		String msg = request.queryParams("msg");
-		if (msg != null) {
-			if (msg.equals("1")) {
-				output += "<p>Invalid login!</p>";
-			} else if (msg.equals("2")) {
-				output += "<p>You have been logged out</p>";
-			}
+			response.removeCookie(C.LOGIN_STATUS_COOKIE_NAME);
 		}
 
-		// output html
-		output += "<form action=\"/login\" method=\"post\">" +
-				"<input type=\"text\" name=\"userid\" /><br />" +
-				"<input type=\"text\" name=\"password\" /><br />" +
-				"<input type=\"Submit\" value=\"Login\" />" +
-				"</form>";
-
-		return output;
+		HtmlRenderer renderer = new HtmlRenderer("login.html");
+		renderer.setField("message", msg);
+		return renderer.render();
 	}
 
 	public Object handlePost(Request request, Response response) throws Exception {
@@ -63,14 +58,16 @@ public class LoginRoute extends DefaultRoute {
 			password = request.queryParams("password");
 		} catch (NumberFormatException e) {
 			// force failure
-			response.redirect("/login?msg=1");
+			response.cookie(C.LOGIN_STATUS_COOKIE_NAME, C.LOGIN_STATUS_COOKIE_VALUE_FAILED);
+			response.redirect("/login");
 			return null;
 		}
 
 		// check credentials
 		User user = SecurityUtils.attemptLogin(userId, password);
 		if (user == null) {
-			response.redirect("/login?msg=1");
+			response.cookie(C.LOGIN_STATUS_COOKIE_NAME, C.LOGIN_STATUS_COOKIE_VALUE_FAILED);
+			response.redirect("/login");
 			return null;
 		} else {
 			response.redirect("/");
