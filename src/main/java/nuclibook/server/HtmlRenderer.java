@@ -42,6 +42,20 @@ public class HtmlRenderer {
 	 * A missing or null-valued field will result in an empty string when rendered.
 	 *
 	 *
+	 * Defining Fields
+	 * ---------------
+	 *
+	 * Fields can be defined in HTML using the following format:
+	 *
+	 * <!--[define: name = value]-->
+	 *
+	 * This is useful in conjunction with referenced files (see below), such as in the following
+	 * example:
+	 *
+	 * <!--[define: page-title = Login Page]-->
+	 * ##_header.html
+	 *
+	 *
 	 * Conditional Fields
 	 * ------------------
 	 *
@@ -111,10 +125,11 @@ public class HtmlRenderer {
 
 	// set up patterns and options
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
+	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
+	private static Pattern definitionPatterm = Pattern.compile("<!\\-\\-\\[define: ([a-z0-9\\-]+) = (.*?)\\]\\-\\->", regexOptions);
 	private static Pattern conditionalFieldPattern = Pattern.compile("<!\\-\\-\\[if field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern conditionalNegatedFieldPattern = Pattern.compile("<!\\-\\-\\[if no field: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/if\\]\\-\\->", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
-	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("<!\\-\\-\\[collection: ([a-z0-9\\-]+)\\]\\-\\->(.*?)<!\\-\\-\\[/collection\\]\\-\\->", regexOptions);
 
 	// initialise
@@ -306,6 +321,22 @@ public class HtmlRenderer {
 		return renderer.render();
 	}
 
+	// parse any defined fields
+	private String parseDefinitions(String html) {
+		// "positive" conditionals
+		Matcher definitonMatcher = definitionPatterm.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (definitonMatcher.find()) {
+			definitonMatcher.appendReplacement(output, "");
+			fields.put(definitonMatcher.group(1), definitonMatcher.group(2));
+		}
+		definitonMatcher.appendTail(output);
+
+		// done
+		return output.toString();
+	}
+
+
 	// get an HTML segment between basic <!--[tag]--> and <!--[/tag]--> wrappers
 	private String getSegment(String html, String tag) {
 		Pattern segmentPattern = Pattern.compile("<!\\-\\-\\[" + tag + "\\]\\-\\->(.*?)<!\\-\\-\\[/" + tag + "\\]\\-\\->", regexOptions);
@@ -332,6 +363,7 @@ public class HtmlRenderer {
 	// run the parsing methods in the right order
 	public String render() {
 		String parsedHtml = readSimpleFile();
+		parsedHtml = parseDefinitions(parsedHtml);
 		parsedHtml = parseFiles(parsedHtml);
 		parsedHtml = parseCollections(parsedHtml);
 		parsedHtml = parseConditionalFields(parsedHtml);
