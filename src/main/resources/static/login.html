@@ -2,9 +2,14 @@
 #[def: title = Login Page]
 ##_header.html
 		<form action="/login" method="post">
-			#[if: message]
-			<div class="note note-#status">
-				<p><strong>#message</strong></p>
+			#[if: status=failed]
+			<div class="note note-danger">
+				<p><strong>Incorrect user ID and/or password combination.</strong></p>
+			</div>
+			#[/if]
+			#[if: status=bad-info]
+			<div class="note note-danger">
+				<p><strong>You did not enter a valid user ID and/or password.</strong></p>
 			</div>
 			#[/if]
 			<p>

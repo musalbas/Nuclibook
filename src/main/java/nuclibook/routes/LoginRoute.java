@@ -40,20 +40,16 @@ public class LoginRoute extends DefaultRoute {
 
 	public Object handleGet(Request request, Response response, Status status, String userIdPreFill) throws Exception {
 		// any status message?
-		String msg = null;
-		String statusType = null;
+		String statusField = null;
 		if (status == Status.FAILED_LOGIN) {
-			msg = "Incorrect user ID and/or password";
-			statusType = "danger";
+			statusField = "failed";
 		}
 		if (status == Status.INVALID_DETAILS) {
-			msg = "You did not enter a valid user ID";
-			statusType = "danger";
+			statusField = "bad-info";
 		}
 
 		HtmlRenderer renderer = new HtmlRenderer("login.html");
-		renderer.setField("message", msg);
-		renderer.setField("status", statusType);
+		renderer.setField("status", statusField);
 		renderer.setField("userid", userIdPreFill);
 		return renderer.render();
 	}
