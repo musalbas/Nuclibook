@@ -146,7 +146,8 @@ public class HtmlRenderer {
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
 	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
 	private static Pattern definitionPattern = Pattern.compile("#\\[def: ([a-z0-9\\-]+) = (.*?)\\]", regexOptions);
-	private static Pattern conditionalFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
+	private static Pattern conditionalSetFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
+	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)=([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
 
@@ -283,18 +284,18 @@ public class HtmlRenderer {
 	}
 
 	/**
-	 * CONDITIONAL FIELD PARSING
+	 * CONDITIONAL SET FIELD PARSING
 	 */
 
-	// parse any conditional field statements, defaulting to the global fields
+	// parse any conditional set field statements, defaulting to the global fields
 	private String parseConditionalSetFields(String html) {
 		return parseConditionalSetFields(html, fields);
 	}
 
-	// parse any conditional field statements with a specific set of fields
+	// parse any conditional set field statements with a specific set of fields
 	private String parseConditionalSetFields(String html, HashMap<String, String> fields) {
 		// "positive" conditionals
-		Matcher fieldMatcher = conditionalFieldPattern.matcher(html);
+		Matcher fieldMatcher = conditionalSetFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
 			fieldMatcher.appendReplacement(output, getConditionalSetFieldValue(fieldMatcher.group(1), fieldMatcher.group(2), fieldMatcher.group(3), fields));
@@ -305,11 +306,41 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the original text, or "", for a conditional field statement
+	// return the original text, or "", for a conditional set field statement
 	private String getConditionalSetFieldValue(String ifField, String key, String original, HashMap<String, String> fields) {
 		return ifField.startsWith("!") ?
 				((!fields.containsKey(key) || fields.get(key) == null) ? original : ""):
 				((fields.containsKey(key) && fields.get(key) != null) ? original : "");
+	}
+
+	/**
+	 * CONDITIONAL VALUE FIELD CHECKING
+	 */
+
+	// parse any conditional value field statements, defaulting to the global fields
+	private String parseConditionalValueFields(String html) {
+		return parseConditionalValueFields(html, fields);
+	}
+
+	// parse any conditional value field statements with a specific set of fields
+	private String parseConditionalValueFields(String html, HashMap<String, String> fields) {
+		// "positive" conditionals
+		Matcher matcher = conditionalValueFieldPattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(output, getConditionalValueFieldValue(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), fields));
+		}
+		matcher.appendTail(output);
+
+		// done
+		return output.toString();
+	}
+
+	// return the original text, or "", for a conditional value field statement
+	private String getConditionalValueFieldValue(String ifField, String key, String value, String original, HashMap<String, String> fields) {
+		return ifField.startsWith("!") ?
+				((!fields.containsKey(key) || fields.get(key) == null || !fields.get(key).equals(value)) ? original : ""):
+				((fields.containsKey(key) && fields.get(key) != null && fields.get(key).equals(value)) ? original : "");
 	}
 
 	/**
@@ -404,6 +435,7 @@ public class HtmlRenderer {
 		parsedHtml = parseFiles(parsedHtml);
 		parsedHtml = parseCollections(parsedHtml);
 		parsedHtml = parseConditionalSetFields(parsedHtml);
+		parsedHtml = parseConditionalValueFields(parsedHtml);
 		parsedHtml = parseFields(parsedHtml);
 		return parsedHtml;
 	}
