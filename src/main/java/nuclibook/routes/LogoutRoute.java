@@ -1,6 +1,6 @@
 package nuclibook.routes;
 
-import nuclibook.server.SecurityUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import spark.Request;
 import spark.Response;
 

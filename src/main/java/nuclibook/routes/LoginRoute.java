@@ -1,18 +1,18 @@
 package nuclibook.routes;
 
 import nuclibook.constants.RequestType;
+import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.UserUtils;
 import nuclibook.models.User;
 import nuclibook.server.HtmlRenderer;
-import nuclibook.server.SecurityUtils;
 import spark.Request;
 import spark.Response;
 
+import java.util.HashMap;
+
 public class LoginRoute extends DefaultRoute {
 
-	private enum Status {
-		FAILED_LOGIN,
-		INVALID_DETAILS
-	}
+	private HashMap<String, String> rendererFields = new HashMap<>();
 
 	public LoginRoute(RequestType requestType) {
 		super(requestType);
@@ -30,49 +30,80 @@ public class LoginRoute extends DefaultRoute {
 		if (getRequestType() == RequestType.POST) {
 			return handlePost(request, response);
 		} else {
-			return handleGet(request, response);
+			return handleGet();
 		}
 	}
 
-	public Object handleGet(Request request, Response response) throws Exception {
-		return handleGet(request, response, null, null);
-	}
-
-	public Object handleGet(Request request, Response response, Status status, String userIdPreFill) throws Exception {
-		// any status message?
-		String statusField = null;
-		if (status == Status.FAILED_LOGIN) {
-			statusField = "failed";
-		}
-		if (status == Status.INVALID_DETAILS) {
-			statusField = "bad-info";
+	public Object handleGet() throws Exception {
+		// check stage
+		if (!rendererFields.containsKey("stage")) {
+			rendererFields.put("stage", "1");
 		}
 
 		HtmlRenderer renderer = new HtmlRenderer("login.html");
-		renderer.setField("status", statusField);
-		renderer.setField("userid", userIdPreFill);
+		renderer.setBulkFields(rendererFields);
 		return renderer.render();
 	}
 
 	public Object handlePost(Request request, Response response) throws Exception {
 		// get user id and password from POST
-		int userId;
+		Integer userId;
 		String password;
 		try {
 			userId = Integer.parseInt(request.queryParams("userid"));
 			password = request.queryParams("password");
 		} catch (NumberFormatException e) {
 			// force failure
-			return handleGet(request, response, Status.INVALID_DETAILS, null);
+			rendererFields.clear();
+			rendererFields.put("error-bad-user-id", "");
+			return handleGet();
 		}
 
-		// check credentials
-		User user = SecurityUtils.attemptLogin(userId, password);
-		if (user == null) {
-			return handleGet(request, response, Status.FAILED_LOGIN, userId + "");
+		// is this stage 1 or stage 2?
+		if (password == null) {
+			// submission from stage 1
+
+			// get user's name
+			String userName = UserUtils.getUserName(userId);
+
+			// back to stage 1 of login if no user exists
+			if (userName == null) {
+				rendererFields.clear();
+				rendererFields.put("error-bad-user-id", "");
+				rendererFields.put("userid", userId.toString());
+				return handleGet();
+			}
+
+			// send to stage 2 of login screen
+			rendererFields.clear();
+			rendererFields.put("userid", userId.toString());
+			rendererFields.put("username", userName);
+			rendererFields.put("stage", "2");
+			return handleGet();
 		} else {
-			response.redirect("/");
-			return null;
+			// submission from stage 2
+
+			// check credentials
+			User user = SecurityUtils.attemptLogin(userId, password);
+			if (user == null) {
+				// sent back to stage 1 of login screen
+				rendererFields.clear();
+				rendererFields.put("error-bad-password", "");
+				rendererFields.put("userid", userId.toString());
+				return handleGet();
+			} else {
+				/*
+				if (user.getStatus() != active) {
+					rendererFields.clear();
+					rendererFields.put("error-bad-status", "");
+					rendererFields.put("userid", userId.toString());
+					rendererFields.put("stage", "1");
+					return handleGet();
+				}
+				 */
+				response.redirect("/");
+				return null;
+			}
 		}
 	}
 }

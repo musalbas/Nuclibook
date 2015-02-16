@@ -170,18 +170,23 @@ public class HtmlRenderer {
 		fields.put(key, value);
 	}
 
+	// set a data field (set null to "remove")
+	public void setField(String key, Integer value) {
+		fields.put(key, value == null ? null : value.toString());
+	}
+
 	// set a data collection (set null to "remove")
 	public void setCollection(String key, Collection<Renderable> collection) {
 		collections.put(key, collection);
 	}
 
 	// set all fields in one go (replaces any existing fields)
-	protected void setBulkFields(HashMap<String, String> fields) {
+	public void setBulkFields(HashMap<String, String> fields) {
 		this.fields = fields;
 	}
 
 	// set all collections in one go (replaces any existing collections)
-	protected void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
+	public void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
 		this.collections = collections;
 	}
 
