@@ -10,80 +10,6 @@
     <meta name="author" content="">
 
     <title>NHS Nuclear Medicine Booking System</title>
-    <link rel="stylesheet" href="/css/jquery-ui.css" />
-    <script type = "text/javascript" src = "/js/jquery-2.1.3.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script type=text/javascript src = "/js/jquery-1.9.1.js"></script>
-    <script type=text/javascript src = "/js/jquery-ui.js"></script>
-
-    <script type = text/javascript>
-        $(function() {
-            $( "#DOB" ).datepicker();
-        });
-
-        $(document).ready(function(){
-            $('#addNew').on('click',addNewRow);
-        });
-
-
-        $(document).ready(function() {
-            $("#deletePatients").click(function () {
-                $("table input[type ='checkbox']:checked").parent().parent().remove();
-
-            });
-
-
-            $('#searchPatient').keyup(function () {
-                var data = this.value.split(" ");
-                var rows = $(".patientInfo tbody tr").hide();
-                if(this.value ==""){
-                    rows.show();
-                    return;
-                }
-                rows.hide();
-                rows.filter(function(i,v){
-                    var t = $(this);
-                    for (var d = 0; d < data.length; d++) {
-                        if (t.is(":Contains('" + data[d] + "')")) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }).show();
-            });
-        });
-
-        function addNewRow() {
-            var table = $('.patientInfo');
-            var label = '<tr>' +
-                    '<td><input type = "checkbox" id="selectPatient"></td>' +
-                    ' <td>{Name}</td> ' +
-                    ' <td>{Hospital Number}</td> ' +
-                    ' <td>{Date of birth}</td>' +
-                    '<td><a href ="#"><i class = "fa fa-pencil"></i></a></td>' +
-                    '</tr>';
-
-            var dataAppend = label;
-
-            $('div [class = "fillData"] input:text').each(function () {
-                switch (this.id) {
-                    case 'patientName':
-                        dataAppend = dataAppend.replace('{Name}', this.value);
-                        break;
-                    case 'hospitalNum':
-                        dataAppend = dataAppend.replace('{Hospital Number}', this.value);
-                        break;
-                    case 'DOB':
-                        dataAppend = dataAppend.replace('{Date of birth}', this.value);
-                        break;
-                }
-            })
-
-            table.append(dataAppend);
-        }
-
-
-        </script>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -120,12 +46,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Nuclibook</a>
+            <a class="navbar-brand" href="index.html">Nuclibook &nbsp;&nbsp;&nbsp;&nbsp;|</a>
+            <a class="navbar-brand" href="cameras.html"> Cameras </a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b
+                        class="caret"></b></a>
                 <ul class="dropdown-menu message-dropdown">
                     <li class="message-preview">
                         <a href="#">
@@ -133,10 +61,13 @@
                                     <span class="pull-left">
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
+
                                 <div class="media-body">
                                     <h5 class="media-heading"><strong>USERNAME</strong>
                                     </h5>
+
                                     <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+
                                     <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                 </div>
                             </div>
@@ -148,10 +79,13 @@
                                     <span class="pull-left">
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
+
                                 <div class="media-body">
                                     <h5 class="media-heading"><strong>USERNAME</strong>
                                     </h5>
+
                                     <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+
                                     <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                 </div>
                             </div>
@@ -163,10 +97,13 @@
                                     <span class="pull-left">
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
+
                                 <div class="media-body">
                                     <h5 class="media-heading"><strong>USERNAME</strong>
                                     </h5>
+
                                     <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+
                                     <p>Lorem ipsum dolor sit amet, consectetur...</p>
                                 </div>
                             </div>
@@ -178,7 +115,8 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b
+                        class="caret"></b></a>
                 <ul class="dropdown-menu alert-dropdown">
                     <li>
                         <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
@@ -205,7 +143,8 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> USERNAME <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> USERNAME <b
+                        class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -226,7 +165,7 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li class="active">
+                <li>
                     <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
@@ -244,14 +183,15 @@
                 <li>
                     <a href="radiotracers.html"><i class="fa fa-fw fa-flask"></i> Radiotracers</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="cameras.html"><i class="fa fa-fw fa-camera"></i> Cameras</a>
                 </li>
                 <li>
                     <a href="Therapies.html"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
                 </li>
                 <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-cog"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-cog"></i>
+                        Users <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="demo" class="collapse">
                         <li>
                             <a href="activity.html"><i class="fa fa-fw fa-list"></i> Activity Log</a>
@@ -274,50 +214,153 @@
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Patients</h1>
+                    <h1 class="page-header">
+                        Cameras
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
 
-
-                    <div class = "patientData">
-                        <div class ="searchBar">
-                            <input type = "search" name = "searchPatient" id = "searchPatient">
-                            <a href="#"> <i class = "fa fa-search"></i></a>
-                            <button id = "deletePatients" class = "btn-lg">Delete Selected Patients</button>
-                        </div>
-
-
-                    <table style ="width:95%" class = "patientInfo">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>Select </th>
-                            <th>Patient Name</th>
-                            <th>Hospital Number</th>
-                            <th>Date of Birth</th>
+                            <th class="col-lg-3 text-center">Name of camera</th>
+                            <th class="col-lg-4 text-center">Description</th>
+                            <th class="col-lg-4 text-center">Facilities</th>
+                            <th class="col-lg-1 text-center">Action</th>
                         </tr>
                         </thead>
+                        <tbody id="tableBodyCameras">
+                        <tr id="TRBathroom">
+                            <th id="THBathroomName" class="text-center" style="vertical-align: middle">Bathroom</th>
+                            <th id="THBathroomDescription" class="text-center" style="vertical-align: middle">A must
+                                have in your house.
+                            </th>
+                            <th id="THBathroomFacilities" class="text-center" style="vertical-align: middle">Will see
+                                about this. Maybe check boxes for
+                                user to select
+                                therapies in this room
+                            </th>
+                            <th id="THBathroomEdit" class="text-center" style="vertical-align: middle"><u
+                                    id="uBathroomEdit" class="fa fa-pencil-square-o" style="cursor:pointer;"
+                                    onmouseover="this.style.color='#2f2f8b';"
+                                    onmouseout="this.style.color='';" onclick="editCamera(id)">
+                                &nbsp;Edit</u></th>
+                        </tr>
+                        </tbody>
                     </table>
-                    </div>
+                    <div class="text-right">
 
-                    <div class = "addPatient">
-                        <h2 id = "title">Add Patient</h2>
-
-
-                            <div class = "fillData">
-                                   <label for= "patientName" >Name:</label>
-                                    <input id = "patientName" name = "patientName" type = "text" value = "">
-                             </div>
-                            <div class="fillData">
-                                    <label for = "hospitalNum">Hospital Number:</label>
-                                    <input id = "hospitalNum" name = "hospitalNum" type = "text" value = "">
-                            </div>
-                            <div class="fillData">
-                                    <label for = "DOB">Date of birth:</label>
-                                    <input type="text" id = "DOB">
-                             </div>
-                        <button id = "addNew" class = "btn-lg">Add</button>
+                        <label data-backdrop="static"
+                               data-keyboard="false" data-toggle="modal"
+                               data-target="#bs-example-modal-sm-add-new-camera"
+                               style="cursor:pointer;"
+                               onmouseover="this.style.color='#2f2f8b';"
+                               onmouseout="this.style.color='';"
+                               onclick="emptyModalFields()"> <i class="fa fa-plus-circle"></i> &nbsp;Add new
+                            Camera</label>
                     </div>
                 </div>
             </div>
-           </div>
+            <!-- /.row -->
         </div>
+        <!-- /.container-fluid -->
+        <!-- Start Modal for adding a new camera, asking the user for data -->
+        <div class="modal fade" id="bs-example-modal-sm-add-new-camera">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title text-center">Add a new camera<h5 class="text-center" style="opacity: 0.4;">Please complete the
+                            following fields.</h5></h3>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="nameOfCameraInput" class="control-label">Name:</label>
+                                <input type="text" class="form-control" id="nameOfCameraInput" placeholder="Name of the camera">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionOfCameraInput" class="control-label">Description:</label>
+                                <textarea class="form-control" id="descriptionOfCameraInput" placeholder="Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="facilitiesOfCameraInput" class="control-label">Facilities:</label>
+                                <input type="text" class="form-control" id="facilitiesOfCameraInput" placeholder="Facilities provided">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveCameraButton" type="button" class="btn btn-primary" disabled
+                                onclick="addNewCamera()">Add camera
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END/Modal for adding a new camera, asking the user for data -->
+
+        <!-- START Modal for editing a camera, asking the user for data -->
+        <div class="modal fade" id="bs-example-modal-sm-edit-camera">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="headEditCamera">Edit camera</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="editNameOfCameraInput" class="control-label">Name:</label>
+                                <input type="text" class="form-control" id="editNameOfCameraInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="editDescriptionOfCameraInput" class="control-label">Description:</label>
+                                <textarea class="form-control" id="editDescriptionOfCameraInput"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="editFacilitiesOfCameraInput" class="control-label">Facilities:</label>
+                                <input type="text" class="form-control" id="editFacilitiesOfCameraInput">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="editSaveCameraButton" type="button" class="btn btn-primary" name="Bathroom"
+                                onclick="editSaveCamera()">Save Changes
+                        </button>
+                        <button id="editDeleteCameraButton" type="button" class="btn btn-danger" name="Bathroom"
+                                onclick="editDeleteCamera(name)">Delete Camera
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END/Modal for editing a camera, asking the user for data -->
     </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="/js/plugins/morris/raphael.min.js"></script>
+<script src="/js/plugins/morris/morris.min.js"></script>
+<script src="/js/plugins/morris/morris-data.js"></script>
+
+<!-- Own Script -->
+<script src="/js/cameras.js"></script>
 </body>
+
+</html>
