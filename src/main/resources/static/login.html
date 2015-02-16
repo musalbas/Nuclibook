@@ -2,26 +2,34 @@
 #[def: title = Login Page]
 ##_header.html
 		<form action="/login" method="post">
-			#[if: status=failed]
-			<div class="note note-danger">
-				<p><strong>Incorrect user ID and/or password combination.</strong></p>
-			</div>
+			#[if: stage=1]
+				#[if: error-bad-user-id]
+					<div class="note note-danger">
+						<p><strong>Error:</strong> that user ID wasn't recognised - are you sure you have an account?</p>
+					</div>
+				#[/if]
+				#[if: error-bad-password]
+					<div class="note note-danger">
+						<p><strong>Error:</strong> incorrect password.</p>
+					</div>
+				#[/if]
+				#[id: error-bad-status]
+					<div class="note note-danger">
+						<p><strong>Error:</strong> your account is not currently enabled.</p>
+					</div>
+				#[/if]
+				<div class="form-group">
+					<label for="userid">Enter your ID below and press enter, or scan your ID card.</label>
+					<input type="text" name="userid" id="userid"/>
+				</div>
 			#[/if]
-			#[if: status=bad-info]
-			<div class="note note-danger">
-				<p><strong>You did not enter a valid user ID and/or password.</strong></p>
-			</div>
+
+			#[if: stage=2]
+				<p>Hello, <strong>#name</strong>.</p>
+				<div class="form-group">
+					<label for="password">Please enter your password or PIN and press enter.</label>
+					<input type="password" name="password" id="password"/>
+				</div>
 			#[/if]
-			<p>
-				User ID:<br />
-				<input type="number" name="userid" value="#userid" />
-			</p>
-			<p>
-				Password:<br />
-				<input type="password" name="password" value="" />
-			</p>
-			<p>
-				<input type="submit" value="Login">
-			</p>
 		</form>
 ##_footer.html
