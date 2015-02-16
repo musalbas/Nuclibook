@@ -35,10 +35,12 @@ public class SecurityUtils {
 						return user;
 					}
 				}
-			} catch (SQLException | CannotHashPasswordException e) {
+			} catch (SQLException e) {
+				// fail
+			} catch (CannotHashPasswordException e) {
 				// fail
 			}
-		}
+        }
 		return null;
 	}
 

@@ -13,7 +13,7 @@ import java.security.SecureRandom;
 public class User {
 
 	@DatabaseField(generatedId = true)
-	private int id;
+	private Integer id;
 
 	@DatabaseField
 	private String name;

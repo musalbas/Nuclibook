@@ -4,19 +4,19 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.Date;
+import java.sql.Date;
 
 @DatabaseTable(tableName = "patients")
 public class Patient {
 
     @DatabaseField(generatedId = true)
-    private int id;
+    private Integer id;
 
-    @DatabaseField
+    @DatabaseField(width = 64)
     private String name;
 
     @DatabaseField
-    private String hospitalNumber;
+    private int hospitalNumber;
 
     @DatabaseField
     private Date DOB;
@@ -37,11 +37,11 @@ public class Patient {
         this.name = name;
     }
 
-    public String getHospitalNumber() {
+    public int getHospitalNumber() {
         return hospitalNumber;
     }
 
-    public void setHospitalNumber(String hospitalNumber) {
+    public void setHospitalNumber(int hospitalNumber) {
         this.hospitalNumber = hospitalNumber;
     }
 
