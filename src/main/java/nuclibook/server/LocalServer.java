@@ -1,6 +1,7 @@
 package nuclibook.server;
 
 import nuclibook.constants.RequestType;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.routes.BlankRoute;
 import nuclibook.routes.HtmlTestRoute;
 import nuclibook.routes.LoginRoute;

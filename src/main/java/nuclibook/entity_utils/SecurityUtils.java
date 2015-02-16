@@ -1,10 +1,11 @@
-package nuclibook.server;
+package nuclibook.entity_utils;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.User;
+import nuclibook.server.SqlServerConnection;
 
 import java.sql.SQLException;
 

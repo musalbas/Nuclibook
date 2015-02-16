@@ -2,7 +2,7 @@
 #[def: title = Login Page]
 ##_header.html
 		<form action="/login" method="post">
-			#[if: stage=1]
+			#[!if: stage=2]
 				#[if: error-bad-user-id]
 					<div class="note note-danger">
 						<p><strong>Error:</strong> that user ID wasn't recognised - are you sure you have an account?</p>
@@ -13,19 +13,20 @@
 						<p><strong>Error:</strong> incorrect password.</p>
 					</div>
 				#[/if]
-				#[id: error-bad-status]
+				#[if: error-bad-status]
 					<div class="note note-danger">
 						<p><strong>Error:</strong> your account is not currently enabled.</p>
 					</div>
 				#[/if]
 				<div class="form-group">
 					<label for="userid">Enter your ID below and press enter, or scan your ID card.</label>
-					<input type="text" name="userid" id="userid"/>
+					<input type="text" name="userid" id="userid" value="#userid"/>
 				</div>
 			#[/if]
 
 			#[if: stage=2]
-				<p>Hello, <strong>#name</strong>.</p>
+				<input type="hidden" name="userid" value="#userid"/>
+				<p>Hello, <strong>#username</strong>.</p>
 				<div class="form-group">
 					<label for="password">Please enter your password or PIN and press enter.</label>
 					<input type="password" name="password" id="password"/>

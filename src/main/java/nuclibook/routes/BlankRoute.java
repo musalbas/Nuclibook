@@ -1,7 +1,7 @@
 package nuclibook.routes;
 
 import com.j256.ormlite.support.ConnectionSource;
-import nuclibook.server.SecurityUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.server.SqlServerConnection;
 import spark.Request;
 import spark.Response;
