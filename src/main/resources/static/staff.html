@@ -10,6 +10,7 @@
 			<td>Username</td>
 			<td>Name</td>
 			<td>Role</td>
+			<td>Actions</td>
 		</tr>
 	</thead>
 
@@ -24,6 +25,7 @@
 			<td>#username</td>
 			<td>#name</td>
 			<td>#role-label</td>
+			<td><button class="btn edit-button" data-id="#id">Edit</button> </td>
 		</tr>
 		#[/each]
 
@@ -31,7 +33,7 @@
 
 		#[empty]
 		<tr>
-			<td colspan="3">Empty collection.</td>
+			<td colspan="5">No staff.</td>
 		</tr>
 		#[/empty]
 		#[/collection]
@@ -50,6 +52,10 @@
 					<input type="hidden" name="entity-type" value="staff"/>
 					<input type="hidden" name="entity-id" value="0"/>
 					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" name="name" id="name"/>
+					</div>
+					<div class="form-group">
 						<label for="username">Username</label>
 						<input type="text" name="username" id="username"/>
 					</div>
@@ -60,6 +66,9 @@
 					<div class="form-group create-mode">
 						<label for="password_check">Repeat Password</label>
 						<input type="password" name="password_check" id="password_check"/>
+					</div>
+					<div class="form-group edit-mode">
+						<p class="small"><em>Note: you can only edit your own password, by checking 'Account Settings'.</em></p>
 					</div>
 				</form>
 			</div>
@@ -88,7 +97,6 @@
 	</div>
 </div>
 
-#[collectionmap: staff]
-
+#[collectionmap: objectMap: staff]
 <script src="/js/staff.js"></script>
 ##_footer.html

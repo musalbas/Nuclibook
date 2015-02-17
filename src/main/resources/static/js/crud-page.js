@@ -27,11 +27,15 @@ $(document).ready(function (e) {
 	$('.create-button').click(function (e) {
 		openEditModal(0);
 	});
+	$('.edit-button').click(function (e) {
+		openEditModal($(this).attr('data-id'));;
+	});
 
 });
 
 function openEditModal(objectId) {
-	// TODO pre-fill
+	// find form
+	var form = editModal.find('.edit-form');
 
 	// switch between edit/create components
 	if (objectId == 0) {
@@ -42,6 +46,19 @@ function openEditModal(objectId) {
 		editModal.find('.create-mode').hide();
 	}
 
+	// reset form
+	form[0].reset();
+
+	// pre-fill form
+	if (objectId > 0) {
+		var data = objectMap[objectId];
+		if (typeof(data) != 'undefined') {
+			for (var key in data) {
+				form.find('input[name=' + key + ']').val(data[key]);
+			}
+		}
+	}
+
 	// cancel button
 	editModal.find('.btn-cancel').unbind('click').click(function (e) {
 		editModal.modal('hide');
@@ -49,9 +66,6 @@ function openEditModal(objectId) {
 
 	// save button
 	editModal.find('.btn-save').unbind('click').click(function (e) {
-		// find form
-		var form = editModal.find('.edit-form');
-
 		// run validation functions
 		if (objectId == 0) {
 			if (typeof(validateCreateForm) == 'function' && !validateCreateForm(form.serializeObject())) return;

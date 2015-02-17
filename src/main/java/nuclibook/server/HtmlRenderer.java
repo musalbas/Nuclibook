@@ -120,7 +120,7 @@ public class HtmlRenderer {
 	 * This will produce an ID-indexed array of JavaScript objects with all the fields of the
 	 * entity, useful for any on-page CRUD actions. Usage:
 	 *
-	 * #[collectionmap: collection-name]
+	 * #[collectionmap: varname: collection-name]
 	 *
 	 *
 	 * Files
@@ -131,6 +131,7 @@ public class HtmlRenderer {
 	 * ##header.html
 	 *
 	 * Included files will also be rendered.
+	 *
 	 *
 	 * Rendering
 	 * ---------
@@ -157,7 +158,7 @@ public class HtmlRenderer {
 	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)=(.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
-	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\-]+)\\]", regexOptions);
+	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\\\-]+): ([a-z0-9\\-]+)\\]", regexOptions);
 
 	/**
 	 * CONSTRUCTOR
@@ -312,13 +313,13 @@ public class HtmlRenderer {
 		Matcher collectionMapMatcher = collectionMapPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (collectionMapMatcher.find()) {
-			collectionMapMatcher.appendReplacement(output, getCollectionMapHtml(collectionMapMatcher.group(1)));
+			collectionMapMatcher.appendReplacement(output, getCollectionMapHtml(collectionMapMatcher.group(2), collectionMapMatcher.group(1)));
 		}
 		collectionMapMatcher.appendTail(output);
 		return output.toString();
 	}
 
-	private String getCollectionMapHtml(String key) {
+	private String getCollectionMapHtml(String key, String varName) {
 		// get collection
 		if (!collections.containsKey(key) || collections.get(key) == null) {
 			return "";
@@ -328,7 +329,7 @@ public class HtmlRenderer {
 		// start output basics
 		StringBuilder output = new StringBuilder();
 		output.append("<script type=\"text/javascript\">");
-		output.append("var ").append(key).append(" = {");
+		output.append("var ").append(varName).append(" = {");
 
 		// put in objects
 		HashMap<String, String> fields;
