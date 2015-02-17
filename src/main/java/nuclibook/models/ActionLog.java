@@ -29,15 +29,14 @@ public class ActionLog {
         // Empty constructor for ORMLite
     }
 
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff, int action, int associatedID) {
-
+    public ActionLog(Staff staff, int action, int associatedID) {
         this.staff = staff;
         this.action = action;
         this.associatedID = associatedID;
+    }
+
+    public Staff getStaff() {
+        return staff;
     }
 
     public Integer getId() {
