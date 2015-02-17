@@ -18,6 +18,9 @@ public class Staff implements Renderable {
 	private Integer id;
 
 	@DatabaseField(width = 64)
+	private String username;
+
+	@DatabaseField(width = 64)
 	private String name;
 
 	@DatabaseField(width = 512, columnName = "default_availability")
@@ -36,12 +39,20 @@ public class Staff implements Renderable {
 		return id;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public StaffRole getRole() {
 		return role;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public void setName(String name) {

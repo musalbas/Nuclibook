@@ -7,12 +7,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class HtmlRenderer {
 
@@ -20,116 +18,116 @@ public class HtmlRenderer {
 	 * This class allows front-end HTML templates to be rendered with the inclusion of data
 	 * from the Java backend. This is achieved via text elements following a specific format,
 	 * as detailed below.
-	 *
+	 * <p>
 	 * An HtmlRenderer object is created with the name of the HTML template file, relative to
 	 * the resources/static/ folder, e.g.:
-	 *
+	 * <p>
 	 * HtmlRenderer renderer = new HtmlRenderer("login.html");
-	 *
-	 *
+	 * <p>
+	 * <p>
 	 * Fields
 	 * ------
-	 *
+	 * <p>
 	 * Fields are the most basic method of integrating data into an HTML template. They
 	 * contain simple string values only, and can be reference with a hash (#), followed by
 	 * their name:
-	 *
+	 * <p>
 	 * You are logged in as #user-first-name
-	 *
+	 * <p>
 	 * The field-name may consist only of a combination of lower-case letters, digits, and
 	 * dashes (-). The corresponding string value is given on the backend as follows:
-	 *
+	 * <p>
 	 * renderer.setField(String name, String value);
-	 *
+	 * <p>
 	 * A missing or null-valued field will result in an empty string when rendered.
-	 *
-	 *
+	 * <p>
+	 * <p>
 	 * Defining Fields
 	 * ---------------
-	 *
+	 * <p>
 	 * Fields can be defined in HTML using the following format:
-	 *
+	 * <p>
 	 * #[def: name = value]
-	 *
+	 * <p>
 	 * This is useful in conjunction with referenced files (see below), such as in the following
 	 * example:
-	 *
+	 * <p>
 	 * #[def: page-title = Login Page]
 	 * ##_header.html
-	 *
-	 *
+	 * <p>
+	 * <p>
 	 * Conditional Fields (Check if Set)
 	 * ---------------------------------
-	 *
+	 * <p>
 	 * These introduce some degree of conditional control based on whether a field has been
 	 * set, and can be used as such:
-	 *
+	 * <p>
 	 * #[if: status]The status is #status.#[/if]
 	 * #[!if: status]No status is set.#[/!if]
-	 *
-	 *
+	 * <p>
+	 * <p>
 	 * Conditional Fields (Check Value)
 	 * --------------------------------
-	 *
+	 * <p>
 	 * These provide more advanced conditional control by checking the value of a field, like so:
-	 *
+	 * <p>
 	 * #[if: status=okay]It's all good!#[/if]
 	 * #[!if: status=okay]Uh-oh#[/!if]
-	 *
-	 *
+	 * <p>
+	 * <p>
 	 * Collections
 	 * -----------
-	 *
+	 * <p>
 	 * Collection tags allow you to iterate over a collection of objects that implement the
 	 * Renderable interface. This is useful for lists, tables, etc. A collection has a
 	 * unique name (of the same format as field names) and is defined as follows:
-	 *
+	 * <p>
 	 * #[collection: names]
-	 *     #[pre]
-	 *         <ul>
-	 *     #[/pre]
-	 *     #[each]
-	 *         <li>#first-name #last-name</li>
-	 *     #[/each]
-	 *     #[post]
-	 *         </ul>
-	 *     #[/post]
-	 *     #[empty]
-	 *         <p>Empty collection.</p>
-	 *     #[/empty]
+	 * #[pre]
+	 * <ul>
+	 * #[/pre]
+	 * #[each]
+	 * <li>#first-name #last-name</li>
+	 * #[/each]
+	 * #[post]
+	 * </ul>
+	 * #[/post]
+	 * #[empty]
+	 * <p>Empty collection.</p>
+	 * #[/empty]
 	 * #[/collection]
-	 *
+	 * <p>
 	 * A collection tag MUST have 4 internal sections:
-	 *     pre:   this is printed before the iterative section
-	 *     post:  this is printed after the iterative section
-	 *     each:  this is printed for each iteration and may contain fields from the global
-	 *            set and/or the iterated Renderable object
-	 *     empty: this is printed if the collection is empty, or not set
-	 *
+	 * pre:   this is printed before the iterative section
+	 * post:  this is printed after the iterative section
+	 * each:  this is printed for each iteration and may contain fields from the global
+	 * set and/or the iterated Renderable object
+	 * empty: this is printed if the collection is empty, or not set
+	 * <p>
 	 * The collection can be specified on the back-end as:
-	 *
+	 * <p>
 	 * renderer.setCollection(String name, Collection<Renderable> data)
-	 *
+	 * <p>
 	 * Two "helper" tags exist within the 'each' section:
-	 *     #_index        prints the index of the current iteration, starting from zero
-	 *     #_guid         prints a GUID for that iteration (useful for an identifier when
-	 *                    the index is unsuitable)
-	 *
-	 *
+	 * #_index        prints the index of the current iteration, starting from zero
+	 * #_guid         prints a GUID for that iteration (useful for an identifier when
+	 * the index is unsuitable)
+	 * <p>
+	 * <p>
 	 * Files
 	 * -----
-	 *
+	 * <p>
 	 * Another static HTML file can be included using a double-hash, as follows:
-	 *
+	 * <p>
 	 * ##header.html
-	 *
+	 * <p>
 	 * Included files will also be rendered.
-	 *
+	 * <p>
 	 * Rendering
 	 * ---------
-	 *
+	 * <p>
 	 * Once all of the data has been set, the rendered HTML can be obtained via:
-	 *
+	 * <p>
 	 * renderer.render();
 	 */
 
@@ -176,8 +174,15 @@ public class HtmlRenderer {
 	}
 
 	// set a data collection (set null to "remove")
-	public void setCollection(String key, Collection<Renderable> collection) {
-		collections.put(key, collection);
+	public <E> void setCollection(String key, Collection<E> collection) {
+		ArrayList<Renderable> renderableCollection = new ArrayList<>(collection.size());
+		try {
+			renderableCollection.addAll(collection.stream().map(o -> (Renderable) o).collect(Collectors.toList()));
+			collections.put(key, renderableCollection);
+		} catch (ClassCastException e) {
+			collections.put(key, null);
+			System.out.println("ERROR: Cannot cast to Renderable");
+		}
 	}
 
 	// set all fields in one go (replaces any existing fields)
@@ -314,7 +319,7 @@ public class HtmlRenderer {
 	// return the original text, or "", for a conditional set field statement
 	private String getConditionalSetFieldValue(String ifField, String key, String original, HashMap<String, String> fields) {
 		return ifField.startsWith("!") ?
-				((!fields.containsKey(key) || fields.get(key) == null) ? original : ""):
+				((!fields.containsKey(key) || fields.get(key) == null) ? original : "") :
 				((fields.containsKey(key) && fields.get(key) != null) ? original : "");
 	}
 
@@ -344,7 +349,7 @@ public class HtmlRenderer {
 	// return the original text, or "", for a conditional value field statement
 	private String getConditionalValueFieldValue(String ifField, String key, String value, String original, HashMap<String, String> fields) {
 		return ifField.startsWith("!") ?
-				((!fields.containsKey(key) || fields.get(key) == null || !fields.get(key).equals(value)) ? original : ""):
+				((!fields.containsKey(key) || fields.get(key) == null || !fields.get(key).equals(value)) ? original : "") :
 				((fields.containsKey(key) && fields.get(key) != null && fields.get(key).equals(value)) ? original : "");
 	}
 

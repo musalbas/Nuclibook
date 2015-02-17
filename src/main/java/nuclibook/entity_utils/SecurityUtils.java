@@ -8,6 +8,7 @@ import nuclibook.models.Staff;
 import nuclibook.server.SqlServerConnection;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class SecurityUtils {
 
@@ -19,28 +20,30 @@ public class SecurityUtils {
 		// prevent instantiation
 	}
 
-	public static Staff attemptLogin(int userId, String password) {
+	public static Staff attemptLogin(String username, String password) {
 		// set up server connection
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
 				// search for user
+				// TODO: replace with search by field from utils, when ready
 				Dao<Staff, Integer> userDao = DaoManager.createDao(conn, Staff.class);
-				Staff staff = userDao.queryForId(userId);
-				if (staff != null) {
-					// check their password
-					if (staff.checkPassword(password)) {
-						// correct login!
-						loggedInAs = staff;
-						return staff;
+				List<Staff> matchedStaff = userDao.queryForEq("username", username);
+				if (matchedStaff != null && matchedStaff.size() == 1) {
+					Staff staff = matchedStaff.get(0);
+					if (staff != null) {
+						// check their password
+						if (staff.checkPassword(password)) {
+							// correct login!
+							loggedInAs = staff;
+							return staff;
+						}
 					}
 				}
-			} catch (SQLException e) {
-				// fail
-			} catch (CannotHashPasswordException e) {
+			} catch (SQLException | CannotHashPasswordException e) {
 				// fail
 			}
-        }
+		}
 		return null;
 	}
 

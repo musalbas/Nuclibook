@@ -27,7 +27,6 @@ public class SqlServerConnection {
 				connection = new JdbcConnectionSource(C.MYSQL_URI);
 				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
 				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
-
 				initDB(connection);
 			} catch (Exception e) {
 				e.printStackTrace(); // TODO deal with exception
