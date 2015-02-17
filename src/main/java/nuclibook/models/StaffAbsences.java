@@ -16,4 +16,37 @@ public class StaffAbsences {
     @DatabaseField
     private Date to;
 
+    public StaffAbsences(Staff staffID, Date from, Date to) {
+        this.staffID = staffID;
+        this.from = from;
+        this.to = to;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Staff getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(Staff staffID) {
+        this.staffID = staffID;
+    }
+
+    public Date getFrom() {
+        return from;
+    }
+
+    public void setFrom(Date from) {
+        this.from = from;
+    }
+
+    public Date getTo() {
+        return to;
+    }
+
+    public void setTo(Date to) {
+        this.to = to;
+    }
 }

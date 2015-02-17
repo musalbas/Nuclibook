@@ -22,7 +22,13 @@ public class Patient {
     private Date DOB;
 
 
-    public Patient() {
+    public Patient() { //Empty constructor for ORMLite
+    }
+
+    public Patient(String name, int hospitalNumber, Date DOB) {
+        this.name = name;
+        this.hospitalNumber = hospitalNumber;
+        this.DOB = DOB;
     }
 
     public int getId() {

@@ -11,4 +11,32 @@ public class StaffRolePermissions {
     private Staff staffID;
     @DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id")
     private Permission permissionID;
+
+    public StaffRolePermissions() { //Empty constructor for ORMLite
+    }
+
+    public StaffRolePermissions(Staff staffID, Permission permissionID) {
+        this.staffID = staffID;
+        this.permissionID = permissionID;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Staff getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(Staff staffID) {
+        this.staffID = staffID;
+    }
+
+    public Permission getPermissionID() {
+        return permissionID;
+    }
+
+    public void setPermissionID(Permission permissionID) {
+        this.permissionID = permissionID;
+    }
 }

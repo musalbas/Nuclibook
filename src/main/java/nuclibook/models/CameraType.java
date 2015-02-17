@@ -15,7 +15,7 @@ public class CameraType{
         this.label = label;
     }
 
-    public CameraType() {
+    public CameraType() { //Empty constructor for ORMLite
     }
 
     public String getLabel() {

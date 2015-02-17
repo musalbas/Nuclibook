@@ -19,7 +19,7 @@ public class Camera {
         this.roomNumber = roomNumber;
     }
 
-    public Camera(){
+    public Camera(){ //Empty constructor for ORMLite
     }
 
     public String getRoomNumber() {
