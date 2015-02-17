@@ -1,6 +1,7 @@
 package nuclibook.entity_utils;
 
 import nuclibook.models.Staff;
+
 import java.util.List;
 
 public class StaffUtils extends AbstractEntityUtil {
