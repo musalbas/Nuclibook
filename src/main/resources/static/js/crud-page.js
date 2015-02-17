@@ -28,7 +28,8 @@ $(document).ready(function (e) {
 		openEditModal(0);
 	});
 	$('.edit-button').click(function (e) {
-		openEditModal($(this).attr('data-id'));;
+		openEditModal($(this).attr('data-id'));
+		;
 	});
 
 });
@@ -80,13 +81,15 @@ function openEditModal(objectId) {
 		editModal.modal('hide');
 
 		// show loading modal
-		showLoadingModal();
+		enableLoading();
 
-		// TODO: ajax
-
-		setTimeout(function () {
-			hideLoadingModal();
-		}, 2000);
+		// ajax!
+		$.post(
+			'/entity-update',
+			{data: serialised},
+			function (result) {
+				disableLoading();
+			});
 	});
 
 	// display modal
@@ -96,13 +99,15 @@ function openEditModal(objectId) {
 	});
 }
 
-function showLoadingModal() {
+function enableLoading() {
 	loadingModal.removeClass('hide').modal({
 		backdrop: 'static',
 		keyboard: false
 	});
 }
 
-function hideLoadingModal() {
-	loadingModal.modal('hide');
+function disableLoading() {
+	setTimeout(function () {
+		loadingModal.modal('hide');
+	}, 1000);
 }

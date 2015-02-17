@@ -57,6 +57,9 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 
+		// entity CRUD
+		Spark.post("/entity-update", new CrudCreateUpdateRoute());
+
 		// staff
 		Spark.get("/staff", new StaffRoute());
 
