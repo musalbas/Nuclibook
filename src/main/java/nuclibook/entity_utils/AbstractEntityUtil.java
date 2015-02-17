@@ -85,6 +85,18 @@ public abstract class AbstractEntityUtil {
                 //fail
             }
         }
-
     }
+
+    public static <E> void delete(E entity, Class dbClass){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                entityDao.delete(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
+    }
+
 }
