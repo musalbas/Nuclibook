@@ -4,10 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
-
-import javax.swing.text.html.parser.Entity;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +37,7 @@ public abstract class AbstractEntityUtil {
             try {
                 // search for user
                 Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-                List<E> entityName = entityDao.queryForEq(String );
+                List<E> entityName = entityDao.queryForEq(field, value);
                 if (entityName != null) {
                     return entityName;
                 }
