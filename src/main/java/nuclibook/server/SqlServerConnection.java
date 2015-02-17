@@ -6,11 +6,9 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
-import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.*;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class SqlServerConnection {
 
@@ -39,10 +37,22 @@ public class SqlServerConnection {
 
     public static void initDB(ConnectionSource connection) {
 		try {
-			TableUtils.createTableIfNotExists(connection, Staff.class);
+			TableUtils.createTableIfNotExists(connection, User.class);
             TableUtils.createTableIfNotExists(connection, Patient.class);
             TableUtils.createTableIfNotExists(connection, Camera.class);
             TableUtils.createTableIfNotExists(connection, CameraType.class);
+            Dao<CameraType, Integer> cameraTypeDao = DaoManager.createDao(connection, CameraType.class);
+            CameraType ct = new CameraType("camera A ");
+            cameraTypeDao.create(ct);
+            Dao<Camera, Integer> cameraDao = DaoManager.createDao(connection, Camera.class);
+            cameraDao.create(new Camera(ct, "3"));
+            System.out.println(cameraDao.countOf());
+            Camera cam = cameraDao.queryForId(1);
+            System.out.println(cam.getType().getLabel());
+
+            cameraTypeDao.refresh(cam.getType());
+            System.out.println(cam.getType().getLabel());
+
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO deal with exception
 		}
