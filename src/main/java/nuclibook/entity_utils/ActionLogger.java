@@ -4,7 +4,6 @@ import nuclibook.models.ActionLog;
 import nuclibook.models.Staff;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Map;
  * There is a static HashMap for associating the actionID (integer) with the action description.
  * Logging an action can be done by calling the static method logAction
  */
-public class StaffLog {
+public class ActionLogger {
 
     public static final int VIEW_PATIENT_LIST = 1;
     public static final int CREATE_PATIENT = 2;
