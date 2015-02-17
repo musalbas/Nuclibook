@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
 
+import javax.swing.text.html.parser.Entity;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,24 +33,23 @@ public abstract class AbstractEntityUtil {
         return null;
     }
 
-    public static <E> List<E> getEntityByField(int id, Class dbClass, String field, Object value){
+    public static <E> List<E> getByField(Class dbClass, String field, Object value) {
         // set up server connection
         ConnectionSource conn = SqlServerConnection.acquireConnection();
         if (conn != null) {
             try {
                 // search for user
                 Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-                List<E> entityList = entityDao.queryForEq(field, value);
-                if (entityList != null) {
-                    return entityList;
+                List<E> entityName = entityDao.queryForEq(String );
+                if (entityName != null) {
+                    return entityName;
                 }
-            } catch (SQLException e) {
+            }catch(SQLException e) {
                 // fail
             }
         }
         return null;
     }
-
 
     public static <E> List<E> geAllEntites(Class dbClass) {
         // set up server connection
@@ -58,11 +58,8 @@ public abstract class AbstractEntityUtil {
             try {
                 // search for user
                 Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-                List<E> entityList = entityDao.queryForAll();
-                if (entityList != null) {
-                    return entityList;
-                }
-                }catch(SQLException e) {
+                return entityDao.queryForAll();
+            }catch(SQLException e) {
                 // fail
             }
         }
