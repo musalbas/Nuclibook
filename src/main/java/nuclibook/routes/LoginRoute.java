@@ -2,7 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.UserUtils;
+import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -64,7 +64,7 @@ public class LoginRoute extends DefaultRoute {
 			// submission from stage 1
 
 			// get user's name
-			String userName = UserUtils.getUserName(userId);
+			String userName = StaffUtils.getStaffName(userId);
 
 			// back to stage 1 of login if no user exists
 			if (userName == null) {

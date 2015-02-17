@@ -8,16 +8,19 @@ import nuclibook.server.SqlServerConnection;
 
 import java.sql.SQLException;
 
-public class UserUtils {
+public class StaffUtils {
 
-	public static String getUserName(int userId) {
+	// TODO: getStaff(int id);
+	// TODO: getAllStaff();
+
+	public static String getStaffName(int userId) {
 		// set up server connection
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
 				// search for user
-				Dao<Staff, Integer> userDao = DaoManager.createDao(conn, Staff.class);
-				Staff staff = userDao.queryForId(userId);
+				Dao<Staff, Integer> staffDao = DaoManager.createDao(conn, Staff.class);
+				Staff staff = staffDao.queryForId(userId);
 				if (staff != null) {
 					return staff.getName();
 				}

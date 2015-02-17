@@ -5,16 +5,19 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "booking_staff")
 public class BookingStaff {
+
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id")
-    private Booking bookingID;
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staffID;
 
-    public BookingStaff(Booking bookingID, Staff staffID) {
-        this.bookingID = bookingID;
-        this.staffID = staffID;
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id")
+    private Booking booking;
+    
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+    private Staff staff;
+
+    public BookingStaff(Booking booking, Staff staff) {
+        this.booking = booking;
+        this.staff = staff;
     }
 
     public BookingStaff() { //Empty constructor for ORMLite
@@ -24,19 +27,19 @@ public class BookingStaff {
         return id;
     }
 
-    public Booking getBookingID() {
-        return bookingID;
+    public Booking getBooking() {
+        return booking;
     }
 
-    public void setBookingID(Booking bookingID) {
-        this.bookingID = bookingID;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
-    public Staff getStaffID() {
-        return staffID;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaffID(Staff staffID) {
-        this.staffID = staffID;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 }
