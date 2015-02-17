@@ -32,6 +32,25 @@ public abstract class AbstractEntityUtil {
         return null;
     }
 
+    public static <E> List<E> getEntityByField(int id, Class dbClass, String field, Object value){
+        // set up server connection
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if (conn != null) {
+            try {
+                // search for user
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                List<E> entityList = entityDao.queryForEq(field, value);
+                if (entityList != null) {
+                    return entityList;
+                }
+            } catch (SQLException e) {
+                // fail
+            }
+        }
+        return null;
+    }
+
+
     public static <E> List<E> geAllEntites(Class dbClass) {
         // set up server connection
         ConnectionSource conn = SqlServerConnection.acquireConnection();
@@ -39,11 +58,26 @@ public abstract class AbstractEntityUtil {
             try {
                 // search for user
                 Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-                return entityDao.queryForAll();
+                List<E> entityList = entityDao.queryForAll();
+                if (entityList != null) {
+                    return entityList;
+                }
                 }catch(SQLException e) {
                 // fail
             }
         }
         return null;
+    }
+
+    public static <E> void createEntity(E entity, Class dbClass){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                entityDao.create(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
     }
 }
