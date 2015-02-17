@@ -10,7 +10,7 @@ public class ActionLog {
     private Integer id;
 
     @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staffID;
+    private Staff staff;
 
     @DatabaseField
     private Integer action;
@@ -21,20 +21,20 @@ public class ActionLog {
     @DatabaseField
     private String note;
 
-    public ActionLog(Staff staffID) {
-        this.staffID = staffID;
+    public ActionLog(Staff staff) {
+        this.staff = staff;
     }
 
     public ActionLog() {
         // Empty constructor for ORMLite
     }
 
-    public Staff getStaffID() {
-        return staffID;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaffID(Staff staffID) {
-        this.staffID = staffID;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public Integer getId() {
