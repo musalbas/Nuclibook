@@ -64,7 +64,7 @@ public class LoginRoute extends DefaultRoute {
 			// submission from stage 1
 
 			// get user's name
-			String userName = StaffUtils.getStaffName(userId);
+			String userName = "";//StaffUtils.getStaffName(userId);
 
 			// back to stage 1 of login if no user exists
 			if (userName == null) {

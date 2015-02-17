@@ -74,4 +74,17 @@ public abstract class AbstractEntityUtil {
             }
         }
     }
+
+    public static <E> void update(E entity, Class dbClass){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                entityDao.update(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
+
+    }
 }

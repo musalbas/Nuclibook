@@ -81,4 +81,5 @@ public class Staff {
 
         return String.format("%0128x", new BigInteger(1, hash));
     }
+    
 }
