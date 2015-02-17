@@ -3,7 +3,7 @@ package nuclibook.routes;
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.UserUtils;
-import nuclibook.models.User;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -84,8 +84,8 @@ public class LoginRoute extends DefaultRoute {
 			// submission from stage 2
 
 			// check credentials
-			User user = SecurityUtils.attemptLogin(userId, password);
-			if (user == null) {
+			Staff staff = SecurityUtils.attemptLogin(userId, password);
+			if (staff == null) {
 				// sent back to stage 1 of login screen
 				rendererFields.clear();
 				rendererFields.put("error-bad-password", "");

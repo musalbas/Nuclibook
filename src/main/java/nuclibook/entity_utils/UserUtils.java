@@ -3,7 +3,7 @@ package nuclibook.entity_utils;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
-import nuclibook.models.User;
+import nuclibook.models.Staff;
 import nuclibook.server.SqlServerConnection;
 
 import java.sql.SQLException;
@@ -16,10 +16,10 @@ public class UserUtils {
 		if (conn != null) {
 			try {
 				// search for user
-				Dao<User, Integer> userDao = DaoManager.createDao(conn, User.class);
-				User user = userDao.queryForId(userId);
-				if (user != null) {
-					return user.getName();
+				Dao<Staff, Integer> userDao = DaoManager.createDao(conn, Staff.class);
+				Staff staff = userDao.queryForId(userId);
+				if (staff != null) {
+					return staff.getName();
 				}
 			} catch (SQLException e) {
 				// fail
