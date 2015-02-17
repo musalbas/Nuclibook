@@ -33,24 +33,19 @@ public class ActionLog {
         return staff;
     }
 
-    public void setStaff(Staff staff) {
+    public void setStaff(Staff staff, int action, int associatedID) {
+
         this.staff = staff;
+        this.action = action;
+        this.associatedID = associatedID;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setAction(Integer action) {
-        this.action = action;
-    }
-
     public Integer getAction() {
         return this.action;
-    }
-
-    public void setAssociatedID(Integer associatedID) {
-        this.associatedID = associatedID;
     }
 
     public Integer getAssociatedID() {
