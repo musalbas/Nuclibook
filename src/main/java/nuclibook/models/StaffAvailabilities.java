@@ -11,6 +11,6 @@ public class StaffAvailabilities {
     private Staff staffID;
 
     @DatabaseField(canBeNull = false, foreign = true, columnName = "availability_id")
-    private Availability permissionID;
+    private Availability availabilityID;
 
 }
