@@ -1,0 +1,37 @@
+##_header.html
+<h1>View All Staff</h1>
+
+<table>
+	<thead>
+		<tr>
+			<td>ID</td>
+			<td>Username</td>
+			<td>Name</td>
+			<td>Role</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		#[collection: staff]
+
+		#[pre]#[/pre]
+
+		#[each]
+			<tr>
+				<td>#id</td>
+				<td>#username</td>
+				<td>#name</td>
+				<td>#role-label</td>
+			</tr>
+		#[/each]
+
+		#[post]#[/post]
+
+		#[empty]
+		<tr><td colspan="3">Empty collection.</td></tr>
+		#[/empty]
+		#[/collection]
+	</tbody>
+</table>
+
+##_footer.html

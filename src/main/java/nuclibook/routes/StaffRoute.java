@@ -12,7 +12,7 @@ public class StaffRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		return null;
+		return handleGet();
 	}
 
 	public Object handleGet() {

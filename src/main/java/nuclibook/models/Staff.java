@@ -107,6 +107,7 @@ public class Staff implements Renderable {
 			{
 				put("id", ((Integer) getId()).toString());
 				put("name", getName());
+				put("username", getUsername());
 				put("role-label", getRole() == null ? "-" : getRole().getLabel());
 			}
 		};

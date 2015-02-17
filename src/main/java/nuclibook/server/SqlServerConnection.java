@@ -1,16 +1,15 @@
 package nuclibook.server;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
-import nuclibook.entity_utils.StaffUtils;
-import nuclibook.models.*;
+import nuclibook.models.Camera;
+import nuclibook.models.CameraType;
+import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class SqlServerConnection {
 
