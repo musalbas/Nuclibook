@@ -4,7 +4,7 @@ import nuclibook.models.Staff;
 
 import java.util.List;
 
-public class StaffUtils extends AbstractEntityUtil {
+public class StaffUtils extends AbstractEntityUtils {
 
 	public static Staff getStaff(int id) {
 		return getEntityById(Staff.class, id);
@@ -19,6 +19,6 @@ public class StaffUtils extends AbstractEntityUtil {
 	}
 
 	public static List<Staff> getAllStaff() {
-		return getAllEntites(Staff.class);
+		return getAllEntities(Staff.class);
 	}
 }

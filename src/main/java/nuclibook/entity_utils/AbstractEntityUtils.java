@@ -9,9 +9,9 @@ import nuclibook.server.SqlServerConnection;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class AbstractEntityUtil {
+public abstract class AbstractEntityUtils {
 
-	public static <E> List<E> getAllEntites(Class dbClass) {
+	public static <E> List<E> getAllEntities(Class dbClass) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
@@ -56,11 +56,11 @@ public abstract class AbstractEntityUtil {
 		return null;
 	}
 
-	public static <E> void createEntity(Class dbClass, E entity) {
+	public static <E> void createEntity(E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
 				entityDao.create(entity);
 			} catch (SQLException e) {
 				// fail
@@ -68,11 +68,11 @@ public abstract class AbstractEntityUtil {
 		}
 	}
 
-	public static <E> void update(E entity, Class dbClass) {
+	public static <E> void updateEntity(E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
 				entityDao.update(entity);
 			} catch (SQLException e) {
 				// fail
@@ -80,11 +80,11 @@ public abstract class AbstractEntityUtil {
 		}
 	}
 
-	public static <E> void delete(E entity, Class dbClass) {
+	public static <E> void deleteEntity(E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
 				entityDao.delete(entity);
 			} catch (SQLException e) {
 				// fail
@@ -92,7 +92,7 @@ public abstract class AbstractEntityUtil {
 		}
 	}
 
-	public static <E> void deleteByField(E entity, Class dbClass, String field, Object arg) {
+	public static <E> void deleteEntitiesByField(Class dbClass, String field, Object arg) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
