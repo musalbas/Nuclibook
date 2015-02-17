@@ -88,7 +88,10 @@ function openEditModal(objectId) {
 			'/entity-update',
 			form.serialize(),
 			function (result) {
-				disableLoading();
+				disableLoading(function () {
+					// TODO: better solution to this
+					location.reload();
+				});
 			});
 	});
 
@@ -122,7 +125,10 @@ function openDeleteModal(objectId) {
 			'/entity-delete',
 			form.serialize(),
 			function (result) {
-				disableLoading();
+				disableLoading(function () {
+					// TODO: better solution to this
+					location.reload();
+				});
 			});
 	});
 
@@ -140,8 +146,9 @@ function enableLoading() {
 	});
 }
 
-function disableLoading() {
+function disableLoading(onComplete) {
 	setTimeout(function () {
 		loadingModal.modal('hide');
+		if (typeof(onComplete) == 'function') onComplete();
 	}, 1000);
 }
