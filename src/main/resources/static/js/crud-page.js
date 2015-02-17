@@ -74,9 +74,6 @@ function openEditModal(objectId) {
 			if (typeof(validateEditForm) == 'function' && !validateEditForm(form.serializeObject())) return;
 		}
 
-		// serialise the form
-		var serialised = form.serialize();
-
 		// hide the modal
 		editModal.modal('hide');
 
@@ -86,7 +83,7 @@ function openEditModal(objectId) {
 		// ajax!
 		$.post(
 			'/entity-update',
-			{data: serialised},
+			form.serialize(),
 			function (result) {
 				disableLoading();
 			});
