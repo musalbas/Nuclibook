@@ -46,16 +46,16 @@ public class LoginRoute extends DefaultRoute {
 	}
 
 	public Object handlePost(Request request, Response response) throws Exception {
-		// get user id and password from POST
-		Integer userId;
+		// get staff id and password from POST
+		String username;
 		String password;
 		try {
-			userId = Integer.parseInt(request.queryParams("userid"));
+			username = request.queryParams("username");
 			password = request.queryParams("password");
 		} catch (NumberFormatException e) {
 			// force failure
 			rendererFields.clear();
-			rendererFields.put("error-bad-user-id", "");
+			rendererFields.put("error-bad-staff-id", "");
 			return handleGet();
 		}
 
@@ -63,40 +63,40 @@ public class LoginRoute extends DefaultRoute {
 		if (password == null) {
 			// submission from stage 1
 
-			// get user's name
-			String userName = "";//StaffUtils.getStaffName(userId);
+			// get staff for the user name
+			Staff staff = StaffUtils.getStaffByUsername(username);
 
-			// back to stage 1 of login if no user exists
-			if (userName == null) {
+			// back to stage 1 of login if no staff exists
+			if (staff == null) {
 				rendererFields.clear();
-				rendererFields.put("error-bad-user-id", "");
-				rendererFields.put("userid", userId.toString());
+				rendererFields.put("error-bad-staff-id", "");
+				rendererFields.put("username", username);
 				return handleGet();
 			}
 
 			// send to stage 2 of login screen
 			rendererFields.clear();
-			rendererFields.put("userid", userId.toString());
-			rendererFields.put("username", userName);
+			rendererFields.put("username", username);
+			rendererFields.put("staffname", staff.getName());
 			rendererFields.put("stage", "2");
 			return handleGet();
 		} else {
 			// submission from stage 2
 
 			// check credentials
-			Staff staff = SecurityUtils.attemptLogin(userId, password);
+			Staff staff = SecurityUtils.attemptLogin(username, password);
 			if (staff == null) {
 				// sent back to stage 1 of login screen
 				rendererFields.clear();
 				rendererFields.put("error-bad-password", "");
-				rendererFields.put("userid", userId.toString());
+				rendererFields.put("username", username);
 				return handleGet();
 			} else {
-				/*
-				if (user.getStatus() != active) {
+				/* TODO
+				if (staff.getStatus() != active) {
 					rendererFields.clear();
 					rendererFields.put("error-bad-status", "");
-					rendererFields.put("userid", userId.toString());
+					rendererFields.put("username", username.toString());
 					rendererFields.put("stage", "1");
 					return handleGet();
 				}

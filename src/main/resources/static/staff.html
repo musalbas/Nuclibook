@@ -1,0 +1,98 @@
+##_header.html
+<h1>View All Staff</h1>
+
+<button class="btn btn-green create-button">Create Staff</button>
+
+<table>
+	<thead>
+		<tr>
+			<td>ID</td>
+			<td>Username</td>
+			<td>Name</td>
+			<td>Role</td>
+			<td>Actions</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		#[collection: staff]
+
+		#[pre]#[/pre]
+
+		#[each]
+		<tr>
+			<td>#id</td>
+			<td>#username</td>
+			<td>#name</td>
+			<td>#role-label</td>
+			<td>
+				<button class="btn edit-button" data-id="#id">Edit</button>
+				<button class="btn delete-button" data-id="#id">Delete</button>
+			</td>
+		</tr>
+		#[/each]
+
+		#[post]#[/post]
+
+		#[empty]
+		<tr>
+			<td colspan="5">No staff.</td>
+		</tr>
+		#[/empty]
+		#[/collection]
+	</tbody>
+</table>
+
+<div class="modal hide fade edit-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="edit-mode">Edit Staff Member</h3>
+				<h3 class="create-mode">Create Staff Member</h3>
+			</div>
+			<div class="modal-body">
+				<form class="edit-form">
+					<input type="hidden" name="entity-type" value="staff"/>
+					<input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" name="name" id="name"/>
+					</div>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" name="username" id="username"/>
+					</div>
+					<div class="form-group create-mode">
+						<label for="password">Password</label>
+						<input type="password" name="password" id="password"/>
+					</div>
+					<div class="form-group create-mode">
+						<label for="password_check">Repeat Password</label>
+						<input type="password" name="password_check" id="password_check"/>
+					</div>
+					<div class="form-group edit-mode">
+						<p class="small">
+							<em>Note: you can only edit your own password, by checking 'Account Settings'.</em></p>
+					</div>
+					<!-- TODO: staff role drop-down -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+#[def: entity-name-title = Staff Member]
+#[def: entity-name-body = staff member]
+#[def: entity-type = staff]
+
+##_delete-modal.html
+##_loading-modal.html
+
+#[collectionmap: objectMap: staff]
+<script src="/js/staff.js"></script>
+
+##_footer.html
