@@ -108,6 +108,7 @@ public class UserLog {
         put(UPDATE_STAFF_NAME, "");
         put(UPDATE_STAFF_PASSWORD, "");
 
+
     }};
 
     //object id, user, log action id, date, time
