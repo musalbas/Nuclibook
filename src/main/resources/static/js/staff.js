@@ -1,6 +1,6 @@
 // TODO: use the toastr library for errors, instead of alerts
 
-var validateEditForm = function(formObject) {
+var validateEditForm = function (formObject) {
 	var error = false;
 
 	// check name
@@ -18,7 +18,7 @@ var validateEditForm = function(formObject) {
 	return !error;
 };
 
-var validateCreateForm = function(formObject) {
+var validateCreateForm = function (formObject) {
 	var error = false;
 
 	// check name
