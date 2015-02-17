@@ -8,9 +8,25 @@ public class StaffAvailabilities {
     private Integer id;
 
     @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staffID;
+    private Staff staff;
 
     @DatabaseField(canBeNull = false, foreign = true, columnName = "availability_id")
-    private Availability availabilityID;
+    private Availability availability;
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public Staff getStaff() {
+        return this.staff;
+    }
+
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
+
+    public Availability getAvailability() {
+        return this.availability;
+    }
 
 }
