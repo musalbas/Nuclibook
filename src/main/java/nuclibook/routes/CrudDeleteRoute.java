@@ -1,5 +1,7 @@
 package nuclibook.routes;
 
+import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.models.Staff;
 import spark.Request;
 import spark.Response;
 
@@ -11,10 +13,12 @@ public class CrudDeleteRoute extends DefaultRoute {
 		String entityType = request.queryParams("entity-type");
 		String entityId = request.queryParams("entity-id");
 
-		System.out.println("DELETE");
-		System.out.println("Entity type: " + entityType);
-		System.out.println("Entity ID: " + entityId);
+		// delete
+		// TODO: replace with status change
+		if (entityType.equals("staff")) {
+			AbstractEntityUtils.deleteEntityById(Staff.class, Integer.parseInt(entityId));
+		}
 
-		return null;
+		return "okay";
 	}
 }

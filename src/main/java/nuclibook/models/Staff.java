@@ -51,12 +51,20 @@ public class Staff implements Renderable {
 		return role;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setRole(StaffRole role) {
+		this.role = role;
 	}
 
 	public boolean checkPassword(String password) throws CannotHashPasswordException {

@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -56,11 +57,11 @@ public abstract class AbstractEntityUtils {
 		return null;
 	}
 
-	public static <E> void createEntity(E entity) {
+	public static <E> void createEntity(Class dbClass, E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
 				entityDao.create(entity);
 			} catch (SQLException e) {
 				// fail
@@ -68,11 +69,11 @@ public abstract class AbstractEntityUtils {
 		}
 	}
 
-	public static <E> void updateEntity(E entity) {
+	public static <E> void updateEntity(Class dbClass, E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
 				entityDao.update(entity);
 			} catch (SQLException e) {
 				// fail
@@ -80,12 +81,26 @@ public abstract class AbstractEntityUtils {
 		}
 	}
 
-	public static <E> void deleteEntity(E entity) {
+	public static <E> void deleteEntity(Class dbClass, E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
-				Dao<E, Integer> entityDao = DaoManager.createDao(conn, entity.getClass());
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
 				entityDao.delete(entity);
+			} catch (SQLException e) {
+				// fail
+			}
+		}
+	}
+
+	public static <E> void deleteEntityById(Class dbClass, int id) {
+		ConnectionSource conn = SqlServerConnection.acquireConnection();
+		if (conn != null) {
+			try {
+				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+				DeleteBuilder<E, Integer> deleteBuilder = entityDao.deleteBuilder();
+				deleteBuilder.where().idEq(id);
+				deleteBuilder.delete();
 			} catch (SQLException e) {
 				// fail
 			}
