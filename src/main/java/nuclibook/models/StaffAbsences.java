@@ -10,14 +10,14 @@ public class StaffAbsences {
     @DatabaseField(generatedId = true)
     private Integer id;
     @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staffID;
+    private Staff staff;
     @DatabaseField
     private Date from;
     @DatabaseField
     private Date to;
 
-    public StaffAbsences(Staff staffID, Date from, Date to) {
-        this.staffID = staffID;
+    public StaffAbsences(Staff staff, Date from, Date to) {
+        this.staff = staff;
         this.from = from;
         this.to = to;
     }
@@ -26,12 +26,12 @@ public class StaffAbsences {
         return id;
     }
 
-    public Staff getStaffID() {
-        return staffID;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaffID(Staff staffID) {
-        this.staffID = staffID;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public Date getFrom() {
