@@ -2,6 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -62,22 +63,21 @@ public class LoginRoute extends DefaultRoute {
 		if (password == null) {
 			// submission from stage 1
 
-			// TODO: get staff's name
-			/*Staff staff = StaffUtils.getStaffByUsername(username);
-			String staffName = staff.getName();
+			// get staff for the user name
+			Staff staff = StaffUtils.getStaffByUsername(username);
 
 			// back to stage 1 of login if no staff exists
-			if (staffName == null) {
+			if (staff == null) {
 				rendererFields.clear();
 				rendererFields.put("error-bad-staff-id", "");
 				rendererFields.put("username", username);
 				return handleGet();
-			}*/
+			}
 
 			// send to stage 2 of login screen
 			rendererFields.clear();
 			rendererFields.put("username", username);
-			// TODO: rendererFields.put("staffname", staffName);
+			rendererFields.put("staffname", staff.getName());
 			rendererFields.put("stage", "2");
 			return handleGet();
 		} else {

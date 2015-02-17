@@ -23,13 +23,13 @@ public abstract class AbstractEntityUtil {
 		return null;
 	}
 
-	public static <E> E getEntityById(int id, Class dbClass) {
+	public static <E> E getEntityById(Class dbClass, int id) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {
 				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-				E entityName = entityDao.queryForId(id);
-				if (entityName != null) return entityName;
+				E entity = entityDao.queryForId(id);
+				if (entity != null) return entity;
 			} catch (SQLException e) {
 				// fail
 			}
@@ -44,9 +44,9 @@ public abstract class AbstractEntityUtil {
 			try {
 				// search for user
 				Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
-				List<E> entityName = entityDao.queryForEq(field, value);
-				if (entityName != null) {
-					return entityName;
+				List<E> entities = entityDao.queryForEq(field, value);
+				if (entities != null) {
+					return entities;
 				}
 			} catch (SQLException e) {
 				// fail
@@ -55,7 +55,7 @@ public abstract class AbstractEntityUtil {
 		return null;
 	}
 
-	public static <E> void createEntity(E entity, Class dbClass) {
+	public static <E> void createEntity(Class dbClass, E entity) {
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
 			try {

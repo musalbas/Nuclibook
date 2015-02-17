@@ -35,12 +35,12 @@ public class SqlServerConnection {
 		return connection;
 	}
 
-    public static void initDB(ConnectionSource connection) {
+	public static void initDB(ConnectionSource connection) {
 		try {
 			TableUtils.createTableIfNotExists(connection, Staff.class);
-            TableUtils.createTableIfNotExists(connection, Patient.class);
-            TableUtils.createTableIfNotExists(connection, Camera.class);
-            TableUtils.createTableIfNotExists(connection, CameraType.class);
+			TableUtils.createTableIfNotExists(connection, Patient.class);
+			TableUtils.createTableIfNotExists(connection, Camera.class);
+			TableUtils.createTableIfNotExists(connection, CameraType.class);
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO deal with exception
 		}
