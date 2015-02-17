@@ -2,6 +2,7 @@ package nuclibook.entity_utils;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
 import java.sql.SQLException;
@@ -69,6 +70,44 @@ public abstract class AbstractEntityUtil {
             try{
                 Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
                 entityDao.create(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
+    }
+
+    public static <E> void update(E entity, Class dbClass){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                entityDao.update(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
+    }
+
+    public static <E> void delete(E entity, Class dbClass){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                entityDao.delete(entity);
+            }catch(SQLException e){
+                //fail
+            }
+        }
+    }
+
+    public static <E> void deleteByField(E entity, Class dbClass, String field, Object arg){
+        ConnectionSource conn = SqlServerConnection.acquireConnection();
+        if(conn != null){
+            try{
+                Dao<E, Integer> entityDao = DaoManager.createDao(conn, dbClass);
+                DeleteBuilder<E, Integer> deleteBuilder = entityDao.deleteBuilder();
+                deleteBuilder.where().eq(field, arg);
+                deleteBuilder.delete();
             }catch(SQLException e){
                 //fail
             }
