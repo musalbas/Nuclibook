@@ -59,6 +59,7 @@ public class LocalServer {
 
 		// entity CRUD
 		Spark.post("/entity-update", new CrudCreateUpdateRoute());
+		Spark.post("/entity-delete", new CrudDeleteRoute());
 
 		// staff
 		Spark.get("/staff", new StaffRoute());

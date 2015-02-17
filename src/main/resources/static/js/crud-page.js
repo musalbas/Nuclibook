@@ -1,4 +1,4 @@
-var editModal, loadingModal;
+var editModal, deleteModal, loadingModal;
 
 $.fn.serializeObject = function () {
 	var o = {};
@@ -20,8 +20,8 @@ $(document).ready(function (e) {
 
 	// get modals
 	editModal = $('.edit-modal');
+	deleteModal = $('.delete-modal');
 	loadingModal = $('.loading-modal');
-
 
 	// link up clickable items
 	$('.create-button').click(function (e) {
@@ -29,7 +29,9 @@ $(document).ready(function (e) {
 	});
 	$('.edit-button').click(function (e) {
 		openEditModal($(this).attr('data-id'));
-		;
+	});
+	$('.delete-button').click(function (e) {
+		openDeleteModal($(this).attr('data-id'));
 	});
 
 });
@@ -37,6 +39,7 @@ $(document).ready(function (e) {
 function openEditModal(objectId) {
 	// find form
 	var form = editModal.find('.edit-form');
+	form.find('input[name=entity-id]').val(objectId);
 
 	// switch between edit/create components
 	if (objectId == 0) {
@@ -91,6 +94,40 @@ function openEditModal(objectId) {
 
 	// display modal
 	editModal.removeClass('hide').modal({
+		backdrop: 'static',
+		keyboard: false
+	});
+}
+
+function openDeleteModal(objectId) {
+	// find form
+	var form = deleteModal.find('.delete-form');
+	form.find('input[name=entity-id]').val(objectId);
+
+	// cancel button
+	deleteModal.find('.btn-cancel').unbind('click').click(function (e) {
+		deleteModal.modal('hide');
+	});
+
+	// save button
+	deleteModal.find('.btn-okay').unbind('click').click(function (e) {
+		// hide the modal
+		deleteModal.modal('hide');
+
+		// show loading modal
+		enableLoading();
+
+		// ajax!
+		$.post(
+			'/entity-delete',
+			form.serialize(),
+			function (result) {
+				disableLoading();
+			});
+	});
+
+	// display modal
+	deleteModal.removeClass('hide').modal({
 		backdrop: 'static',
 		keyboard: false
 	});
