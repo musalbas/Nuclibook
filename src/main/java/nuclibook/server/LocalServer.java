@@ -25,6 +25,7 @@ public class LocalServer {
 					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
 					|| path.startsWith("/js")
+					|| path.startsWith("/staff") // TODO: REMOVE
 					|| path.startsWith("/font-awesome")) {
 				// nothing more to do - everything is fine
 				return;
