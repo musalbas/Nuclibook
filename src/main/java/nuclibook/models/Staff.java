@@ -17,9 +17,6 @@ public class Staff {
     @DatabaseField(width = 64)
     private String name;
 
-    @DatabaseField(width = 512, columnName = "default_availability")
-    private String defaultAvailability;
-
     @DatabaseField(columnName = "role", foreign = true)
     private StaffRole role;
 
