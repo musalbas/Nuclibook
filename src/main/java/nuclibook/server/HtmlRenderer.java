@@ -114,6 +114,15 @@ public class HtmlRenderer {
 	 *                    the index is unsuitable)
 	 *
 	 *
+	 * Collection Maps
+	 * ---------------
+	 *
+	 * This will produce an ID-indexed array of JavaScript objects with all the fields of the
+	 * entity, useful for any on-page CRUD actions. Usage:
+	 *
+	 * #[collectionmap: collection-name]
+	 *
+	 *
 	 * Files
 	 * -----
 	 *
@@ -148,6 +157,7 @@ public class HtmlRenderer {
 	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)=(.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
+	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\-]+)\\]", regexOptions);
 
 	/**
 	 * CONSTRUCTOR
@@ -291,6 +301,53 @@ public class HtmlRenderer {
 		sb.append(post);
 
 		return sb.toString();
+	}
+
+	/**
+	 * COLLECTION MAP PARSING
+	 */
+
+	// parse any collection statements
+	private String parseCollectionMaps(String html) {
+		Matcher collectionMapMatcher = collectionMapPattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (collectionMapMatcher.find()) {
+			collectionMapMatcher.appendReplacement(output, getCollectionMapHtml(collectionMapMatcher.group(1)));
+		}
+		collectionMapMatcher.appendTail(output);
+		return output.toString();
+	}
+
+	private String getCollectionMapHtml(String key) {
+		// get collection
+		if (!collections.containsKey(key) || collections.get(key) == null) {
+			return "";
+		}
+		Collection<Renderable> collection = collections.get(key);
+
+		// start output basics
+		StringBuilder output = new StringBuilder();
+		output.append("<script type=\"text/javascript\">");
+		output.append("var ").append(key).append(" = {");
+
+		// put in objects
+		HashMap<String, String> fields;
+		for (Renderable r : collection) {
+			fields = r.getHashMap();
+			output.append("'").append(fields.get("id")).append("': {");
+
+			// put in fields
+			for (Map.Entry<String, String> e : fields.entrySet()) {
+				output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
+			}
+
+			output.append("},");
+		}
+
+		// finish output
+		output.append("}");
+		output.append("</script>");
+		return output.toString();
 	}
 
 	/**
@@ -444,6 +501,7 @@ public class HtmlRenderer {
 		parsedHtml = parseDefinitions(parsedHtml);
 		parsedHtml = parseFiles(parsedHtml);
 		parsedHtml = parseCollections(parsedHtml);
+		parsedHtml = parseCollectionMaps(parsedHtml);
 		parsedHtml = parseConditionalSetFields(parsedHtml);
 		parsedHtml = parseConditionalValueFields(parsedHtml);
 		parsedHtml = parseFields(parsedHtml);
