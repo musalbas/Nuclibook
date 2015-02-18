@@ -6,40 +6,44 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "booking_staff")
 public class BookingStaff {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id")
-    private Booking booking;
-    
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staff;
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id")
+	private Booking booking;
 
-    public BookingStaff(Booking booking, Staff staff) {
-        this.booking = booking;
-        this.staff = staff;
-    }
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+	private Staff staff;
 
-    public BookingStaff() { //Empty constructor for ORMLite
-    }
+	public BookingStaff(Booking booking, Staff staff) {
+		this.booking = booking;
+		this.staff = staff;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public BookingStaff() {
+	}
 
-    public Booking getBooking() {
-        return booking;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Staff getStaff() {
-        return staff;
-    }
+	public Booking getBooking() {
+		return booking;
+	}
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
 }

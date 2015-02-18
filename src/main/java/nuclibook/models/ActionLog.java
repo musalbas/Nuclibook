@@ -15,8 +15,8 @@ public class ActionLog {
 	@DatabaseField
 	private Integer action;
 
-	@DatabaseField
-	private Integer associatedID;
+	@DatabaseField(canBeNull = true, columnName = "associated_id")
+	private Integer associatedId;
 
 	@DatabaseField
 	private String note;
@@ -49,11 +49,11 @@ public class ActionLog {
 	}
 
 	public Integer getAssociatedID() {
-		return associatedID;
+		return associatedId;
 	}
 
 	public void setAssociatedID(Integer associatedID) {
-		this.associatedID = associatedID;
+		this.associatedId = associatedID;
 	}
 
 	public String getNote() {

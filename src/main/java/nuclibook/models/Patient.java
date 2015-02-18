@@ -23,7 +23,7 @@ public class Patient {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
-	public Patient() { //Empty constructor for ORMLite
+	public Patient() {
     }
 
 	public Integer getId() {
