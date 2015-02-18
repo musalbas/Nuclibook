@@ -9,12 +9,20 @@ function emptyModalFields() {
     document.getElementById("descriptionOfCameraInput").value="";
     document.getElementById("facilitiesOfCameraInput").value = "";
     document.getElementById("saveCameraButton").disabled = true;
+
+    //Opening the modal
+    var modalToOpen = document.getElementById("mata");
+    modalToOpen.setAttribute("data-backdrop","static");
+    modalToOpen.setAttribute("data-keyboard","false");
+    modalToOpen.setAttribute("data-toggle","modal");
+    modalToOpen.setAttribute("data-target","#bs-example-modal-sm-add-new-camera");
 }
 
 //Function to add a new camera
 //Creating a new row in the table and all elements that we need filled with data from the user
 //TODO Create the relation to the databese
 function addNewCamera() {
+
     var table = document.getElementById("tableBodyCameras");
     //Data entered by user
     var nameOfCameraInput = document.getElementById("nameOfCameraInput").value;
@@ -151,4 +159,9 @@ $("input").keyup(function () {
     if (valueNameInput != "") {
         $("#saveCameraButton").removeAttr("disabled");
     }
+
+    var allInputs = $(":input");
+    console.log(allInputs);
 });
+
+//Getting all the elements from the form

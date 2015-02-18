@@ -15,7 +15,6 @@ $.fn.serializeObject = function () {
 	});
 	return o;
 };
-
 $(document).ready(function (e) {
 
 	// get modals

@@ -223,41 +223,111 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="col-lg-3 text-center">Name of Therapy</th>
-                            <th class="col-lg-2 text-center">Doctors</th>
-                            <th class="col-lg-2 text-center">Cameras</th>
-                            <th class="col-lg-2 text-center">Medicine</th>
-                            <th class="col-lg-2 text-center">Description</th>
-                            <th class="col-lg-1 text-center">Action</th>
+                            <td class="col-lg-3 text-center"><b>Name of Therapy</b></td>
+                            <td class="col-lg-2 text-center"><b>Doctors</b></td>
+                            <td class="col-lg-2 text-center"><b>Cameras</b></td>
+                            <td class="col-lg-2 text-center"><b>Medicines</b></td>
+                            <td class="col-lg-2 text-center"><b>Description</b></td>
+                            <td class="col-lg-1 text-center"><b>Action</b></td>
                         </tr>
                         </thead>
-                        <tbody id="tableBodyTherapies">
-                        <tr id="TRTherapy">
-                            <th id="THTherapyName" class="text-center" style="vertical-align: middle">Therapy</th>
-                            <th id="THBathroomEdit" class="text-center" style="vertical-align: middle"><u
-                                    id="uBathroomEdit" class="fa fa-pencil-square-o" style="cursor:pointer;"
-                                    onmouseover="this.style.color='#2f2f8b';"
-                                    onmouseout="this.style.color='';" onclick="editCamera(id)">
-                                &nbsp;Edit</u></th>
+
+                        <tbody>
+                        #[collection: therapies] <!-- TODO Complete when we know the name -->
+
+                        #[pre]#[/pre]
+
+                        #[each]
+                        <tr>
+                            <td>#nameOfTherapy</td>
+                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>#doctors</td>
+                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>#cameras</td>
+                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>#medicines</td>
+                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>#description</td>
+                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>
+                                <button class="btn edit-button" data-id="#id">Edit</button>
+                                <button class="btn delete-button" data-id="#id">Delete</button>
+                            </td>
                         </tr>
+                        #[/each]
+
+                        #[post]#[/post]
+
+                        #[empty]
+                        <tr>
+                            <td class="text-center" colspan="6"><b><u>No therapies.</u></b></td>
+                        </tr>
+                        #[/empty]
+                        #[/collection]
                         </tbody>
                     </table>
-                    <div class="text-right">
 
-                        <label data-backdrop="static"
-                               data-keyboard="false" data-toggle="modal"
-                               data-target="#bs-example-modal-sm-add-new-camera"
-                               style="cursor:pointer;"
-                               onmouseover="this.style.color='#2f2f8b';"
-                               onmouseout="this.style.color='';"
-                               onclick="emptyModalFields()"> <i class="fa fa-plus-circle"></i> &nbsp;Add new
-                            Camera</label>
+                    <div class="text-right">
+                        <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add
+                            therapy
+                        </button>
                     </div>
                 </div>
             </div>
             <!-- /.row -->
         </div>
         <!-- /.row -->
+        <div class="modal hide fade edit-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="edit-mode">Edit Therapy</h3>
+
+                        <h3 class="create-mode">Create Therapy</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="edit-form">
+                            <input type="hidden" name="entity-type" value="therapies"/>
+                            <input type="hidden" name="entity-id" value="0"/>
+
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="camerasUsed">Cameras needed</label>
+                                <input type="text" name="doctors" id="camerasUsed"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="medicinesUsed">Medicines needed</label>
+                                <input type="text" name="doctors" id="medicinesUsed"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" name="doctors" id="description"/>
+                            </div>
+                            <!-- TODO: staff role drop-down -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-save">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        #[def: entity-name-title = Staff Member]
+        #[def: entity-name-body = staff member]
+        #[def: entity-type = Therapies]
+
+        ##_delete-modal.html
+        ##_loading-modal.html
+
+        #[collectionmap: objectMap: therapy]
+        #[def: crud = yes]
+        ##_footer.html
+
     </div>
     <!-- /.container-fluid -->
 </div>
