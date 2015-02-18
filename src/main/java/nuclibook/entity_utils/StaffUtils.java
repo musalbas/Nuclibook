@@ -11,7 +11,7 @@ public class StaffUtils extends AbstractEntityUtils {
 	}
 
 	public static Staff getStaffByUsername(String username) {
-		List<Staff> matched = getEntityByField(Staff.class, "username", username);
+		List<Staff> matched = getEntitiesByField(Staff.class, "username", username);
 		if (matched == null || matched.size() != 1) {
 			return null;
 		}
@@ -19,6 +19,14 @@ public class StaffUtils extends AbstractEntityUtils {
 	}
 
 	public static List<Staff> getAllStaff() {
-		return getAllEntities(Staff.class);
+		return getAllStaff(false);
+	}
+
+	public static List<Staff> getAllStaff(boolean enabledOnly) {
+		if (enabledOnly) {
+			return getEntitiesByField(Staff.class, "enabled", "1");
+		} else {
+			return getAllEntities(Staff.class);
+		}
 	}
 }

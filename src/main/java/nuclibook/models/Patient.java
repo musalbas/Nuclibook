@@ -1,6 +1,5 @@
 package nuclibook.models;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -19,43 +18,51 @@ public class Patient {
     private int hospitalNumber;
 
     @DatabaseField
-    private Date DOB;
+    private Date dateOfBirth;
 
+	@DatabaseField(defaultValue = "true")
+	private Boolean enabled;
 
-    public Patient() { //Empty constructor for ORMLite
+	public Patient() {
     }
 
-    public Patient(String name, int hospitalNumber, Date DOB) {
-        this.name = name;
-        this.hospitalNumber = hospitalNumber;
-        this.DOB = DOB;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public int getHospitalNumber() {
-        return hospitalNumber;
-    }
+	public int getHospitalNumber() {
+		return hospitalNumber;
+	}
 
-    public void setHospitalNumber(int hospitalNumber) {
-        this.hospitalNumber = hospitalNumber;
-    }
+	public void setHospitalNumber(int hospitalNumber) {
+		this.hospitalNumber = hospitalNumber;
+	}
 
-    public Date getDOB() {
-        return DOB;
-    }
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
 
-    public void setDOB(Date DOB) {
-        this.DOB = DOB;
-    }
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }

@@ -4,29 +4,39 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class StaffAvailabilities {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staff;
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+	private Staff staff;
 
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "availability_id")
-    private Availability availability;
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "availability_id")
+	private Availability availability;
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
+	public StaffAvailabilities() {
+	}
 
-    public Staff getStaff() {
-        return this.staff;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setAvailability(Availability availability) {
-        this.availability = availability;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Availability getAvailability() {
-        return this.availability;
-    }
+	public Staff getStaff() {
+		return staff;
+	}
 
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public Availability getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(Availability availability) {
+		this.availability = availability;
+	}
 }

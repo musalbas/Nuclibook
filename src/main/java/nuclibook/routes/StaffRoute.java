@@ -19,7 +19,7 @@ public class StaffRoute extends DefaultRoute {
 		HtmlRenderer renderer = new HtmlRenderer("staff.html");
 
 		// get staff and add to renderer
-		List<Staff> allStaff = StaffUtils.getAllStaff();
+		List<Staff> allStaff = StaffUtils.getAllStaff(true);
 		renderer.setCollection("staff", allStaff);
 
 		return renderer.render();

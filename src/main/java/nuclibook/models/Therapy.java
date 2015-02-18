@@ -6,71 +6,83 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "therapies")
 public class Therapy {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
-    @DatabaseField(width = 64)
-    private String name;
-    @DatabaseField(defaultValue = "2")
-    private int duration;
-    @DatabaseField(columnName = "medicine_required", foreign = true)
-    private Medicine medicineRequired;
-    @DatabaseField(width = 32, columnName = "medicine_dose")
-    private String medicineDose;
-    @DatabaseField(columnName = "camera_type_required", foreign = true)
-    private CameraType cameraTypeRequired;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    public Therapy(String name, int duration, Medicine medicineRequired, String medicineDose, CameraType cameraTypeRequired) {
-        this.name = name;
-        this.duration = duration;
-        this.medicineRequired = medicineRequired;
-        this.medicineDose = medicineDose;
-        this.cameraTypeRequired = cameraTypeRequired;
-    }
+	@DatabaseField(width = 64)
+	private String name;
 
-    public Therapy() { //Empty constructor for ORMLite
-    }
+	@DatabaseField(defaultValue = "60")
+	private int duration;
 
-    public Integer getId() {
-        return id;
-    }
+	@DatabaseField(columnName = "medicine_required", foreign = true)
+	private Medicine medicineRequired;
 
-    public String getName() {
-        return name;
-    }
+	@DatabaseField(width = 32, columnName = "medicine_dose")
+	private String medicineDose;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@DatabaseField(columnName = "camera_type_required", foreign = true)
+	private CameraType cameraTypeRequired;
 
-    public int getDuration() {
-        return duration;
-    }
+	@DatabaseField(defaultValue = "true")
+	private Boolean enabled;
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
+	public Therapy() {
+	}
 
-    public Medicine getMedicineRequired() {
-        return medicineRequired;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setMedicineRequired(Medicine medicineRequired) {
-        this.medicineRequired = medicineRequired;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getMedicineDose() {
-        return medicineDose;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setMedicineDose(String medicineDose) {
-        this.medicineDose = medicineDose;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public CameraType getCameraTypeRequired() {
-        return cameraTypeRequired;
-    }
+	public int getDuration() {
+		return duration;
+	}
 
-    public void setCameraTypeRequired(CameraType cameraTypeRequired) {
-        this.cameraTypeRequired = cameraTypeRequired;
-    }
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public Medicine getMedicineRequired() {
+		return medicineRequired;
+	}
+
+	public void setMedicineRequired(Medicine medicineRequired) {
+		this.medicineRequired = medicineRequired;
+	}
+
+	public String getMedicineDose() {
+		return medicineDose;
+	}
+
+	public void setMedicineDose(String medicineDose) {
+		this.medicineDose = medicineDose;
+	}
+
+	public CameraType getCameraTypeRequired() {
+		return cameraTypeRequired;
+	}
+
+	public void setCameraTypeRequired(CameraType cameraTypeRequired) {
+		this.cameraTypeRequired = cameraTypeRequired;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }

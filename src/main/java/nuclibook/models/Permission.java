@@ -6,40 +6,27 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "permissions")
 public class Permission {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(width = 32)
-    private String label;
+	@DatabaseField(width = 32)
+	private String label;
 
-    @DatabaseField(width = 64)
-    private String description;
+	@DatabaseField(width = 64)
+	private String description;
 
-    public Permission(String label, String description) {
-        this.label = label;
-        this.description = description;
-    }
+	public Permission() {
+	}
 
-    public Permission() { //Empty constructor for ORMLite
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getLabel() {
+		return label;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public Integer getId() {
-        return id;
-    }
+	public String getDescription() {
+		return description;
+	}
 }

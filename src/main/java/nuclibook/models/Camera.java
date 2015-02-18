@@ -2,44 +2,54 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import javax.persistence.OneToOne;
 
 @DatabaseTable(tableName = "cameras")
 public class Camera {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
-    @DatabaseField(canBeNull = false, foreign = true)
-    private CameraType type;
-    @DatabaseField(width = 32, columnName = "room_number")
-    private String roomNumber;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    public Camera(CameraType type, String roomNumber) {
-        this.type = type;
-        this.roomNumber = roomNumber;
-    }
+	@DatabaseField(canBeNull = false, foreign = true)
+	private CameraType type;
 
-    public Camera(){ //Empty constructor for ORMLite
-    }
+	@DatabaseField(width = 32, columnName = "room_number")
+	private String roomNumber;
 
-    public String getRoomNumber() {
-        return roomNumber;
-    }
+	@DatabaseField(defaultValue = "true")
+	private Boolean enabled;
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
-    }
+	public Camera() {
+	}
 
-    public CameraType getType() {
-        return type;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setType(CameraType type) {
-        this.type = type;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public CameraType getType() {
+		return type;
+	}
 
+	public void setType(CameraType type) {
+		this.type = type;
+	}
+
+	public String getRoomNumber() {
+		return roomNumber;
+	}
+
+	public void setRoomNumber(String roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }
