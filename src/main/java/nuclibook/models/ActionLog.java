@@ -24,16 +24,16 @@ public class ActionLog {
 	public ActionLog() {
 	}
 
-	public Staff getStaff() {
-		return staff;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Staff getStaff() {
+		return staff;
 	}
 
 	public void setStaff(Staff staff) {
@@ -48,12 +48,12 @@ public class ActionLog {
 		this.action = action;
 	}
 
-	public Integer getAssociatedID() {
+	public Integer getAssociatedId() {
 		return associatedId;
 	}
 
-	public void setAssociatedID(Integer associatedID) {
-		this.associatedId = associatedID;
+	public void setAssociatedId(Integer associatedId) {
+		this.associatedId = associatedId;
 	}
 
 	public String getNote() {
