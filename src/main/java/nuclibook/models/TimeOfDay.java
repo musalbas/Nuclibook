@@ -7,23 +7,31 @@ public class TimeOfDay {
 
 	private static final int SECONDS_IN_DAY = 60 * 60 * 24;
 
-	private Integer secondsPastMidnight;
+	private int secondsPastMidnight;
 
 	/**
 	 * Initialise time of day.
 	 *
-	 * @param secondsPastMidnight The seconds past midnight.
+	 * @param secondsPastMidnight The number of seconds past midnight.
 	 */
 	public TimeOfDay(Integer secondsPastMidnight) throws InvalidTimeOfDayException {
 		if (secondsPastMidnight > SECONDS_IN_DAY) {
-			throw new InvalidTimeOfDayException("There isn't that many seconds in a day");
+			throw new InvalidTimeOfDayException("There aren't that many seconds in a day");
 		}
 
 		this.secondsPastMidnight = secondsPastMidnight;
 	}
 
-	public Integer getSecondsPastNight() {
-		return this.secondsPastMidnight;
+	public int getSecondsPastMidnight() {
+		return secondsPastMidnight;
+	}
+
+	public int getHour() {
+		return Math.floorDiv(secondsPastMidnight, 60 * 60);
+	}
+
+	public int getMinute() {
+		return Math.floorDiv(secondsPastMidnight, 60) % 60;
 	}
 
 }

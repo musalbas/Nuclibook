@@ -1,5 +1,3 @@
-// TODO: use the toastr library for errors, instead of alerts
-
 var validateEditForm = function (formObject) {
 	var error = false;
 

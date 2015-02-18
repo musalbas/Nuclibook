@@ -14,11 +14,11 @@ public class Availability {
     @DatabaseField
     private DayOfWeek day;
 
-    @DatabaseField
-    private TimeOfDay startTime;
+    @DatabaseField(columnName = "start_time")
+    private int startTime;
 
-    @DatabaseField
-    private TimeOfDay endTime;
+    @DatabaseField(columnName = "end_time")
+    private int endTime;
 
 	public Integer getId() {
 		return id;
@@ -37,18 +37,26 @@ public class Availability {
 	}
 
 	public TimeOfDay getStartTime() {
-		return startTime;
+		try {
+			return new TimeOfDay(startTime);
+		} catch (InvalidTimeOfDayException e) {
+			return null;
+		}
 	}
 
 	public void setStartTime(TimeOfDay startTime) {
-		this.startTime = startTime;
+		this.startTime = startTime.getSecondsPastMidnight();
 	}
 
 	public TimeOfDay getEndTime() {
-		return endTime;
+		try {
+			return new TimeOfDay(endTime);
+		} catch (InvalidTimeOfDayException e) {
+			return null;
+		}
 	}
 
 	public void setEndTime(TimeOfDay endTime) {
-		this.endTime = endTime;
+		this.endTime = endTime.getSecondsPastMidnight();
 	}
 }

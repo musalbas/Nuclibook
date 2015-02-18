@@ -3,7 +3,7 @@ package nuclibook.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "camera_type")
+@DatabaseTable(tableName = "camera_types")
 public class CameraType {
 
 	@DatabaseField(generatedId = true)
