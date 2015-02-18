@@ -23,9 +23,6 @@ public class Staff implements Renderable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField(width = 512, columnName = "default_availability")
-	private String defaultAvailability;
-
 	@DatabaseField(columnName = "role", foreign = true)
 	private StaffRole role;
 
@@ -35,37 +32,53 @@ public class Staff implements Renderable {
 	@DatabaseField
 	private String passwordSalt;
 
+	@DatabaseField(defaultValue = "true")
+	private Boolean enabled;
+
+	public Staff() {
+	}
+
 	public int getId() {
 		return id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public StaffRole getRole() {
-		return role;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public StaffRole getRole() {
+		return role;
+	}
+
 	public void setRole(StaffRole role) {
 		this.role = role;
 	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	/* PASSWORDS */
 
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
 		// Add salt to password
@@ -116,6 +129,7 @@ public class Staff implements Renderable {
 				put("id", ((Integer) getId()).toString());
 				put("name", getName());
 				put("username", getUsername());
+				put("role-id", getRole() == null ? "0" : getRole().getId().toString());
 				put("role-label", getRole() == null ? "-" : getRole().getLabel());
 			}
 		};
