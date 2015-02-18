@@ -22,8 +22,16 @@ public class TimeOfDay {
 		this.secondsPastMidnight = secondsPastMidnight;
 	}
 
-	public Integer getSecondsPastNight() {
-		return this.secondsPastMidnight;
+	public int getSecondsPastNight() {
+		return secondsPastMidnight;
+	}
+
+	public int getHour() {
+		return Math.floorDiv(secondsPastMidnight, 60 * 60);
+	}
+
+	public int getMinute() {
+		return Math.floorDiv(secondsPastMidnight, 60) % 60;
 	}
 
 }
