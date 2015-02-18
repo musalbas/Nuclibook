@@ -45,7 +45,7 @@ public class Availability {
 	}
 
 	public void setStartTime(TimeOfDay startTime) {
-		this.startTime = startTime.getSecondsPastNight();
+		this.startTime = startTime.getSecondsPastMidnight();
 	}
 
 	public TimeOfDay getEndTime() {
@@ -57,6 +57,6 @@ public class Availability {
 	}
 
 	public void setEndTime(TimeOfDay endTime) {
-		this.endTime = endTime.getSecondsPastNight();
+		this.endTime = endTime.getSecondsPastMidnight();
 	}
 }

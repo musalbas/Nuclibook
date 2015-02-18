@@ -22,7 +22,7 @@ public class TimeOfDay {
 		this.secondsPastMidnight = secondsPastMidnight;
 	}
 
-	public int getSecondsPastNight() {
+	public int getSecondsPastMidnight() {
 		return secondsPastMidnight;
 	}
 
