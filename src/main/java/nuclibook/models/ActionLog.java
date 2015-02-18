@@ -6,57 +6,61 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "action_log")
 public class ActionLog {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-    private Staff staff;
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+	private Staff staff;
 
-    @DatabaseField
-    private Integer action;
+	@DatabaseField
+	private Integer action;
 
-    @DatabaseField
-    private Integer associatedID;
+	@DatabaseField(canBeNull = true, columnName = "associated_id")
+	private Integer associatedId;
 
-    @DatabaseField
-    private String note;
+	@DatabaseField
+	private String note;
 
-    public ActionLog(Staff staff) {
-        this.staff = staff;
-    }
+	public ActionLog() {
+	}
 
-    public ActionLog() {
-        // Empty constructor for ORMLite
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public ActionLog(Staff staff, int action, int associatedID) {
-        this.staff = staff;
-        this.action = action;
-        this.associatedID = associatedID;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Staff getStaff() {
-        return staff;
-    }
+	public Staff getStaff() {
+		return staff;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
 
-    public Integer getAction() {
-        return this.action;
-    }
+	public Integer getAction() {
+		return action;
+	}
 
-    public Integer getAssociatedID() {
-        return this.associatedID;
-    }
+	public void setAction(Integer action) {
+		this.action = action;
+	}
 
-    public void setNote(String note) {
-        this.note = note;
-    }
+	public Integer getAssociatedId() {
+		return associatedId;
+	}
 
-    public String getNote() {
-        return this.note;
-    }
+	public void setAssociatedId(Integer associatedId) {
+		this.associatedId = associatedId;
+	}
 
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 }

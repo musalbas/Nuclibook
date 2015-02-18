@@ -5,7 +5,6 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.server.SqlServerConnection;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -39,7 +38,7 @@ public abstract class AbstractEntityUtils {
 		return null;
 	}
 
-	public static <E> List<E> getEntityByField(Class dbClass, String field, Object value) {
+	public static <E> List<E> getEntitiesByField(Class dbClass, String field, Object value) {
 		// set up server connection
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {

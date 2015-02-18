@@ -17,8 +17,6 @@ public class LocalServer {
 
 		// page security
 		Spark.before((request, response) -> {
-			boolean authenticated = false;
-
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
 			if (path.startsWith("/login")

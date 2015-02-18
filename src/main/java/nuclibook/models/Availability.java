@@ -3,7 +3,6 @@ package nuclibook.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
 
 @DatabaseTable(tableName = "availabilities")
@@ -21,28 +20,35 @@ public class Availability {
     @DatabaseField
     private TimeOfDay endTime;
 
-    public void setDay(DayOfWeek day) {
-        this.day = day;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public DayOfWeek getDay() {
-        return this.day;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setStartTime(TimeOfDay startTime) {
-        this.startTime = startTime;
-    }
+	public DayOfWeek getDay() {
+		return day;
+	}
 
-    public TimeOfDay getStartTime() {
-        return this.startTime;
-    }
+	public void setDay(DayOfWeek day) {
+		this.day = day;
+	}
 
-    public void setEndTime(TimeOfDay endTime) {
-        this.endTime = endTime;
-    }
+	public TimeOfDay getStartTime() {
+		return startTime;
+	}
 
-    public TimeOfDay getEndTime(TimeOfDay endTime) {
-        return this.endTime;
-    }
+	public void setStartTime(TimeOfDay startTime) {
+		this.startTime = startTime;
+	}
 
+	public TimeOfDay getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(TimeOfDay endTime) {
+		this.endTime = endTime;
+	}
 }

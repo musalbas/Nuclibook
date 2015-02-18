@@ -74,6 +74,14 @@ public class LoginRoute extends DefaultRoute {
 				return handleGet();
 			}
 
+			// back to stage 1 of login if staff is not enabled
+			if (!staff.isEnabled()) {
+				rendererFields.clear();
+				rendererFields.put("error-bad-status", "");
+				rendererFields.put("username", username);
+				return handleGet();
+			}
+
 			// send to stage 2 of login screen
 			rendererFields.clear();
 			rendererFields.put("username", username);
@@ -92,15 +100,6 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.put("username", username);
 				return handleGet();
 			} else {
-				/* TODO
-				if (staff.getStatus() != active) {
-					rendererFields.clear();
-					rendererFields.put("error-bad-status", "");
-					rendererFields.put("username", username.toString());
-					rendererFields.put("stage", "1");
-					return handleGet();
-				}
-				 */
 				response.redirect("/");
 				return null;
 			}

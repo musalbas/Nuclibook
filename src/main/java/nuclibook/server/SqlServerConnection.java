@@ -4,10 +4,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
-import nuclibook.models.Camera;
-import nuclibook.models.CameraType;
-import nuclibook.models.Patient;
-import nuclibook.models.Staff;
+import nuclibook.models.*;
 
 import java.sql.SQLException;
 
@@ -41,6 +38,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, Patient.class);
 			TableUtils.createTableIfNotExists(connection, Camera.class);
 			TableUtils.createTableIfNotExists(connection, CameraType.class);
+			TableUtils.createTableIfNotExists(connection, ActionLog.class);
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO deal with exception
 		}
