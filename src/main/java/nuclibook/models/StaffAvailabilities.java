@@ -1,7 +1,9 @@
 package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable(tableName = "staff_availabilities")
 public class StaffAvailabilities {
 
 	@DatabaseField(generatedId = true)

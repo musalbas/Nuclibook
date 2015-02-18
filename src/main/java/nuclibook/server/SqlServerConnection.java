@@ -34,11 +34,21 @@ public class SqlServerConnection {
 
 	public static void initDB(ConnectionSource connection) {
 		try {
-			TableUtils.createTableIfNotExists(connection, Staff.class);
-			TableUtils.createTableIfNotExists(connection, Patient.class);
+			TableUtils.createTableIfNotExists(connection, ActionLog.class);
+			TableUtils.createTableIfNotExists(connection, Availability.class);
+			TableUtils.createTableIfNotExists(connection, Booking.class);
+			TableUtils.createTableIfNotExists(connection, BookingStaff.class);
 			TableUtils.createTableIfNotExists(connection, Camera.class);
 			TableUtils.createTableIfNotExists(connection, CameraType.class);
-			TableUtils.createTableIfNotExists(connection, ActionLog.class);
+			TableUtils.createTableIfNotExists(connection, Medicine.class);
+			TableUtils.createTableIfNotExists(connection, Patient.class);
+			TableUtils.createTableIfNotExists(connection, Permission.class);
+			TableUtils.createTableIfNotExists(connection, Staff.class);
+			TableUtils.createTableIfNotExists(connection, StaffAbsences.class);
+			TableUtils.createTableIfNotExists(connection, StaffAvailabilities.class);
+			TableUtils.createTableIfNotExists(connection, StaffRole.class);
+			TableUtils.createTableIfNotExists(connection, StaffRolePermissions.class);
+			TableUtils.createTableIfNotExists(connection, Therapy.class);
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO deal with exception
 		}
