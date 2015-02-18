@@ -3,9 +3,9 @@
 ##_header.html
 		<form action="/login" method="post">
 			#[!if: stage=2]
-				#[if: error-bad-user-id]
+				#[if: error-bad-staff-id]
 					<div class="note note-danger">
-						<p><strong>Error:</strong> that user ID wasn't recognised - are you sure you have an account?</p>
+						<p><strong>Error:</strong> that staff ID wasn't recognised - are you sure you have an account?</p>
 					</div>
 				#[/if]
 				#[if: error-bad-password]
@@ -19,14 +19,14 @@
 					</div>
 				#[/if]
 				<div class="form-group">
-					<label for="userid">Enter your ID below and press enter, or scan your ID card.</label>
-					<input type="text" name="userid" id="userid" value="#userid"/>
+					<label for="username">Enter your ID below and press enter, or scan your ID card.</label>
+					<input type="text" name="username" id="username" value="#username"/>
 				</div>
 			#[/if]
 
 			#[if: stage=2]
-				<input type="hidden" name="userid" value="#userid"/>
-				<p>Hello, <strong>#username</strong>.</p>
+				<input type="hidden" name="username" value="#username"/>
+				<p>Hello, <strong>#staffname</strong>.</p>
 				<div class="form-group">
 					<label for="password">Please enter your password or PIN and press enter.</label>
 					<input type="password" name="password" id="password"/>

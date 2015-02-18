@@ -2,83 +2,122 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "staff")
-public class Staff {
-    @DatabaseField(generatedId = true)
-    private Integer id;
+public class Staff implements Renderable {
 
-    @DatabaseField(width = 64)
-    private String name;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(columnName = "role", foreign = true)
-    private StaffRole role;
+	@DatabaseField(width = 64)
+	private String username;
 
-    @DatabaseField
-    private String passwordHash;
+	@DatabaseField(width = 64)
+	private String name;
 
-    @DatabaseField
-    private String passwordSalt;
+	@DatabaseField(width = 512, columnName = "default_availability")
+	private String defaultAvailability;
 
+	@DatabaseField(columnName = "role", foreign = true)
+	private StaffRole role;
 
+	@DatabaseField
+	private String passwordHash;
 
-    public int getId() {
-        return id;
-    }
+	@DatabaseField
+	private String passwordSalt;
 
-    public String getName() {
-        return name;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public boolean checkPassword(String password) throws CannotHashPasswordException {
-        // Add salt to password
-        password = this.passwordSalt + password;
+	public String getName() {
+		return name;
+	}
 
-        // Check password
-        return generateHash(password).equals(this.passwordHash);
-    }
+	public StaffRole getRole() {
+		return role;
+	}
 
-    public void setPassword(String password) throws CannotHashPasswordException {
-        // Generate new random salt
-        SecureRandom random = new SecureRandom();
-        String salt = new BigInteger(130, random).toString(32);
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-        // Add salt to password
-        password = salt + password;
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-        // Generate password hash
-        String hash = generateHash(password);
+	public void setName(String name) {
+		this.name = name;
+	}
 
-        // Update fields
-        this.passwordSalt = salt;
-        this.passwordHash = hash;
-    }
+	public void setRole(StaffRole role) {
+		this.role = role;
+	}
 
-    private String generateHash(String text) throws CannotHashPasswordException {
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance("SHA-512");
-        } catch (NoSuchAlgorithmException e) {
-            throw new CannotHashPasswordException("No such MessageDigest algorithm");
-        }
+	public boolean checkPassword(String password) throws CannotHashPasswordException {
+		// Add salt to password
+		password = this.passwordSalt + password;
 
-        byte[] hash;
-        try {
-            hash = digest.digest(text.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new CannotHashPasswordException("Unsupported text encoding");
-        }
+		// Check password
+		return generateHash(password).equals(this.passwordHash);
+	}
 
-        return String.format("%0128x", new BigInteger(1, hash));
-    }
+	public void setPassword(String password) throws CannotHashPasswordException {
+		// Generate new random salt
+		SecureRandom random = new SecureRandom();
+		String salt = new BigInteger(130, random).toString(32);
+
+		// Add salt to password
+		password = salt + password;
+
+		// Generate password hash
+		String hash = generateHash(password);
+
+		// Update fields
+		this.passwordSalt = salt;
+		this.passwordHash = hash;
+	}
+
+	private String generateHash(String text) throws CannotHashPasswordException {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-512");
+		} catch (NoSuchAlgorithmException e) {
+			throw new CannotHashPasswordException("No such MessageDigest algorithm");
+		}
+
+		byte[] hash;
+		try {
+			hash = digest.digest(text.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new CannotHashPasswordException("Unsupported text encoding");
+		}
+
+		return String.format("%0128x", new BigInteger(1, hash));
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>() {
+			{
+				put("id", ((Integer) getId()).toString());
+				put("name", getName());
+				put("username", getUsername());
+				put("role-label", getRole() == null ? "-" : getRole().getLabel());
+			}
+		};
+	}
 }

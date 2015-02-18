@@ -2,10 +2,7 @@ package nuclibook.server;
 
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.routes.BlankRoute;
-import nuclibook.routes.HtmlTestRoute;
-import nuclibook.routes.LoginRoute;
-import nuclibook.routes.LogoutRoute;
+import nuclibook.routes.*;
 import spark.Spark;
 
 public class LocalServer {
@@ -58,6 +55,13 @@ public class LocalServer {
 		Spark.get("/login", new LoginRoute(RequestType.GET));
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
+
+		// entity CRUD
+		Spark.post("/entity-update", new CrudCreateUpdateRoute());
+		Spark.post("/entity-delete", new CrudDeleteRoute());
+
+		// staff
+		Spark.get("/staff", new StaffRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
