@@ -1,7 +1,8 @@
+#[def: title = Staff Management]
 ##_header.html
 <h1>View All Staff</h1>
 
-<button class="btn btn-green create-button">Create Staff</button>
+<button class="btn create-button">Create Staff</button>
 
 <table>
 	<thead>
@@ -93,6 +94,7 @@
 ##_loading-modal.html
 
 #[collectionmap: objectMap: staff]
+#[def: crud = yes]
 <script src="/js/staff.js"></script>
 
 ##_footer.html
