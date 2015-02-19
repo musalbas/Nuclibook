@@ -224,31 +224,29 @@
                         <thead>
                         <tr>
                             <td class="col-lg-3 text-center"><b>Name of Therapy</b></td>
-                            <td class="col-lg-2 text-center"><b>Doctors</b></td>
-                            <td class="col-lg-2 text-center"><b>Cameras</b></td>
-                            <td class="col-lg-2 text-center"><b>Medicines</b></td>
-                            <td class="col-lg-2 text-center"><b>Description</b></td>
+                            <td class="col-lg-2 text-center"><b>Duration</b></td>
+                            <td class="col-lg-2 text-center"><b>Medicine Required</b></td>
+                            <td class="col-lg-2 text-center"><b>Medicine Dose</b></td>
+                            <td class="col-lg-2 text-center"><b>Camera Required</b></td>
                             <td class="col-lg-1 text-center"><b>Action</b></td>
                         </tr>
                         </thead>
 
                         <tbody>
-                        #[collection: therapies] <!-- TODO Complete when we know the name -->
+                        #[collection: therapies]
 
                         #[pre]#[/pre]
 
                         #[each]
                         <tr>
-                            <td>#nameOfTherapy</td>
-                            <!-- TODO Mark please let me know what will the id be here -->
-                            <td>#doctors</td>
-                            <!-- TODO Mark please let me know what will the id be here -->
-                            <td>#cameras</td>
-                            <!-- TODO Mark please let me know what will the id be here -->
-                            <td>#medicines</td>
-                            <!-- TODO Mark please let me know what will the id be here -->
-                            <td>#description</td>
-                            <!-- TODO Mark please let me know what will the id be here -->
+                            <td>#id</td>
+                            <td>#name</td>
+                            <td>#duration</td>
+                            <td>#medicineRequired</td>
+                            <!-- TODO Html renderer required. Mark will take care after templates are finished -->
+                            <td>#medicineDose</td>
+                            <td>#cameraTypeRequired</td>
+                            <!-- TODO Html renderer required. Mark will take care after templates are finished -->
                             <td>
                                 <button class="btn edit-button" data-id="#id">Edit</button>
                                 <button class="btn delete-button" data-id="#id">Delete</button>
@@ -283,30 +281,34 @@
                     <div class="modal-header">
                         <h3 class="edit-mode">Edit Therapy</h3>
 
-                        <h3 class="create-mode">Create Therapy</h3>
+                        <h3 class="create-mode text-center">Create new Therapy</h3>
                     </div>
                     <div class="modal-body">
-                        <form class="edit-form">
-                            <input type="hidden" name="entity-type" value="therapies"/>
+                        <form class="edit-form form-inline text-center">
+                            <input type="hidden" name="entity-type" value="therapy"/>
                             <input type="hidden" name="entity-id" value="0"/>
 
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name"/>
+                            <div class="form-group text-center">
+                                <label for="name">Name: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="name"/>
                             </div>
-                            <div class="form-group">
-                                <label for="camerasUsed">Cameras needed</label>
-                                <input type="text" name="doctors" id="camerasUsed"/>
+                            <div class="form-group text-center">
+                                <label for="duration">Duration: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="duration"/>
                             </div>
-                            <div class="form-group">
-                                <label for="medicinesUsed">Medicines needed</label>
-                                <input type="text" name="doctors" id="medicinesUsed"/>
+                            <div class="form-group text-center">
+                                <label for="medicineRequired">Medicine required: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="medicineRequired" disabled/>
                             </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" name="doctors" id="description"/>
+                            <div class="form-group text-center">
+                                <label for="medicineDose">Medicine Dose: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="medicineDose" disabled/>
                             </div>
-                            <!-- TODO: staff role drop-down -->
+                            <div class="form-group text-center">
+                                <label for="cameraRequired">Camera(s) Required: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="cameraRequired" disabled/>
+                            </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -317,14 +319,14 @@
             </div>
         </div>
 
-        #[def: entity-name-title = Staff Member]
-        #[def: entity-name-body = staff member]
-        #[def: entity-type = Therapies]
+        #[def: entity-name-title = Therapy]
+        #[def: entity-name-body = therapy]
+        #[def: entity-type = therapy]
 
         ##_delete-modal.html
         ##_loading-modal.html
 
-        #[collectionmap: objectMap: therapy]
+        #[collectionmap: objectMap: therapies]
         #[def: crud = yes]
         ##_footer.html
 
@@ -333,6 +335,8 @@
 </div>
 <!-- /#wrapper -->
 
+<!-- own scripts -->
+<script src="/js/therapies.js"></script>
 <!-- jQuery -->
 <script src="/js/jquery.js"></script>
 
