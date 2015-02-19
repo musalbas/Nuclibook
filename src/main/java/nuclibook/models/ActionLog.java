@@ -24,6 +24,12 @@ public class ActionLog {
 	public ActionLog() {
 	}
 
+	public ActionLog(Staff staff, Integer action, Integer associatedId) {
+		this.staff = staff;
+		this.action = action;
+		this.associatedId = associatedId;
+	}
+
 	public Integer getId() {
 		return id;
 	}
