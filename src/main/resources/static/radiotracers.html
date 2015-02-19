@@ -174,139 +174,114 @@
 
         <div class="container-fluid">
 
-            <!-- Page Heading -->
+            <!-- START Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Radiotracers <!-- <small>Overview</small> -->
+                        Medicines <!-- <small>Overview</small> -->
                     </h1>
                 </div>
             </div>
-            <!-- /.row -->
+            <!-- /.row /END Page Heading-->
 
-            <!-- Radiotracers Table-->
+            <!-- START Medicine table -->
             <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-8">
+                <div class="col-lg-12 col-md-12">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th class="col-lg-3 text-center" style="vertical-align: middle">Name</th>
-                            <th class="col-lg-3 text-center" style="vertical-align: middle">Time to be delivered</th>
-                            <th class="col-lg-1 text-center" style="vertical-align: middle">Action</th>
+                            <td class="col-lg-2 text-center"><b>ID</b></td>
+                            <td class="col-lg-2 text-center"><b>Name of Medicine</b></td>
+                            <td class="col-lg-2 text-center"><b>Time to be delivered</b></td>
                         </tr>
                         </thead>
-                        <tbody id="tableBodyRadioTracer">
-                        <tr id="TRDefault">
-                            <th id="THDefaultName" class="text-center" style="vertical-align: middle"> Default</th>
-                            <th id="THDefaultEta" class="text-center" style="vertical-align: middle"> 1 day(s)</th>
-                            <th id="THDefaultEdit" class="text-center" style="vertical-align: middle"><u
-                                    onclick="editRadiotracerClick(id)"
-                                    id="uDefaultEdit"
-                                    style="cursor:pointer;"
-                                    class="fa fa-pencil-square-o"
-                                    onmouseover="this.style.color='#2f2f8b';"
-                                    onmouseout="this.style.color='';">&nbsp;Edit</u>
-                            </th>
+
+                        <tbody>
+                        #[collection: medicines]
+
+                        #[pre]#[/pre]
+
+                        #[each]
+                        <tr>
+                            <td>#id</td>
+                            <td>#name</td>
+                            <td>#orderTime</td>
+                            <td>
+                                <button class="btn edit-button" data-id="#id">Edit</button>
+                                <button class="btn delete-button" data-id="#id">Delete</button>
+                            </td>
                         </tr>
+                        #[/each]
+
+                        #[post]#[/post]
+
+                        #[empty]
+                        <tr>
+                            <td class="text-center" colspan="4"><b><u>No medicines.</u></b></td>
+                        </tr>
+                        #[/empty]
+                        #[/collection]
+                        </tbody>
                     </table>
+
                     <div class="text-right">
-                        <label data-backdrop="static"
-                               data-keyboard="false" data-toggle="modal"
-                               data-target="#bs-example-modal-sm-add-new-radio-tracer"
-                               style="cursor:pointer;"
-                               onmouseover="this.style.color='#2f2f8b';"
-                               onmouseout="this.style.color='';" onclick="emptyFieldsOfAddModal()" > <i class="fa fa-plus-circle"></i>&nbsp;Add Radiotracer</label>
+                        <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add
+                            medicine
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <!-- /Table Radiotracers -->
-            <!-- /.row -->
+            <!-- /.row /END Medicine Table-->
         </div>
         <!-- /.row -->
 
-    </div>
-    <!-- /.container-fluid -->
+        <!-- START Modal -->
+        <div class="modal hide fade edit-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="edit-mode">Edit Medicine</h3>
 
-    <!-- START Modal for Asking the user for data regarding the radiotracer he wants to ADD -->
-    <div class="modal fade" id="bs-example-modal-sm-add-new-radio-tracer">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title text-center">Add a new radiotracer<h5 class="text-center"
-                                                                                 style="opacity: 0.4;">Please complete
-                        the
-                        following fields.</h5></h3>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="nameOfRadiotracerInput" class="control-label">Name:</label>
-                            <input type="text" class="form-control" id="nameOfRadiotracerInput"
-                                   placeholder="Name of the Radiotracer">
-                        </div>
-                        <div class="form-group">
-                            <label for="etaOfRadiotracerInput" class="control-label">Estimated time to be
-                                delivered:</label>
-                            <input type="text" class="form-control" id="etaOfRadiotracerInput"
-                                   placeholder="Please enter a number">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="saveRadiotracerButton" type="button" class="btn btn-primary" disabled
-                            onclick="addRadiotracer()">Add Radiotracer
-                    </button>
+                        <h3 class="create-mode text-center">Create new Medicine</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="edit-form form-inline text-center">
+                            <input type="hidden" name="entity-type" value="medicine"/>
+                            <input type="hidden" name="entity-id" value="0"/>
+
+                            <div class="form-group text-center">
+                                <label for="name">Name: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="name"/>
+                            </div>
+                            <div class="form-group text-center">
+                                <label for="orderTime">Estimated time for delivery: </label>
+                                <input class="form-control input-lg" type="text" name="name" id="orderTime"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-save">Ok</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- END/Modal for Asking the user for data regarding the radiotracer he wants to ADD -->
+        <!-- eND Modal -->
 
-    <!-- START Modal for Asking the user if it is sure to continue deleting the radiotracer -->
-    <div class="modal fade" id="bs-example-modal-sm-edit-radio-tracer">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title text-center" id="headEditRadiotracer">Edit radiotracer<h5 class="text-center"
-                                                                                 style="opacity: 0.4;">Please complete
-                        the
-                        following fields.</h5></h3>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="editNameOfRadiotracerInput" class="control-label">Name:</label>
-                            <input type="text" class="form-control" id="editNameOfRadiotracerInput"
-                                   placeholder="Name of the Radiotracer">
-                        </div>
-                        <div class="form-group">
-                            <label for="editEtaOfRadiotracerInput" class="control-label">Estimated time to be
-                                delivered:</label>
-                            <input type="text" class="form-control" id="editEtaOfRadiotracerInput"
-                                   placeholder="Please enter a number">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="editSaveRadiotracerButton" type="button" class="btn btn-primary" onclick="">Save changes
-                    </button>
-                    <button id="editDeleteRadiotracerButton" type="button" class="btn btn-danger" name="Default"
-                            onclick="editSaveRadiotracer(name)">Delete Radiotracer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END/Modal for Asking the user if it is sure to continue deleting the radiotracer -->
+        #[def: entity-name-title = Medicine]
+        #[def: entity-name-body = medicine]
+        #[def: entity-type = medicine]
 
+        ##_delete-modal.html
+        ##_loading-modal.html
+
+        #[collectionmap: objectMap: medicines]
+        #[def: crud = yes]
+        ##_footer.html
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
 </div>
