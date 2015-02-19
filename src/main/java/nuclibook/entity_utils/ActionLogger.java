@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class records user logging. Types of actions are stored as static integers.
+ * This class records user logging. Types of actions are stored as static final integers.
  * There is a static HashMap for associating the actionID (integer) with the action description.
  * Logging an action can be done by calling the static method logAction
  */
@@ -111,14 +111,19 @@ public class ActionLogger {
     }};
 
     /**
-     * A method for recording a staff action. Date/Time of the action are generated in the database.
+     * A method for recording staff action. Date/Time of the action are generated in the database. Requires
+     * an integer for the type of action performed and an id of the object to which it is applied to.
+     * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
      *
      * @param actionPerformed   the type of action performed (e.g. deleted patient)
-     * @param objectID          the objectID on which the action was performed (e.g. patientID:1111)
+     * @param objectID          the objectID on which the action was performed
      */
     public static void logAction(int actionPerformed, int objectID) {
 
         Staff loggedIn = SecurityUtils.getCurrentUser();
-        if (loggedIn != null) { new ActionLog(loggedIn, actionPerformed, objectID); }
+        if (loggedIn != null) {
+            ActionLog entity = new ActionLog(loggedIn, actionPerformed, objectID);
+            AbstractEntityUtils.createEntity(ActionLog.class, entity);
+        }
     }
 }
