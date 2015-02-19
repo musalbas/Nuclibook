@@ -10,6 +10,8 @@ function emptyFieldsOfAddModal() {
     var etaOfRadiotracerInput = document.getElementById("etaOfRadiotracerInput");
     etaOfRadiotracerInput.value = "";
     document.getElementById("saveRadiotracerButton").disabled = true;
+    console.log("matadfas");
+
 }
 
 //Function to add a new radiotracer
