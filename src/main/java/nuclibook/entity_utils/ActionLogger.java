@@ -116,9 +116,9 @@ public class ActionLogger {
      * @param actionPerformed   the type of action performed (e.g. deleted patient)
      * @param objectID          the objectID on which the action was performed (e.g. patientID:1111)
      */
-    public static void logAction(int actionPerformed, int objectID) {
+   /** public static void logAction(int actionPerformed, int objectID) {
 
         Staff loggedIn = SecurityUtils.getCurrentUser();
         if (loggedIn != null) { new ActionLog(loggedIn, actionPerformed, objectID); }
-    }
+    }*/
 }
