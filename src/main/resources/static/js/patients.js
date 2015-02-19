@@ -7,11 +7,6 @@ $(function() {
     $( "#DOB" ).datepicker();
 });
 
-$(document).ready(function(){
-    $('#addNew').on('click',addNewRow);
-});
-
-
 $(document).ready(function() {
     $("#deletePatients").click(function () {
         $("table input[type ='checkbox']:checked").parent().parent().remove();
