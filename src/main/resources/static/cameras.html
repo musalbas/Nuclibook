@@ -24,8 +24,8 @@
 				#[each]
 				<tr>
 					<td>#id</td>
-					<td>#type</td>
-					<td>#roomNumber</td>
+					<td>#camera-type-label</td>
+					<td>#room-number</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
@@ -56,19 +56,33 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h3 class="edit-mode">Edit Camera</h3>
-				<h3 class="create-mode text-center">Add Camera</h3>
+				<h3 class="create-mode">Add Camera</h3>
 			</div>
 			<div class="modal-body">
 				<form class="edit-form form-inline text-center">
 					<input type="hidden" name="entity-type" value="camera"/>
 					<input type="hidden" name="entity-id" value="0"/>
-					<div class="form-group text-center">
-						<label for="type">Type: </label>
-						<input class="form-control input-lg" type="text" name="name" id="type"/>
+					<div class="form-group">
+						<label for="camera-type-id">Camera Type</label>
+						<select name="camera-type-id" id="camera-type-id">
+							#[collection: camera-types]
+
+							#[pre]#[/pre]
+
+							#[each]
+							<option value="#id">#label</option>
+							#[/each]
+
+							#[post]#[/post]
+
+							#[empty]#[/empty]
+
+							#[/collection]
+						</select>
 					</div>
 					<div class="form-group text-center">
-						<label for="roomNumber">Room Number: </label>
-						<input class="form-control input-lg" type="text" name="name" id="roomNumber"/>
+						<label for="room-number">Room Number:</label>
+						<input type="text" name="room-number" id="room-number"/>
 					</div>
 				</form>
 			</div>

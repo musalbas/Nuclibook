@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.*;
 import spark.Request;
@@ -31,6 +32,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		Class dbClass = null;
 
 		// build new/updated entity
+		if (entityType.equals("camera")) {
+			entity = createUpdateCamera(entityId, request);
+			dbClass = Camera.class;
+		}
 		if (entityType.equals("medicine")) {
 			entity = createUpdateMedicine(entityId, request);
 			dbClass = Medicine.class;
@@ -56,6 +61,25 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return "okay";
 	}
 
+	private Camera createUpdateCamera(int entityId, Request request) {
+		// create and set ID
+		Camera entity;
+		if (createNew) {
+			entity = new Camera();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
+		}
+
+		// name
+		entity.setRoomNumber(request.queryParams("room-number"));
+
+		// type
+		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
+		entity.setType(type);
+
+		return entity;
+	}
+
 	private Medicine createUpdateMedicine(int entityId, Request request) {
 		// create and set ID
 		Medicine entity;
@@ -65,7 +89,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
 		}
 
-		// basics
+		// name
 		entity.setName(request.queryParams("name"));
 
 		// order time

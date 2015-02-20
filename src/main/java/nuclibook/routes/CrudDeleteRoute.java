@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.models.Camera;
 import nuclibook.models.Medicine;
 import nuclibook.models.Patient;
 import nuclibook.models.Staff;
@@ -20,6 +21,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			entityId = Integer.parseInt(request.queryParams("entity-id"));
 		} catch (NumberFormatException e) {
 			// leave it at zero
+		}
+
+		// delete camera
+		if (entityType.equals("camera")) {
+			Camera entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Camera.class, entity);
 		}
 
 		// delete medicine

@@ -1,7 +1,9 @@
 package nuclibook.routes;
 
-import nuclibook.entity_utils.StaffUtils;
-import nuclibook.models.Staff;
+import nuclibook.entity_utils.CameraTypeUtils;
+import nuclibook.entity_utils.CameraUtils;
+import nuclibook.models.Camera;
+import nuclibook.models.CameraType;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -18,10 +20,13 @@ public class CamerasRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("cameras.html");
 
-		// TODO: change to cameras
-		// get staff and add to renderer
-		List<Staff> allStaff = StaffUtils.getAllStaff(true);
-		renderer.setCollection("cameras", allStaff);
+		// get cameras and add to renderer
+		List<Camera> allCameras = CameraUtils.getAllCameras(true);
+		renderer.setCollection("cameras", allCameras);
+
+		// get camera types and add to renderer
+		List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
+		renderer.setCollection("camera-types", allCameraTypes);
 
 		return renderer.render();
 	}
