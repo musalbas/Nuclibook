@@ -1,7 +1,7 @@
 package nuclibook.routes;
 
-import nuclibook.entity_utils.StaffUtils;
-import nuclibook.models.Staff;
+import nuclibook.entity_utils.PatientUtils;
+import nuclibook.models.Patient;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -18,10 +18,9 @@ public class PatientsRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("patients.html");
 
-		// TODO: change to patients
-		// get staff and add to renderer
-		List<Staff> allStaff = StaffUtils.getAllStaff(true);
-		renderer.setCollection("patients", allStaff);
+		// get patients and add to renderer
+		List<Patient> allPatients = PatientUtils.getAllPatients(true);
+		renderer.setCollection("patients", allPatients);
 
 		return renderer.render();
 	}

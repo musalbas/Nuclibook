@@ -1,7 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.models.Staff;
+import nuclibook.models.*;
 import spark.Request;
 import spark.Response;
 
@@ -13,12 +13,46 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 		// get request info
 		String entityType = request.queryParams("entity-type");
-		String entityId = request.queryParams("entity-id");
+		int entityId = 0;
+		try {
+			entityId = Integer.parseInt(request.queryParams("entity-id"));
+		} catch (NumberFormatException e) {
+			// leave it at zero
+		}
 
-		// delete
-		// TODO: replace with status change
+		// delete camera
+		if (entityType.equals("camera")) {
+			Camera entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Camera.class, entity);
+		}
+
+		// delete medicine
+		if (entityType.equals("medicine")) {
+			Medicine entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Medicine.class, entity);
+		}
+
+		// delete patient
+		if (entityType.equals("patient")) {
+			Patient entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Patient.class, entity);
+		}
+
+		// delete staff
 		if (entityType.equals("staff")) {
-			AbstractEntityUtils.deleteEntityById(Staff.class, Integer.parseInt(entityId));
+			Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Staff.class, entity);
+		}
+
+		// delete therapy
+		if (entityType.equals("therapy")) {
+			Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Therapy.class, entity);
 		}
 
 		return "okay";

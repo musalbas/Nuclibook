@@ -71,6 +71,24 @@
 						<label for="username">Username</label>
 						<input type="text" name="username" id="username"/>
 					</div>
+					<div class="form-group">
+						<label for="role-id">Staff Role</label>
+						<select name="role-id" id="role-id">
+							#[collection: staff-roles]
+
+							#[pre]#[/pre]
+
+							#[each]
+							<option value="#id">#label</option>
+							#[/each]
+
+							#[post]#[/post]
+
+							#[empty]#[/empty]
+
+							#[/collection]
+						</select>
+					</div>
 					<div class="form-group create-mode">
 						<label for="password">Password</label>
 						<input type="password" name="password" id="password"/>
@@ -80,10 +98,8 @@
 						<input type="password" name="password_check" id="password_check"/>
 					</div>
 					<div class="form-group edit-mode">
-						<p class="small">
-							<em>Note: you can only edit your own password, by checking 'Account Settings'.</em></p>
+						<p class="small"><em>Note: you can only edit your own password, by checking 'Account Settings'.</em></p>
 					</div>
-					<!-- TODO: staff role drop-down -->
 				</form>
 			</div>
 			<div class="modal-footer">

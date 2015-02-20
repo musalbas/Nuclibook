@@ -2,14 +2,17 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
+
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "cameras")
-public class Camera {
+public class Camera implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true)
+	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
 	private CameraType type;
 
 	@DatabaseField(width = 32, columnName = "room_number")
@@ -51,5 +54,15 @@ public class Camera {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>(){{
+			put("id", getId().toString());
+			put("camera-type-id", getType().getId().toString());
+			put("camera-type-label", getType().getLabel());
+			put("room-number", getRoomNumber());
+		}};
 	}
 }

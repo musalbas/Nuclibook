@@ -23,7 +23,7 @@ public class Staff implements Renderable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField(columnName = "role", foreign = true)
+	@DatabaseField(columnName = "role", foreign = true, foreignAutoRefresh = true)
 	private StaffRole role;
 
 	@DatabaseField

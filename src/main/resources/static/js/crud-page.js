@@ -56,8 +56,15 @@ function openEditModal(objectId) {
 	if (objectId > 0) {
 		var data = objectMap[objectId];
 		if (typeof(data) != 'undefined') {
+			var input, select;
 			for (var key in data) {
-				form.find('input[name=' + key + ']').val(data[key]);
+				input = form.find('input[name=' + key + ']');
+				if (input.length) {
+					input.val(data[key]);
+				} else {
+					select = form.find('select[name=' + key + ']');
+					select.val(data[key]).attr('selected', 'selected');
+				}
 			}
 		}
 	}
