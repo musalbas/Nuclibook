@@ -1,5 +1,5 @@
-#[def: title = Activity Management]
-#[def: current-page = activity]
+#[def: title = Action Logs]
+#[def: current-page = action-logs]
 
 ##_header.html
 
@@ -28,31 +28,20 @@
                 <td>#associatedId</td>
                 <td></td>
             </tr>
-
             #[/each]
 
             #[post]#[/post]
 
             #[empty]
             <tr>
-                <td colspan="5">No Activity</td>
+                <td colspan="5">No actions logged.</td>
             </tr>
             #[/empty]
 
             #[/collection]
-
-
             </tbody>
-
         </table>
-
     </div>
 </div>
-
-#[def: entity-name-title = Action Log]
-#[def: entity-name-body = action log]
-#[def: entity-type = action]
-
-#[collectionmap: objectMap: action]
 
 ##_footer.html
