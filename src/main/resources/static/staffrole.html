@@ -1,5 +1,5 @@
 #[def: title = Staff Role Management]
-#[def: current-page = staffrole]
+#[def: current-page = staff-roles]
 #[def: crud = yes]
 
 ##_header.html
@@ -10,8 +10,8 @@
             <thead>
 
             <tr>
-                <th class="text-center">Staff Role</th>
-                <th class="text-center">Permission</th>
+                <th class="text-center">Role Title</th>
+                <th class="text-center">Permissions</th>
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
@@ -23,8 +23,8 @@
             #[each]
 
             <tr>
-                <td></td>
-                <td></td>
+                <td>#label</td>
+                <td><!-- TODO --></td>
                 <td>
                     <button class="btn edit-button" data-id="#id">Edit</button>
                     <button class="btn delete-button" data-id="#id">Delete</button>
@@ -38,7 +38,7 @@
 
             #[empty]
             <tr>
-                <td colspan="5">No roles for staff.</td>
+                <td colspan="3">No staff roles.</td>
             </tr>
             #[/empty]
             #[/collection]
@@ -58,36 +58,21 @@
             <div class="modal-header">
 
                 <h3 class="edit-mode">Edit Staff Role</h3>
-
                 <h3 class="create-mode">Create Staff Role</h3>
             </div>
             <div class="modal-body">
                 <form class="edit-form">
-                    <input type="hidden" name="entity-type" value="staffRole"/>
+                    <input type="hidden" name="entity-type" value="staff-role"/>
                     <input type="hidden" name="entity-id" value="0"/>
 
                     <div class="form-group">
-                        <label for="role-id">Staff Role</label>
-                        <select name="role-id" id="role-id">
-                            #[collection: staff-roles]
-
-                            #[pre]#[/pre]
-
-                            #[each]
-                            <option value="#id">#label</option>
-                            #[/each]
-
-                            #[post]#[/post]
-
-                            #[empty]#[/empty]
-
-                            #[/collection]
-                        </select>
+                        <label for="label">Role Title:</label>
+                        <input type="text" name="label" id="label"/>
                     </div>
-
                     <div class="form-group">
-                        <label for="permission">Permission</label>
+                        <label for="permission">Permissions:</label>
                         <input type="text" name="permission" id="permission"/>
+                        <!-- TODO -->
                     </div>
                 </form>
             </div>
@@ -97,20 +82,18 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <script src="/js/staffrole.js"></script>
 
 #[def: entity-name-title = Staff Role]
 #[def: entity-name-body = staff role]
-#[def: entity-type = staff]
+#[def: entity-type = staff-role]
 
 ##_delete-modal.html
 ##_loading-modal.html
 
-#[collectionmap: objectMap: staff]
+#[collectionmap: objectMap: staff-roles]
 
 ##_footer.html
 
