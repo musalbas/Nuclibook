@@ -3,10 +3,13 @@ package nuclibook.routes;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.CannotHashPasswordException;
+import nuclibook.models.Patient;
 import nuclibook.models.Staff;
 import nuclibook.models.StaffRole;
 import spark.Request;
 import spark.Response;
+
+import java.sql.Date;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
 
@@ -35,6 +38,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = createUpdateStaff(entityId, request);
 			dbClass = Staff.class;
 		}
+		if (entityType.equals("patient")) {
+			entity = createUpdatePatient(entityId, request);
+			dbClass = Patient.class;
+		}
 
 		// save/update
 		if (entity != null) {
@@ -48,13 +55,38 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return "okay";
 	}
 
-	private Staff createUpdateStaff(int entityID, Request request) {
+	private Patient createUpdatePatient(int entityId, Request request) {
+		// create and set ID
+		Patient entity;
+		if (createNew) {
+			entity = new Patient();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
+		}
+
+		// basics
+		entity.setName(request.queryParams("name"));
+
+		// hospital number
+		try {
+			entity.setHospitalNumber(Integer.parseInt(request.queryParams("hospital-number")));
+		} catch (NumberFormatException e) {
+			entity.setHospitalNumber(0);
+		}
+
+		// dob
+		entity.setDateOfBirth(Date.valueOf(request.queryParams("date-of-birth")));
+
+		return entity;
+	}
+
+	private Staff createUpdateStaff(int entityId, Request request) {
 		// create and set ID
 		Staff entity;
 		if (createNew) {
 			entity = new Staff();
 		} else {
-			entity = AbstractEntityUtils.getEntityById(Staff.class, entityID);
+			entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 		}
 
 		// basics
