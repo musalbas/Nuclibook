@@ -2,10 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
-import nuclibook.models.CannotHashPasswordException;
-import nuclibook.models.Patient;
-import nuclibook.models.Staff;
-import nuclibook.models.StaffRole;
+import nuclibook.models.*;
 import spark.Request;
 import spark.Response;
 
@@ -34,13 +31,17 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		Class dbClass = null;
 
 		// build new/updated entity
-		if (entityType.equals("staff")) {
-			entity = createUpdateStaff(entityId, request);
-			dbClass = Staff.class;
+		if (entityType.equals("medicine")) {
+			entity = createUpdateMedicine(entityId, request);
+			dbClass = Medicine.class;
 		}
 		if (entityType.equals("patient")) {
 			entity = createUpdatePatient(entityId, request);
 			dbClass = Patient.class;
+		}
+		if (entityType.equals("staff")) {
+			entity = createUpdateStaff(entityId, request);
+			dbClass = Staff.class;
 		}
 
 		// save/update
@@ -55,6 +56,28 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return "okay";
 	}
 
+	private Medicine createUpdateMedicine(int entityId, Request request) {
+		// create and set ID
+		Medicine entity;
+		if (createNew) {
+			entity = new Medicine();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
+		}
+
+		// basics
+		entity.setName(request.queryParams("name"));
+
+		// order time
+		try {
+			entity.setOrderTime(Integer.parseInt(request.queryParams("order-time")));
+		} catch (NumberFormatException e) {
+			entity.setOrderTime(0);
+		}
+
+		return entity;
+	}
+
 	private Patient createUpdatePatient(int entityId, Request request) {
 		// create and set ID
 		Patient entity;
@@ -64,7 +87,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
 		}
 
-		// basics
+		// name
 		entity.setName(request.queryParams("name"));
 
 		// hospital number
@@ -89,7 +112,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 		}
 
-		// basics
+		// names
 		entity.setName(request.queryParams("name"));
 		entity.setUsername(request.queryParams("username"));
 

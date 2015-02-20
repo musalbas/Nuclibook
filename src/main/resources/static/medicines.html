@@ -10,8 +10,8 @@
 			<thead>
 				<tr>
 					<th class="text-center">ID</th>
-					<th class="text-center">Name of Medicine</th>
-					<th class="text-center">Time to be delivered</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Order Time</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -25,7 +25,7 @@
 				<tr>
 					<td>#id</td>
 					<td>#name</td>
-					<td>#orderTime</td>
+					<td>#order-time day(s)</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
@@ -65,12 +65,12 @@
 					<input type="hidden" name="entity-id" value="0"/>
 
 					<div class="form-group text-center">
-						<label for="name">Name: </label>
-						<input class="form-control input-lg" type="text" name="name" id="name"/>
+						<label for="name">Name:</label>
+						<input type="text" name="name" id="name"/>
 					</div>
 					<div class="form-group text-center">
-						<label for="orderTime">Time for delivery: </label>
-						<input class="form-control input-lg" type="text" name="name" id="orderTime"/>
+						<label for="order-time">Order Time:</label>
+						<input type="text" name="order-time" id="order-time"/>
 					</div>
 				</form>
 			</div>

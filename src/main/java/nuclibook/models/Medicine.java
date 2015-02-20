@@ -2,9 +2,12 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
+
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "medicines")
-public class Medicine {
+public class Medicine implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -51,5 +54,14 @@ public class Medicine {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>(){{
+			put("id", getId().toString());
+			put("name", getName());
+			put("order-time", ((Integer) getOrderTime()).toString());
+		}};
 	}
 }
