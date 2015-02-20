@@ -54,15 +54,18 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 
+        // action logs
+        Spark.get("/action-log", new ActionLogRoute());
+
 		// entity CRUD
 		Spark.post("/entity-update", new CrudCreateUpdateRoute());
 		Spark.post("/entity-delete", new CrudDeleteRoute());
 
+		// cameras
+		Spark.get("/cameras", new CamerasRoute());
+
 		// staff
 		Spark.get("/staff", new StaffRoute());
-
-        //action logs
-        Spark.get("/action-log", new ActionLogRoute());
 
 		// therapies
 		Spark.get("/therapies", new TherapiesRoute());
