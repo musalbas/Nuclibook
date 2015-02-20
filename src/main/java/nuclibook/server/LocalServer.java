@@ -62,7 +62,7 @@ public class LocalServer {
 		Spark.get("/staff", new StaffRoute());
 
         //action logs
-        Spark.get("/activity", new ActionLogRoute());
+        Spark.get("/action-log", new ActionLogRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
