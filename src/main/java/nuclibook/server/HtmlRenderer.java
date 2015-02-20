@@ -214,6 +214,16 @@ public class HtmlRenderer {
 		this.collections.putAll(tmp);
 	}
 
+	// remove all fields
+	public void clearFields() {
+		fields.clear();
+	}
+
+	// remove all collections
+	public void clearCollections() {
+		collections.clear();
+	}
+
 	/**
 	 * DEFINITION PARSING
 	 */
