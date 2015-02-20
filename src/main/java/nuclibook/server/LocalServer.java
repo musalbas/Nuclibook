@@ -64,8 +64,11 @@ public class LocalServer {
 		// cameras
 		Spark.get("/cameras", new CamerasRoute());
 
-		// cameras
+		// medicines
 		Spark.get("/medicines", new MedicinesRoute());
+
+		// patients
+		Spark.get("/patients", new PatientsRoute());
 
 		// staff
 		Spark.get("/staff", new StaffRoute());
