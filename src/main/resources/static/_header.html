@@ -86,32 +86,32 @@
 						<li#[if: current-page = dashboard] class="active"#[/if]>
 							<a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
 						</li>
-						<li#[if: current-page = appointments] class="active"#[/if]>
-							<a href="/appointments"><i class="fa fa-fw fa-clock-o"></i> Appointments</a>
-						</li>
-						<li#[if: current-page = orders] class="active"#[/if]>
-							<a href="/orders"><i class="fa fa-fw fa-truck"></i> Orders</a>
-						</li>
 						<li#[if: current-page = patients] class="active"#[/if]>
 							<a href="/patients"><i class="fa fa-fw fa-group"></i> Patients</a>
 						</li>
-						<li#[if: current-page = staff] class="active"#[/if]>
-							<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
+						<li#[if: current-page = appointments] class="active"#[/if]>
+							<a href="/appointments"><i class="fa fa-fw fa-clock-o"></i> Appointments</a>
 						</li>
-						<li#[if: current-page = medicines] class="active"#[/if]>
-							<a href="/medicines"><i class="fa fa-fw fa-flask"></i> Medicines</a>
-						</li>
-						<li#[if: current-page = cameras] class="active"#[/if]>
-							<a href="/cameras"><i class="fa fa-fw fa-camera"></i> Cameras</a>
-						</li>
-						<li#[if: current-page = therapies] class="active"#[/if]>
-							<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
-						</li>
-						<li#[if: current-page = action-log] class="active"#[/if]>
-							<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
-						</li#[if: current-page = settings] class="active"#[/if]>
 						<li>
-							<a href="/settings"><i class="fa fa-fw fa-database"></i> Admin Settings</a>
+							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Resources</a>
+							<!-- TODO: implement collapse action -->
+							<ul>
+								<li#[if: current-page = staff] class="active"#[/if]>
+									<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
+								</li>
+								<li#[if: current-page = medicines] class="active"#[/if]>
+									<a href="/medicines"><i class="fa fa-fw fa-flask"></i> Medicines</a>
+								</li>
+								<li#[if: current-page = cameras] class="active"#[/if]>
+									<a href="/cameras"><i class="fa fa-fw fa-camera"></i> Cameras</a>
+								</li>
+								<li#[if: current-page = therapies] class="active"#[/if]>
+									<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
+								</li>
+								<li#[if: current-page = action-log] class="active"#[/if]>
+									<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
+								</li#[if: current-page = settings] class="active"#[/if]>
+							</ul>
 						</li>
 					</ul>
 				</div>
