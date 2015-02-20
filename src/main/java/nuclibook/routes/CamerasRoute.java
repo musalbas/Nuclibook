@@ -8,7 +8,7 @@ import spark.Response;
 
 import java.util.List;
 
-public class StaffRoute extends DefaultRoute {
+public class CamerasRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -16,11 +16,12 @@ public class StaffRoute extends DefaultRoute {
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("staff.html");
+		renderer.setTemplateFile("cameras.html");
 
+		// TODO: change to cameras
 		// get staff and add to renderer
 		List<Staff> allStaff = StaffUtils.getAllStaff(true);
-		renderer.setCollection("staff", allStaff);
+		renderer.setCollection("cameras", allStaff);
 
 		return renderer.render();
 	}

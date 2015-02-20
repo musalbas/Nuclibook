@@ -9,6 +9,8 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// get request info
 		String entityType = request.queryParams("entity-type");
 		String entityId = request.queryParams("entity-id");

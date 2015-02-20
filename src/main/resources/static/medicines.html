@@ -1,5 +1,5 @@
-#[def: title = Camera Management]
-#[def: current-page = cameras]
+#[def: title = Medicine Management]
+#[def: current-page = medicines]
 #[def: crud = yes]
 
 ##_header.html
@@ -10,22 +10,22 @@
 			<thead>
 				<tr>
 					<th class="text-center">ID</th>
-					<th class="text-center">Camera Type</th>
-					<th class="text-center">Room Number</th>
+					<th class="text-center">Name of Medicine</th>
+					<th class="text-center">Time to be delivered</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				#[collection: cameras]
+				#[collection: medicines]
 
 				#[pre]#[/pre]
 
 				#[each]
 				<tr>
 					<td>#id</td>
-					<td>#type</td>
-					<td>#roomNumber</td>
+					<td>#name</td>
+					<td>#orderTime</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
@@ -37,16 +37,17 @@
 
 				#[empty]
 				<tr>
-					<td class="text-center" colspan="4"><strong>No cameras.</strong></td>
+					<td class="text-center" colspan="4"><b><u>No medicines.</u></b></td>
 				</tr>
 				#[/empty]
-
 				#[/collection]
 			</tbody>
 		</table>
 
 		<div class="text-right">
-			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Camera</button>
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add
+				medicine
+			</button>
 		</div>
 	</div>
 </div>
@@ -55,20 +56,21 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="edit-mode">Edit Camera</h3>
-				<h3 class="create-mode text-center">Add Camera</h3>
+				<h3 class="edit-mode">Edit Medicine</h3>
+				<h3 class="create-mode text-center">Create New Medicine</h3>
 			</div>
 			<div class="modal-body">
 				<form class="edit-form form-inline text-center">
-					<input type="hidden" name="entity-type" value="camera"/>
+					<input type="hidden" name="entity-type" value="medicine"/>
 					<input type="hidden" name="entity-id" value="0"/>
+
 					<div class="form-group text-center">
-						<label for="type">Type: </label>
-						<input class="form-control input-lg" type="text" name="name" id="type"/>
+						<label for="name">Name: </label>
+						<input class="form-control input-lg" type="text" name="name" id="name"/>
 					</div>
 					<div class="form-group text-center">
-						<label for="roomNumber">Room Number: </label>
-						<input class="form-control input-lg" type="text" name="name" id="roomNumber"/>
+						<label for="orderTime">Time for delivery: </label>
+						<input class="form-control input-lg" type="text" name="name" id="orderTime"/>
 					</div>
 				</form>
 			</div>
@@ -80,15 +82,15 @@
 	</div>
 </div>
 
-<script src="/js/cameras.js"></script>
+<script src="/js/medicines.js"></script>
 
-#[def: entity-name-title = Camera]
-#[def: entity-name-body = camera]
-#[def: entity-type = camera]
+#[def: entity-name-title = Medicine]
+#[def: entity-name-body = medicine]
+#[def: entity-type = medicine]
 
 ##_delete-modal.html
 ##_loading-modal.html
 
-#[collectionmap: objectMap: cameras]
-
+#[collectionmap: objectMap: medicines]
+#[def: crud = yes]
 ##_footer.html

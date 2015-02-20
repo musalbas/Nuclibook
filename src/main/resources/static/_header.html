@@ -1,9 +1,130 @@
-<!-- TODO: replace with real design header -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title>#title</title>
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
-		<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		<link href="/js/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css">
+		<link href="/css/core/bootstrap.min.css" rel="stylesheet"/>
+		<link href="/css/core/sb-admin.css" rel="stylesheet"/>
+		<link href="/css/custom-tweaks.css" rel="stylesheet"/>
+		<link href="/css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		#[if: crud]
+		<link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+		#[/if]
+
+		<!--[if lt IE 9]>
+		<script src="/js/core/html5shiv.js"></script>
+		<script src="/js/core/respond.min.js"></script>
+		<![endif]-->
+
 	</head>
+
 	<body>
+		<div id="wrapper">
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Nuclibook</a>
+				</div>
+
+				#[if: logged-in = yes]
+				<!-- Top Menu Items -->
+				<ul class="nav navbar-right top-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+							<b class="caret"></b></a>
+						<ul class="dropdown-menu alert-dropdown">
+							<li>
+								<a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+							</li>
+							<li>
+								<a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+							</li>
+							<li>
+								<a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+							</li>
+							<li>
+								<a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+							</li>
+							<li>
+								<a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+							</li>
+							<li>
+								<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="#">View All</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+							#current-user-name
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+							</li>
+							<li>
+								<a href="/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				#[/if]
+
+				<!-- Sidebar Menu Items -->
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav side-nav#[!if: logged-in = no] hide#[/if]">
+						<li class="active">
+							<a href="/login"><i class="fa fa-fw fa-key"></i> Login</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav side-nav#[!if: logged-in = yes] hide#[/if]">
+						<li#[if: current-page = dashboard] class="active"#[/if]>
+							<a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+						</li>
+						<li#[if: current-page = patients] class="active"#[/if]>
+							<a href="/patients"><i class="fa fa-fw fa-group"></i> Patients</a>
+						</li>
+						<li#[if: current-page = appointments] class="active"#[/if]>
+							<a href="/appointments"><i class="fa fa-fw fa-clock-o"></i> Appointments</a>
+						</li>
+						<li>
+							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Resources</a>
+							<!-- TODO: implement collapse action -->
+							<ul class="nav navbar-nav">
+								<li#[if: current-page = staff] class="active"#[/if]>
+									<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
+								</li>
+								<li#[if: current-page = medicines] class="active"#[/if]>
+									<a href="/medicines"><i class="fa fa-fw fa-flask"></i> Medicines</a>
+								</li>
+								<li#[if: current-page = cameras] class="active"#[/if]>
+									<a href="/cameras"><i class="fa fa-fw fa-camera"></i> Cameras</a>
+								</li>
+								<li#[if: current-page = therapies] class="active"#[/if]>
+									<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
+								</li>
+								<li#[if: current-page = action-log] class="active"#[/if]>
+									<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
+								</li#[if: current-page = settings] class="active"#[/if]>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div id="page-wrapper">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">
+								#title
+							</h1>
+						</div>
+					</div>

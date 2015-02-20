@@ -14,10 +14,12 @@ public class ActionLogRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-        HtmlRenderer renderer = new HtmlRenderer("activity.html");
+		prepareToHandle();
+
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("activity.html");
 
         // get all actions and add to renderer
-
         List<ActionLog> actionLogs = ActionLogUtils.getAllActions();
         renderer.setCollection("action-logs", actionLogs);
 

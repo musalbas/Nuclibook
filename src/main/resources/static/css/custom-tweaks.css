@@ -1,0 +1,23 @@
+/* make page fill browser height */
+
+html, body {
+	display: block !important;
+	height: 100% !important;
+	margin: 0 !important;
+}
+
+#wrapper {
+	min-height: 100% !important;
+}
+
+#page-wrapper {
+	margin: auto !important;
+	padding-top: 25px !important;
+	min-height: 100vh !important;
+}
+
+/* fix sidebar highlights */
+
+.side-nav li ul li {
+	width: 100%;
+}

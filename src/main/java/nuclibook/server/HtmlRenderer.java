@@ -155,7 +155,7 @@ public class HtmlRenderer {
 	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
 	private static Pattern definitionPattern = Pattern.compile("#\\[def: ([a-z0-9\\-]+) = (.*?)\\]", regexOptions);
 	private static Pattern conditionalSetFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
-	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)=(.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
+	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+) = (.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
 	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\\\-]+): ([a-z0-9\\-]+)\\]", regexOptions);
@@ -164,8 +164,7 @@ public class HtmlRenderer {
 	 * CONSTRUCTOR
 	 */
 
-	public HtmlRenderer(String templateFile) {
-		this.templateFile = templateFile;
+	public HtmlRenderer() {
 		fields = new HashMap<>();
 		collections = new HashMap<>();
 	}
@@ -173,6 +172,11 @@ public class HtmlRenderer {
 	/**
 	 * DATA SETTERS
 	 */
+
+	// set the template file
+	public void setTemplateFile(String templateFile) {
+		this.templateFile = templateFile;
+	}
 
 	// set a data field (set null to "remove")
 	public void setField(String key, String value) {
@@ -196,14 +200,18 @@ public class HtmlRenderer {
 		}
 	}
 
-	// set all fields in one go (replaces any existing fields)
+	// set all fields in one go
 	public void setBulkFields(HashMap<String, String> fields) {
-		this.fields = fields;
+		HashMap<String, String> tmp = new HashMap<>(fields);
+		tmp.keySet().removeAll(this.fields.keySet());
+		this.fields.putAll(tmp);
 	}
 
-	// set all collections in one go (replaces any existing collections)
+	// set all collections in one go
 	public void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
-		this.collections = collections;
+		HashMap<String, Collection<Renderable>> tmp = new HashMap<>(collections);
+		tmp.keySet().removeAll(this.collections.keySet());
+		this.collections.putAll(tmp);
 	}
 
 	/**
@@ -239,7 +247,8 @@ public class HtmlRenderer {
 
 	// get a referenced file
 	private String getFile(String path) {
-		HtmlRenderer renderer = new HtmlRenderer(path);
+		HtmlRenderer renderer = new HtmlRenderer();
+		renderer.setTemplateFile(path);
 		renderer.setBulkFields(fields);
 		renderer.setBulkCollections(collections);
 		return renderer.render();

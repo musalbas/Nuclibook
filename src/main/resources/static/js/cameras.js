@@ -1,7 +1,3 @@
-/**
- * Created by GEORGE RADUTA on 11.02.2015.
- */
-
 var validateEditForm = function (formObject) {
     var error = false;
 

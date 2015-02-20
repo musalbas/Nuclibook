@@ -4,14 +4,14 @@ import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
-public class HtmlTestRoute extends DefaultRoute {
+public class DashboardRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle();
 
-		HtmlRenderer renderer = new HtmlRenderer();
-		renderer.setTemplateFile(request.params(":file"));
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("index.html");
 		return renderer.render();
 	}
 }
