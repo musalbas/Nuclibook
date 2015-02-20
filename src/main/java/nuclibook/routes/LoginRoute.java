@@ -20,6 +20,8 @@ public class LoginRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// check they are not already logged in
 		if (SecurityUtils.checkLoggedIn()) {
 			response.redirect("/");
@@ -40,7 +42,8 @@ public class LoginRoute extends DefaultRoute {
 			rendererFields.put("stage", "1");
 		}
 
-		HtmlRenderer renderer = new HtmlRenderer("login.html");
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("login.html");
 		renderer.setBulkFields(rendererFields);
 		return renderer.render();
 	}

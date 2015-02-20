@@ -8,7 +8,10 @@ public class DashboardRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		HtmlRenderer renderer = new HtmlRenderer("index.html");
+		prepareToHandle();
+
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("index.html");
 		return renderer.render();
 	}
 }

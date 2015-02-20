@@ -164,8 +164,7 @@ public class HtmlRenderer {
 	 * CONSTRUCTOR
 	 */
 
-	public HtmlRenderer(String templateFile) {
-		this.templateFile = templateFile;
+	public HtmlRenderer() {
 		fields = new HashMap<>();
 		collections = new HashMap<>();
 	}
@@ -173,6 +172,11 @@ public class HtmlRenderer {
 	/**
 	 * DATA SETTERS
 	 */
+
+	// set the template file
+	public void setTemplateFile(String templateFile) {
+		this.templateFile = templateFile;
+	}
 
 	// set a data field (set null to "remove")
 	public void setField(String key, String value) {
@@ -196,14 +200,18 @@ public class HtmlRenderer {
 		}
 	}
 
-	// set all fields in one go (replaces any existing fields)
+	// set all fields in one go
 	public void setBulkFields(HashMap<String, String> fields) {
-		this.fields = fields;
+		HashMap<String, String> tmp = new HashMap<>(fields);
+		tmp.keySet().removeAll(this.fields.keySet());
+		this.fields.putAll(tmp);
 	}
 
-	// set all collections in one go (replaces any existing collections)
+	// set all collections in one go
 	public void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
-		this.collections = collections;
+		HashMap<String, Collection<Renderable>> tmp = new HashMap<>(collections);
+		tmp.keySet().removeAll(this.collections.keySet());
+		this.collections.putAll(tmp);
 	}
 
 	/**
@@ -239,7 +247,8 @@ public class HtmlRenderer {
 
 	// get a referenced file
 	private String getFile(String path) {
-		HtmlRenderer renderer = new HtmlRenderer(path);
+		HtmlRenderer renderer = new HtmlRenderer();
+		renderer.setTemplateFile(path);
 		renderer.setBulkFields(fields);
 		renderer.setBulkCollections(collections);
 		return renderer.render();

@@ -12,8 +12,11 @@ public class StaffRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// start renderer
-		HtmlRenderer renderer = new HtmlRenderer("staff.html");
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("staff.html");
 
 		// get staff and add to renderer
 		List<Staff> allStaff = StaffUtils.getAllStaff(true);

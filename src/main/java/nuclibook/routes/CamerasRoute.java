@@ -12,8 +12,11 @@ public class CamerasRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// start renderer
-		HtmlRenderer renderer = new HtmlRenderer("cameras.html");
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("cameras.html");
 
 		// TODO: change to cameras
 		// get staff and add to renderer

@@ -12,8 +12,11 @@ public class PatientsRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// start renderer
-		HtmlRenderer renderer = new HtmlRenderer("patients.html");
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("patients.html");
 
 		// TODO: change to patients
 		// get staff and add to renderer

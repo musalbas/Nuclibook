@@ -13,6 +13,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// get request info
 		String entityType = request.queryParams("entity-type");
 		int entityId = 0;

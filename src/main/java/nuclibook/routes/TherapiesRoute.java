@@ -12,8 +12,11 @@ public class TherapiesRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		prepareToHandle();
+
 		// start renderer
-		HtmlRenderer renderer = new HtmlRenderer("therapies.html");
+		HtmlRenderer renderer = getRenderer();
+		renderer.setTemplateFile("therapies.html");
 
 		// TODO: change to therapies
 		// get staff and add to renderer

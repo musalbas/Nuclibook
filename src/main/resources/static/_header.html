@@ -30,6 +30,7 @@
 					<a class="navbar-brand" href="/">Nuclibook</a>
 				</div>
 
+				#[if: logged-in = yes]
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
 					<li class="dropdown">
@@ -62,7 +63,7 @@
 					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-							USERNAME
+							#current-user-name
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
@@ -75,10 +76,16 @@
 						</ul>
 					</li>
 				</ul>
+				#[/if]
 
 				<!-- Sidebar Menu Items -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
-					<ul class="nav navbar-nav side-nav">
+					<ul class="nav navbar-nav side-nav#[!if: logged-in = no] hide#[/if]">
+						<li class="active">
+							<a href="/login"><i class="fa fa-fw fa-key"></i> Login</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav side-nav#[!if: logged-in = yes] hide#[/if]">
 						<li#[if: current-page = dashboard] class="active"#[/if]>
 							<a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
 						</li>
