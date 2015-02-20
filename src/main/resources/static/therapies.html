@@ -1,5 +1,7 @@
 #[def: title = Therapies]
 #[def: current-page = therapies]
+#[def: crud = yes]
+
 ##_header.html
 <div class="row">
 	<div class="col-lg-12 col-md-12">
@@ -96,6 +98,8 @@
 	</div>
 </div>
 
+<script src="/js/therapies.js"></script>
+
 #[def: entity-name-title = Therapy]
 #[def: entity-name-body = therapy]
 #[def: entity-type = therapy]
@@ -104,6 +108,5 @@
 ##_loading-modal.html
 
 #[collectionmap: objectMap: therapies]
-#[def: crud = yes]
 
 ##_footer.html

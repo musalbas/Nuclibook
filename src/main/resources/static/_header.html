@@ -8,13 +8,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>#title</title>
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
-		<link href="/css/sb-admin.css" rel="stylesheet">
-		<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="/css/sb-admin.css" rel="stylesheet"/>
+		<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		#[if: crud]
+		<link href="/js/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+		#[/if]
 
 		<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<script src="/js/html5shiv.js"></script>
+		<script src="/js/respond.min.js"></script>
 		<![endif]-->
 
 	</head>
@@ -92,7 +95,7 @@
 						<li#[if: current-page = patients] class="active"#[/if]>
 							<a href="/patients"><i class="fa fa-fw fa-group"></i> Patients</a>
 						</li>
-						<li#[if: current-page = radiographers] class="active"#[/if]>
+						<li#[if: current-page = staff] class="active"#[/if]>
 							<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
 						</li>
 						<li#[if: current-page = medicines] class="active"#[/if]>
