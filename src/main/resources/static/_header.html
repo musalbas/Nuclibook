@@ -10,6 +10,7 @@
 		<title>#title</title>
 		<link href="/css/core/bootstrap.min.css" rel="stylesheet"/>
 		<link href="/css/core/sb-admin.css" rel="stylesheet"/>
+		<link href="/css/custom-tweaks.css" rel="stylesheet"/>
 		<link href="/css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 		#[if: crud]
 		<link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
@@ -95,7 +96,7 @@
 						<li>
 							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Resources</a>
 							<!-- TODO: implement collapse action -->
-							<ul>
+							<ul class="nav navbar-nav">
 								<li#[if: current-page = staff] class="active"#[/if]>
 									<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
 								</li>
