@@ -1,12 +1,11 @@
 #[def: title = Activity Management]
-#[def: current-page = actionlogs]
-#[def: crud = yes]
+#[def: current-page = activity]
 
 ##_header.html
 
 <div class="row">
     <div class="col lg-12 col-md-12">
-        <table cass="table table-bordered table-hover">
+        <table class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th class="text-center">ID</th>
@@ -17,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-            #[collection: action_log]
+            #[collection: action-log]
 
             #[pre]#[/pre]
 
@@ -53,9 +52,6 @@
 #[def: entity-name-title = Action Log]
 #[def: entity-name-body = action log]
 #[def: entity-type = action]
-
-##_delete-modal.html
-##_loading-modal.html
 
 #[collectionmap: objectMap: action]
 
