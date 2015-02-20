@@ -2,6 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.CameraTypeUtils;
+import nuclibook.entity_utils.MedicineUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.*;
 import spark.Request;
@@ -47,6 +48,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (entityType.equals("staff")) {
 			entity = createUpdateStaff(entityId, request);
 			dbClass = Staff.class;
+		}
+		if (entityType.equals("therapy")) {
+			entity = createUpdateTherapy(entityId, request);
+			dbClass = Therapy.class;
 		}
 
 		// save/update
@@ -152,6 +157,39 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// role
 		StaffRole role = StaffRoleUtils.getStaffRole(request.queryParams("role-id"));
 		entity.setRole(role);
+
+		return entity;
+	}
+
+	private Therapy createUpdateTherapy(int entityId, Request request) {
+		// create and set ID
+		Therapy entity;
+		if (createNew) {
+			entity = new Therapy();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
+		}
+
+		// name
+		entity.setName(request.queryParams("name"));
+
+		// hospital number
+		try {
+			entity.setDuration(Integer.parseInt(request.queryParams("default-duration")));
+		} catch (NumberFormatException e) {
+			entity.setDuration(0);
+		}
+
+		// medicine required
+		Medicine medicine = MedicineUtils.getMedicine(request.queryParams("medicine-required-id"));
+		entity.setMedicineRequired(medicine);
+
+		// name
+		entity.setMedicineDose(request.queryParams("medicine-dose"));
+
+		// camera type
+		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
+		entity.setCameraTypeRequired(type);
 
 		return entity;
 	}

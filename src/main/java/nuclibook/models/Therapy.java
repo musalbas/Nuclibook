@@ -2,9 +2,12 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
+
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "therapies")
-public class Therapy {
+public class Therapy implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -15,13 +18,13 @@ public class Therapy {
 	@DatabaseField(defaultValue = "60")
 	private int duration;
 
-	@DatabaseField(columnName = "medicine_required", foreign = true)
+	@DatabaseField(columnName = "medicine_required", foreign = true, foreignAutoRefresh = true)
 	private Medicine medicineRequired;
 
 	@DatabaseField(width = 32, columnName = "medicine_dose")
 	private String medicineDose;
 
-	@DatabaseField(columnName = "camera_type_required", foreign = true)
+	@DatabaseField(columnName = "camera_type_required", foreign = true, foreignAutoRefresh = true)
 	private CameraType cameraTypeRequired;
 
 	@DatabaseField(defaultValue = "true")
@@ -84,5 +87,19 @@ public class Therapy {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>(){{
+			put("id", getId().toString());
+			put("name", getName());
+			put("default-duration", ((Integer) getDuration()).toString());
+			put("medicine-required-id", getMedicineRequired().getId().toString());
+			put("medicine-required-name", getMedicineRequired().getName());
+			put("medicine-dose", getMedicineDose());
+			put("camera-type-id", getCameraTypeRequired().getId().toString());
+			put("camera-type-label", getCameraTypeRequired().getLabel());
+		}};
 	}
 }

@@ -1,7 +1,11 @@
 package nuclibook.routes;
 
-import nuclibook.entity_utils.StaffUtils;
-import nuclibook.models.Staff;
+import nuclibook.entity_utils.CameraTypeUtils;
+import nuclibook.entity_utils.MedicineUtils;
+import nuclibook.entity_utils.TherapyUtils;
+import nuclibook.models.CameraType;
+import nuclibook.models.Medicine;
+import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -18,10 +22,17 @@ public class TherapiesRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("therapies.html");
 
-		// TODO: change to therapies
-		// get staff and add to renderer
-		List<Staff> allStaff = StaffUtils.getAllStaff(true);
-		renderer.setCollection("therapies", allStaff);
+		// get therapies and add to renderer
+		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
+		renderer.setCollection("therapies", allTherapies);
+
+		// get camera types and add to renderer
+		List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
+		renderer.setCollection("camera-types", allCameraTypes);
+
+		// get medicines and add to renderer
+		List<Medicine> allMedicines = MedicineUtils.getAllMedicines(true);
+		renderer.setCollection("medicines", allMedicines);
 
 		return renderer.render();
 	}

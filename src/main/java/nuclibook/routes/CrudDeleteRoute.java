@@ -1,10 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.models.Camera;
-import nuclibook.models.Medicine;
-import nuclibook.models.Patient;
-import nuclibook.models.Staff;
+import nuclibook.models.*;
 import spark.Request;
 import spark.Response;
 
@@ -49,6 +46,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Staff.class, entity);
+		}
+
+		// delete therapy
+		if (entityType.equals("therapy")) {
+			Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Therapy.class, entity);
 		}
 
 		return "okay";

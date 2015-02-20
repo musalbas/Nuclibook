@@ -25,12 +25,10 @@
 				#[each]
 				<tr>
 					<td>#name</td>
-					<td>#duration</td>
-					<td>#medicineRequired</td>
-					<!-- TODO Html renderer required. Mark will take care after templates are finished -->
-					<td>#medicineDose</td>
-					<td>#cameraTypeRequired</td>
-					<!-- TODO Html renderer required. Mark will take care after templates are finished -->
+					<td>#default-duration mins</td>
+					<td>#medicine-required-name</td>
+					<td>#medicine-dose</td>
+					<td>#camera-type-label</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
@@ -69,24 +67,52 @@
 					<input type="hidden" name="entity-type" value="therapy"/>
 					<input type="hidden" name="entity-id" value="0"/>
 					<div class="form-group text-center">
-						<label for="name">Name: </label>
-						<input class="form-control input-lg" type="text" name="name" id="name"/>
+						<label for="name">Name:</label>
+						<input type="text" name="name" id="name"/>
 					</div>
 					<div class="form-group text-center">
-						<label for="duration">Duration: </label>
-						<input class="form-control input-lg" type="text" name="name" id="duration"/>
+						<label for="default-duration">Default Duration: (mins)</label>
+						<input type="text" name="default-duration" id="default-duration"/>
+					</div>
+					<div class="form-group">
+						<label for="medicine-required-id">Medicine Required:</label>
+						<select name="medicine-required-id" id="medicine-required-id">
+							#[collection: medicines]
+
+							#[pre]#[/pre]
+
+							#[each]
+							<option value="#id">#name</option>
+							#[/each]
+
+							#[post]#[/post]
+
+							#[empty]#[/empty]
+
+							#[/collection]
+						</select>
 					</div>
 					<div class="form-group text-center">
-						<label for="medicineRequired">Medicine required: </label>
-						<input class="form-control input-lg" type="text" name="name" id="medicineRequired"/>
+						<label for="medicine-dose">Medicine Dose:</label>
+						<input type="text" name="medicine-dose" id="medicine-dose"/>
 					</div>
-					<div class="form-group text-center">
-						<label for="medicineDose">Medicine Dose: </label>
-						<input class="form-control input-lg" type="text" name="name" id="medicineDose"/>
-					</div>
-					<div class="form-group text-center">
-						<label for="cameraRequired">Camera(s) Required: </label>
-						<input class="form-control input-lg" type="text" name="name" id="cameraRequired"/>
+					<div class="form-group">
+						<label for="camera-type-id">Camera Type Used:</label>
+						<select name="camera-type-id" id="camera-type-id">
+							#[collection: camera-types]
+
+							#[pre]#[/pre]
+
+							#[each]
+							<option value="#id">#label</option>
+							#[/each]
+
+							#[post]#[/post]
+
+							#[empty]#[/empty]
+
+							#[/collection]
+						</select>
 					</div>
 				</form>
 			</div>
