@@ -2,7 +2,7 @@
 #[def: title = Login Page]
 ##_header.html
 		<form action="/login" method="post">
-			#[!if: stage=2]
+			#[!if: stage = 2]
 				#[if: error-bad-staff-id]
 					<div class="note note-danger">
 						<p><strong>Error:</strong> that staff ID wasn't recognised - are you sure you have an account?</p>
@@ -24,7 +24,7 @@
 				</div>
 			#[/if]
 
-			#[if: stage=2]
+			#[if: stage = 2]
 				<input type="hidden" name="username" value="#username"/>
 				<p>Hello, <strong>#staffname</strong>.</p>
 				<div class="form-group">

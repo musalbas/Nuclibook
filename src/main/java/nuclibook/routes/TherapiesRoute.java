@@ -8,16 +8,16 @@ import spark.Response;
 
 import java.util.List;
 
-public class StaffRoute extends DefaultRoute {
+public class TherapiesRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// start renderer
-		HtmlRenderer renderer = new HtmlRenderer("staff.html");
+		HtmlRenderer renderer = new HtmlRenderer("therapies.html");
 
 		// get staff and add to renderer
 		List<Staff> allStaff = StaffUtils.getAllStaff(true);
-		renderer.setCollection("staff", allStaff);
+		renderer.setCollection("therapies", allStaff);
 
 		return renderer.render();
 	}

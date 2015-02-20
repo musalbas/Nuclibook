@@ -64,6 +64,9 @@ public class LocalServer {
         //action logs
         Spark.get("/action-log", new ActionLogRoute());
 
+		// therapies
+		Spark.get("/therapies", new TherapiesRoute());
+
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 	}

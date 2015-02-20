@@ -1,0 +1,109 @@
+#[def: title = Therapies]
+#[def: current-page = therapies]
+##_header.html
+<div class="row">
+	<div class="col-lg-12 col-md-12">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="col-lg-3 text-center">Name</th>
+					<th class="col-lg-2 text-center">Default Duration</th>
+					<th class="col-lg-2 text-center">Medicine Required</th>
+					<th class="col-lg-2 text-center">Medicine Dose</th>
+					<th class="col-lg-2 text-center">Camera Required</th>
+					<th class="col-lg-1 text-center">Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				#[collection: therapies]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#duration</td>
+					<td>#medicineRequired</td>
+					<!-- TODO Html renderer required. Mark will take care after templates are finished -->
+					<td>#medicineDose</td>
+					<td>#cameraTypeRequired</td>
+					<!-- TODO Html renderer required. Mark will take care after templates are finished -->
+					<td>
+						<button class="btn edit-button" data-id="#id">Edit</button>
+						<button class="btn delete-button" data-id="#id">Delete</button>
+					</td>
+				</tr>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]
+				<tr>
+					<td class="text-center" colspan="6"><strong>No therapies.</strong></td>
+				</tr>
+				#[/empty]
+
+				#[/collection]
+			</tbody>
+		</table>
+
+		<div class="text-right">
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add therapy</button>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal hide fade edit-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="edit-mode">Edit Therapy</h3>
+				<h3 class="create-mode text-center">Create Therapy</h3>
+			</div>
+			<div class="modal-body">
+				<form class="edit-form form-inline text-center">
+					<input type="hidden" name="entity-type" value="therapy"/>
+					<input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group text-center">
+						<label for="name">Name: </label>
+						<input class="form-control input-lg" type="text" name="name" id="name"/>
+					</div>
+					<div class="form-group text-center">
+						<label for="duration">Duration: </label>
+						<input class="form-control input-lg" type="text" name="name" id="duration"/>
+					</div>
+					<div class="form-group text-center">
+						<label for="medicineRequired">Medicine required: </label>
+						<input class="form-control input-lg" type="text" name="name" id="medicineRequired"/>
+					</div>
+					<div class="form-group text-center">
+						<label for="medicineDose">Medicine Dose: </label>
+						<input class="form-control input-lg" type="text" name="name" id="medicineDose"/>
+					</div>
+					<div class="form-group text-center">
+						<label for="cameraRequired">Camera(s) Required: </label>
+						<input class="form-control input-lg" type="text" name="name" id="cameraRequired"/>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+#[def: entity-name-title = Therapy]
+#[def: entity-name-body = therapy]
+#[def: entity-type = therapy]
+
+##_delete-modal.html
+##_loading-modal.html
+
+#[collectionmap: objectMap: therapies]
+#[def: crud = yes]
+
+##_footer.html
