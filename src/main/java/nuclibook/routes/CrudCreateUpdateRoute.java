@@ -1,9 +1,10 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.entity_utils.StaffUtils;
+import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.Staff;
+import nuclibook.models.StaffRole;
 import spark.Request;
 import spark.Response;
 
@@ -69,7 +70,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			}
 		}
 
-		// TODO: role
+		// role
+		StaffRole role = StaffRoleUtils.getStaffRole(request.queryParams("role-id"));
+		entity.setRole(role);
 
 		return entity;
 	}

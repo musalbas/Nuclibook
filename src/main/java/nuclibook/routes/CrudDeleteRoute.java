@@ -13,12 +13,18 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 		// get request info
 		String entityType = request.queryParams("entity-type");
-		String entityId = request.queryParams("entity-id");
+		int entityId = 0;
+		try {
+			entityId = Integer.parseInt(request.queryParams("entity-id"));
+		} catch (NumberFormatException e) {
+			// leave it at zero
+		}
 
 		// delete
-		// TODO: replace with status change
 		if (entityType.equals("staff")) {
-			AbstractEntityUtils.deleteEntityById(Staff.class, Integer.parseInt(entityId));
+			Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(Staff.class, entity);
 		}
 
 		return "okay";
