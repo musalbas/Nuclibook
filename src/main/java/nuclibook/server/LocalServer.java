@@ -47,7 +47,7 @@ public class LocalServer {
 		 */
 
 		// basic pages
-		Spark.get("/", new BlankRoute("Home page"));
+		Spark.get("/", new DashboardRoute());
 
 		// login/logout
 		Spark.get("/login", new LoginRoute(RequestType.GET));
