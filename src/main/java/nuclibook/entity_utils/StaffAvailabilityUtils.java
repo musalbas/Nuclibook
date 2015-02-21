@@ -30,7 +30,7 @@ public class StaffAvailabilityUtils extends AbstractEntityUtils {
         return getEntitiesByField(StaffAvailabilities.class, "staff_id", staffId);
     }
 
-    public static List<StaffAvailabilities> getAllAvailabilities() {
+    public static List<StaffAvailabilities> getAllStaffAvailabilities() {
         return getAllEntities(StaffAvailabilities.class);
     }
 }
