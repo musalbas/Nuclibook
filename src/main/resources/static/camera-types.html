@@ -9,21 +9,19 @@
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th class="text-center">ID</th>
                 <th class="text-center">Label</th>
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
 
             <tbody>
-            #[collection: cameraTypes]
+            #[collection: camera-types]
 
             #[pre]#[/pre]
 
             #[each]
             <tr>
-                <td>#id</td>
-                <td>#camera-type-label</td>
+                <td>#label</td>
                 <td>
                     <button class="btn edit-button" data-id="#id">Edit</button>
                     <button class="btn delete-button" data-id="#id">Delete</button>
@@ -35,7 +33,7 @@
 
             #[empty]
             <tr>
-                <td class="text-center" colspan="4"><strong>No types of cameras.</strong></td>
+                <td class="text-center" colspan="2"><strong>No camera types.</strong></td>
             </tr>
             #[/empty]
 
@@ -44,7 +42,7 @@
         </table>
 
         <div class="text-right">
-            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add a new type of camera</button>
+            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add a Camera Type</button>
         </div>
     </div>
 </div>
@@ -53,16 +51,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="edit-mode">Edit type of camera</h3>
-                <h3 class="create-mode">Add new type of camera</h3>
+                <h3 class="edit-mode">Edit Camera Type</h3>
+                <h3 class="create-mode">Create Camera Type</h3>
             </div>
             <div class="modal-body">
                 <form class="edit-form form-inline text-center">
-                    <input type="hidden" name="entity-type" value="cameraType"/>
+                    <input type="hidden" name="entity-type" value="camera-type"/>
                     <input type="hidden" name="entity-id" value="0"/>
                     <div class="form-group">
-                        <label for="camera-type">Camera Type</label>
-                        <input type="text" name="username" id="camera-type"/>
+                        <label for="label">Label</label>
+                        <input type="text" name="label" id="label"/>
                     </div>
                 </form>
             </div>
@@ -76,13 +74,13 @@
 
 <script src="/js/cameras.js"></script>
 
-#[def: entity-name-title = CameraType]
-#[def: entity-name-body = cameraType]
-#[def: entity-type = cameraType]
+#[def: entity-name-title = Camera Type]
+#[def: entity-name-body = camera type]
+#[def: entity-type = camera-type]
 
 ##_delete-modal.html
 ##_loading-modal.html
 
-#[collectionmap: objectMap: cameraTypes]
+#[collectionmap: objectMap: camera-types]
 
 ##_footer.html
