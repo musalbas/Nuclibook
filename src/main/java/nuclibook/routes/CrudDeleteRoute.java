@@ -27,6 +27,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			AbstractEntityUtils.updateEntity(Camera.class, entity);
 		}
 
+		// delete camera type
+		if (entityType.equals("camera-type")) {
+			CameraType entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(CameraType.class, entity);
+		}
+
 		// delete medicine
 		if (entityType.equals("medicine")) {
 			Medicine entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);

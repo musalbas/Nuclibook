@@ -35,6 +35,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = createUpdateCamera(entityId, request);
 			dbClass = Camera.class;
 		}
+		if (entityType.equals("camera-type")) {
+			entity = createUpdateCameraType(entityId, request);
+			dbClass = CameraType.class;
+		}
 		if (entityType.equals("medicine")) {
 			entity = createUpdateMedicine(entityId, request);
 			dbClass = Medicine.class;
@@ -83,6 +87,21 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// type
 		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
 		entity.setType(type);
+
+		return entity;
+	}
+
+	private CameraType createUpdateCameraType(int entityId, Request request) {
+		// create and set ID
+		CameraType entity;
+		if (createNew) {
+			entity = new CameraType();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
+		}
+
+		// label
+		entity.setLabel(request.queryParams("label"));
 
 		return entity;
 	}

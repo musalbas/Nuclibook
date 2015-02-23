@@ -63,6 +63,7 @@ public class LocalServer {
 
 		// basic CRUD pages
 		Spark.get("/cameras", new CamerasRoute());
+		Spark.get("/camera-types", new CameraTypesRoute());
 		Spark.get("/medicines", new MedicinesRoute());
 		Spark.get("/patients", new PatientsRoute());
 		Spark.get("/staff", new StaffRoute());
