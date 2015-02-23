@@ -1,0 +1,86 @@
+#[def: title = Camera Types Management]
+#[def: current-page = camera-types]
+#[def: crud = yes]
+
+##_header.html
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th class="text-center">Label</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            #[collection: camera-types]
+
+            #[pre]#[/pre]
+
+            #[each]
+            <tr>
+                <td>#label</td>
+                <td>
+                    <button class="btn edit-button" data-id="#id">Edit</button>
+                    <button class="btn delete-button" data-id="#id">Delete</button>
+                </td>
+            </tr>
+            #[/each]
+
+            #[post]#[/post]
+
+            #[empty]
+            <tr>
+                <td class="text-center" colspan="2"><strong>No camera types.</strong></td>
+            </tr>
+            #[/empty]
+
+            #[/collection]
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add a Camera Type</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal hide fade edit-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="edit-mode">Edit Camera Type</h3>
+                <h3 class="create-mode">Create Camera Type</h3>
+            </div>
+            <div class="modal-body">
+                <form class="edit-form form-inline text-center">
+                    <input type="hidden" name="entity-type" value="camera-type"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <label for="label">Label</label>
+                        <input type="text" name="label" id="label"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary btn-save">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/cameras.js"></script>
+
+#[def: entity-name-title = Camera Type]
+#[def: entity-name-body = camera type]
+#[def: entity-type = camera-type]
+
+##_delete-modal.html
+##_loading-modal.html
+
+#[collectionmap: objectMap: camera-types]
+
+##_footer.html
