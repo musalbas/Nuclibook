@@ -358,7 +358,16 @@ public class HtmlRenderer {
 
 			// put in fields
 			for (Map.Entry<String, String> e : fields.entrySet()) {
-				output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
+				if (e.getValue().startsWith("IDLIST:")) {
+					output.append("'").append(e.getKey()).append("': ").append("[");
+					String[] ids = e.getValue().substring(7).split(",");
+					for (String id : ids) {
+						output.append(id).append(",");
+					}
+					output.append("]");
+				} else {
+					output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
+				}
 			}
 
 			output.append("},");

@@ -181,6 +181,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// permissions
+		entity.clearPermissions();
 		Map<String, String[]> paramMap = request.queryMap().toMap();
 		String key;
 		Permission p;
@@ -195,7 +196,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 			// get permission
 			key = key.substring(11);
-			System.out.println("Adding permission " + key);
 			p = PermissionUtils.getPermission(key);
 			if (p != null) entity.addPermission(p);
 		}

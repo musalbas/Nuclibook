@@ -85,6 +85,16 @@ public class StaffRole implements Renderable {
 		return "" + permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "<br /><div id=\"more-permissions-" + getId() + "\" style=\"display: none;\">" + extraOutput + "</div><span>+ " + (permissions.size() - 2) + " more (<a href=\"javascript:;\" class=\"more-permissions\" data-target=\"more-permissions-" + getId() + "\">show</a>)</span>";
 	}
 
+	public String getPermissionsIdString() {
+		List<Permission> permissions = getPermissions();
+		if (permissions.isEmpty()) return "0";
+		StringBuilder sb = new StringBuilder();
+		for (Permission p : permissions) {
+			sb.append(p.getId()).append(",");
+		}
+		return sb.substring(0, sb.length() - 1);
+	}
+
 	public void clearPermissions() {
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
 		try {
@@ -114,6 +124,7 @@ public class StaffRole implements Renderable {
 		return new HashMap<String, String>() {{
 			put("id", getId().toString());
 			put("label", getLabel());
+			put("permission-ids", "IDLIST:" + getPermissionsIdString());
 			put("permission-summary", getPermissionSummary());
 		}};
 	}

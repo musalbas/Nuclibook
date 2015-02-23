@@ -58,12 +58,22 @@ function openEditModal(objectId) {
 		if (typeof(data) != 'undefined') {
 			var input, select;
 			for (var key in data) {
-				input = form.find('input[name=' + key + ']');
-				if (input.length) {
-					input.val(data[key]);
-				} else {
-					select = form.find('select[name=' + key + ']');
-					select.val(data[key]).attr('selected', 'selected');
+				// basic strings
+				if (typeof data[key] == 'string') {
+					input = form.find('input[name=' + key + ']');
+					if (input.length) {
+						input.val(data[key]);
+					} else {
+						select = form.find('select[name=' + key + ']');
+						select.val(data[key]).attr('selected', 'selected');
+					}
+				}
+
+				// id lists
+				if (typeof data[key] == 'object') {
+					for (var i = 0; i < data[key].length; ++i) {
+						$('.crud-list-prefill-' + key + '[value=' + data[key][i] + ']').attr('checked', 'checked')
+					}
 				}
 			}
 		}
