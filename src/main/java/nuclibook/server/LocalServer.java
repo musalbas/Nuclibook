@@ -49,7 +49,8 @@ public class LocalServer {
 		// basic pages
 		Spark.get("/", new DashboardRoute());
 
-		// login/logout
+		// security
+		Spark.get("/access-denied", new AccessDeniedRoute());
 		Spark.get("/login", new LoginRoute(RequestType.GET));
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
