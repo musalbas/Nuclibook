@@ -27,6 +27,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			AbstractEntityUtils.updateEntity(Camera.class, entity);
 		}
 
+		// delete camera type
+		if (entityType.equals("camera-type")) {
+			CameraType entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(CameraType.class, entity);
+		}
+
 		// delete medicine
 		if (entityType.equals("medicine")) {
 			Medicine entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
@@ -46,6 +53,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Staff.class, entity);
+		}
+
+		// delete staff role
+		if (entityType.equals("staff-role")) {
+			StaffRole entity = AbstractEntityUtils.getEntityById(StaffRole.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(StaffRole.class, entity);
 		}
 
 		// delete therapy

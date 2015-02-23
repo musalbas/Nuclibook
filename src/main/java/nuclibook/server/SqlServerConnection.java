@@ -47,7 +47,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, StaffAbsences.class);
 			TableUtils.createTableIfNotExists(connection, StaffAvailabilities.class);
 			TableUtils.createTableIfNotExists(connection, StaffRole.class);
-			TableUtils.createTableIfNotExists(connection, StaffRolePermissions.class);
+			TableUtils.createTableIfNotExists(connection, StaffRolePermission.class);
 			TableUtils.createTableIfNotExists(connection, Therapy.class);
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO deal with exception

@@ -1,14 +1,12 @@
 package nuclibook.routes;
 
-import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.entity_utils.CameraTypeUtils;
-import nuclibook.entity_utils.MedicineUtils;
-import nuclibook.entity_utils.StaffRoleUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.*;
 import spark.Request;
 import spark.Response;
 
 import java.sql.Date;
+import java.util.Map;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
 
@@ -37,6 +35,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity = createUpdateCamera(entityId, request);
 			dbClass = Camera.class;
 		}
+		if (entityType.equals("camera-type")) {
+			entity = createUpdateCameraType(entityId, request);
+			dbClass = CameraType.class;
+		}
 		if (entityType.equals("medicine")) {
 			entity = createUpdateMedicine(entityId, request);
 			dbClass = Medicine.class;
@@ -48,6 +50,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (entityType.equals("staff")) {
 			entity = createUpdateStaff(entityId, request);
 			dbClass = Staff.class;
+		}
+		if (entityType.equals("staff-role")) {
+			entity = createUpdateStaffRole(entityId, request);
+			dbClass = StaffRole.class;
 		}
 		if (entityType.equals("therapy")) {
 			entity = createUpdateTherapy(entityId, request);
@@ -81,6 +87,21 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// type
 		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
 		entity.setType(type);
+
+		return entity;
+	}
+
+	private CameraType createUpdateCameraType(int entityId, Request request) {
+		// create and set ID
+		CameraType entity;
+		if (createNew) {
+			entity = new CameraType();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
+		}
+
+		// label
+		entity.setLabel(request.queryParams("label"));
 
 		return entity;
 	}
@@ -159,6 +180,47 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setRole(role);
 
 		return entity;
+	}
+
+	private StaffRole createUpdateStaffRole(int entityId, Request request) {
+		// create and set ID
+		StaffRole entity;
+		if (createNew) {
+			entity = new StaffRole();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(StaffRole.class, entityId);
+		}
+
+		// label
+		entity.setLabel(request.queryParams("label"));
+
+		// if it's new, we'll save it here so that the permissions can be added properly
+		if (createNew) {
+			AbstractEntityUtils.createEntity(StaffRole.class, entity);
+		}
+
+		// permissions
+		entity.clearPermissions();
+		Map<String, String[]> paramMap = request.queryMap().toMap();
+		String key;
+		Permission p;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a permission?
+			if (!key.startsWith("permission-")) {
+				continue;
+			}
+
+			// get permission
+			key = key.substring(11);
+			p = PermissionUtils.getPermission(key);
+			if (p != null) entity.addPermission(p);
+		}
+
+		// don't let it be created again if it's new
+		return createNew ? null : entity;
 	}
 
 	private Therapy createUpdateTherapy(int entityId, Request request) {

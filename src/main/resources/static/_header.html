@@ -16,6 +16,9 @@
 		<link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 		#[/if]
 
+		<!-- keep in header! -->
+		<script src="/js/core/jquery.min.js"></script>
+
 		<!--[if lt IE 9]>
 		<script src="/js/core/html5shiv.js"></script>
 		<script src="/js/core/respond.min.js"></script>
@@ -99,14 +102,14 @@
 							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Resources</a>
 							<!-- TODO: implement collapse action -->
 							<ul class="nav navbar-nav">
-								<li#[if: current-page = staff] class="active"#[/if]>
-									<a href="/staff"><i class="fa fa-fw fa-stethoscope"></i> Staff</a>
-								</li>
 								<li#[if: current-page = medicines] class="active"#[/if]>
 									<a href="/medicines"><i class="fa fa-fw fa-flask"></i> Medicines</a>
 								</li>
 								<li#[if: current-page = cameras] class="active"#[/if]>
 									<a href="/cameras"><i class="fa fa-fw fa-camera"></i> Cameras</a>
+								</li>
+								<li#[if: current-page = cameras] class="active"#[/if]>
+									<a href="/camera-types"><i class="fa fa-fw fa-camera"></i> Camera Types</a>
 								</li>
 								<li#[if: current-page = therapies] class="active"#[/if]>
 									<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
@@ -114,6 +117,18 @@
 								<li#[if: current-page = action-log] class="active"#[/if]>
 									<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
 								</li#[if: current-page = settings] class="active"#[/if]>
+							</ul>
+						</li>
+						<li>
+							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Staff</a>
+							<!-- TODO: implement collapse action -->
+							<ul class="nav navbar-nav">
+								<li#[if: current-page = staff] class="active"#[/if]>
+									<a href="/staff"><i class="fa fa-fw fa-user-md"></i> Staff Accounts</a>
+								</li>
+								<li#[if: current-page = staff-roles] class="active"#[/if]>
+									<a href="/staff-roles"><i class="fa fa-fw fa-stethoscope"></i> Staff Roles</a>
+								</li>
 							</ul>
 						</li>
 					</ul>

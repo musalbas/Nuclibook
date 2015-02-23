@@ -57,23 +57,17 @@ public class LocalServer {
         // action logs
         Spark.get("/action-log", new ActionLogRoute());
 
-		// entity CRUD
+		// entity CRUD action routes
 		Spark.post("/entity-update", new CrudCreateUpdateRoute());
 		Spark.post("/entity-delete", new CrudDeleteRoute());
 
-		// cameras
+		// basic CRUD pages
 		Spark.get("/cameras", new CamerasRoute());
-
-		// medicines
+		Spark.get("/camera-types", new CameraTypesRoute());
 		Spark.get("/medicines", new MedicinesRoute());
-
-		// patients
 		Spark.get("/patients", new PatientsRoute());
-
-		// staff
 		Spark.get("/staff", new StaffRoute());
-
-		// therapies
+		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 
 		// debugging
