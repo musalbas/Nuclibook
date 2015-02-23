@@ -1,0 +1,69 @@
+package nuclibook.models;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.time.DayOfWeek;
+
+@DatabaseTable(tableName = "staff_availabilities")
+public class StaffAvailability {
+
+    @DatabaseField(generatedId = true)
+    private Integer id;
+
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id", foreignAutoRefresh = true)
+    private Staff staff;
+
+    @DatabaseField
+    private DayOfWeek day;
+
+    @DatabaseField(columnName = "start_time")
+    private int startTime;
+
+    @DatabaseField(columnName = "end_time")
+    private int endTime;
+
+    public StaffAvailability() {
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public DayOfWeek getDay() {
+        return day;
+    }
+
+    public void setDay(DayOfWeek day) {
+        this.day = day;
+    }
+
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
+    }
+}
