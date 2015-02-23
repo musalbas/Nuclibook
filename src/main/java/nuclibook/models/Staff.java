@@ -2,6 +2,7 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.constants.P;
 import nuclibook.server.Renderable;
 
 import java.io.UnsupportedEncodingException;
@@ -9,7 +10,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @DatabaseTable(tableName = "staff")
 public class Staff implements Renderable {
@@ -34,6 +37,8 @@ public class Staff implements Renderable {
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
+
+	private ArrayList<P> permissions = null;
 
 	public Staff() {
 	}
@@ -120,6 +125,33 @@ public class Staff implements Renderable {
 		}
 
 		return String.format("%0128x", new BigInteger(1, hash));
+	}
+
+	/* PERMISSIONS */
+
+	private void loadPermissions(boolean force) {
+		// already done the work?
+		if (!force && permissions != null) return;
+
+		// load all permissions (raw)
+		List<Permission> permissionList = role.getPermissions();
+
+		// create new array
+		permissions = new ArrayList<>(permissionList.size());
+
+		// convert to enum list
+		for (Permission p : permissionList) {
+			try {
+				permissions.add(P.valueOf(p.getLabel()));
+			} catch (IllegalArgumentException | NullPointerException e) {
+				// at least we tried!
+			}
+		}
+	}
+
+	public boolean hasPermission(P p) {
+		loadPermissions(false);
+		return permissions.contains(p);
 	}
 
 	@Override
