@@ -51,19 +51,29 @@ public class StaffAvailability {
         this.day = day;
     }
 
-    public int getStartTime() {
-        return startTime;
+    public TimeOfDay getStartTime() {
+        try {
+            return new TimeOfDay(startTime);
+        } catch (InvalidTimeOfDayException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
+    public void setStartTime(TimeOfDay startTime) {
+        this.startTime = startTime.getSecondsPastMidnight();
     }
 
-    public int getEndTime() {
-        return endTime;
+    public TimeOfDay getEndTime() {
+        try {
+            return new TimeOfDay(endTime);
+        } catch (InvalidTimeOfDayException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void setEndTime(int endTime) {
-        this.endTime = endTime;
+    public void setEndTime(TimeOfDay endTime) {
+        this.endTime = endTime.getSecondsPastMidnight();
     }
 }
