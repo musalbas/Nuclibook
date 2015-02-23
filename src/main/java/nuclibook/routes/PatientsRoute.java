@@ -1,6 +1,8 @@
 package nuclibook.routes;
 
+import nuclibook.constants.P;
 import nuclibook.entity_utils.PatientUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -12,7 +14,11 @@ public class PatientsRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
 		prepareToHandle();
+
+		// security check
+		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();

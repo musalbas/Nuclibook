@@ -1,7 +1,9 @@
 package nuclibook.routes;
 
+import nuclibook.constants.P;
 import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.MedicineUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TherapyUtils;
 import nuclibook.models.CameraType;
 import nuclibook.models.Medicine;
@@ -16,7 +18,11 @@ public class TherapiesRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
 		prepareToHandle();
+
+		// security check
+		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();

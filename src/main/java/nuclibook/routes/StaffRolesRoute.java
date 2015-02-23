@@ -1,6 +1,8 @@
 package nuclibook.routes;
 
+import nuclibook.constants.P;
 import nuclibook.entity_utils.PermissionUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.Permission;
 import nuclibook.models.StaffRole;
@@ -14,7 +16,11 @@ public class StaffRolesRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
 		prepareToHandle();
+
+		// security check
+		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ROLES, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();

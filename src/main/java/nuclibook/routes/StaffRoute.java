@@ -16,6 +16,7 @@ public class StaffRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
 		prepareToHandle();
 
 		// security check

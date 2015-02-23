@@ -1,5 +1,11 @@
 package nuclibook.constants;
 
+/**
+ * The values in this enum correspond to the various permissions that exist in the system.
+ *
+ * Their names must correspond exactly with the `permissions.label` field in the database.
+ */
+
 public enum P {
 
 	EDIT_APPOINTMENTS,
