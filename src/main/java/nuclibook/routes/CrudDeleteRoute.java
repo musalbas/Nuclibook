@@ -48,6 +48,13 @@ public class CrudDeleteRoute extends DefaultRoute {
 			AbstractEntityUtils.updateEntity(Staff.class, entity);
 		}
 
+		// delete staff role
+		if (entityType.equals("staff-role")) {
+			StaffRole entity = AbstractEntityUtils.getEntityById(StaffRole.class, entityId);
+			entity.setEnabled(false);
+			AbstractEntityUtils.updateEntity(StaffRole.class, entity);
+		}
+
 		// delete therapy
 		if (entityType.equals("therapy")) {
 			Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);

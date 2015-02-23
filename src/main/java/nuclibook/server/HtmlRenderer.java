@@ -156,7 +156,7 @@ public class HtmlRenderer {
 	private static Pattern definitionPattern = Pattern.compile("#\\[def: ([a-z0-9\\-]+) = (.*?)\\]", regexOptions);
 	private static Pattern conditionalSetFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+) = (.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
-	private static Pattern fieldPattern = Pattern.compile("#([a-z0-9\\-]+)", regexOptions);
+	private static Pattern fieldPattern = Pattern.compile("#(HTMLOKAY:)?([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
 	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\\\-]+): ([a-z0-9\\-]+)\\]", regexOptions);
 
@@ -444,15 +444,15 @@ public class HtmlRenderer {
 		Matcher fieldMatcher = fieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
-			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(1), fields));
+			fieldMatcher.appendReplacement(output, getFieldValue(fieldMatcher.group(2), fieldMatcher.group(1), fields));
 		}
 		fieldMatcher.appendTail(output);
 		return output.toString();
 	}
 
 	// return the value, or "", for a given field key
-	private String getFieldValue(String key, HashMap<String, String> fields) {
-		return (fields.containsKey(key) && fields.get(key) != null) ? StringEscapeUtils.escapeHtml(fields.get(key)) : "";
+	private String getFieldValue(String key, String htmlOkay, HashMap<String, String> fields) {
+		return (fields.containsKey(key) && fields.get(key) != null) ? ((htmlOkay != null && htmlOkay.equals("HTMLOKAY:")) ? fields.get(key) : StringEscapeUtils.escapeHtml(fields.get(key))) : "";
 	}
 
 	/**

@@ -21,3 +21,10 @@ html, body {
 .side-nav li ul li {
 	width: 100%;
 }
+
+/* multi select box for crud forms */
+
+div.multi-select-box {
+	max-height:300px;
+	overflow-y: auto;
+}

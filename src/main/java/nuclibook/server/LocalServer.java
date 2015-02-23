@@ -19,7 +19,7 @@ public class LocalServer {
 		Spark.before((request, response) -> {
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
-			if (path.startsWith("/login")
+			if (path.startsWith("/") // TODO
 					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
 					|| path.startsWith("/js")
@@ -57,23 +57,16 @@ public class LocalServer {
         // action logs
         Spark.get("/action-log", new ActionLogRoute());
 
-		// entity CRUD
+		// entity CRUD action routes
 		Spark.post("/entity-update", new CrudCreateUpdateRoute());
 		Spark.post("/entity-delete", new CrudDeleteRoute());
 
-		// cameras
+		// basic CRUD pages
 		Spark.get("/cameras", new CamerasRoute());
-
-		// medicines
 		Spark.get("/medicines", new MedicinesRoute());
-
-		// patients
 		Spark.get("/patients", new PatientsRoute());
-
-		// staff
 		Spark.get("/staff", new StaffRoute());
-
-		// therapies
+		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 
 		// debugging

@@ -61,6 +61,30 @@ public class StaffRole implements Renderable {
 		return output;
 	}
 
+	public String getPermissionSummary() {
+		// get permissions in a simple format
+		List<Permission> permissions = getPermissions();
+
+		if (permissions.size() == 0) {
+			return "None";
+		}
+
+		if (permissions.size() == 1) {
+			return "" + permissions.get(0).getDescription() + "";
+		}
+
+		if (permissions.size() == 2) {
+			return "" + permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "";
+		}
+
+		String extraOutput = "";
+		for (int i = 2; i < permissions.size(); ++i) {
+			extraOutput += permissions.get(i).getDescription() + "<br />";
+		}
+		extraOutput = extraOutput.substring(0, extraOutput.length() - 6);
+		return "" + permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "<br /><div id=\"more-permissions-" + getId() + "\" style=\"display: none;\">" + extraOutput + "</div><span>+ " + (permissions.size() - 2) + " more (<a href=\"javascript:;\" class=\"more-permissions\" data-target=\"more-permissions-" + getId() + "\">show</a>)</span>";
+	}
+
 	public void clearPermissions() {
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
 		try {
@@ -87,9 +111,10 @@ public class StaffRole implements Renderable {
 
 	@Override
 	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>(){{
+		return new HashMap<String, String>() {{
 			put("id", getId().toString());
 			put("label", getLabel());
+			put("permission-summary", getPermissionSummary());
 		}};
 	}
 }

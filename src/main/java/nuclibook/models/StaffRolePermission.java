@@ -9,10 +9,10 @@ public class StaffRolePermission {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_role_id")
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_role_id", foreignAutoRefresh = true)
 	private StaffRole staffRole;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id")
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id", foreignAutoRefresh = true)
 	private Permission permission;
 
 	public StaffRolePermission() {
