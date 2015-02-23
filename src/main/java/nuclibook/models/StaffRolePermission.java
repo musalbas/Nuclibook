@@ -4,18 +4,23 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "staff_role_permissions")
-public class StaffRolePermissions {
+public class StaffRolePermission {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
-	private Staff staff;
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_role_id")
+	private StaffRole staffRole;
 
 	@DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id")
 	private Permission permission;
 
-	public StaffRolePermissions() {
+	public StaffRolePermission() {
+	}
+
+	public StaffRolePermission(StaffRole staffRole, Permission permission) {
+		this.staffRole = staffRole;
+		this.permission = permission;
 	}
 
 	public Integer getId() {
@@ -26,12 +31,12 @@ public class StaffRolePermissions {
 		this.id = id;
 	}
 
-	public Staff getStaff() {
-		return staff;
+	public StaffRole getStaffRole() {
+		return staffRole;
 	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
+	public void setStaffRole(StaffRole staffRole) {
+		this.staffRole = staffRole;
 	}
 
 	public Permission getPermission() {
