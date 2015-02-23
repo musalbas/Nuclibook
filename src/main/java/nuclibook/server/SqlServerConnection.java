@@ -35,7 +35,6 @@ public class SqlServerConnection {
 	public static void initDB(ConnectionSource connection) {
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
-			TableUtils.createTableIfNotExists(connection, Availability.class);
 			TableUtils.createTableIfNotExists(connection, Booking.class);
 			TableUtils.createTableIfNotExists(connection, BookingStaff.class);
 			TableUtils.createTableIfNotExists(connection, Camera.class);
@@ -45,7 +44,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, Permission.class);
 			TableUtils.createTableIfNotExists(connection, Staff.class);
 			TableUtils.createTableIfNotExists(connection, StaffAbsences.class);
-			TableUtils.createTableIfNotExists(connection, StaffAvailabilities.class);
+			TableUtils.createTableIfNotExists(connection, StaffAvailability.class);
 			TableUtils.createTableIfNotExists(connection, StaffRole.class);
 			TableUtils.createTableIfNotExists(connection, StaffRolePermission.class);
 			TableUtils.createTableIfNotExists(connection, Therapy.class);
