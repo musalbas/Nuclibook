@@ -2,7 +2,7 @@ $(document).ready(function () {
 	// "show more" links
 	$('.more-permissions').click(function (e) {
 		e.preventDefault();
-		$('#' + $(this).attr('data-target')).show();
+		$('#' + $(this).attr('data-target')).slideDown();
 		$(this).closest('span').hide();
 	})
 });

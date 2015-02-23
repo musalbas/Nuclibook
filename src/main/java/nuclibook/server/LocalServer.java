@@ -19,7 +19,7 @@ public class LocalServer {
 		Spark.before((request, response) -> {
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
-			if (path.startsWith("/") // TODO
+			if (path.startsWith("/login")
 					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
 					|| path.startsWith("/js")

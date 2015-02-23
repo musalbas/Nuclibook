@@ -70,19 +70,22 @@ public class StaffRole implements Renderable {
 		}
 
 		if (permissions.size() == 1) {
-			return "" + permissions.get(0).getDescription() + "";
+			return permissions.get(0).getDescription();
 		}
 
 		if (permissions.size() == 2) {
-			return "" + permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "";
+			return permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription();
 		}
 
-		String extraOutput = "";
+		String output = permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "<br />";
+		output += "<div id=\"more-permissions-" + getId() + "\" style=\"display: none;\">";
 		for (int i = 2; i < permissions.size(); ++i) {
-			extraOutput += permissions.get(i).getDescription() + "<br />";
+			output += permissions.get(i).getDescription() + "<br />";
 		}
-		extraOutput = extraOutput.substring(0, extraOutput.length() - 6);
-		return "" + permissions.get(0).getDescription() + "<br />" + permissions.get(1).getDescription() + "<br /><div id=\"more-permissions-" + getId() + "\" style=\"display: none;\">" + extraOutput + "</div><span>+ " + (permissions.size() - 2) + " more (<a href=\"javascript:;\" class=\"more-permissions\" data-target=\"more-permissions-" + getId() + "\">show</a>)</span>";
+		output = output.substring(0, output.length() - 6);
+		output += "</div>";
+		output += "<span>+ " + (permissions.size() - 2) + " more (<a href=\"javascript:;\" class=\"more-permissions\" data-target=\"more-permissions-" + getId() + "\">show</a>)</span>";
+		return output;
 	}
 
 	public String getPermissionsIdString() {
@@ -98,7 +101,6 @@ public class StaffRole implements Renderable {
 	public void clearPermissions() {
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
 		try {
-			Permission p;
 			while (iterator.hasNext()) {
 				AbstractEntityUtils.deleteEntity(StaffRolePermission.class, iterator.next());
 			}
