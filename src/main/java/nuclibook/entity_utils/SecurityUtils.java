@@ -1,9 +1,11 @@
 package nuclibook.entity_utils;
 
 import com.j256.ormlite.support.ConnectionSource;
+import nuclibook.constants.P;
 import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.Staff;
 import nuclibook.server.SqlServerConnection;
+import spark.Response;
 
 public class SecurityUtils {
 
@@ -47,6 +49,14 @@ public class SecurityUtils {
 
 	public static Staff getCurrentUser() {
 		return loggedInAs;
+	}
+
+	public static boolean requirePermission(P p, Response response) {
+		if (loggedInAs == null || !loggedInAs.hasPermission(p)) {
+			response.redirect("/access-denied");
+			return false;
+		}
+		return true;
 	}
 
 }
