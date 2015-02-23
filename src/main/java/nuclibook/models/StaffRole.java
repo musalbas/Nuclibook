@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,14 @@ public class StaffRole implements Renderable {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public void refreshPermissions() {
+		try {
+			staffRolePermissions.refreshCollection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<Permission> getPermissions() {

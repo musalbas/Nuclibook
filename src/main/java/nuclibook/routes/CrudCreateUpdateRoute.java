@@ -69,6 +69,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			}
 		}
 
+		// anything to do afterwards?
+		if (entityType.equals("staff-role") || entityType.equals("staff")) {
+			SecurityUtils.getCurrentUser().refreshPermissions();
+		}
+
+		// TODO: actually monitor status
 		return "okay";
 	}
 

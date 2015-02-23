@@ -134,6 +134,7 @@ public class Staff implements Renderable {
 		if (!force && permissions != null) return;
 
 		// load all permissions (raw)
+		role.refreshPermissions();
 		List<Permission> permissionList = role.getPermissions();
 
 		// create new array
@@ -147,6 +148,10 @@ public class Staff implements Renderable {
 				// at least we tried!
 			}
 		}
+	}
+
+	public void refreshPermissions() {
+		loadPermissions(true);
 	}
 
 	public boolean hasPermission(P p) {
