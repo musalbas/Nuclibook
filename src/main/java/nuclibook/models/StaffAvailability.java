@@ -15,7 +15,7 @@ public class StaffAvailability {
     private Staff staff;
 
     @DatabaseField
-    private DayOfWeek day;
+    private int day;
 
     @DatabaseField(columnName = "start_time")
     private int startTime;
@@ -25,7 +25,6 @@ public class StaffAvailability {
 
     public StaffAvailability() {
     }
-
 
     public Integer getId() {
         return id;
@@ -43,11 +42,11 @@ public class StaffAvailability {
         this.staff = staff;
     }
 
-    public DayOfWeek getDay() {
+    public int getDay() {
         return day;
     }
 
-    public void setDay(DayOfWeek day) {
+    public void setDay(int day) {
         this.day = day;
     }
 

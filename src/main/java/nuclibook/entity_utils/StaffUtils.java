@@ -1,7 +1,9 @@
 package nuclibook.entity_utils;
 
 import nuclibook.models.*;
+import org.apache.commons.lang.time.DateUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,16 +42,47 @@ public class StaffUtils extends AbstractEntityUtils {
      *
      * @return              true if the staff member is available within the specified period; false otherwise
      */
-    public boolean isAvailable(int staffId, Date startDate, Date endDate) {
+    public boolean isAvailable(Staff staff, Date startDate, Date endDate) {
+        int staffId = staff.getId();
 
-        //endDate can't be earlier than startDate
+        // endDate can't be earlier than startDate
         if (endDate.getTime() < startDate.getTime()) {
             return false;
         }
 
-        //check if staff id exists
-        if (getEntityById(Staff.class, staffId) == null) {
-            return false;
+        /*STAFF DEFAULT AVAILABILITY */
+        //convert dates to seconds past midnight
+        long startDateSecondsPastMidnight = startDate.getTime() % (60*60*24);
+        long endDateSecondsPastMidnight = endDate.getTime() % (60*60*24);
+        int dayOfTheWeek = (DateUtils.toCalendar(startDate).get(Calendar.DAY_OF_WEEK) + 6) % 7;
+        if(dayOfTheWeek == 0) dayOfTheWeek = 7;
+
+        boolean passedAvailableCheck = false;
+
+        //get availability for staff id
+        List<StaffAvailability> staffAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(staffId);
+
+        for (StaffAvailability sa : staffAvailabilities) {
+            if (sa.getDay() == dayOfTheWeek) { //check if same day of the week
+                if (sa.getStartTime().getSecondsPastMidnight() <= startDateSecondsPastMidnight
+                        && sa.getEndTime().getSecondsPastMidnight() >= endDateSecondsPastMidnight) {
+                    passedAvailableCheck = true;
+                    break;
+                }
+            }
+        }
+
+        if (!passedAvailableCheck) return false;
+
+        /* STAFF ABSENCES */
+        List<StaffAbsences> staffAbsences = StaffAbsencesUtils.getStaffAbsencesByStaffId(staffId);
+        for(StaffAbsences sa : staffAbsences) {
+            if( (sa.getFrom().compareTo(startDate) <= 0 && sa.getTo().compareTo(endDate) >= 0)
+                    || (sa.getFrom().compareTo(startDate) >= 0 && sa.getFrom().compareTo(endDate) <= 0)
+                    || (sa.getTo().compareTo(startDate) >= 0 && sa.getTo().compareTo(endDate) <= 0)
+                    || (sa.getFrom().compareTo(startDate) >= 0 && sa.getTo().compareTo(endDate) <= 0)) {
+                return false; //not allowed to overlap with ANY absences
+            }
         }
 
         /*BOOKINGS*/
@@ -66,40 +99,6 @@ public class StaffUtils extends AbstractEntityUtils {
             }
         }
 
-        /* STAFF ABSENCES */
-        List<StaffAbsences> staffAbsences = StaffAbsencesUtils.getStaffAbsencesByStaffId(staffId);
-
-        for(StaffAbsences sa : staffAbsences) {
-            if( (sa.getFrom().compareTo(startDate) <= 0 && sa.getTo().compareTo(endDate) >= 0)
-                    || (sa.getFrom().compareTo(startDate) >= 0 && sa.getFrom().compareTo(endDate) <= 0)
-                    || (sa.getTo().compareTo(startDate) >= 0 && sa.getTo().compareTo(endDate) <= 0)
-                    || (sa.getFrom().compareTo(startDate) >= 0 && sa.getTo().compareTo(endDate) <= 0)) {
-                return false; //not allowed to overlap with ANY absences
-            }
-        }
-
-        /*STAFF DEFAULT AVAILABILITY */
-        //convert dates to seconds past midnight
-        int startDateSecondsPastMidnight = (startDate.getHours() * 3600) + (startDate.getMinutes() * 60) + startDate.getSeconds();
-        int endDateSecondsPastMidnight = (endDate.getHours() * 3600) + (endDate.getMinutes() * 60) + endDate.getSeconds();
-
-        int dayOfTheWeek = startDate.getDay() + 1;
-
-        //get availability for staff id
-        List<StaffAvailabilities> staffAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(staffId);
-        Availability availability;
-
-        for (StaffAvailabilities sa : staffAvailabilities) {
-            availability = sa.getAvailability();
-
-            if (availability.getDay().getValue() == dayOfTheWeek) { //check if same day of the week
-                if (availability.getStartTime().getSecondsPastMidnight() <= startDateSecondsPastMidnight
-                        && availability.getEndTime().getSecondsPastMidnight() >= endDateSecondsPastMidnight) {
-                    return true; //we can return true at this point as all the other checks have not failed
-                }
-            }
-        }
-
-        return false;
+        return true;
     }
 }
