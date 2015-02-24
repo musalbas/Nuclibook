@@ -36,7 +36,7 @@ public class StaffUtils extends AbstractEntityUtils {
     /**
      * A method for checking if a staff member is available during a certain period, specified by the user.
      *
-     * @param staffId       the staff member ID whose availability we're checking
+     * @param staff         the staff object whose availability we're checking
      * @param startDate     the start date of the queried time interval
      * @param endDate       the end date of the queried time interval
      *
@@ -52,8 +52,8 @@ public class StaffUtils extends AbstractEntityUtils {
 
         /*STAFF DEFAULT AVAILABILITY */
         //convert dates to seconds past midnight
-        long startDateSecondsPastMidnight = startDate.getTime() % (60*60*24);
-        long endDateSecondsPastMidnight = endDate.getTime() % (60*60*24);
+        long startDateSecondsPastMidnight = (startDate.getTime()*1000) % (60*60*24);
+        long endDateSecondsPastMidnight = (endDate.getTime()*1000) % (60*60*24);
         int dayOfTheWeek = (DateUtils.toCalendar(startDate).get(Calendar.DAY_OF_WEEK) + 6) % 7;
         if(dayOfTheWeek == 0) dayOfTheWeek = 7;
 
