@@ -36,32 +36,25 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (entityType.equals("camera")) {
 			entityPair = createUpdateCamera(entityId, request);
 			dbClass = Camera.class;
-		}
-		if (entityType.equals("camera-type")) {
+		} else if (entityType.equals("camera-type")) {
 			entityPair = createUpdateCameraType(entityId, request);
 			dbClass = CameraType.class;
-		}
-		if (entityType.equals("medicine")) {
+		} else if (entityType.equals("medicine")) {
 			entityPair = createUpdateMedicine(entityId, request);
 			dbClass = Medicine.class;
-		}
-		if (entityType.equals("patient")) {
+		} else if (entityType.equals("patient")) {
 			entityPair = createUpdatePatient(entityId, request);
 			dbClass = Patient.class;
-		}
-		if (entityType.equals("staff")) {
+		} else if (entityType.equals("staff")) {
 			entityPair = createUpdateStaff(entityId, request);
 			dbClass = Staff.class;
-		}
-		if (entityType.equals("staff-absence")) {
+		} else if (entityType.equals("staff-absence")) {
 			entityPair = createUpdateStaffAbsence(entityId, request);
 			dbClass = StaffAbsence.class;
-		}
-		if (entityType.equals("staff-role")) {
+		} else if (entityType.equals("staff-role")) {
 			entityPair = createUpdateStaffRole(entityId, request);
 			dbClass = StaffRole.class;
-		}
-		if (entityType.equals("therapy")) {
+		} else if (entityType.equals("therapy")) {
 			entityPair = createUpdateTherapy(entityId, request);
 			dbClass = Therapy.class;
 		}
