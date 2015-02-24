@@ -10,7 +10,13 @@ $(document).ready(function () {
 var validateCreateForm = function (formObject) {
 	var error = false;
 
-	// TODO
+    var roleTitleString = formObject["label"];
+
+    if (roleTitleString.trim().length < 1) {
+        toastr.error("You did not enter a valid role title");
+        error = true;
+    }
+    //TODO Staff_ROLeS when there is no permission selected
 
 	return !error;
 };
