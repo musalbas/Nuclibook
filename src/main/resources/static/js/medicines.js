@@ -1,7 +1,7 @@
 var validateCreateForm = function (formObject) {
     var error = false;
     // check name
-    if (formObject.name.length < 1) {
+    if (formObject.name.trim().length < 1) {
         toastr.error("You did not enter a valid name");
         error = true;
     }
@@ -19,7 +19,7 @@ var validateCreateForm = function (formObject) {
 var validateEditForm = function (formObject) {
 	var error = false;
 	// check name
-	if (formObject.name.length < 1) {
+	if (formObject.name.trim().length < 1) {
 		toastr.error("You did not enter a valid name");
 		error = true;
 	}
