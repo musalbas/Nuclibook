@@ -330,8 +330,9 @@ public class HtmlRenderer {
 		while (iterator.hasNext()) {
 			// get entry and handle fields
 			entry = (Renderable) iterator.next();
-			entryHtml = parseConditionalSetFields(each, entry.getHashMap());
-			entryHtml = parseFields(entryHtml, entry.getHashMap());
+			entryHtml = parseConditionalSetFields(each, mergeHashMaps(entry.getHashMap(), fields));
+			entryHtml = parseConditionalValueFields(entryHtml, mergeHashMaps(entry.getHashMap(), fields));
+			entryHtml = parseFields(entryHtml, mergeHashMaps(entry.getHashMap(), fields));
 
 			// insert index and guid
 			entryHtml = basicReplace(entryHtml, "_index", "" + i);
@@ -571,6 +572,11 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
+	private HashMap<String, String> mergeHashMaps(HashMap<String, String> a,  HashMap<String, String> b) {
+		HashMap<String, String> temp = (HashMap<String, String>) a.clone();
+		temp.putAll(b);
+		return temp;
+	}
 	/**
 	 * RENDERER
 	 */

@@ -131,6 +131,16 @@
 								<li#[if: current-page = staff-roles] class="active"#[/if]>
 									<a href="/staff-roles"><i class="fa fa-fw fa-stethoscope"></i> Staff Roles</a>
 								</li>
+								#[ifperm: EDIT_STAFF_AVAILABILITIES]
+								<li#[if: current-page = staff-availabilities] class="active"#[/if]>
+									<a href="/select-staff/availabilities"><i class="fa fa-fw fa-check-circle"></i> Staff Availabilties</a>
+								</li#[if: current-page = settings] class="active"#[/if]>
+								#[/ifperm]
+								#[ifperm: EDIT_STAFF_ABSENCES]
+								<li#[if: current-page = staff-absences] class="active"#[/if]>
+									<a href="/select-staff/absences"><i class="fa fa-fw fa-times-circle"></i> Staff Absences</a>
+								</li#[if: current-page = settings] class="active"#[/if]>
+								#[/ifperm]
 							</ul>
 						</li>
 					</ul>

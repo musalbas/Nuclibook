@@ -67,9 +67,12 @@ public class LocalServer {
 		Spark.get("/camera-types", new CameraTypesRoute());
 		Spark.get("/medicines", new MedicinesRoute());
 		Spark.get("/patients", new PatientsRoute());
-		Spark.get("/staff", new StaffRoute());
+		Spark.get("/staff", new SelectStaffRoute());
 		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
+
+		// staff absences and availabilities
+		Spark.get("/select-staff/:target:", new SelectStaffRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
