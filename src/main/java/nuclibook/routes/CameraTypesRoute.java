@@ -1,6 +1,8 @@
 package nuclibook.routes;
 
+import nuclibook.constants.P;
 import nuclibook.entity_utils.CameraTypeUtils;
+import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.CameraType;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -12,7 +14,11 @@ public class CameraTypesRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
 		prepareToHandle();
+
+		// security check
+		if (!SecurityUtils.requirePermission(P.VIEW_CAMERAS, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();

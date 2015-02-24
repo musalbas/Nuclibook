@@ -1,5 +1,8 @@
 package nuclibook.server;
 
+import nuclibook.constants.P;
+import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.models.Staff;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.BufferedReader;
@@ -73,6 +76,24 @@ public class HtmlRenderer {
 	 *
 	 * #[if: status=okay]It's all good!#[/if]
 	 * #[!if: status=okay]Uh-oh#[/!if]
+	 *
+	 *
+	 * Conditional Fields (Check Permission)
+	 * -------------------------------------
+	 *
+	 * These provide an easy way to check if a user has a certain permission, like so:
+	 *
+	 * #[ifperm: VIEW_TOP_SECRET_DATA]
+	 *     Hello Mr Bond.
+	 * #[/ifperm]
+	 *
+	 * #[!ifperm: VIEW_TOP_SECRET_DATA]
+	 *     YOU SHALL NOT PASS!
+	 * #[/!ifperm]
+	 *
+	 * The inner content will be shown if the currently active user has the stated permission.
+	 *
+	 * The permission name must match *exactly* with the enum values in nuclibook.constants.P.
 	 *
 	 *
 	 * Collections
@@ -151,11 +172,13 @@ public class HtmlRenderer {
 	/**
 	 * PATTERNS
 	 */
+
 	private static int regexOptions = Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE;
 	private static Pattern filePattern = Pattern.compile("##([a-z0-9\\-\\._]+)", regexOptions);
 	private static Pattern definitionPattern = Pattern.compile("#\\[def: ([a-z0-9\\-]+) = (.*?)\\]", regexOptions);
 	private static Pattern conditionalSetFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
 	private static Pattern conditionalValueFieldPattern = Pattern.compile("#\\[(if|!if): ([a-z0-9\\-]+) = (.*?)\\](.*?)#\\[/(if|!if)\\]", regexOptions);
+	private static Pattern conditionalPermissionFieldPattern = Pattern.compile("#\\[(ifperm|!ifperm): ([a-z0-9\\-_]+)\\](.*?)#\\[/(ifperm|!ifperm)\\]", regexOptions);
 	private static Pattern fieldPattern = Pattern.compile("#(HTMLOKAY:)?([a-z0-9\\-]+)", regexOptions);
 	private static Pattern collectionPattern = Pattern.compile("#\\[collection: ([a-z0-9\\-]+)\\](.*?)#\\[/collection\\]", regexOptions);
 	private static Pattern collectionMapPattern = Pattern.compile("#\\[collectionmap: ([a-z0-9\\\\-]+): ([a-z0-9\\-]+)\\]", regexOptions);
@@ -390,7 +413,6 @@ public class HtmlRenderer {
 
 	// parse any conditional set field statements with a specific set of fields
 	private String parseConditionalSetFields(String html, HashMap<String, String> fields) {
-		// "positive" conditionals
 		Matcher fieldMatcher = conditionalSetFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (fieldMatcher.find()) {
@@ -420,7 +442,6 @@ public class HtmlRenderer {
 
 	// parse any conditional value field statements with a specific set of fields
 	private String parseConditionalValueFields(String html, HashMap<String, String> fields) {
-		// "positive" conditionals
 		Matcher matcher = conditionalValueFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
 		while (matcher.find()) {
@@ -437,6 +458,36 @@ public class HtmlRenderer {
 		return ifField.startsWith("!") ?
 				((!fields.containsKey(key) || fields.get(key) == null || !fields.get(key).equals(value)) ? original : "") :
 				((fields.containsKey(key) && fields.get(key) != null && fields.get(key).equals(value)) ? original : "");
+	}
+
+	/**
+	 * CONDITIONAL PERMISSION FIELD CHECKING
+	 */
+
+	// parse any conditional permission field statements
+	private String parseConditionalPermissionFields(String html) {
+		Matcher matcher = conditionalPermissionFieldPattern.matcher(html);
+		StringBuffer output = new StringBuffer();
+		while (matcher.find()) {
+			matcher.appendReplacement(output, getConditionalPermissionFieldValue(matcher.group(1), matcher.group(2), matcher.group(3)));
+		}
+		matcher.appendTail(output);
+
+		// done
+		return output.toString();
+	}
+
+	// return the original text, or "", for a conditional permission field statement
+	private String getConditionalPermissionFieldValue(String ifField, String key, String original) {
+		try {
+			P p = P.valueOf(key);
+			Staff currentStaff = SecurityUtils.getCurrentUser();
+			return ifField.startsWith("!") ?
+					((currentStaff == null || !currentStaff.hasPermission(p)) ? original : "") :
+					((currentStaff != null && currentStaff.hasPermission(p)) ? original : "");
+		} catch (NullPointerException | IllegalArgumentException e) {
+			return "";
+		}
 	}
 
 	/**
@@ -533,6 +584,7 @@ public class HtmlRenderer {
 		parsedHtml = parseCollectionMaps(parsedHtml);
 		parsedHtml = parseConditionalSetFields(parsedHtml);
 		parsedHtml = parseConditionalValueFields(parsedHtml);
+		parsedHtml = parseConditionalPermissionFields(parsedHtml);
 		parsedHtml = parseFields(parsedHtml);
 		return parsedHtml;
 	}

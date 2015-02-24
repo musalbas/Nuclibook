@@ -5,7 +5,11 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+<<<<<<< HEAD
+import nuclibook.constants.P;
+=======
 import nuclibook.entity_utils.AbstractEntityUtils;
+>>>>>>> master
 import nuclibook.server.Renderable;
 
 import java.io.UnsupportedEncodingException;
@@ -43,6 +47,8 @@ public class Staff implements Renderable {
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
+
+	private ArrayList<P> permissions = null;
 
 	public Staff() {
 	}
@@ -129,6 +135,38 @@ public class Staff implements Renderable {
 		}
 
 		return String.format("%0128x", new BigInteger(1, hash));
+	}
+
+	/* PERMISSIONS */
+
+	private void loadPermissions(boolean force) {
+		// already done the work?
+		if (!force && permissions != null) return;
+
+		// load all permissions (raw)
+		role.refreshPermissions();
+		List<Permission> permissionList = role.getPermissions();
+
+		// create new array
+		permissions = new ArrayList<>(permissionList.size());
+
+		// convert to enum list
+		for (Permission p : permissionList) {
+			try {
+				permissions.add(P.valueOf(p.getLabel()));
+			} catch (IllegalArgumentException | NullPointerException e) {
+				// at least we tried!
+			}
+		}
+	}
+
+	public void refreshPermissions() {
+		loadPermissions(true);
+	}
+
+	public boolean hasPermission(P p) {
+		loadPermissions(false);
+		return permissions.contains(p);
 	}
 
     /* AVAILABILITIES */
