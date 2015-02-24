@@ -238,9 +238,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateStaffAbsence(int entityId, Request request) {
         // validation
-        if (!request.queryParams("from").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}:[0-9]{2}")
-                || !request.queryParams("to").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}:[0-9]{2}")) {
-            return new Pair<>(Status.FAILED_VALIDATION, null);
+        if (!request.queryParams("from").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}:[0-9]{2}")
+                || !request.queryParams("to").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}:[0-9]{2}")) {
+            //return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
         // create and set ID
@@ -252,8 +252,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         // dates
-        entity.setFrom(new DateTime(request.queryParams("from")));
-        entity.setTo(new DateTime(request.queryParams("to")));
+        entity.setFrom(new DateTime(request.queryParams("from") + ":00"));
+        entity.setTo(new DateTime(request.queryParams("to") + ":00"));
 
         // staff
         Staff staff = StaffUtils.getStaff(request.queryParams("staff-id"));

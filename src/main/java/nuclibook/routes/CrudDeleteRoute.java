@@ -58,7 +58,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete staff absence
 		if (entityType.equals("staff-absence")) {
 			StaffAbsence entity = AbstractEntityUtils.getEntityById(StaffAbsence.class, entityId);
-			AbstractEntityUtils.deleteEntity(Staff.class, entity);
+			AbstractEntityUtils.deleteEntity(StaffAbsence.class, entity);
 		}
 
 		// delete staff role

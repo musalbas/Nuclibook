@@ -74,7 +74,7 @@ public class Patient implements Renderable {
 			put("id", getId().toString());
 			put("name", getName());
 			put("hospital-number", ((Integer) getHospitalNumber()).toString());
-			put("date-of-birth", getDateOfBirth().toString());
+			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
 		}};
 	}
 }

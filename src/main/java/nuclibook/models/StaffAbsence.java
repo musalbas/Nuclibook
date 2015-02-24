@@ -61,8 +61,8 @@ public class StaffAbsence implements Renderable {
 	public HashMap<String, String> getHashMap() {
 		return new HashMap<String, String>() {{
 			put("id", getId().toString());
-			put("from", getFrom().toString());
-			put("to", getTo().toString());
+			put("from", getFrom().toString("YYYY-MM-dd HH:mm"));
+			put("to", getTo().toString("YYYY-MM-dd HH:mm"));
 		}};
 	}
 }
