@@ -2,6 +2,7 @@ package nuclibook.entity_utils;
 
 import nuclibook.models.ActionLog;
 import nuclibook.models.Staff;
+import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class ActionLogger {
 
         Staff loggedIn = SecurityUtils.getCurrentUser();
         if (loggedIn != null) {
-            ActionLog entity = new ActionLog(loggedIn, actionPerformed, objectID);
+            ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
             AbstractEntityUtils.createEntity(ActionLog.class, entity);
         }
     }

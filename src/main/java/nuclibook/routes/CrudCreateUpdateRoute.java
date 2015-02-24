@@ -3,10 +3,10 @@ package nuclibook.routes;
 import javafx.util.Pair;
 import nuclibook.entity_utils.*;
 import nuclibook.models.*;
+import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
-import java.sql.Date;
 import java.util.Map;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
@@ -51,6 +51,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         if (entityType.equals("staff")) {
             entityPair = createUpdateStaff(entityId, request);
             dbClass = Staff.class;
+        }
+        if (entityType.equals("staff-absence")) {
+            entityPair = createUpdateStaffAbsence(entityId, request);
+            dbClass = StaffAbsence.class;
         }
         if (entityType.equals("staff-role")) {
             entityPair = createUpdateStaffRole(entityId, request);
@@ -169,7 +173,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         // validation
         if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
                 || !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
-                || !request.queryParams("date-of-birth").matches("d{4}\\-d{2}\\-d{2}")) {
+                || !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
@@ -192,9 +196,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         // dob
-        entity.setDateOfBirth(Date.valueOf(request.queryParams("date-of-birth")));
+        entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
 
-        return new Pair<>(Status.OK, entity);
+		return new Pair<>(Status.OK, entity);
     }
 
     private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
@@ -228,6 +232,32 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         // role
         StaffRole role = StaffRoleUtils.getStaffRole(request.queryParams("role-id"));
         entity.setRole(role);
+
+        return new Pair<>(Status.OK, entity);
+    }
+
+    private Pair<Status, Object> createUpdateStaffAbsence(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("from").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}:[0-9]{2}")
+                || !request.queryParams("to").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2} [0-9]{2}:[0-9]{2}")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // create and set ID
+        StaffAbsence entity;
+        if (createNew) {
+            entity = new StaffAbsence();
+        } else {
+            entity = AbstractEntityUtils.getEntityById(StaffAbsence.class, entityId);
+        }
+
+        // dates
+        entity.setFrom(new DateTime(request.queryParams("from")));
+        entity.setTo(new DateTime(request.queryParams("to")));
+
+        // staff
+        Staff staff = StaffUtils.getStaff(request.queryParams("staff-id"));
+        entity.setStaff(staff);
 
         return new Pair<>(Status.OK, entity);
     }
