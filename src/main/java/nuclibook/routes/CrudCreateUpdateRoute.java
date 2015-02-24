@@ -221,7 +221,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             try {
                 entity.setPassword(request.queryParams("password"));
             } catch (CannotHashPasswordException e) {
-                return "error";
+                return new Pair<>(Status.FAILED_VALIDATION, null);
             }
         }
 
