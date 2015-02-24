@@ -5,11 +5,8 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-<<<<<<< HEAD
 import nuclibook.constants.P;
-=======
 import nuclibook.entity_utils.AbstractEntityUtils;
->>>>>>> master
 import nuclibook.server.Renderable;
 
 import java.io.UnsupportedEncodingException;
