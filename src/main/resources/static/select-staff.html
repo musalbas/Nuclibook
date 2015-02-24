@@ -1,0 +1,56 @@
+#[def: title = Select Staff Member]
+#[def: current-page = staff]
+#[def: crud = yes]
+
+##_header.html
+
+<div class="row">
+	<div class="col-lg-12 col-md-12">
+		<p>Select a staff member below to edit <strong>#subject</strong>.</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12 col-md-12">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="text-center">ID</th>
+					<th class="text-center">Username</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Role</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				#[collection: staff]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<tr>
+					<td>#id</td>
+					<td>#username</td>
+					<td>#name</td>
+					<td>#role-label</td>
+					<td>
+						<button class="btn link-button" data-target="/#target/#id">Select</button>
+					</td>
+				</tr>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]
+				<tr>
+					<td colspan="5">No staff.</td>
+				</tr>
+				#[/empty]
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
+</div>
+
+##_footer.html
