@@ -18,11 +18,15 @@ public class SqlServerConnection {
 	private static ConnectionSource connection = null;
 
 	public static ConnectionSource acquireConnection() {
+		return acquireConnection(C.MYSQL_URI, C.MYSQL_PASSWORD, C.MYSQL_PASSWORD);
+	}
+
+	public static ConnectionSource acquireConnection(String URI, String username, String password) {
 		if (connection == null) {
 			try {
-				connection = new JdbcConnectionSource(C.MYSQL_URI);
-				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
-				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
+				connection = new JdbcConnectionSource(URI);
+				((JdbcConnectionSource) connection).setUsername(username);
+				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
 				e.printStackTrace(); // TODO deal with exception
