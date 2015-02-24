@@ -105,7 +105,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateCamera(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -134,7 +134,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -159,7 +159,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateMedicine(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -192,7 +192,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -229,7 +229,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -303,7 +303,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -354,7 +354,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
 		// permission
-		if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
