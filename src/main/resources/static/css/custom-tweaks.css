@@ -28,3 +28,9 @@ div.multi-select-box {
 	max-height:300px;
 	overflow-y: auto;
 }
+
+/* add buttons margin from the bottom */
+
+.create-button {
+    margin-bottom: 15px;
+}
