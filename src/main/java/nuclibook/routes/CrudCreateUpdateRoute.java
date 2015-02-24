@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import javafx.util.Pair;
+import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
 import nuclibook.models.*;
 import spark.Request;
@@ -62,7 +63,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         // checks if entity was created
-        if (entityPair==null) {
+        if (entityPair == null) {
             return "error";
         }
 
@@ -85,15 +86,25 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         // failed validation
-        if (entityPair.getKey()==Status.FAILED_VALIDATION) {
+        if (entityPair.getKey() == Status.FAILED_VALIDATION) {
             return "failed_validation";
         }
 
-        //fail safe
+        // no permission
+        if (entityPair.getKey() == Status.NO_PERMISSION) {
+            return "no_permission";
+        }
+
+        // fail safe
         return "error";
     }
 
     private Pair<Status, Object> createUpdateCamera(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -118,6 +129,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -138,9 +154,14 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateMedicine(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-            || !request.queryParams("order-time").matches("[0-9]+")) {
+                || !request.queryParams("order-time").matches("[0-9]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
@@ -166,6 +187,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
                 || !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
@@ -198,6 +224,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
                 || !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
@@ -233,6 +264,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -279,10 +315,15 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
         // validation
         if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
                 || !request.queryParams("default-duration").matches("[0-9]+")
-                || !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")){
+                || !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
