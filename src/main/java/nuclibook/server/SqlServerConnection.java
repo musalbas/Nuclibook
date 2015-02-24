@@ -18,7 +18,7 @@ public class SqlServerConnection {
 	private static ConnectionSource connection = null;
 
 	public static ConnectionSource acquireConnection() {
-		return acquireConnection(C.MYSQL_URI, C.MYSQL_PASSWORD, C.MYSQL_PASSWORD);
+		return acquireConnection(C.MYSQL_URI, C.MYSQL_USERNAME, C.MYSQL_PASSWORD);
 	}
 
 	public static ConnectionSource acquireConnection(String URI, String username, String password) {
