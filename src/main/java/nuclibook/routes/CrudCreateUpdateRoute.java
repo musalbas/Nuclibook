@@ -70,9 +70,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         if (entityPair.getKey() == Status.OK) {
             if (entityPair.getValue() != null) {
                 if (createNew) {
-                    AbstractEntityUtils.createEntity(dbClass, entityPair);
+                    AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
                 } else {
-                    AbstractEntityUtils.updateEntity(dbClass, entityPair);
+                    AbstractEntityUtils.updateEntity(dbClass, entityPair.getValue());
                 }
             }
 
@@ -94,6 +94,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateCamera(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         Camera entity;
         if (createNew) {
@@ -102,7 +107,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
         }
 
-        // name
+        // room-number
         entity.setRoomNumber(request.queryParams("room-number"));
 
         // type
@@ -113,6 +118,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         CameraType entity;
         if (createNew) {
@@ -128,6 +138,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateMedicine(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("order-time").matches("[0-9]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         Medicine entity;
         if (createNew) {
@@ -150,6 +165,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-\\. ]+")
+                || !request.queryParams("date-of-birth").matches("d{4}\\-d{2}\\-d{2}")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         Patient entity;
         if (createNew) {
@@ -175,6 +196,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         Staff entity;
         if (createNew) {
@@ -204,6 +230,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         StaffRole entity;
         if (createNew) {
@@ -245,6 +276,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
     }
 
     private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
+        // validation
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("default-duration").matches("[0-9]+")
+                || !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\.]+")){
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
         // create and set ID
         Therapy entity;
         if (createNew) {
@@ -256,7 +293,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         // name
         entity.setName(request.queryParams("name"));
 
-        // hospital number
+        // default-duration
         try {
             entity.setDuration(Integer.parseInt(request.queryParams("default-duration")));
         } catch (NumberFormatException e) {
