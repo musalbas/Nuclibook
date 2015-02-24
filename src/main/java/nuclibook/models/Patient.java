@@ -16,8 +16,8 @@ public class Patient implements Renderable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField
-	private int hospitalNumber;
+	@DatabaseField(width = 64)
+	private String hospitalNumber;
 
 	@DatabaseField
 	private String dateOfBirth;
@@ -44,11 +44,11 @@ public class Patient implements Renderable {
 		this.name = name;
 	}
 
-	public int getHospitalNumber() {
+	public String getHospitalNumber() {
 		return hospitalNumber;
 	}
 
-	public void setHospitalNumber(int hospitalNumber) {
+	public void setHospitalNumber(String hospitalNumber) {
 		this.hospitalNumber = hospitalNumber;
 	}
 
@@ -73,7 +73,7 @@ public class Patient implements Renderable {
 		return new HashMap<String, String>() {{
 			put("id", getId().toString());
 			put("name", getName());
-			put("hospital-number", ((Integer) getHospitalNumber()).toString());
+			put("hospital-number", getHospitalNumber());
 			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
 		}};
 	}

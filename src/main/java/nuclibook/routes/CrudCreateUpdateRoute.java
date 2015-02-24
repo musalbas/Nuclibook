@@ -33,37 +33,46 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		Class dbClass = null;
 
 		// build new/updated entity
-		if (entityType.equals("camera")) {
-			entityPair = createUpdateCamera(entityId, request);
-			dbClass = Camera.class;
-		}
-		if (entityType.equals("camera-type")) {
-			entityPair = createUpdateCameraType(entityId, request);
-			dbClass = CameraType.class;
-		}
-		if (entityType.equals("medicine")) {
-			entityPair = createUpdateMedicine(entityId, request);
-			dbClass = Medicine.class;
-		}
-		if (entityType.equals("patient")) {
-			entityPair = createUpdatePatient(entityId, request);
-			dbClass = Patient.class;
-		}
-		if (entityType.equals("staff")) {
-			entityPair = createUpdateStaff(entityId, request);
-			dbClass = Staff.class;
-		}
-		if (entityType.equals("staff-absence")) {
-			entityPair = createUpdateStaffAbsence(entityId, request);
-			dbClass = StaffAbsence.class;
-		}
-		if (entityType.equals("staff-role")) {
-			entityPair = createUpdateStaffRole(entityId, request);
-			dbClass = StaffRole.class;
-		}
-		if (entityType.equals("therapy")) {
-			entityPair = createUpdateTherapy(entityId, request);
-			dbClass = Therapy.class;
+		switch (entityType) {
+			case "camera":
+				entityPair = createUpdateCamera(entityId, request);
+				dbClass = Camera.class;
+				break;
+
+			case "camera-type":
+				entityPair = createUpdateCameraType(entityId, request);
+				dbClass = CameraType.class;
+				break;
+
+			case "medicine":
+				entityPair = createUpdateMedicine(entityId, request);
+				dbClass = Medicine.class;
+				break;
+
+			case "patient":
+				entityPair = createUpdatePatient(entityId, request);
+				dbClass = Patient.class;
+				break;
+
+			case "staff":
+				entityPair = createUpdateStaff(entityId, request);
+				dbClass = Staff.class;
+				break;
+
+			case "staff-absence":
+				entityPair = createUpdateStaffAbsence(entityId, request);
+				dbClass = StaffAbsence.class;
+				break;
+
+			case "staff-role":
+				entityPair = createUpdateStaffRole(entityId, request);
+				dbClass = StaffRole.class;
+				break;
+
+			case "therapy":
+				entityPair = createUpdateTherapy(entityId, request);
+				dbClass = Therapy.class;
+				break;
 		}
 
 		// checks if entity was created
@@ -215,11 +224,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setName(request.queryParams("name"));
 
 		// hospital number
-		try {
-			entity.setHospitalNumber(Integer.parseInt(request.queryParams("hospital-number")));
-		} catch (NumberFormatException e) {
-			entity.setHospitalNumber(0);
-		}
+		entity.setHospitalNumber(request.queryParams("hospital-number"));
 
 		// dob
 		entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
