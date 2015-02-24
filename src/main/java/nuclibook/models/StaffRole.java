@@ -108,6 +108,7 @@ public class StaffRole implements Renderable {
 	}
 
 	public void clearPermissions() {
+		if (staffRolePermissions == null) return;
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
 		try {
 			while (iterator.hasNext()) {
