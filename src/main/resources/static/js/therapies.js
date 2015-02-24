@@ -2,7 +2,7 @@ var validateCreateForm = function (formObject) {
     var error = false;
 
     var therapyNameString = formObject["name"];
-    var therapyDuration = formObject["default-duration-mins"];
+    var therapyDuration = formObject["default-duration mins"];
     var therapyMedicineRequired = formObject["medicine-required-name"];
     var therapyMedicineDose = formObject["medicine-dose"];
     var therapyCamera = formObject["camera-type-label"];
@@ -12,6 +12,7 @@ var validateCreateForm = function (formObject) {
         error = true;
     }
 
+    console.log(therapyDuration);
     if ($.isNumeric(therapyDuration) == false) {
         toastr.error("You did not enter a valid value for the duration of the therapy")
         error = true;
