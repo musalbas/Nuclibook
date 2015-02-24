@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable(tableName = "staff_absences")
-public class StaffAbsences {
+public class StaffAbsence {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -20,7 +20,7 @@ public class StaffAbsences {
 	@DatabaseField
 	private Date to;
 
-	public StaffAbsences() {
+	public StaffAbsence() {
 	}
 
 	public Integer getId() {

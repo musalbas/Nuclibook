@@ -42,6 +42,9 @@ public class Staff implements Renderable {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
 
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<StaffAbsence> absences;
+
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
@@ -184,11 +187,11 @@ public class Staff implements Renderable {
     }
 
     public String getStaffAvailabilityIdString() {
-        List<StaffAvailability> StaffAvailability = getStaffAvailability();
-        if (StaffAvailability.isEmpty()) return "0";
+        List<StaffAvailability> staffAvailability = getStaffAvailability();
+        if (staffAvailability.isEmpty()) return "0";
         StringBuilder sb = new StringBuilder();
-        for (StaffAvailability p : StaffAvailability) {
-            sb.append(p.getId()).append(",");
+        for (StaffAvailability sa : staffAvailability) {
+            sb.append(sa.getId()).append(",");
         }
         return sb.substring(0, sb.length() - 1);
     }
@@ -207,6 +210,49 @@ public class Staff implements Renderable {
     public void addStaffAvailability(StaffAvailability sa) {
         sa.setStaff(this);
         AbstractEntityUtils.createEntity(StaffAvailability.class, sa);
+    }
+
+    /* ABSENCES */
+
+    public List<StaffAbsence> getStaffAbsences() {
+        ArrayList<StaffAbsence> output = new ArrayList<>();
+        CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
+        try {
+            StaffAbsence sa;
+            while (iterator.hasNext()) {
+                sa = iterator.next();
+                if (sa != null) output.add(sa);
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+        return output;
+    }
+
+    public String getStaffAbsencesIdString() {
+        List<StaffAbsence> staffAbsence = getStaffAbsences();
+        if (staffAbsence.isEmpty()) return "0";
+        StringBuilder sb = new StringBuilder();
+        for (StaffAbsence sa : staffAbsence) {
+            sb.append(sa.getId()).append(",");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    public void clearStaffAbsences() {
+        CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
+        try {
+            while (iterator.hasNext()) {
+                AbstractEntityUtils.deleteEntity(StaffAbsence.class, iterator.next());
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+    }
+
+    public void addStaffAbsences(StaffAbsence sa) {
+        sa.setStaff(this);
+        AbstractEntityUtils.createEntity(StaffAbsence.class, sa);
     }
 
 	@Override
