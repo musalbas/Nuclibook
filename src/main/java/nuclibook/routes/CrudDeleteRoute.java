@@ -32,6 +32,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Camera entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Camera.class, entity);
+			return "okay";
 		}
 
 		// delete camera type
@@ -44,6 +45,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			CameraType entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(CameraType.class, entity);
+			return "okay";
 		}
 
 		// delete medicine
@@ -56,6 +58,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Medicine entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Medicine.class, entity);
+			return "okay";
 		}
 
 		// delete patient
@@ -68,6 +71,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Patient entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Patient.class, entity);
+			return "okay";
 		}
 
 		// delete staff
@@ -80,6 +84,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Staff.class, entity);
+			return "okay";
 		}
 
 		// delete staff absence
@@ -91,6 +96,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 			StaffAbsence entity = AbstractEntityUtils.getEntityById(StaffAbsence.class, entityId);
 			AbstractEntityUtils.deleteEntity(StaffAbsence.class, entity);
+			return "okay";
 		}
 
 		// delete staff role
@@ -103,6 +109,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			StaffRole entity = AbstractEntityUtils.getEntityById(StaffRole.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(StaffRole.class, entity);
+			return "okay";
 		}
 
 		// delete therapy
@@ -115,8 +122,10 @@ public class CrudDeleteRoute extends DefaultRoute {
 			Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
 			entity.setEnabled(false);
 			AbstractEntityUtils.updateEntity(Therapy.class, entity);
+			return "okay";
 		}
 
-		return "okay";
+		// fail safe
+		return "error";
 	}
 }
