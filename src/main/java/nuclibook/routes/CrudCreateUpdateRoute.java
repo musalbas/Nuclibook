@@ -119,7 +119,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
         // validation
-        if (!request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+        if (!request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
@@ -139,7 +139,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateMedicine(int entityId, Request request) {
         // validation
-        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("order-time").matches("[0-9]+")) {
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+            || !request.queryParams("order-time").matches("[0-9]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
@@ -166,7 +167,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
         // validation
-        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-\\. ]+")
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+                || !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
                 || !request.queryParams("date-of-birth").matches("d{4}\\-d{2}\\-d{2}")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
@@ -197,7 +199,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
         // validation
-        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+                || !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
@@ -218,7 +221,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             try {
                 entity.setPassword(request.queryParams("password"));
             } catch (CannotHashPasswordException e) {
-                e.printStackTrace();
+                return "error";
             }
         }
 
@@ -277,8 +280,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
         // validation
-        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+") || !request.queryParams("default-duration").matches("[0-9]+")
-                || !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\.]+")){
+        if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+                || !request.queryParams("default-duration").matches("[0-9]+")
+                || !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")){
             return new Pair<>(Status.FAILED_VALIDATION, null);
         }
 
