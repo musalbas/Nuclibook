@@ -3,8 +3,8 @@ package nuclibook.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.server.Renderable;
+import org.joda.time.DateTime;
 
-import java.sql.Date;
 import java.util.HashMap;
 
 @DatabaseTable(tableName = "patients")
@@ -20,7 +20,7 @@ public class Patient implements Renderable {
 	private int hospitalNumber;
 
 	@DatabaseField
-	private Date dateOfBirth;
+	private String dateOfBirth;
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
@@ -52,12 +52,12 @@ public class Patient implements Renderable {
 		this.hospitalNumber = hospitalNumber;
 	}
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public DateTime getDateOfBirth() {
+		return new DateTime(dateOfBirth);
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setDateOfBirth(DateTime dateOfBirth) {
+		this.dateOfBirth = dateOfBirth.toString();
 	}
 
 	public Boolean getEnabled() {
@@ -74,7 +74,7 @@ public class Patient implements Renderable {
 			put("id", getId().toString());
 			put("name", getName());
 			put("hospital-number", ((Integer) getHospitalNumber()).toString());
-			put("date-of-birth", getDateOfBirth().toString());
+			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
 		}};
 	}
 }

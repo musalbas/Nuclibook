@@ -2,12 +2,16 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.joda.time.DateTime;
 
 @DatabaseTable(tableName = "action_log")
 public class ActionLog {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
+
+	@DatabaseField(canBeNull = false)
+	private String when;
 
 	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
 	private Staff staff;
@@ -24,10 +28,11 @@ public class ActionLog {
 	public ActionLog() {
 	}
 
-	public ActionLog(Staff staff, Integer action, Integer associatedId) {
+	public ActionLog(Staff staff, DateTime when, Integer action, Integer associatedId) {
 		this.staff = staff;
 		this.action = action;
 		this.associatedId = associatedId;
+		setWhen(when);
 	}
 
 	public Integer getId() {
@@ -36,6 +41,14 @@ public class ActionLog {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public DateTime getWhen() {
+		return new DateTime(when);
+	}
+
+	public void setWhen(DateTime when) {
+		this.when = when.toString();
 	}
 
 	public Staff getStaff() {

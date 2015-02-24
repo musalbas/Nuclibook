@@ -2,11 +2,13 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
+import org.joda.time.DateTime;
 
-import java.util.Date;
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "staff_absences")
-public class StaffAbsence {
+public class StaffAbsence implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -15,10 +17,10 @@ public class StaffAbsence {
 	private Staff staff;
 
 	@DatabaseField
-	private Date from;
+	private String from;
 
 	@DatabaseField
-	private Date to;
+	private String to;
 
 	public StaffAbsence() {
 	}
@@ -39,19 +41,28 @@ public class StaffAbsence {
 		this.staff = staff;
 	}
 
-	public Date getFrom() {
-		return from;
+	public DateTime getFrom() {
+		return new DateTime(from);
 	}
 
-	public void setFrom(Date from) {
-		this.from = from;
+	public void setFrom(DateTime from) {
+		this.from = from.toString();
 	}
 
-	public Date getTo() {
-		return to;
+	public DateTime getTo() {
+		return new DateTime(to);
 	}
 
-	public void setTo(Date to) {
-		this.to = to;
+	public void setTo(DateTime to) {
+		this.to = to.toString();
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>() {{
+			put("id", getId().toString());
+			put("from", getFrom().toString("YYYY-MM-dd HH:mm"));
+			put("to", getTo().toString("YYYY-MM-dd HH:mm"));
+		}};
 	}
 }
