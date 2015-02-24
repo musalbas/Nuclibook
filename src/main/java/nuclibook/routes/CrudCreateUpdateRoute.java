@@ -215,11 +215,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setName(request.queryParams("name"));
 
 		// hospital number
-		try {
-			entity.setHospitalNumber(Integer.parseInt(request.queryParams("hospital-number")));
-		} catch (NumberFormatException e) {
-			entity.setHospitalNumber(0);
-		}
+		entity.setHospitalNumber(request.queryParams("hospital-number"));
 
 		// dob
 		entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
