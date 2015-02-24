@@ -1,5 +1,4 @@
 #[def: title = Select Staff Member]
-#[def: current-page = staff]
 #[def: crud = yes]
 
 ##_header.html
@@ -15,7 +14,6 @@
 		<table class="table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th class="text-center">ID</th>
 					<th class="text-center">Username</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Role</th>
@@ -30,7 +28,6 @@
 
 				#[each]
 				<tr>
-					<td>#id</td>
 					<td>#username</td>
 					<td>#name</td>
 					<td>#role-label</td>

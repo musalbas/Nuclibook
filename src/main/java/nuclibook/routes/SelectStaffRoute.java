@@ -33,9 +33,11 @@ public class SelectStaffRoute extends DefaultRoute {
 		if (request.params(":target:").equals("absences")) {
 			renderer.setField("target", "staff-absences");
 			renderer.setField("subject", "staff absences");
+			renderer.setField("current-page", "staff-absences");
 		} else if (request.params(":target:").equals("availabilities")) {
 			renderer.setField("target", "staff-availabilities");
 			renderer.setField("subject", "staff availabilities");
+			renderer.setField("current-page", "staff-availabilities");
 		} else {
 			response.redirect("/");
 			return null;
