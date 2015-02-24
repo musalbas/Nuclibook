@@ -1,40 +1,58 @@
 #[def: title = Login]
 #[def: current-page = login]
-##_header.html
-<div class="row">
-	<div class="col-lg-12 col-md-12">
-		<form action="/login" method="post">
-			#[!if: stage = 2]
-			#[if: error-bad-staff-id]
-			<div class="note note-danger">
-				<p><strong>Error:</strong> that staff ID wasn't recognised - are you sure you have an account?</p>
-			</div>
-			#[/if]
-			#[if: error-bad-password]
-			<div class="note note-danger">
-				<p><strong>Error:</strong> incorrect password.</p>
-			</div>
-			#[/if]
-			#[if: error-bad-status]
-			<div class="note note-danger">
-				<p><strong>Error:</strong> your account is currently disabled.</p>
-			</div>
-			#[/if]
-			<div class="form-group">
-				<label for="username">Enter your ID below and press enter, or scan your ID card.</label>
-				<input type="text" name="username" id="username" value="#username"/>
-			</div>
-			#[/if]
+##_login-header.html
+<body onload="keepFocus('username')">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="container">
+                <div class="panel panel-default login-panel" >
+                    <div class="panel-heading login-panel-heading">
+                        <h4>
+                            NHS Chelsea & Westminster Hospital <br>Nuclear Medicine Booking System
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <form id="login-form" action="/login" method="post">
+                            #[!if: stage = 2]
+                            #[if: error-bad-staff-id]
+                            <div class="alert alert-danger login-alert">
+                                <p><strong>Error:</strong> that staff ID wasn't recognised - are you sure you have an account?</p>
+                            </div>
+                            #[/if]
+                            #[if: error-bad-password]
+                            <div class="alert alert-danger login-alert">
+                                <p><strong>Error:</strong> incorrect password.</p>
+                            </div>
+                            #[/if]
+                            #[if: error-bad-status]
+                            <div class="alert alert-danger login-alert">
+                                <p><strong>Error:</strong> your account is currently disabled.</p>
+                            </div>
+                            #[/if]
+                            <div class="form-group">
+                                <label class="login-label text-center" for="username">Enter your ID below and press enter, or scan your ID card.</label>
+                                <input class="form-control login-field" type="text" name="username" id="username" value="#username"/>
+                            </div>
+                            #[/if]
 
-			#[if: stage = 2]
-			<input type="hidden" name="username" value="#username"/>
-			<p>Hello, <strong>#staffname</strong>.</p>
-			<div class="form-group">
-				<label for="password">Please enter your password or PIN and press enter.</label>
-				<input type="password" name="password" id="password"/>
-			</div>
-			#[/if]
-		</form>
-	</div>
-</div>
+                            #[if: stage = 2]
+                            <input type="hidden" name="username" value="#username"/>
+                            <p class="login-label">Hello, <strong>#staffname</strong>.</p>
+                            <div class="form-group">
+                                <label class="login-label" for="password">Please enter your password or PIN and press enter.</label>
+                                <input class="form-control login-field" type="password" name="password" id="password"/>
+                            </div>
+                            #[/if]
+
+                            <div class="login-button">
+                                <button type="button" id="login-continue-button" class="btn btn-success" onclick="submitForm()">Continue <i class="fa fa-arrow-right"></i></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 ##_footer.html
