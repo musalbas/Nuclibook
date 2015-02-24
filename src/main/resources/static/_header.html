@@ -114,9 +114,11 @@
 								<li#[if: current-page = therapies] class="active"#[/if]>
 									<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
 								</li>
+								#[ifperm: VIEW_ACTION_LOG]
 								<li#[if: current-page = action-log] class="active"#[/if]>
 									<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
 								</li#[if: current-page = settings] class="active"#[/if]>
+								#[/ifperm]
 							</ul>
 						</li>
 						<li>
