@@ -1,8 +1,15 @@
 package nuclibook.models;
 
+import com.j256.ormlite.dao.CloseableIterator;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+<<<<<<< HEAD
 import nuclibook.constants.P;
+=======
+import nuclibook.entity_utils.AbstractEntityUtils;
+>>>>>>> master
 import nuclibook.server.Renderable;
 
 import java.io.UnsupportedEncodingException;
@@ -34,6 +41,9 @@ public class Staff implements Renderable {
 
 	@DatabaseField
 	private String passwordSalt;
+
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<StaffAvailability> availabilities;
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
@@ -158,6 +168,49 @@ public class Staff implements Renderable {
 		loadPermissions(false);
 		return permissions.contains(p);
 	}
+
+    /* AVAILABILITIES */
+
+    public List<StaffAvailability> getStaffAvailability() {
+        ArrayList<StaffAvailability> output = new ArrayList<>();
+        CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
+        try {
+            StaffAvailability sa;
+            while (iterator.hasNext()) {
+                sa = iterator.next();
+                if (sa != null) output.add(sa);
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+        return output;
+    }
+
+    public String getStaffAvailabilityIdString() {
+        List<StaffAvailability> StaffAvailability = getStaffAvailability();
+        if (StaffAvailability.isEmpty()) return "0";
+        StringBuilder sb = new StringBuilder();
+        for (StaffAvailability p : StaffAvailability) {
+            sb.append(p.getId()).append(",");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    public void clearStaffAvailability() {
+        CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
+        try {
+            while (iterator.hasNext()) {
+                AbstractEntityUtils.deleteEntity(StaffAvailability.class, iterator.next());
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+    }
+
+    public void addStaffAvailability(StaffAvailability sa) {
+        sa.setStaff(this);
+        AbstractEntityUtils.createEntity(StaffAvailability.class, sa);
+    }
 
 	@Override
 	public HashMap<String, String> getHashMap() {
