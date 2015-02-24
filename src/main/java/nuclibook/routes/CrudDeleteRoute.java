@@ -25,7 +25,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete camera
 		if (entityType.equals("camera")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
 				return "no_permission";
 			}
 
@@ -37,7 +37,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete camera type
 		if (entityType.equals("camera-type")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
 				return "no_permission";
 			}
 
@@ -49,7 +49,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete medicine
 		if (entityType.equals("medicine")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
 				return "no_permission";
 			}
 
@@ -61,7 +61,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete patient
 		if (entityType.equals("patient")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
 				return "no_permission";
 			}
 
@@ -73,7 +73,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete staff
 		if (entityType.equals("staff")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
 				return "no_permission";
 			}
 
@@ -85,7 +85,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete staff absence
 		if (entityType.equals("staff-absence")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ABSENCES)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ABSENCES)) {
 				return "no_permission";
 			}
 
@@ -96,7 +96,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete staff role
 		if (entityType.equals("staff-role")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
 				return "no_permission";
 			}
 
@@ -108,7 +108,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 		// delete therapy
 		if (entityType.equals("therapy")) {
 			// permission
-			if (SecurityUtils.getCurrentUser() != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
 				return "no_permission";
 			}
 
