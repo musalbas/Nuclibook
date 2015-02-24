@@ -53,7 +53,11 @@ public class SecurityUtils {
 
 	public static boolean requirePermission(P p, Response response) {
 		if (loggedInAs == null || !loggedInAs.hasPermission(p)) {
-			response.redirect("/access-denied");
+			try {
+				response.redirect("/access-denied");
+			} catch (IllegalStateException e) {
+				// already redirecting
+			}
 			return false;
 		}
 		return true;
