@@ -1,12 +1,12 @@
 package nuclibook.entity_utils;
 
-import nuclibook.models.StaffAbsences;
+import nuclibook.models.StaffAbsence;
 
 import java.util.List;
 
 public class StaffAbsencesUtils extends AbstractEntityUtils {
 
-    public static StaffAbsences getStaffAbsenceById(String id) {
+    public static StaffAbsence getStaffAbsenceById(String id) {
         try {
             return getStaffAbsenceById(Integer.parseInt(id));
         } catch (NumberFormatException e) {
@@ -14,7 +14,7 @@ public class StaffAbsencesUtils extends AbstractEntityUtils {
         }
     }
 
-    public static List<StaffAbsences> getStaffAbsencesByStaffId(String staffId) {
+    public static List<StaffAbsence> getStaffAbsencesByStaffId(String staffId) {
         try {
             return getStaffAbsencesByStaffId(Integer.parseInt(staffId));
         } catch (NumberFormatException e) {
@@ -22,15 +22,15 @@ public class StaffAbsencesUtils extends AbstractEntityUtils {
         }
     }
 
-    public static StaffAbsences getStaffAbsenceById(int id) {
-        return getEntityById(StaffAbsences.class, id);
+    public static StaffAbsence getStaffAbsenceById(int id) {
+        return getEntityById(StaffAbsence.class, id);
     }
 
-    public static List<StaffAbsences> getStaffAbsencesByStaffId(int staffId) {
-        return getEntitiesByField(StaffAbsences.class, "staff_id", staffId);
+    public static List<StaffAbsence> getStaffAbsencesByStaffId(int staffId) {
+        return getEntitiesByField(StaffAbsence.class, "staff_id", staffId);
     }
 
-    public static List<StaffAbsences> getAllStaffAbsences() {
-        return getAllEntities(StaffAbsences.class);
+    public static List<StaffAbsence> getAllStaffAbsences() {
+        return getAllEntities(StaffAbsence.class);
     }
 }

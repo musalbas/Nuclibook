@@ -75,8 +75,8 @@ public class StaffUtils extends AbstractEntityUtils {
         if (!passedAvailableCheck) return false;
 
         /* STAFF ABSENCES */
-        List<StaffAbsences> staffAbsences = StaffAbsencesUtils.getStaffAbsencesByStaffId(staffId);
-        for(StaffAbsences sa : staffAbsences) {
+        List<StaffAbsence> staffAbsences = StaffAbsencesUtils.getStaffAbsencesByStaffId(staffId);
+        for(StaffAbsence sa : staffAbsences) {
             if( (sa.getFrom().compareTo(startDate) <= 0 && sa.getTo().compareTo(endDate) >= 0)
                     || (sa.getFrom().compareTo(startDate) >= 0 && sa.getFrom().compareTo(endDate) <= 0)
                     || (sa.getTo().compareTo(startDate) >= 0 && sa.getTo().compareTo(endDate) <= 0)
