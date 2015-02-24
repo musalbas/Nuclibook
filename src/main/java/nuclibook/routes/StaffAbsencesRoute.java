@@ -29,8 +29,11 @@ public class StaffAbsencesRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("staff-absences.html");
 
-		// add name field
+		// add staff fields
+		renderer.setField("staff-id", currentStaff.getId());
 		renderer.setField("staff-name", currentStaff.getName());
+
+
 
 		return renderer.render();
 	}
