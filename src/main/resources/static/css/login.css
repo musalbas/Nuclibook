@@ -1,0 +1,40 @@
+/* login page */
+
+.login-panel {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 270px;
+	margin-top: -135px;
+	width: 550px;
+	margin-left: -275px;
+}
+
+.login-panel-heading {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.login-field {
+	margin-bottom: 20px;
+	max-width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-label {
+	margin-bottom: 20px;
+	margin-left: 2.5%;
+}
+
+.login-button {
+	margin-top: 20px;
+	margin-right: 2.5%;
+	text-align: right;
+}
+
+.login-message {
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+}

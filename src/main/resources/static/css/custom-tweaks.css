@@ -25,55 +25,12 @@ html, body {
 /* multi select box for crud forms */
 
 div.multi-select-box {
-	max-height:300px;
+	max-height: 300px;
 	overflow-y: auto;
 }
 
 /* add buttons margin from the bottom */
 
 .create-button {
-    margin-bottom: 15px;
-}
-
-/* login page */
-
-body {
-    overflow: hidden;
-}
-
-.login-panel {
-    margin-top: 23%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 50%;
-}
-
-.login-panel-heading {
-    text-align:center;
-    margin-bottom: 10px;
-}
-
-.login-field {
-    margin-bottom: 20px;
-    max-width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.login-label {
-    /* display: table-cell; */
-    margin-bottom: 20px;
-    margin-left: 2.5%;
-}
-
-.login-button {
-    margin-top: 20px;
-    margin-right: 2.5%;
-    text-align: right;
-}
-
-.login-message {
-    margin-left: 2.5%;
-    margin-right: 2.5%;
+	margin-bottom: 15px;
 }

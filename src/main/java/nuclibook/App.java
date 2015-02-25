@@ -11,8 +11,9 @@ public class App extends Application {
     public void start(Stage stage) {
         WebView root = new WebView();
         root.getEngine().load("http://localhost:4567");
-
         stage.setScene(new Scene(root, 1132, 700));
+		stage.setMinHeight(340);
+		stage.setMinWidth(600);
         stage.setMaximized(true);
         stage.show();
     }
