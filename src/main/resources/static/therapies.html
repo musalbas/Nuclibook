@@ -63,58 +63,75 @@
 				<h3 class="create-mode text-center">Create Therapy</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form form-inline text-center">
-					<input type="hidden" name="entity-type" value="therapy"/>
-					<input type="hidden" name="entity-id" value="0"/>
-					<div class="form-group text-center">
-						<label for="name">Name:</label>
-						<input type="text" name="name" id="name"/>
-					</div>
-					<div class="form-group text-center">
-						<label for="default-duration">Default Duration: (mins)</label>
-						<input type="text" name="default-duration" id="default-duration"/>
-					</div>
-					<div class="form-group">
-						<label for="medicine-required-id">Medicine Required:</label>
-						<select name="medicine-required-id" id="medicine-required-id">
-							#[collection: medicines]
+                <form class="form-horizontal edit-form">
+                    <input type="hidden" name="entity-type" value="therapy"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="name" id="name"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="default-duration" class="col-sm-3 control-label">Default Duration</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="default-duration" id="default-duration"/>
+                            <p class="help-block">This will be measured in minutes.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-required-id" class="col-sm-3 control-label">Medicine Required</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="medicine-required-id" id="medicine-required-id">
+                                #[collection: medicines]
 
-							#[pre]#[/pre]
+                                #[pre]#[/pre]
 
-							#[each]
-							<option value="#id">#name</option>
-							#[/each]
+                                #[each]
+                                <option value="#id">#name</option>
+                                #[/each]
 
-							#[post]#[/post]
+                                #[post]#[/post]
 
-							#[empty]#[/empty]
+                                #[empty]#[/empty]
 
-							#[/collection]
-						</select>
-					</div>
-					<div class="form-group text-center">
-						<label for="medicine-dose">Medicine Dose:</label>
-						<input type="text" name="medicine-dose" id="medicine-dose"/>
-					</div>
-					<div class="form-group">
-						<label for="camera-type-id">Camera Type Used:</label>
-						<select name="camera-type-id" id="camera-type-id">
-							#[collection: camera-types]
+                                #[/collection]
+                            </select>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicine-dose" class="col-sm-3 control-label">Medicine Dose</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="medicine-dose" id="medicine-dose"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="camera-type-id" class="col-sm-3 control-label">Camera Type Used</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="camera-type-id" id="camera-type-id">
+                                #[collection: camera-types]
 
-							#[pre]#[/pre]
+                                #[pre]#[/pre]
 
-							#[each]
-							<option value="#id">#label</option>
-							#[/each]
+                                #[each]
+                                <option value="#id">#label</option>
+                                #[/each]
 
-							#[post]#[/post]
+                                #[post]#[/post]
 
-							#[empty]#[/empty]
+                                #[empty]#[/empty]
 
-							#[/collection]
-						</select>
-					</div>
-				</form>
+                                #[/collection]
+                            </select>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+
+                </form>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
