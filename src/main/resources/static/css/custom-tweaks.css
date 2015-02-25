@@ -37,8 +37,12 @@ div.multi-select-box {
 
 /* login page */
 
+body {
+    overflow: hidden;
+}
+
 .login-panel {
-    margin-top: 50%;
+    margin-top: 23%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -47,6 +51,7 @@ div.multi-select-box {
 
 .login-panel-heading {
     text-align:center;
+    margin-bottom: 10px;
 }
 
 .login-field {
@@ -58,7 +63,6 @@ div.multi-select-box {
 
 .login-label {
     /* display: table-cell; */
-    margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 2.5%;
 }
@@ -69,7 +73,7 @@ div.multi-select-box {
     text-align: right;
 }
 
-.login-alert {
+.login-message {
     margin-left: 2.5%;
     margin-right: 2.5%;
 }
