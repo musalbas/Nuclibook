@@ -58,19 +58,25 @@
 				<h3 class="create-mode text-center">Create New Medicine</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form form-inline text-center">
-					<input type="hidden" name="entity-type" value="medicine"/>
-					<input type="hidden" name="entity-id" value="0"/>
+                <form class="form-horizontal edit-form">
+                    <input type="hidden" name="entity-type" value="medicine"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="name" id="name"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-time" class="col-sm-3 control-label">Order Time</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="order-time" id="order-time" placeholder="This is the order lead time in days"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
 
-					<div class="form-group text-center">
-						<label for="name">Name:</label>
-						<input type="text" name="name" id="name"/>
-					</div>
-					<div class="form-group text-center">
-						<label for="order-time">Order Time:</label>
-						<input type="text" name="order-time" id="order-time"/>
-					</div>
-				</form>
+                </form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
