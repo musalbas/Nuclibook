@@ -34,3 +34,10 @@ div.multi-select-box {
 .create-button {
 	margin-bottom: 15px;
 }
+
+/* modal forms height limit */
+
+.modal-body {
+    max-height: 80%;
+    overflow-y: scroll;
+}
