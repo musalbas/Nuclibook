@@ -60,34 +60,41 @@
 				<h3 class="create-mode">Create Staff Role</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form">
-					<input type="hidden" name="entity-type" value="staff-role"/>
-					<input type="hidden" name="entity-id" value="0"/>
+                <form class="form-horizontal edit-form">
+                    <input type="hidden" name="entity-type" value="staff-role"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <!-- TODO: Shouldn't the id of this bit be 'role-title' instead of 'label'? -->
+                        <label for="label" class="col-sm-3 control-label">Role Title</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="label" id="label"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Permissions</label>
+                        <div class="col-sm-9">
+                            <select multiple class="multi-select-box">
+                                #[collection: permissions]
 
-					<div class="form-group">
-						<label for="label">Role Title:</label>
-						<input type="text" name="label" id="label"/>
-					</div>
-					<div class="form-group">
-						<label>Permissions:</label>
-						<div class="multi-select-box">
-							#[collection: permissions]
+                                #[pre]#[/pre]
 
-							#[pre]#[/pre]
+                                #[each]
+                                <input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id" id="permission-#id" value="#id"/>
+                                <label for="permission-#id">#description</label><br />
+                                #[/each]
 
-							#[each]
-							<input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id" id="permission-#id" value="#id"/>
-							<label for="permission-#id">#description</label><br />
-							#[/each]
+                                #[post]#[/post]
 
-							#[post]#[/post]
+                                #[empty]#[/empty]
 
-							#[empty]#[/empty]
+                                #[/collection]
+                            </select>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                </form>
 
-							#[/collection]
-						</div>
-					</div>
-				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
