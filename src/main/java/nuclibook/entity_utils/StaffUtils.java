@@ -63,7 +63,7 @@ public class StaffUtils extends AbstractEntityUtils {
 		int dayOfTheWeek = startDate.getDayOfWeek();
 
 		// get availability for staff
-		List<StaffAvailability> staffAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(staffId);
+		List<StaffAvailability> staffAvailabilities = StaffAvailabilityUtils.getAvailabilityByStaffId(staffId);
 		boolean passedAvailableCheck = false;
 
 		// check availability for staff

@@ -14,9 +14,9 @@ public class StaffAvailabilityUtils extends AbstractEntityUtils {
         }
     }
 
-    public static List<StaffAvailability> getAvailabilitiesByStaffId(String staffId) {
+    public static List<StaffAvailability> getAvailabilityByStaffId(String staffId) {
         try {
-            return getAvailabilitiesByStaffId(Integer.parseInt(staffId));
+            return getAvailabilityByStaffId(Integer.parseInt(staffId));
         } catch (NumberFormatException e) {
             return null;
         }
@@ -26,11 +26,11 @@ public class StaffAvailabilityUtils extends AbstractEntityUtils {
         return getEntityById(StaffAvailability.class, id);
     }
 
-    public static List<StaffAvailability> getAvailabilitiesByStaffId(int staffId) {
+    public static List<StaffAvailability> getAvailabilityByStaffId(int staffId) {
         return getEntitiesByField(StaffAvailability.class, "staff_id", staffId);
     }
 
-    public static List<StaffAvailability> getAllStaffAvailabilities() {
+    public static List<StaffAvailability> getAllStaffAvailability() {
         return getAllEntities(StaffAvailability.class);
     }
 }
