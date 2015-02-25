@@ -3,7 +3,12 @@
 ##_login-header.html
 <body>
 	<div class="container">
-		<div class="panel panel-default login-panel stage-#stage">
+		<div class="panel panel-default login-panel
+		#[if: error-bad-staff-id]bigger#[/if]
+		#[if: error-bad-password]bigger#[/if]
+		#[if: error-bad-status]bigger#[/if]
+		#[if: stage = 2]bigger#[/if]
+		">
 			<div class="panel-heading login-panel-heading">
 				<h4>
 					NHS Chelsea & Westminster Hospital
@@ -15,13 +20,12 @@
 					#[!if: stage = 2]
 					#[if: error-bad-staff-id]
 					<div class="alert alert-danger login-message">
-						<p><strong>Error:</strong> that staff ID wasn't recognised - are you sure you have an account?
-						</p>
+						<p><strong>Error:</strong> that staff ID doesn't exist.</p>
 					</div>
 					#[/if]
 					#[if: error-bad-password]
 					<div class="alert alert-danger login-message">
-						<p><strong>Error:</strong> incorrect password.</p>
+						<p><strong>Error:</strong> incorrect password supplied.</p>
 					</div>
 					#[/if]
 					#[if: error-bad-status]
