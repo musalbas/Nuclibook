@@ -55,8 +55,8 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 
-        // action logs
-        Spark.get("/action-log", new ActionLogRoute());
+		// action logs
+		Spark.get("/action-log", new ActionLogRoute());
 
 		// entity CRUD action routes
 		Spark.post("/entity-update", new CrudCreateUpdateRoute());
@@ -73,6 +73,7 @@ public class LocalServer {
 
 		// staff absences and availabilities
 		Spark.get("/select-staff/:target:", new SelectStaffRoute());
+		Spark.get("/staff-absences/:staffid:", new StaffAbsencesRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());

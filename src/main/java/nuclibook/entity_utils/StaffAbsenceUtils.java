@@ -4,14 +4,18 @@ import nuclibook.models.StaffAbsence;
 
 import java.util.List;
 
-public class StaffAbsencesUtils extends AbstractEntityUtils {
+public class StaffAbsenceUtils extends AbstractEntityUtils {
 
-    public static StaffAbsence getStaffAbsenceById(String id) {
+    public static StaffAbsence getStaffAbsence(String id) {
         try {
-            return getStaffAbsenceById(Integer.parseInt(id));
+            return getStaffAbsence(Integer.parseInt(id));
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public static StaffAbsence getStaffAbsence(int id) {
+        return getEntityById(StaffAbsence.class, id);
     }
 
     public static List<StaffAbsence> getStaffAbsencesByStaffId(String staffId) {
@@ -20,10 +24,6 @@ public class StaffAbsencesUtils extends AbstractEntityUtils {
         } catch (NumberFormatException e) {
             return null;
         }
-    }
-
-    public static StaffAbsence getStaffAbsenceById(int id) {
-        return getEntityById(StaffAbsence.class, id);
     }
 
     public static List<StaffAbsence> getStaffAbsencesByStaffId(int staffId) {
