@@ -5,10 +5,15 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	height: 270px;
-	margin-top: -135px;
+	height: 260px;
+	margin-top: -130px;
 	width: 550px;
 	margin-left: -275px;
+}
+
+.login-panel.stage-2 {
+	height: 326px !important;
+	margin-top: -163px !important;
 }
 
 .login-panel-heading {
