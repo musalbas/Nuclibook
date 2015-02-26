@@ -9,10 +9,9 @@
         <div class="text-right">
             <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Staff Member</button>
         </div>
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" id="staff-management-table">
 			<thead>
 				<tr>
-					<th class="text-center">ID</th>
 					<th class="text-center">Username</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Role</th>
@@ -27,7 +26,6 @@
 
 				#[each]
 				<tr>
-					<td>#id</td>
 					<td>#username</td>
 					<td>#name</td>
 					<td>#role-label</td>

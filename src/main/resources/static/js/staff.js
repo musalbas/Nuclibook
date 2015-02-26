@@ -62,3 +62,68 @@ var validateEditForm = function (formObject) {
 
     return !error;
 };
+
+
+$(document).ready(function() {
+    /* Adds searching and sorting to the table. */
+    var table1 = $('#staff-management-table');
+
+    table1.DataTable({
+        "language": {
+            "aria": {
+                "sortAscending": ": activate to sort column ascending",
+                "sortDescending": ": activate to sort column descending"
+            },
+            "emptyTable": "No data available in table",
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+            "infoEmpty": "No entries found",
+            "infoFiltered": "(filtered from _MAX_ total entries)",
+            "lengthMenu": "Show _MENU_ entries",
+            "search": "Search:",
+            "zeroRecords": "No matching records found",
+            "paginate": {
+                "previous": "Prev",
+                "next": "Next",
+                "last": "Last",
+                "first": "First"
+            }
+        },
+        "bStateSave": false,
+
+        "columns": [
+            {
+                "orderable": true
+            },
+            {
+                "orderable": true
+            },
+            {
+                "orderable": true
+            },
+            {
+                "orderable": false
+            }
+        ],
+
+        "lengthMenu": [
+            [20, 50, -1],
+            [20, 50, "All"]
+        ],
+        "pageLength": 20,
+        "pagingType": "bootstrap_full_number",
+
+        "columnDefs": [
+            {
+                'orderable': false,
+                'targets': [3]
+            },
+            {
+                "searchable": false,
+                "targets": [3]
+            }
+        ],
+        "order": [
+            [1, "asc"]
+        ]
+    });
+})
