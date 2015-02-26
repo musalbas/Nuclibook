@@ -25,20 +25,19 @@ var validateCreateForm = function (formObject) {
         error = true;
     } else {
         if (therapyDuration > '2147483647' || therapyDuration < 0) {
-            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647");
+            toastr.error("Therapy duration should be a positive number smaller than 2,147,483,647");
             error = true;
         }
     }
 
     //TODO therapyMedicineRequired. Ask the client;
 
-
     if (therapyMedicineDose.trim().length < 1) {
         toastr.error("You did not enter a valid value for the medicine dose.");
         error = true;
     }
     if (therapyMedicineDose.length > 32) {
-        toastr.error("Therapy duration should not exceed 32 characters.");
+        toastr.error("Medicine dose should not exceed 32 characters.");
         error = true;
     }
 
@@ -72,20 +71,19 @@ var validateEditForm = function (formObject) {
         error = true;
     } else {
         if (therapyDuration > '2147483647' || therapyDuration < 0) {
-            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647");
+            toastr.error("Therapy duration should be a positive number smaller than 2,147,483,647");
             error = true;
         }
     }
 
     //TODO therapyMedicineRequired. Ask the client;
 
-
     if (therapyMedicineDose.trim().length < 1) {
         toastr.error("You did not enter a valid value for the medicine dose.");
         error = true;
     }
     if (therapyMedicineDose.trim().length > 32) {
-        toastr.error("Therapy duration should not exceed 32 characters.");
+        toastr.error("Medicine dose should not exceed 32 characters.");
         error = true;
     }
 
