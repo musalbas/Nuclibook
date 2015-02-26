@@ -119,7 +119,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
+		if (request.queryParams("room-number").length()>32
+                || !request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -148,7 +149,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
+		if (request.queryParams("label").length()>64
+                || !request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -173,7 +175,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length()>64
+                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("order-time").matches("[0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -206,7 +209,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length()>64
+                || request.queryParams("hospital-number").length()>64
+                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
 				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -239,7 +244,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length()>64
+                || request.queryParams("username").length()>64
+                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -313,7 +320,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+		if (request.queryParams("label").length()>32
+                || !request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -364,7 +372,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (!request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length()>64
+                || request.queryParams("medicine-dose").length()>32
+                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("default-duration").matches("[0-9]+")
 				|| !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
