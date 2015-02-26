@@ -1,3 +1,5 @@
+
+
 var validateCreateForm = function (formObject) {
     var error = false;
     // check name
@@ -9,7 +11,7 @@ var validateCreateForm = function (formObject) {
     // check if the user inserted a number
     var number = formObject['order-time'];
     if ($.isNumeric(number) == false) {
-        toastr.error("You did not enter a valid order time");
+        toastr.error("You did not enter a valid order time. Expecting a number.");
 		error = true;
     }
 
@@ -27,7 +29,7 @@ var validateEditForm = function (formObject) {
 	// check if the user inserted a number
 	var number = formObject['order-time'];
 	if ($.isNumeric(number) == false) {
-		toastr.error("You did not enter a valid order time");
+		toastr.error("You did not enter a valid order time. Expecting a number");
 		error = true;
 	}
 
