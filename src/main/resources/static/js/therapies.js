@@ -14,18 +14,18 @@ var validateCreateForm = function (formObject) {
         toastr.error("You did not enter a valid name for the therapy.");
         error = true;
     }
-    if (therapyNameString.trim().length > 64) {
+    if (therapyNameString.length > 64) {
         toastr.error("Therapy name should not exceed 64 characters.");
         error = true;
     }
 
     // Check if the duration represents a number and is in integer range
     if ($.isNumeric(therapyDuration) == false) {
-        toastr.error("You did not enter a valid value for the duration of the therapy. Excepting a number.")
+        toastr.error("You did not enter a valid value for the duration of the therapy. Excepting a number.");
         error = true;
     } else {
         if (therapyDuration > '2147483647' || therapyDuration < 0) {
-            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647")
+            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647");
             error = true;
         }
     }
@@ -37,7 +37,7 @@ var validateCreateForm = function (formObject) {
         toastr.error("You did not enter a valid value for the medicine dose.");
         error = true;
     }
-    if (therapyMedicineDose.trim().length > 32) {
+    if (therapyMedicineDose.length > 32) {
         toastr.error("Therapy duration should not exceed 32 characters.");
         error = true;
     }
@@ -68,11 +68,11 @@ var validateEditForm = function (formObject) {
 
     // Check if the duration represents a number and is in integer range
     if ($.isNumeric(therapyDuration) == false) {
-        toastr.error("You did not enter a valid value for the duration of the therapy. Excepting a number.")
+        toastr.error("You did not enter a valid value for the duration of the therapy. Excepting a number.");
         error = true;
     } else {
         if (therapyDuration > '2147483647' || therapyDuration < 0) {
-            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647")
+            toastr.error("Therapy duration should be a positive number smaller then 2,147,483,647");
             error = true;
         }
     }
