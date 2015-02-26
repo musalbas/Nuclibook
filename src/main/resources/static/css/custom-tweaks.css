@@ -41,3 +41,9 @@ div.multi-select-box {
     max-height: 80%;
     overflow-y: scroll;
 }
+
+/* staff role form width adjusting */
+
+.staff-role-modal {
+    min-width: 25%;
+}

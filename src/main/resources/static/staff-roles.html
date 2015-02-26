@@ -51,7 +51,7 @@
 </div>
 
 <div class="modal hide fade edit-modal">
-	<div class="modal-dialog">
+	<div class="modal-dialog staff-role-modal">
 
 		<div class="modal-content">
 			<div class="modal-header">
@@ -73,24 +73,21 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Permissions</label>
-                        <div class="col-sm-9">
-                            <select multiple class="multi-select-box">
-                                #[collection: permissions]
+                        <div class="col-sm-9 container multi-select-box">
+                            #[collection: permissions]
 
-                                #[pre]#[/pre]
+                            #[pre]#[/pre]
 
-                                #[each]
-                                <input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id" id="permission-#id" value="#id"/>
-                                <label for="permission-#id">#description</label><br />
-                                #[/each]
+                            #[each]
+                            <input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id" id="permission-#id" value="#id"/>
+                            <label for="permission-#id">#description</label><br />
+                            #[/each]
 
-                                #[post]#[/post]
+                            #[post]#[/post]
 
-                                #[empty]#[/empty]
+                            #[empty]#[/empty]
 
-                                #[/collection]
-                            </select>
-                            <p class="help-block">Example block-level help text here.</p>
+                            #[/collection]
                         </div>
                     </div>
                 </form>
