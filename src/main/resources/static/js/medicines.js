@@ -18,7 +18,7 @@ var validateCreateForm = function (formObject) {
         toastr.error("You did not enter a valid order time. Expecting a number.");
 		error = true;
     } else {
-        if (number < '0' || number > '2147483647') {
+        if (number < 0 || number > 2147483647) {
             toastr.error("Order time should be a positive number smaller than 2,147,483,647");
             error = true;
         }
@@ -45,7 +45,7 @@ var validateEditForm = function (formObject) {
         toastr.error("You did not enter a valid order time. Expecting a number.");
         error = true;
     } else {
-        if (number < '0' || number > '2147483647') {
+        if (number < 0 || number > 2147483647) {
             toastr.error("Order time should be a positive number smaller than 2,147,483,647");
             error = true;
         }
