@@ -6,7 +6,7 @@ var validateEditForm = function (formObject) {
         toastr.error("You did not enter a room number");
         error = true;
     }
-    if (formObject['room-number'].trim().length > 32) {
+    if (formObject['room-number'].length > 32) {
         toastr.error("Room number should not exceed 32 characters.");
         error = true;
     }
@@ -22,7 +22,7 @@ var validateCreateForm = function (formObject) {
         toastr.error("You did not enter a room number");
         error = true;
     }
-    if (formObject['room-number'].trim().length > 32) {
+    if (formObject['room-number'].length > 32) {
         toastr.error("Room number should not exceed 32 characters.");
         error = true;
     }

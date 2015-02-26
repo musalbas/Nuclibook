@@ -6,7 +6,7 @@ var validateEditForm = function (formObject) {
         toastr.error("You did not enter a label for the camera type");
         error = true;
     }
-    if (formObject['label'].trim().length > 32 ) {
+    if (formObject['label'].length > 32 ) {
         toastr.error("Camera Type Label should not exceed 32 characters.");
         error = true;
     }
@@ -20,7 +20,7 @@ var validateCreateForm = function (formObject) {
         toastr.error("You did not enter a label for the camera type");
         error = true;
     }
-    if (formObject['label'].trim().length > 32) {
+    if (formObject['label'].length > 32) {
         toastr.error("Camera Type Label should not exceed 32 characters.");
         error = true;
     }
