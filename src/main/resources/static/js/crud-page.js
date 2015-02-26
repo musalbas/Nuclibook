@@ -93,22 +93,43 @@ function openEditModal(objectId) {
 			if (typeof(validateEditForm) == 'function' && !validateEditForm(form.serializeObject())) return;
 		}
 
-		// hide the modal
-		editModal.modal('hide');
-
 		// show loading modal
 		enableLoading();
 
 		// ajax!
 		$.post(
 			'/entity-update',
-			form.serialize(),
-			function (result) {
+			form.serialize()
+		).done(function (result) {
+				if (result == 'okay') {
+					// hide modal
+					editModal.modal('hide');
+
+					// hide loading and reload
+					disableLoading(function () {
+						// TODO: better solution to this
+						location.reload();
+					});
+				} else if (result == 'failed_validation') {
+					disableLoading(function () {
+						toastr.error('The data you entered was invalid; please check again');
+					});
+				} else if (result == 'no_permission') {
+					disableLoading(function () {
+						toastr.error('You do not have permission to edit or create this item');
+					});
+				} else {
+					disableLoading(function () {
+						toastr.error('Something went wrong; please try again');
+					});
+				}
+			}
+		).fail(function () {
 				disableLoading(function () {
-					// TODO: better solution to this
-					location.reload();
+					toastr.error('Something went wrong; please try again');
 				});
-			});
+			}
+		);
 	});
 
 	// display modal
@@ -130,22 +151,39 @@ function openDeleteModal(objectId) {
 
 	// save button
 	deleteModal.find('.btn-okay').unbind('click').click(function (e) {
-		// hide the modal
-		deleteModal.modal('hide');
-
 		// show loading modal
 		enableLoading();
 
 		// ajax!
 		$.post(
 			'/entity-delete',
-			form.serialize(),
-			function (result) {
+			form.serialize()
+		).done(function (result) {
+				if (result == 'okay') {
+					// hide modal
+					deleteModal.modal('hide');
+
+					// hide loading and reload
+					disableLoading(function () {
+						// TODO: better solution to this
+						location.reload();
+					});
+				} else if (result == 'no_permission') {
+					disableLoading(function () {
+						toastr.error('You do not have permission to delete this item');
+					});
+				} else {
+					disableLoading(function () {
+						toastr.error('Something went wrong; please try again');
+					});
+				}
+			}
+		).fail(function () {
 				disableLoading(function () {
-					// TODO: better solution to this
-					location.reload();
+					toastr.error('Something went wrong; please try again');
 				});
-			});
+			}
+		);
 	});
 
 	// display modal
