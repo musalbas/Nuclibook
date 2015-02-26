@@ -25,12 +25,58 @@ html, body {
 /* multi select box for crud forms */
 
 div.multi-select-box {
-	max-height: 300px;
-	overflow-y: auto;
+	max-height: 150px;
+	overflow-y: scroll;
 }
 
 /* add buttons margin from the bottom */
 
 .create-button {
 	margin-bottom: 15px;
+}
+
+/* modal forms height limit */
+
+.edit-modal.modal {
+	width: 100% !important;
+	height: 100vh !important;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.edit-modal.modal .modal-dialog {
+	height: calc(100% - 60px);
+}
+
+.edit-modal.modal .modal-dialog .modal-content {
+	height: 100%;
+}
+
+.edit-modal.modal .modal-dialog .modal-content .modal-header {
+	height: 87px;
+}
+
+.edit-modal.modal .modal-dialog .modal-content .modal-body {
+	height: calc(100% - 152px);
+	overflow-y: auto;
+}
+
+.edit-modal.modal .modal-dialog .modal-content .modal-footer {
+	height: 65px;
+}
+
+/* staff role form width adjusting */
+
+.staff-role-modal {
+	min-width: 25%;
+}
+
+/* barcode icon field */
+
+.icon-field {
+	margin-bottom: 20px;
+	max-width: 95%;
+	margin-left: auto;
+	margin-right: auto;
 }

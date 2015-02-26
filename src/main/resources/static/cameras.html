@@ -59,32 +59,38 @@
 				<h3 class="create-mode">Add Camera</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form form-inline text-center">
-					<input type="hidden" name="entity-type" value="camera"/>
-					<input type="hidden" name="entity-id" value="0"/>
-					<div class="form-group">
-						<label for="camera-type-id">Camera Type</label>
-						<select name="camera-type-id" id="camera-type-id">
-							#[collection: camera-types]
+                <form class="form-horizontal edit-form">
+                    <input type="hidden" name="entity-type" value="camera"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <label for="camera-type-id" class="col-sm-3 control-label">Camera Type</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="camera-type-id" id="camera-type-id">
+                                #[collection: camera-types]
 
-							#[pre]#[/pre]
+                                #[pre]#[/pre]
 
-							#[each]
-							<option value="#id">#label</option>
-							#[/each]
+                                #[each]
+                                <option value="#id">#label</option>
+                                #[/each]
 
-							#[post]#[/post]
+                                #[post]#[/post]
 
-							#[empty]#[/empty]
+                                #[empty]#[/empty]
 
-							#[/collection]
-						</select>
-					</div>
-					<div class="form-group text-center">
-						<label for="room-number">Room Number:</label>
-						<input type="text" name="room-number" id="room-number"/>
-					</div>
-				</form>
+                                #[/collection]
+                            </select>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="room-number" class="col-sm-3 control-label">Room Number</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="room-number" id="room-number"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                </form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>

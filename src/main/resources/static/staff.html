@@ -60,47 +60,62 @@
 				<h3 class="create-mode">Create Staff Member</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form">
-					<input type="hidden" name="entity-type" value="staff"/>
-					<input type="hidden" name="entity-id" value="0"/>
-					<div class="form-group">
-						<label for="name">Name</label>
-						<input type="text" name="name" id="name"/>
-					</div>
-					<div class="form-group">
-						<label for="username">Username</label>
-						<input type="text" name="username" id="username"/>
-					</div>
-					<div class="form-group">
-						<label for="role-id">Staff Role</label>
-						<select name="role-id" id="role-id">
-							#[collection: staff-roles]
+                <form class="form-horizontal edit-form">
+                    <input type="hidden" name="entity-type" value="staff"/>
+                    <input type="hidden" name="entity-id" value="0"/>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="name" id="name"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-3 control-label">Username</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="username" id="username">
+                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                            </div>
+                            <p class="help-block">We suggest you use the barcode scanner here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role-id" class="col-sm-3 control-label">Staff Role</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="role-id" id="role-id">
+                                #[collection: staff-roles]
 
-							#[pre]#[/pre]
+                                #[pre]#[/pre]
 
-							#[each]
-							<option value="#id">#label</option>
-							#[/each]
+                                #[each]
+                                <option value="#id">#label</option>
+                                #[/each]
 
-							#[post]#[/post]
+                                #[post]#[/post]
 
-							#[empty]#[/empty]
+                                #[empty]#[/empty]
 
-							#[/collection]
-						</select>
-					</div>
-					<div class="form-group create-mode">
-						<label for="password">Password</label>
-						<input type="password" name="password" id="password"/>
-					</div>
-					<div class="form-group create-mode">
-						<label for="password_check">Repeat Password</label>
-						<input type="password" name="password_check" id="password_check"/>
-					</div>
-					<div class="form-group edit-mode">
-						<p class="small"><em>Note: you can only edit your own password, by checking 'Account Settings'.</em></p>
-					</div>
-				</form>
+                                #[/collection]
+                            </select>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group create-mode">
+                        <label for="password" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="password" name="password" id="password"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                    </div>
+                    <div class="form-group create-mode">
+                        <label for="password_check" class="col-sm-3 control-label">Repeat Password</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="password" name="password_check" id="password_check"/>
+                            <p class="help-block">Note: you can only edit your own password, by checking 'Account Settings'.</p>
+                        </div>
+                    </div>
+                </form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
