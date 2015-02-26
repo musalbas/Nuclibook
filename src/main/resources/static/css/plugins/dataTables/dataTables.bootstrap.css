@@ -54,12 +54,12 @@ table.dataTable thead .sorting_desc_disabled {
 	cursor: pointer;
 }
 
-table.dataTable thead .sorting { background: url('../../media/images/sort_both.png') no-repeat center right; }
-table.dataTable thead .sorting_asc { background: url('../../media/images/sort_asc.png') no-repeat center right; }
-table.dataTable thead .sorting_desc { background: url('../../media/images/sort_desc.png') no-repeat center right; }
+table.dataTable thead .sorting { background: url('/images/plugins/dataTables/sort_both.png') no-repeat center right; }
+table.dataTable thead .sorting_asc { background: url('/images/plugins/dataTables/sort_asc.png') no-repeat center right; }
+table.dataTable thead .sorting_desc { background: url('/images/plugins/dataTables/sort_desc.png') no-repeat center right; }
 
-table.dataTable thead .sorting_asc_disabled { background: url('../../media/images/sort_asc_disabled.png') no-repeat center right; }
-table.dataTable thead .sorting_desc_disabled { background: url('../../media/images/sort_desc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_asc_disabled { background: url('/images/plugins/dataTables/sort_asc_disabled.png') no-repeat center right; }
+table.dataTable thead .sorting_desc_disabled { background: url('/images/plugins/dataTables/sort_desc_disabled.png') no-repeat center right; }
 
 table.dataTable th:active {
 	outline: none;
@@ -174,7 +174,7 @@ ul.DTTT_dropdown.dropdown-menu li:hover a {
 }
 
 div.DTTT_collection_background {
-	z-index: 2002;	
+	z-index: 2002;
 }
 
 /* TableTools information display */
@@ -209,7 +209,7 @@ table.DTFC_Cloned tr.even {
     background-color: white;
     margin-bottom: 0;
 }
- 
+
 div.DTFC_RightHeadWrapper table ,
 div.DTFC_LeftHeadWrapper table {
     margin-bottom: 0 !important;
@@ -217,7 +217,7 @@ div.DTFC_LeftHeadWrapper table {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
- 
+
 div.DTFC_RightHeadWrapper table thead tr:last-child th:first-child,
 div.DTFC_RightHeadWrapper table thead tr:last-child td:first-child,
 div.DTFC_LeftHeadWrapper table thead tr:last-child th:first-child,
@@ -225,20 +225,20 @@ div.DTFC_LeftHeadWrapper table thead tr:last-child td:first-child {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
- 
+
 div.DTFC_RightBodyWrapper table,
 div.DTFC_LeftBodyWrapper table {
     border-top: none;
     margin: 0 !important;
 }
- 
+
 div.DTFC_RightBodyWrapper tbody tr:first-child th,
 div.DTFC_RightBodyWrapper tbody tr:first-child td,
 div.DTFC_LeftBodyWrapper tbody tr:first-child th,
 div.DTFC_LeftBodyWrapper tbody tr:first-child td {
     border-top: none;
 }
- 
+
 div.DTFC_RightFootWrapper table,
 div.DTFC_LeftFootWrapper table {
     border-top: none;

@@ -22,6 +22,7 @@ public class LocalServer {
 			if (path.startsWith("/login")
 					|| path.startsWith("/htmltest")
 					|| path.startsWith("/css")
+					|| path.startsWith("/images")
 					|| path.startsWith("/js")
 					|| path.startsWith("/font-awesome")) {
 				// nothing more to do - everything is fine
