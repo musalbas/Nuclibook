@@ -35,7 +35,10 @@
 					#[/if]
 					<div class="form-group">
 						<label class="login-label text-center" for="username">Enter your ID below and press enter, or scan your ID card.</label>
-						<input class="form-control login-field" type="text" name="username" id="username" value="#username"/>
+                        <div class="barcode-field input-group">
+						    <input class="form-control" type="text" name="username" id="username" value="#username"/>
+                            <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                        </div>
 					</div>
 					#[/if]
 
@@ -43,8 +46,8 @@
 					<input type="hidden" name="username" value="#username"/>
 					<p class="alert alert-info login-message">Hello, <strong>#staffname</strong>.</p>
 					<div class="form-group">
-						<label class="login-label" for="password">Please enter your password or PIN and press enter.</label>
-						<input class="form-control login-field" type="password" name="password" id="password"/>
+                        <label class="login-label" for="password">Please enter your password or PIN and press enter.</label>
+                        <input class="form-control login-field" type="password" name="password" id="password"/>
 					</div>
 					#[/if]
 
