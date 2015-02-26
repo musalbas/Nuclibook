@@ -38,7 +38,7 @@ public class StaffAvailabilitiesRoute extends DefaultRoute {
 		renderer.setField("staff-name", currentStaff.getName());
 
 		// add absences
-		List<StaffAvailability> allAvailabilities = StaffAvailabilityUtils.getAvailabilityByStaffId(currentStaff.getId());
+		List<StaffAvailability> allAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(currentStaff.getId());
 		renderer.setCollection("staff-availabilities", allAvailabilities);
 
 		return renderer.render();
