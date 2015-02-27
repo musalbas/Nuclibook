@@ -64,10 +64,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffAbsence.class;
 				break;
 
-            case "staff-availability":
-                entityPair = createUpdateStaffAvailability(entityId, request);
-                dbClass = StaffAvailability.class;
-                break;
+			case "staff-availability":
+				entityPair = createUpdateStaffAvailability(entityId, request);
+				dbClass = StaffAvailability.class;
+				break;
 
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
@@ -124,8 +124,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("room-number").length()>32
-                || !request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
+		if (request.queryParams("room-number").length() > 32
+				|| !request.queryParams("room-number").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -154,8 +154,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("label").length()>64
-                || !request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
+		if (request.queryParams("label").length() > 64
+				|| !request.queryParams("label").matches("[a-zA-Z\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -180,8 +180,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("name").length()>64
-                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length() > 64
+				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("order-time").matches("[0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -214,9 +214,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("name").length()>64
-                || request.queryParams("hospital-number").length()>64
-                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length() > 64
+				|| request.queryParams("hospital-number").length() > 64
+				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
 				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -249,9 +249,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("name").length()>64
-                || request.queryParams("username").length()>64
-                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length() > 64
+				|| request.queryParams("username").length() > 64
+				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -318,47 +318,50 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return new Pair<>(Status.OK, entity);
 	}
 
-    private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
-        // validation
-        String dayOfWeekString = request.queryParams("day-of-week");
-        Integer dayOfWeek;
-        String startTime = request.queryParams("start-time");
-        String endTime = request.queryParams("end-time");
-        Integer startTimeSecondsPastMidnight;
-        Integer endTimeSecondsPastMidnight;
+	private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
+		// permission
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_AVAILABILITIES)) {
+			return new Pair<>(Status.NO_PERMISSION, null);
+		}
 
-        try {
-            dayOfWeek = Integer.parseInt(dayOfWeekString);
-            startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 3600) + (Integer.parseInt(startTime.split(":")[1])*60);
-            endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 3600) + (Integer.parseInt(endTime.split(":")[1])*60);
+		// validation
+		String dayOfWeekString = request.queryParams("day-of-week");
+		int dayOfWeek;
+		String startTime = request.queryParams("start-time");
+		String endTime = request.queryParams("end-time");
+		int startTimeSecondsPastMidnight;
+		int endTimeSecondsPastMidnight;
+		try {
+			dayOfWeek = Integer.parseInt(dayOfWeekString);
+			startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 3600) + (Integer.parseInt(startTime.split(":")[1]) * 60);
+			endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 3600) + (Integer.parseInt(endTime.split(":")[1]) * 60);
+		} catch (NumberFormatException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
 
-        } catch (NumberFormatException e) {
-            return new Pair<>(Status.FAILED_VALIDATION, null);
-        }
+		// create and set ID
+		StaffAvailability entity;
+		if (createNew) {
+			entity = new StaffAvailability();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(StaffAvailability.class, entityId);
+		}
 
-        // create and set ID
-        StaffAvailability entity;
-        if (createNew) {
-            entity = new StaffAvailability();
-        } else {
-            entity = AbstractEntityUtils.getEntityById(StaffAvailability.class, entityId);
-        }
+		// dates
+		try {
+			entity.setDay(dayOfWeek);
+			entity.setStartTime(new TimeOfDay(startTimeSecondsPastMidnight));
+			entity.setEndTime(new TimeOfDay(endTimeSecondsPastMidnight));
+		} catch (InvalidTimeOfDayException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
 
-        // dates
-        try {
-            entity.setDay(dayOfWeek);
-            entity.setStartTime(new TimeOfDay(startTimeSecondsPastMidnight));
-            entity.setEndTime(new TimeOfDay(endTimeSecondsPastMidnight));
-        } catch (InvalidTimeOfDayException e) {
-            return new Pair<>(Status.FAILED_VALIDATION, null);
-        }
+		// staff
+		Staff staff = StaffUtils.getStaff(request.queryParams("staff-id"));
+		entity.setStaff(staff);
 
-        // staff
-        Staff staff = StaffUtils.getStaff(request.queryParams("staff-id"));
-        entity.setStaff(staff);
-
-        return new Pair<>(Status.OK, entity);
-    }
+		return new Pair<>(Status.OK, entity);
+	}
 
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
@@ -367,8 +370,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("label").length()>32
-                || !request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+		if (request.queryParams("label").length() > 32
+				|| !request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -419,9 +422,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// validation
-		if (request.queryParams("name").length()>64
-                || request.queryParams("medicine-dose").length()>32
-                || !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+		if (request.queryParams("name").length() > 64
+				|| request.queryParams("medicine-dose").length() > 32
+				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("default-duration").matches("[0-9]+")
 				|| !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
