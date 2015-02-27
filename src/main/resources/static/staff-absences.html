@@ -13,7 +13,8 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12">
 		<div class="text-right">
-			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Absence</button>
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Absence
+			</button>
 		</div>
 		<table class=" table table-bordered table-hover">
 			<thead>
@@ -42,11 +43,7 @@
 
 				#[post]#[/post]
 
-				#[empty]
-				<tr>
-					<td colspan="5">No Absences for #staff-name</td>
-				</tr>
-				#[/empty]
+				#[empty]#[/empty]
 
 				#[/collection]
 			</tbody>
@@ -63,27 +60,27 @@
 				<h3 class="create-mode">Create Absence</h3>
 			</div>
 			<div class="modal-body">
-                <form class="form-horizontal edit-form">
-                    <input type="hidden" name="entity-type" value="staff-absence"/>
-                    <input type="hidden" name="entity-id" value="0"/>
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="staff-absence"/>
+					<input type="hidden" name="entity-id" value="0"/>
 
-                    <input type="hidden" name="staff-id" value="#staff-id"/>
+					<input type="hidden" name="staff-id" value="#staff-id"/>
 
-                    <div class="form-group">
-                        <label for="from" class="col-sm-3 control-label">From</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="from" id="from"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="to" class="col-sm-3 control-label">To</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="to" id="to"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
-                </form>
+					<div class="form-group">
+						<label for="from" class="col-sm-3 control-label">From</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="from" id="from"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="to" class="col-sm-3 control-label">To</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="to" id="to"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
+				</form>
 
 			</div>
 			<div class="modal-footer">
