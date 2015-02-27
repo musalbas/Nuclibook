@@ -2,9 +2,12 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
+
+import java.util.HashMap;
 
 @DatabaseTable(tableName = "staff_availabilities")
-public class StaffAvailability {
+public class StaffAvailability implements Renderable {
 
     @DatabaseField(generatedId = true)
     private Integer id;
@@ -72,5 +75,17 @@ public class StaffAvailability {
 
     public void setEndTime(TimeOfDay endTime) {
         this.endTime = endTime.getSecondsPastMidnight();
+    }
+
+    @Override
+    public HashMap<String, String> getHashMap() {
+        String[] dayLabels = new String[] {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        return new HashMap<String, String>() {{
+            put("id", getId().toString());
+            put("day-of-week", getDay() + "");
+            put("day-of-week-label", dayLabels[getDay()]);
+            put("start-time", getStartTime().getHour() + ":" + getStartTime().getMinute());
+            put("end-time", getEndTime().getHour() + ":" + getEndTime().getMinute());
+        }};
     }
 }
