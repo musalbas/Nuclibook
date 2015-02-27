@@ -4,7 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.models.Staff;
-import nuclibook.models.Therapy;
+import nuclibook.models.Tracer;
 import nuclibooktest.test_utils.TestSqlServerConnection;
 import org.junit.AfterClass;
 import org.junit.Rule;
@@ -22,8 +22,8 @@ public class SqlServerConnectionTest {
         ConnectionSource connection = TestSqlServerConnection.acquireConnection();
         assertTrue("SQL connection was not created", connection instanceof ConnectionSource);
 
-        Dao<Therapy, Integer> therapyDao = DaoManager.createDao(connection, (Class) Therapy.class);
-        assertTrue("Did not create last table (therapies)", therapyDao.isTableExists());
+        Dao<Tracer, Integer> therapyDao = DaoManager.createDao(connection, (Class) Tracer.class);
+        assertTrue("Did not create last table (tracers)", therapyDao.isTableExists());
     }
 
     @AfterClass
