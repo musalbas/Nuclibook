@@ -11,6 +11,11 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
+	if (new Date(formObject['from']) >= new Date(formObject['to'])) {
+		toastr.error("The 'from' date cannot be after the 'to' date.");
+		error = true;
+	}
+
 	return !error;
 };
 
@@ -24,6 +29,11 @@ var validateEditForm = function (formObject) {
 	}
 	if (!format.test(formObject['to'])) {
 		toastr.error("You did not enter the 'to' date in YYYY-MM-DD HH:MM format.");
+		error = true;
+	}
+
+	if (new Date(formObject['from']) >= new Date(formObject['to'])) {
+		toastr.error("The 'from' date cannot be after the 'to' date.");
 		error = true;
 	}
 

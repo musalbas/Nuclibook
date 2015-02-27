@@ -11,6 +11,11 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
+	if (new Date('2000-01-01 ' + formObject['start-time']) >= new Date('2000-01-01 ' + formObject['end-time'])) {
+		toastr.error("The start time cannot be after the end time.");
+		error = true;
+	}
+
 	return !error;
 };
 
@@ -24,6 +29,11 @@ var validateEditForm = function (formObject) {
 	}
 	if (!format.test(formObject['end-time'])) {
 		toastr.error("You did not enter the end time in HH:MM format.");
+		error = true;
+	}
+
+	if (new Date('2000-01-01 ' + formObject['start-time']) >= new Date('2000-01-01 ' + formObject['end-time'])) {
+		toastr.error("The start time cannot be after the end time.");
 		error = true;
 	}
 
