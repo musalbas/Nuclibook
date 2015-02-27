@@ -85,6 +85,9 @@ public class LocalServer {
 		Spark.get("/staff-absences/:staffid:", new StaffAbsencesRoute());
         Spark.get("/staff-availabilities/:staffid:", new StaffAvailabilitiesRoute());
 
+        // appointments
+        Spark.get("/appointments", new AppointmentsRoute());
+
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 	}
