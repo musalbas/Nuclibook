@@ -31,7 +31,6 @@ public class TestSqlServerConnection {
             TableUtils.dropTable(connection, BookingStaff.class, true);
             TableUtils.dropTable(connection, Camera.class, true);
             TableUtils.dropTable(connection, CameraType.class, true);
-            TableUtils.dropTable(connection, Medicine.class, true);
             TableUtils.dropTable(connection, Patient.class, true);
             TableUtils.dropTable(connection, Permission.class, true);
             TableUtils.dropTable(connection, Staff.class, true);
@@ -40,6 +39,7 @@ public class TestSqlServerConnection {
             TableUtils.dropTable(connection, StaffRole.class, true);
             TableUtils.dropTable(connection, StaffRolePermission.class, true);
             TableUtils.dropTable(connection, Therapy.class, true);
+            TableUtils.dropTable(connection, Tracer.class, true);
         } catch (SQLException e) {
             e.printStackTrace(); // TODO deal with exception
         }
