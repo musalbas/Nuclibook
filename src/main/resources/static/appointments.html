@@ -5,91 +5,93 @@
 ##_header.html
 
 <div class="row">
-    <div class="col-md-12 col-lg-12" id="page-one">
-        <table class=" table table-bordered table-hover" id="patients-table">
-            <thead>
-            <tr>
-                <th class="text-center">Patient Name</th>
-                <th class="text-center">Hospital Number</th>
-                <th class="text-center">Date of birth</th>
-                <th class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            #[collection: patients]
+	<div class="col-md-12 col-lg-12" id="page-one">
+		<table class=" table table-bordered table-hover" id="patients-table">
+			<thead>
+				<tr>
+					<th class="text-center">Patient Name</th>
+					<th class="text-center">Hospital Number</th>
+					<th class="text-center">Date of birth</th>
+					<th class="text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: patients]
 
-            #[pre]#[/pre]
+				#[pre]#[/pre]
 
-            #[each]
-            <tr>
-                <td>#name</td>
-                <td>#hospital-number</td>
-                <td>#date-of-birth</td>
-                <td>
-                    <button class="btn" data-id="#id" data-name="#name" id="select-patient">Select #name</button>
-                </td>
-            </tr>
-            #[/each]
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#hospital-number</td>
+					<td>#date-of-birth</td>
+					<td>
+						<button class="btn select-patient" data-id="#id" data-name="#name">Select #name</button>
+					</td>
+				</tr>
+				#[/each]
 
-            #[post]#[/post]
+				#[post]#[/post]
 
-            #[empty]#[/empty]
+				#[empty]#[/empty]
 
-            #[/collection]
-            </tbody>
-        </table>
-    </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12" id="page-two">
-        <p><strong>Patient Selected:</strong> <span class="patient-selected"></span> <a class="small" id="go-back-to-select-patient">[Change]</a></p>
+	<div hidden class="col-md-12 col-lg-12" id="page-two">
+		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span>
+			<a class="small" id="go-back-to-select-patient">[Change]</a></p>
 
-        <table class="table table-bordered table-hover" id="therapies-table">
-            <thead>
-            <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Default Duration</th>
-                <th class="text-center">Tracer Required</th>
-                <th class="text-center">Tracer Dose</th>
-                <th class="text-center">Camera Required</th>
-                <th class="text-center">Actions</th>
-            </tr>
-            </thead>
+		<table class="table table-bordered table-hover" id="therapies-table">
+			<thead>
+				<tr>
+					<th class="text-center">Name</th>
+					<th class="text-center">Default Duration</th>
+					<th class="text-center">Tracer Required</th>
+					<th class="text-center">Tracer Dose</th>
+					<th class="text-center">Camera Required</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
 
-            <tbody>
-            #[collection: therapies]
+			<tbody>
+				#[collection: therapies]
 
-            #[pre]#[/pre]
+				#[pre]#[/pre]
 
-            #[each]
-            <tr>
-                <td>#name</td>
-                <td>#default-duration mins</td>
-                <td>#tracer-required-name</td>
-                <td>#tracer-dose</td>
-                <td>#camera-type-label</td>
-                <td>
-                    <button class="btn" data-id="#id" data-name="#name" id="select-therapy">Select</button>
-                </td>
-            </tr>
-            #[/each]
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#default-duration mins</td>
+					<td>#tracer-required-name</td>
+					<td>#tracer-dose</td>
+					<td>#camera-type-label</td>
+					<td>
+						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
+					</td>
+				</tr>
+				#[/each]
 
-            #[post]#[/post]
+				#[post]#[/post]
 
-            #[empty]#[/empty]
+				#[empty]#[/empty]
 
-            #[/collection]
-            </tbody>
-        </table>
-    </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12" id="page-three">
-        <p><strong>Patient Selected:</strong> <span class="patient-selected"></span></p>
-        <p><strong>Therapy Selected:</strong> <span class="therapy-selected"></span> <a class="small" id="go-back-to-select-therapy">[Change]</a></p>
+	<div hidden class="col-md-12 col-lg-12" id="page-three">
+		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span></p>
+		<p><strong>Therapy Selected:</strong> <span class="therapy-selected"></span>
+			<a class="small" id="go-back-to-select-therapy">[Change]</a></p>
 
-        <button class="btn btn-primary" id="view-available-appointments">View Available Appointments</button>
-    </div>
+		<button class="btn btn-primary" id="view-available-appointments">View Available Appointments</button>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12 calendar"></div>
+	<div hidden class="col-md-12 col-lg-12 calendar"></div>
 </div>
 
 <script src="/js/core/jquery-ui.min.js"></script>
