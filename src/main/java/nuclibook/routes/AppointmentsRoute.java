@@ -4,8 +4,10 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.TherapyUtils;
 import nuclibook.models.CameraType;
 import nuclibook.models.Patient;
+import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -29,6 +31,10 @@ public class AppointmentsRoute extends DefaultRoute {
         // get patients and add to renderer
         List<Patient> allPatients = PatientUtils.getAllPatients(true);
         renderer.setCollection("patients", allPatients);
+
+        // get therapies and add to renderer
+        List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
+        renderer.setCollection("therapies", allTherapies);
 
 		return renderer.render();
 	}
