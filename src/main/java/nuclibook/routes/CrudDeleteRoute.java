@@ -94,6 +94,17 @@ public class CrudDeleteRoute extends DefaultRoute {
 				return "okay";
 			}
 
+            case "staff-availability": {
+                // permission
+                if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_AVAILABILITIES)) {
+                    return "no_permission";
+                }
+
+                StaffAvailability entity = AbstractEntityUtils.getEntityById(StaffAvailability.class, entityId);
+                AbstractEntityUtils.deleteEntity(StaffAvailability.class, entity);
+                return "okay";
+            }
+
 			case "staff-role": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {

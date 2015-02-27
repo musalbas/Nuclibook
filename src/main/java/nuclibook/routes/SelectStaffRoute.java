@@ -25,6 +25,7 @@ public class SelectStaffRoute extends DefaultRoute {
 		renderer.setTemplateFile("select-staff.html");
 
 		// check fields
+        //TODO fix bug when going to select-staff/ shows a 404 error.
 		if (request.params(":target:") == null) {
 			response.redirect("/");
 			return null;
