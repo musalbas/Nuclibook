@@ -11,13 +11,16 @@
 		<script src="/js/core/jquery.min.js"></script>
 
 		<title>#title</title>
-		<link href="/css/core/bootstrap.min.css" rel="stylesheet"/>
-		<link href="/css/core/sb-admin.css" rel="stylesheet"/>
-		<link href="/css/custom-tweaks.css" rel="stylesheet"/>
+		<link href="/css/core/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/core/sb-admin.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/custom-tweaks.css" rel="stylesheet" type="text/css"/>
 		<link href="/css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 		#[if: crud]
 		<link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 		#[/if]
+        #[if: calendar]
+        <link href="/css/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+        #[/if]
 
 		<!-- data-tables CSS -->
         <link href="/css/plugins/data-tables/data-tables.bootstrap.css" rel="stylesheet" type="text/css"/>
