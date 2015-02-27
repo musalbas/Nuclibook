@@ -22,7 +22,7 @@ function setUpDataTable(tableId, orderBy, colDefs) {
 			"infoFiltered": "(filtered from _MAX_ total entries)",
 			"lengthMenu": "Show _MENU_ entries",
 			"search": "Search:",
-			"zeroRecords": "No matching records found",
+			"zeroRecords": "No matching records found.",
 			"paginate": {
 				"previous": "Prev",
 				"next": "Next",

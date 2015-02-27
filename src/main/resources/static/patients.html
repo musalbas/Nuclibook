@@ -6,13 +6,13 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-        <div class="text-right">
-            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Patient</button>
-        </div>
-		<table class=" table table-bordered table-hover" id="patientInfo">
+		<div class="text-right">
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Patient
+			</button>
+		</div>
+		<table class=" table table-bordered table-hover" id="patients-table">
 			<thead>
 				<tr>
-					<th class="text-center">Patient ID</th>
 					<th class="text-center">Patient Name</th>
 					<th class="text-center">Hospital Number</th>
 					<th class="text-center">Date of birth</th>
@@ -26,7 +26,6 @@
 
 				#[each]
 				<tr>
-					<td>#id</td>
 					<td>#name</td>
 					<td>#hospital-number</td>
 					<td>#date-of-birth</td>
@@ -35,14 +34,13 @@
 						<button class="btn delete-button" data-id="#id">Delete</button>
 					</td>
 				</tr>
-
 				#[/each]
 
 				#[post]#[/post]
 
 				#[empty]
 				<tr>
-					<td colspan="5">No Patients</td>
+					<td colspan="4">No patients</td>
 				</tr>
 				#[/empty]
 
@@ -61,32 +59,32 @@
 				<h3 class="create-mode">Create Patient</h3>
 			</div>
 			<div class="modal-body">
-                <form class="form-horizontal edit-form">
-                    <input type="hidden" name="entity-type" value="patient"/>
-                    <input type="hidden" name="entity-id" value="0"/>
-                    <div class="form-group">
-                        <label for="name" class="col-sm-3 control-label">Name</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="name" id="name"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="hospital-number" class="col-sm-3 control-label">Hospital Number</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="hospital-number" id="hospital-number"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="date-of-birth" class="col-sm-3 control-label">Date of Birth</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="date-of-birth" id="date-of-birth"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="patient"/>
+					<input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group">
+						<label for="name" class="col-sm-3 control-label">Name</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="name" id="name"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="hospital-number" class="col-sm-3 control-label">Hospital Number</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="hospital-number" id="hospital-number"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="date-of-birth" class="col-sm-3 control-label">Date of Birth</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="date-of-birth" id="date-of-birth"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
 
-                </form>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
