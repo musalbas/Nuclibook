@@ -33,7 +33,7 @@ public class AppointmentsRoute extends DefaultRoute {
 		// get therapies and add to renderer
 		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
 		renderer.setCollection("therapies", allTherapies);
-
+		
 		return renderer.render();
 	}
 }
