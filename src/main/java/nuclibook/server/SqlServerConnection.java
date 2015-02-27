@@ -18,14 +18,19 @@ public class SqlServerConnection {
 	private static ConnectionSource connection = null;
 
 	public static ConnectionSource acquireConnection() {
+		return acquireConnection(C.MYSQL_URI, C.MYSQL_USERNAME, C.MYSQL_PASSWORD);
+	}
+
+	public static ConnectionSource acquireConnection(String uri, String username, String password) {
 		if (connection == null) {
 			try {
-				connection = new JdbcConnectionSource(C.MYSQL_URI);
-				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
-				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
+				connection = new JdbcConnectionSource(uri);
+				((JdbcConnectionSource) connection).setUsername(username);
+				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
-				e.printStackTrace(); // TODO deal with exception
+				// TODO deal with exception
+				e.printStackTrace();
 			}
 		}
 
@@ -49,7 +54,8 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, StaffRolePermission.class);
 			TableUtils.createTableIfNotExists(connection, Therapy.class);
 		} catch (SQLException e) {
-			e.printStackTrace(); // TODO deal with exception
+			// TODO deal with exception
+			e.printStackTrace();
 		}
 	}
 }
