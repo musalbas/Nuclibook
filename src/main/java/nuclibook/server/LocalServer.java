@@ -1,8 +1,10 @@
 package nuclibook.server;
 
+import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.routes.*;
+import org.apache.commons.configuration.ConfigurationException;
 import spark.Spark;
 
 public class LocalServer {
@@ -12,7 +14,13 @@ public class LocalServer {
 		SERVER SETTINGS
 		 */
 
-		// static files folder
+        //initialise constants
+        try {
+            C.initConstants();
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
+        // static files folder
 		Spark.staticFileLocation("/static");
 
 		// page security

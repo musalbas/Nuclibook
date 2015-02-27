@@ -5,10 +5,21 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
 import nuclibook.models.*;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class SqlServerConnection {
+
+    private static String uriString = "database.URI";
+    private static String usernameString = "database.user.name";
+    private static String passwordString = "database.user.password";
+    private static String uriKey = "URI";
+    private static String usernameKey = "userName";
+    private static String passwordKey = "password";
 
 	/* singleton pattern */
 
@@ -18,15 +29,11 @@ public class SqlServerConnection {
 	private static ConnectionSource connection = null;
 
 	public static ConnectionSource acquireConnection() {
-		return acquireConnection(C.MYSQL_URI, C.MYSQL_USERNAME, C.MYSQL_PASSWORD);
-	}
-
-	public static ConnectionSource acquireConnection(String URI, String username, String password) {
 		if (connection == null) {
 			try {
-				connection = new JdbcConnectionSource(URI);
-				((JdbcConnectionSource) connection).setUsername(username);
-				((JdbcConnectionSource) connection).setPassword(password);
+				connection = new JdbcConnectionSource(C.MYSQL_URI);
+				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
+				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
 				initDB(connection);
 			} catch (Exception e) {
 				e.printStackTrace(); // TODO deal with exception
@@ -36,7 +43,7 @@ public class SqlServerConnection {
 		return connection;
 	}
 
-	public static void initDB(ConnectionSource connection) {
+    public static void initDB(ConnectionSource connection) {
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
 			TableUtils.createTableIfNotExists(connection, Booking.class);
