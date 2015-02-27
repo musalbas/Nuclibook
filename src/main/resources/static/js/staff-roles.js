@@ -45,3 +45,7 @@ var validateEditForm = function (formObject) {
 
     return !error;
 };
+
+$(document).ready(function () {
+	setUpDataTable('#staff-roles-table', 0, [[1, 1], [0, 1], [0, 0]]);
+});

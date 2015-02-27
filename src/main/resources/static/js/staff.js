@@ -62,7 +62,6 @@ var validateEditForm = function (formObject) {
 	return !error;
 };
 
-
 $(document).ready(function () {
-	setUpDataTable('#staff-management-table', 1, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#staff-table', 1, [[1, 1], [1, 1], [1, 1], [0, 0]]);
 });
