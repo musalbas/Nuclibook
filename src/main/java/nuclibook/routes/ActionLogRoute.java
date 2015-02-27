@@ -23,7 +23,7 @@ public class ActionLogRoute extends DefaultRoute {
 		if (!SecurityUtils.requirePermission(P.VIEW_ACTION_LOG, response)) return null;
 
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("activity.html");
+		renderer.setTemplateFile("action-log.html");
 
         // get all actions and add to renderer
         List<ActionLog> actionLogs = ActionLogUtils.getAllActions();

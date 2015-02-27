@@ -6,13 +6,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-        <div class="text-right">
-            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add Medicine</button>
-        </div>
-		<table class="table table-bordered table-hover">
+		<div class="text-right">
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add Medicine</button>
+		</div>
+		<table class="table table-bordered table-hover" id="medicines-table">
 			<thead>
 				<tr>
-					<th class="text-center">ID</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Order Time</th>
 					<th class="text-center">Actions</th>
@@ -26,7 +25,6 @@
 
 				#[each]
 				<tr>
-					<td>#id</td>
 					<td>#name</td>
 					<td>#order-time day(s)</td>
 					<td>
@@ -38,11 +36,8 @@
 
 				#[post]#[/post]
 
-				#[empty]
-				<tr>
-					<td class="text-center" colspan="4"><b><u>No medicines.</u></b></td>
-				</tr>
-				#[/empty]
+				#[empty]#[/empty]
+
 				#[/collection]
 			</tbody>
 		</table>
@@ -58,25 +53,25 @@
 				<h3 class="create-mode text-center">Create New Medicine</h3>
 			</div>
 			<div class="modal-body">
-                <form class="form-horizontal edit-form">
-                    <input type="hidden" name="entity-type" value="medicine"/>
-                    <input type="hidden" name="entity-id" value="0"/>
-                    <div class="form-group">
-                        <label for="name" class="col-sm-3 control-label">Name</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="name" id="name"/>
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="order-time" class="col-sm-3 control-label">Order Time</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="order-time" id="order-time"/>
-                            <p class="help-block">This is the order lead time in days.</p>
-                        </div>
-                    </div>
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="medicine"/>
+					<input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group">
+						<label for="name" class="col-sm-3 control-label">Name</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="name" id="name"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="order-time" class="col-sm-3 control-label">Order Time</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="order-time" id="order-time"/>
+							<p class="help-block">This is the order lead time in days.</p>
+						</div>
+					</div>
 
-                </form>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-cancel">Cancel</button>
