@@ -9,10 +9,9 @@
         <div class="text-right">
             <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Camera</button>
         </div>
-		<table class="table table-bordered table-hover">
+		<table class="table table-bordered table-hover" id="cameras-table">
 			<thead>
 				<tr>
-					<th class="text-center">ID</th>
 					<th class="text-center">Camera Type</th>
 					<th class="text-center">Room Number</th>
 					<th class="text-center">Actions</th>
@@ -26,7 +25,6 @@
 
 				#[each]
 				<tr>
-					<td>#id</td>
 					<td>#camera-type-label</td>
 					<td>#room-number</td>
 					<td>
@@ -40,7 +38,7 @@
 
 				#[empty]
 				<tr>
-					<td class="text-center" colspan="4"><strong>No cameras.</strong></td>
+					<td class="text-center" colspan="3">No cameras.</td>
 				</tr>
 				#[/empty]
 
