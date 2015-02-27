@@ -313,12 +313,15 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
     private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
         // validation
+        String dayOfWeekString = request.queryParams("day-of-week");
+        Integer dayOfWeek;
         String startTime = request.queryParams("start-time");
         String endTime = request.queryParams("end-time");
         Integer startTimeSecondsPastMidnight;
         Integer endTimeSecondsPastMidnight;
 
         try {
+            dayOfWeek = Integer.parseInt(dayOfWeekString);
             startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 360) + (Integer.parseInt(startTime.split(":")[1])*60);
             endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 360) + (Integer.parseInt(endTime.split(":")[1])*60);
 
@@ -336,6 +339,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         // dates
         try {
+            entity.setDay(dayOfWeek);
             entity.setStartTime(new TimeOfDay(startTimeSecondsPastMidnight));
             entity.setEndTime(new TimeOfDay(endTimeSecondsPastMidnight));
         } catch (InvalidTimeOfDayException e) {
