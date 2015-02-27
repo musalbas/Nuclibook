@@ -12,7 +12,7 @@ public class SqlServerConnection {
 
 	/* singleton pattern */
 
-	public SqlServerConnection() {
+	private SqlServerConnection() {
 	}
 
 	private static ConnectionSource connection = null;

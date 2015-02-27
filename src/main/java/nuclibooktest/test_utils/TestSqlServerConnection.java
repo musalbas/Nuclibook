@@ -9,14 +9,17 @@ import nuclibook.server.SqlServerConnection;
 
 import java.sql.SQLException;
 
-public class TestSqlServerConnection extends SqlServerConnection {
+public class TestSqlServerConnection {
 
-    public static final String MYSQL_URI = "jdbc:mysql://bender.musalbas.com:3306/nuclibooktest";
-    public static final String MYSQL_USERNAME = "nuclibooktest";
-    public static final String MYSQL_PASSWORD = "qKRJ7Xj7MN2D3bV8";
+    private static final String MYSQL_URI = "jdbc:mysql://bender.musalbas.com:3306/nuclibooktest";
+    private static final String MYSQL_USERNAME = "nuclibooktest";
+    private static final String MYSQL_PASSWORD = "qKRJ7Xj7MN2D3bV8";
+
+    private TestSqlServerConnection() {
+    }
 
     public static ConnectionSource acquireConnection() {
-        return acquireConnection(MYSQL_URI, MYSQL_USERNAME, MYSQL_PASSWORD);
+        return SqlServerConnection.acquireConnection(MYSQL_URI, MYSQL_USERNAME, MYSQL_PASSWORD);
     }
 
     public static void dropAllTables() {
