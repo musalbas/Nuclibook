@@ -64,6 +64,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffAbsence.class;
 				break;
 
+            case "staff-availability":
+                entityPair = createUpdateStaffAvailability(entityId, request);
+                dbClass = StaffAvailability.class;
+                break;
+
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
@@ -305,6 +310,44 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
+        // validation
+        String startTime = request.queryParams("start-time");
+        String endTime = request.queryParams("end-time");
+        Integer startTimeSecondsPastMidnight;
+        Integer endTimeSecondsPastMidnight;
+
+        try {
+            startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 360) + (Integer.parseInt(startTime.split(":")[1])*60);
+            endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 360) + (Integer.parseInt(endTime.split(":")[1])*60);
+
+        } catch (NumberFormatException e) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // create and set ID
+        StaffAvailability entity;
+        if (createNew) {
+            entity = new StaffAvailability();
+        } else {
+            entity = AbstractEntityUtils.getEntityById(StaffAvailability.class, entityId);
+        }
+
+        // dates
+        try {
+            entity.setStartTime(new TimeOfDay(startTimeSecondsPastMidnight));
+            entity.setEndTime(new TimeOfDay(endTimeSecondsPastMidnight));
+        } catch (InvalidTimeOfDayException e) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // staff
+        Staff staff = StaffUtils.getStaff(request.queryParams("staff-id"));
+        entity.setStaff(staff);
+
+        return new Pair<>(Status.OK, entity);
+    }
 
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
