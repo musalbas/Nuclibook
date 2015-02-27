@@ -31,10 +31,9 @@ public class SqlServerConnection {
 	public static ConnectionSource acquireConnection() {
 		if (connection == null) {
 			try {
-                HashMap<String,String> dbProperties = getDatabaseProperties();
-				connection = new JdbcConnectionSource(dbProperties.get(uriKey));
-				((JdbcConnectionSource) connection).setUsername(dbProperties.get(usernameString));
-				((JdbcConnectionSource) connection).setPassword(dbProperties.get(passwordKey));
+				connection = new JdbcConnectionSource(C.MYSQL_URI);
+				((JdbcConnectionSource) connection).setUsername(C.MYSQL_USERNAME);
+				((JdbcConnectionSource) connection).setPassword(C.MYSQL_PASSWORD);
 				initDB(connection);
 			} catch (Exception e) {
 				e.printStackTrace(); // TODO deal with exception
@@ -43,26 +42,6 @@ public class SqlServerConnection {
 
 		return connection;
 	}
-
-    private static HashMap<String, String> getDatabaseProperties() throws ConfigurationException {
-        HashMap<String, String> dbPropertiesMap = new HashMap<String, String>();
-        PropertiesConfiguration config = new PropertiesConfiguration("database.properties");
-        dbPropertiesMap.put(uriKey , config.getString(uriString));
-        dbPropertiesMap.put(usernameKey , config.getString(usernameString));
-        dbPropertiesMap.put(passwordKey , decryptPassword(config.getString(passwordString)));
-
-        return dbPropertiesMap;
-    }
-
-    //method which decrypts the password
-    private static String decryptPassword(String encryptedString) {
-
-        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-        encryptor.setPassword("jasypt");
-        String decryptedString = encryptor.decrypt(encryptedString);
-
-        return decryptedString;
-    }
 
     public static void initDB(ConnectionSource connection) {
 		try {
