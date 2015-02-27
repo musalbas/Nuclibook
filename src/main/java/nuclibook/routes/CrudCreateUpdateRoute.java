@@ -322,8 +322,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         try {
             dayOfWeek = Integer.parseInt(dayOfWeekString);
-            startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 360) + (Integer.parseInt(startTime.split(":")[1])*60);
-            endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 360) + (Integer.parseInt(endTime.split(":")[1])*60);
+            startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 3600) + (Integer.parseInt(startTime.split(":")[1])*60);
+            endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 3600) + (Integer.parseInt(endTime.split(":")[1])*60);
 
         } catch (NumberFormatException e) {
             return new Pair<>(Status.FAILED_VALIDATION, null);
