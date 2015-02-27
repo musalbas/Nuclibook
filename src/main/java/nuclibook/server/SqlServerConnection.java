@@ -39,7 +39,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, BookingStaff.class);
 			TableUtils.createTableIfNotExists(connection, Camera.class);
 			TableUtils.createTableIfNotExists(connection, CameraType.class);
-			TableUtils.createTableIfNotExists(connection, Medicine.class);
+			TableUtils.createTableIfNotExists(connection, Tracer.class);
 			TableUtils.createTableIfNotExists(connection, Patient.class);
 			TableUtils.createTableIfNotExists(connection, Permission.class);
 			TableUtils.createTableIfNotExists(connection, Staff.class);

@@ -1,5 +1,5 @@
-#[def: title = Medicine Management]
-#[def: current-page = medicines]
+#[def: title = Tracer Management]
+#[def: current-page = tracers]
 #[def: crud = yes]
 
 ##_header.html
@@ -7,9 +7,9 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12">
 		<div class="text-right">
-			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add Medicine</button>
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add Tracer</button>
 		</div>
-		<table class="table table-bordered table-hover" id="medicines-table">
+		<table class="table table-bordered table-hover" id="tracers-table">
 			<thead>
 				<tr>
 					<th class="text-center">Name</th>
@@ -19,7 +19,7 @@
 			</thead>
 
 			<tbody>
-				#[collection: medicines]
+				#[collection: tracers]
 
 				#[pre]#[/pre]
 
@@ -49,12 +49,12 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h3 class="edit-mode">Edit Medicine</h3>
-				<h3 class="create-mode text-center">Create New Medicine</h3>
+				<h3 class="edit-mode">Edit Tracer</h3>
+				<h3 class="create-mode text-center">Create New Tracer</h3>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal edit-form">
-					<input type="hidden" name="entity-type" value="medicine"/>
+					<input type="hidden" name="entity-type" value="tracer"/>
 					<input type="hidden" name="entity-id" value="0"/>
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">Name</label>
@@ -81,15 +81,15 @@
 	</div>
 </div>
 
-<script src="/js/medicines.js"></script>
+<script src="/js/tracers.js"></script>
 
-#[def: entity-name-title = Medicine]
-#[def: entity-name-body = medicine]
-#[def: entity-type = medicine]
+#[def: entity-name-title = Tracer]
+#[def: entity-name-body = tracer]
+#[def: entity-type = tracer]
 
 ##_delete-modal.html
 ##_loading-modal.html
 
-#[collectionmap: objectMap: medicines]
+#[collectionmap: objectMap: tracers]
 #[def: crud = yes]
 ##_footer.html

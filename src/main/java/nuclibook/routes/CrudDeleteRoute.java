@@ -47,18 +47,6 @@ public class CrudDeleteRoute extends DefaultRoute {
 				return "okay";
 			}
 
-			case "medicine": {
-				// permission
-				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
-					return "no_permission";
-				}
-
-				Medicine entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
-				entity.setEnabled(false);
-				AbstractEntityUtils.updateEntity(Medicine.class, entity);
-				return "okay";
-			}
-
 			case "patient": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
@@ -126,6 +114,18 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Therapy.class, entity);
+				return "okay";
+			}
+
+			case "tracer": {
+				// permission
+				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
+					return "no_permission";
+				}
+
+				Tracer entity = AbstractEntityUtils.getEntityById(Tracer.class, entityId);
+				entity.setEnabled(false);
+				AbstractEntityUtils.updateEntity(Tracer.class, entity);
 				return "okay";
 			}
 		}

@@ -20,10 +20,10 @@ public class ActionLogger {
     public static final int UPDATE_PATIENT = 4;
     public static final int DELETE_PATIENT = 5;
 
-    public static final int CREATE_MEDICINE = 6;
-    public static final int VIEW_MEDICINE = 7;
-    public static final int UPDATE_MEDICINE = 8;
-    public static final int DELETE_MEDICINE = 9;
+    public static final int CREATE_TRACER = 6;
+    public static final int VIEW_TRACER = 7;
+    public static final int UPDATE_TRACER = 8;
+    public static final int DELETE_TRACER = 9;
 
     public static final int CREATE_CAMERA_TYPE = 10;
     public static final int VIEW_CAMERA_TYPE = 11;
@@ -72,10 +72,10 @@ public class ActionLogger {
         put(VIEW_PATIENT, "Viewed patient");
         put(UPDATE_PATIENT, "Updated patient");
         put(DELETE_PATIENT, "Deleted patient");
-        put(CREATE_MEDICINE, "Created medicine");
-        put(VIEW_MEDICINE, "Viewed medicine ");
-        put(UPDATE_MEDICINE, "Updated medicine");
-        put(DELETE_MEDICINE, "Deleted medicine");
+        put(CREATE_TRACER, "Created tracer");
+        put(VIEW_TRACER, "Viewed tracer ");
+        put(UPDATE_TRACER, "Updated tracer");
+        put(DELETE_TRACER, "Deleted tracer");
         put(CREATE_CAMERA_TYPE, "Created camera type");
         put(VIEW_CAMERA_TYPE, "Viewed camera type");
         put(UPDATE_CAMERA_TYPE, "Updated camera type");

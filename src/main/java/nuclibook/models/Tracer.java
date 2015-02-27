@@ -6,8 +6,8 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
-@DatabaseTable(tableName = "medicines")
-public class Medicine implements Renderable {
+@DatabaseTable(tableName = "tracers")
+public class Tracer implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -21,7 +21,7 @@ public class Medicine implements Renderable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
-	public Medicine() {
+	public Tracer() {
 	}
 
 	public Integer getId() {

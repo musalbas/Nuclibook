@@ -1,16 +1,16 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.MedicineUtils;
+import nuclibook.entity_utils.TracerUtils;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.models.Medicine;
+import nuclibook.models.Tracer;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
 import java.util.List;
 
-public class MedicinesRoute extends DefaultRoute {
+public class TracersRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -18,15 +18,15 @@ public class MedicinesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_MEDICINES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("medicines.html");
+		renderer.setTemplateFile("tracers.html");
 
-		// get medicines and add to renderer
-		List<Medicine> allMedicines = MedicineUtils.getAllMedicines(true);
-		renderer.setCollection("medicines", allMedicines);
+		// get tracers and add to renderer
+		List<Tracer> allTracers = TracerUtils.getAllTracers(true);
+		renderer.setCollection("tracers", allTracers);
 
 		return renderer.render();
 	}

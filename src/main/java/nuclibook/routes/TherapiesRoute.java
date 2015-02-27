@@ -2,11 +2,11 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.CameraTypeUtils;
-import nuclibook.entity_utils.MedicineUtils;
+import nuclibook.entity_utils.TracerUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TherapyUtils;
 import nuclibook.models.CameraType;
-import nuclibook.models.Medicine;
+import nuclibook.models.Tracer;
 import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -36,9 +36,9 @@ public class TherapiesRoute extends DefaultRoute {
 		List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
 		renderer.setCollection("camera-types", allCameraTypes);
 
-		// get medicines and add to renderer
-		List<Medicine> allMedicines = MedicineUtils.getAllMedicines(true);
-		renderer.setCollection("medicines", allMedicines);
+		// get tracers and add to renderer
+		List<Tracer> allTracers = TracerUtils.getAllTracers(true);
+		renderer.setCollection("tracers", allTracers);
 
 		return renderer.render();
 	}
