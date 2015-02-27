@@ -44,9 +44,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = CameraType.class;
 				break;
 
-			case "medicine":
-				entityPair = createUpdateMedicine(entityId, request);
-				dbClass = Medicine.class;
+			case "tracer":
+				entityPair = createUpdateTracer(entityId, request);
+				dbClass = Tracer.class;
 				break;
 
 			case "patient":
@@ -169,40 +169,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// label
 		entity.setLabel(request.queryParams("label"));
-
-		return new Pair<>(Status.OK, entity);
-	}
-
-	private Pair<Status, Object> createUpdateMedicine(int entityId, Request request) {
-		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_MEDICINES)) {
-			return new Pair<>(Status.NO_PERMISSION, null);
-		}
-
-		// validation
-		if (request.queryParams("name").length() > 64
-				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("order-time").matches("[0-9]+")) {
-			return new Pair<>(Status.FAILED_VALIDATION, null);
-		}
-
-		// create and set ID
-		Medicine entity;
-		if (createNew) {
-			entity = new Medicine();
-		} else {
-			entity = AbstractEntityUtils.getEntityById(Medicine.class, entityId);
-		}
-
-		// name
-		entity.setName(request.queryParams("name"));
-
-		// order time
-		try {
-			entity.setOrderTime(Integer.parseInt(request.queryParams("order-time")));
-		} catch (NumberFormatException e) {
-			entity.setOrderTime(0);
-		}
 
 		return new Pair<>(Status.OK, entity);
 	}
@@ -423,10 +389,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// validation
 		if (request.queryParams("name").length() > 64
-				|| request.queryParams("medicine-dose").length() > 32
+				|| request.queryParams("tracer-dose").length() > 32
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("default-duration").matches("[0-9]+")
-				|| !request.queryParams("medicine-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
+				|| !request.queryParams("tracer-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -448,16 +414,50 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			entity.setDuration(0);
 		}
 
-		// medicine required
-		Medicine medicine = MedicineUtils.getMedicine(request.queryParams("medicine-required-id"));
-		entity.setMedicineRequired(medicine);
+		// tracer required
+		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
+		entity.setTracerRequired(tracer);
 
 		// name
-		entity.setMedicineDose(request.queryParams("medicine-dose"));
+		entity.setTracerDose(request.queryParams("tracer-dose"));
 
 		// camera type
 		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
 		entity.setCameraTypeRequired(type);
+
+		return new Pair<>(Status.OK, entity);
+	}
+
+	private Pair<Status, Object> createUpdateTracer(int entityId, Request request) {
+		// permission
+		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
+			return new Pair<>(Status.NO_PERMISSION, null);
+		}
+
+		// validation
+		if (request.queryParams("name").length() > 64
+				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+				|| !request.queryParams("order-time").matches("[0-9]+")) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		// create and set ID
+		Tracer entity;
+		if (createNew) {
+			entity = new Tracer();
+		} else {
+			entity = AbstractEntityUtils.getEntityById(Tracer.class, entityId);
+		}
+
+		// name
+		entity.setName(request.queryParams("name"));
+
+		// order time
+		try {
+			entity.setOrderTime(Integer.parseInt(request.queryParams("order-time")));
+		} catch (NumberFormatException e) {
+			entity.setOrderTime(0);
+		}
 
 		return new Pair<>(Status.OK, entity);
 	}

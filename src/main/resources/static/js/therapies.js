@@ -5,8 +5,8 @@ var validateCreateForm = function (formObject) {
 
     var therapyNameString = formObject["name"];
     var therapyDuration = formObject["default-duration"];
-    var therapyMedicineRequired = formObject["medicine-required-name"];
-    var therapyMedicineDose = formObject["medicine-dose"];
+    var therapyTracerRequired = formObject["tracer-required-name"];
+    var therapyTracerDose = formObject["tracer-dose"];
     var therapyCamera = formObject["camera-type-label"];
 
     // Check range to be [1,64]
@@ -30,14 +30,14 @@ var validateCreateForm = function (formObject) {
         }
     }
 
-    //TODO therapyMedicineRequired. Ask the client;
+    //TODO therapyTracerRequired. Ask the client;
 
-    if (therapyMedicineDose.trim().length < 1) {
-        toastr.error("You did not enter a valid value for the medicine dose.");
+    if (therapyTracerDose.trim().length < 1) {
+        toastr.error("You did not enter a valid value for the tracer dose.");
         error = true;
     }
-    if (therapyMedicineDose.length > 32) {
-        toastr.error("Medicine dose should not exceed 32 characters.");
+    if (therapyTracerDose.length > 32) {
+        toastr.error("Tracer dose should not exceed 32 characters.");
         error = true;
     }
 
@@ -51,8 +51,8 @@ var validateEditForm = function (formObject) {
 
     var therapyNameString = formObject["name"];
     var therapyDuration = formObject["default-duration"];
-    var therapyMedicineRequired = formObject["medicine-required-name"];
-    var therapyMedicineDose = formObject["medicine-dose"];
+    var therapyTracerRequired = formObject["tracer-required-name"];
+    var therapyTracerDose = formObject["tracer-dose"];
     var therapyCamera = formObject["camera-type-label"];
 
     // Check range to be [1,64]
@@ -76,14 +76,14 @@ var validateEditForm = function (formObject) {
         }
     }
 
-    //TODO therapyMedicineRequired. Ask the client;
+    //TODO therapyTracerRequired. Ask the client;
 
-    if (therapyMedicineDose.trim().length < 1) {
-        toastr.error("You did not enter a valid value for the medicine dose.");
+    if (therapyTracerDose.trim().length < 1) {
+        toastr.error("You did not enter a valid value for the tracer dose.");
         error = true;
     }
-    if (therapyMedicineDose.trim().length > 32) {
-        toastr.error("Medicine dose should not exceed 32 characters.");
+    if (therapyTracerDose.trim().length > 32) {
+        toastr.error("Tracer dose should not exceed 32 characters.");
         error = true;
     }
 

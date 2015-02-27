@@ -1,4 +1,4 @@
-#[def: title = Therapies]
+#[def: title = Manage Therapies]
 #[def: current-page = therapies]
 #[def: crud = yes]
 
@@ -14,8 +14,8 @@
 				<tr>
 					<th class="text-center">Name</th>
 					<th class="text-center">Default Duration</th>
-					<th class="text-center">Medicine Required</th>
-					<th class="text-center">Medicine Dose</th>
+					<th class="text-center">Tracer Required</th>
+					<th class="text-center">Tracer Dose</th>
 					<th class="text-center">Camera Required</th>
 					<th class="text-center">Actions</th>
 				</tr>
@@ -30,8 +30,8 @@
 				<tr>
 					<td>#name</td>
 					<td>#default-duration mins</td>
-					<td>#medicine-required-name</td>
-					<td>#medicine-dose</td>
+					<td>#tracer-required-name</td>
+					<td>#tracer-dose</td>
 					<td>#camera-type-label</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
@@ -78,10 +78,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="medicine-required-id" class="col-sm-3 control-label">Medicine Required</label>
+						<label for="tracer-required-id" class="col-sm-3 control-label">Tracer Required</label>
 						<div class="col-sm-9">
-							<select class="form-control" name="medicine-required-id" id="medicine-required-id">
-								#[collection: medicines]
+							<select class="form-control" name="tracer-required-id" id="tracer-required-id">
+								#[collection: tracers]
 
 								#[pre]#[/pre]
 
@@ -99,9 +99,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="medicine-dose" class="col-sm-3 control-label">Medicine Dose</label>
+						<label for="tracer-dose" class="col-sm-3 control-label">Tracer Dose</label>
 						<div class="col-sm-9">
-							<input class="form-control" type="text" name="medicine-dose" id="medicine-dose"/>
+							<input class="form-control" type="text" name="tracer-dose" id="tracer-dose"/>
 							<p class="help-block">Example block-level help text here.</p>
 						</div>
 					</div>

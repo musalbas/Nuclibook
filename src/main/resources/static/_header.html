@@ -79,10 +79,10 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+								<a href="#"><i class="fa fa-fw fa-lg fa-user"></i> Profile</a>
 							</li>
 							<li>
-								<a href="/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+								<a href="/logout"><i class="fa fa-fw fa-lg fa-power-off"></i> Log Out</a>
 							</li>
 						</ul>
 					</li>
@@ -93,55 +93,53 @@
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
 						<li#[if: current-page = dashboard] class="active"#[/if]>
-							<a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+							<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
 						</li>
 						<li#[if: current-page = patients] class="active"#[/if]>
-							<a href="/patients"><i class="fa fa-fw fa-group"></i> Patients</a>
+							<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
 						</li>
 						<li#[if: current-page = appointments] class="active"#[/if]>
-							<a href="/appointments"><i class="fa fa-fw fa-clock-o"></i> Appointments</a>
+							<a href="/appointments"><i class="fa fa-fw fa-lg fa-clock-o"></i> Appointments</a>
 						</li>
 						<li>
-							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Resources</a>
-							<!-- TODO: implement collapse action -->
+							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Resources</a>
 							<ul class="nav navbar-nav">
-								<li#[if: current-page = medicines] class="active"#[/if]>
-									<a href="/medicines"><i class="fa fa-fw fa-flask"></i> Medicines</a>
-								</li>
 								<li#[if: current-page = cameras] class="active"#[/if]>
-									<a href="/cameras"><i class="fa fa-fw fa-camera"></i> Cameras</a>
+									<a href="/cameras"><i class="fa fa-fw fa-lg fa-camera"></i> Cameras</a>
 								</li>
 								<li#[if: current-page = camera-types] class="active"#[/if]>
-									<a href="/camera-types"><i class="fa fa-fw fa-camera"></i> Camera Types</a>
+									<a href="/camera-types"><i class="fa fa-fw fa-lg fa-instagram"></i> Camera Types</a>
 								</li>
 								<li#[if: current-page = therapies] class="active"#[/if]>
-									<a href="/therapies"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
+									<a href="/therapies"><i class="fa fa-fw fa-lg fa-gears"></i> Therapies</a>
 								</li>
-								#[ifperm: VIEW_ACTION_LOG]
-								<li#[if: current-page = action-log] class="active"#[/if]>
-									<a href="/action-log"><i class="fa fa-fw fa-list"></i> Action Log</a>
-								</li#[if: current-page = settings] class="active"#[/if]>
-								#[/ifperm]
+								<li#[if: current-page = tracers] class="active"#[/if]>
+									<a href="/tracers"><i class="fa fa-fw fa-lg fa-flask"></i> Tracers</a>
+								</li>
 							</ul>
 						</li>
 						<li>
-							<a href="javascript:;"><i class="fa fa-fw fa-arrows-v"></i> Manage Staff</a>
-							<!-- TODO: implement collapse action -->
+							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Staff</a>
 							<ul class="nav navbar-nav">
 								<li#[if: current-page = staff] class="active"#[/if]>
-									<a href="/staff"><i class="fa fa-fw fa-user-md"></i> Staff Accounts</a>
+									<a href="/staff"><i class="fa fa-fw fa-lg fa-user-md"></i> Staff Accounts</a>
 								</li>
 								<li#[if: current-page = staff-roles] class="active"#[/if]>
-									<a href="/staff-roles"><i class="fa fa-fw fa-stethoscope"></i> Staff Roles</a>
+									<a href="/staff-roles"><i class="fa fa-fw fa-lg fa-stethoscope"></i> Staff Roles</a>
 								</li>
 								#[ifperm: EDIT_STAFF_AVAILABILITIES]
 								<li#[if: current-page = staff-availabilities] class="active"#[/if]>
-									<a href="/select-staff/availabilities"><i class="fa fa-fw fa-check-circle"></i> Staff Availabilties</a>
+									<a href="/select-staff/availabilities"><i class="fa fa-fw fa-lg fa-check-circle"></i> Staff Availabilties</a>
 								</li#[if: current-page = settings] class="active"#[/if]>
 								#[/ifperm]
 								#[ifperm: EDIT_STAFF_ABSENCES]
 								<li#[if: current-page = staff-absences] class="active"#[/if]>
-									<a href="/select-staff/absences"><i class="fa fa-fw fa-times-circle"></i> Staff Absences</a>
+									<a href="/select-staff/absences"><i class="fa fa-fw fa-lg fa-times-circle"></i> Staff Absences</a>
+								</li#[if: current-page = settings] class="active"#[/if]>
+								#[/ifperm]
+								#[ifperm: VIEW_ACTION_LOG]
+								<li#[if: current-page = action-log] class="active"#[/if]>
+									<a href="/action-log"><i class="fa fa-fw fa-lg fa-list"></i> Action Log</a>
 								</li#[if: current-page = settings] class="active"#[/if]>
 								#[/ifperm]
 							</ul>

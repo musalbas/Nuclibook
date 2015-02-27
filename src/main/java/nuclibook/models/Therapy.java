@@ -18,11 +18,11 @@ public class Therapy implements Renderable {
 	@DatabaseField(defaultValue = "60")
 	private int duration;
 
-	@DatabaseField(columnName = "medicine_required", foreign = true, foreignAutoRefresh = true)
-	private Medicine medicineRequired;
+	@DatabaseField(columnName = "tracer_required", foreign = true, foreignAutoRefresh = true)
+	private Tracer tracerRequired;
 
-	@DatabaseField(width = 32, columnName = "medicine_dose")
-	private String medicineDose;
+	@DatabaseField(width = 32, columnName = "tracer_dose")
+	private String tracerDose;
 
 	@DatabaseField(columnName = "camera_type_required", foreign = true, foreignAutoRefresh = true)
 	private CameraType cameraTypeRequired;
@@ -57,20 +57,20 @@ public class Therapy implements Renderable {
 		this.duration = duration;
 	}
 
-	public Medicine getMedicineRequired() {
-		return medicineRequired;
+	public Tracer getTracerRequired() {
+		return tracerRequired;
 	}
 
-	public void setMedicineRequired(Medicine medicineRequired) {
-		this.medicineRequired = medicineRequired;
+	public void setTracerRequired(Tracer tracerRequired) {
+		this.tracerRequired = tracerRequired;
 	}
 
-	public String getMedicineDose() {
-		return medicineDose;
+	public String getTracerDose() {
+		return tracerDose;
 	}
 
-	public void setMedicineDose(String medicineDose) {
-		this.medicineDose = medicineDose;
+	public void setTracerDose(String tracerDose) {
+		this.tracerDose = tracerDose;
 	}
 
 	public CameraType getCameraTypeRequired() {
@@ -95,9 +95,9 @@ public class Therapy implements Renderable {
 			put("id", getId().toString());
 			put("name", getName());
 			put("default-duration", ((Integer) getDuration()).toString());
-			put("medicine-required-id", getMedicineRequired().getId().toString());
-			put("medicine-required-name", getMedicineRequired().getName());
-			put("medicine-dose", getMedicineDose());
+			put("tracer-required-id", getTracerRequired().getId().toString());
+			put("tracer-required-name", getTracerRequired().getName());
+			put("tracer-dose", getTracerDose());
 			put("camera-type-id", getCameraTypeRequired().getId().toString());
 			put("camera-type-label", getCameraTypeRequired().getLabel());
 		}};
