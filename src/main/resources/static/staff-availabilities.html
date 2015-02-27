@@ -61,31 +61,40 @@
 				<h3 class="create-mode">Add Availability</h3>
 			</div>
 			<div class="modal-body">
-				<form class="edit-form form-inline text-center">
+				<form class="form-horizontal edit-form">
 					<input type="hidden" name="entity-type" value="staff-availability"/>
 					<input type="hidden" name="entity-id" value="0"/>
 
 					<input type="hidden" name="staff-id" value="#staff-id"/>
 
 					<div class="form-group">
-						<label for="day-of-week">Day of week:</label>
-						<select name="day-of-week" id="day-of-week">
-							<option value="1">Monday</option>
-							<option value="2">Tuesday</option>
-							<option value="3">Wednesday</option>
-							<option value="4">Thursday</option>
-							<option value="5">Friday</option>
-							<option value="6">Saturday</option>
-							<option value="7">Sunday</option>
-						</select>
+						<label for="day-of-week" class="col-sm-3 control-label">Day of the Week</label>
+						<div class="col-sm-9">
+							<select name="day-of-week" id="day-of-week">
+								<option value="1">Monday</option>
+								<option value="2">Tuesday</option>
+								<option value="3">Wednesday</option>
+								<option value="4">Thursday</option>
+								<option value="5">Friday</option>
+								<option value="6">Saturday</option>
+								<option value="7">Sunday</option>
+							</select>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="start-time">Start time:</label>
-						<input type="text" name="start-time" id="start-time"/>
+						<label for="start-time" class="col-sm-3 control-label">Start Time</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="start-time" id="start-time"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
 					</div>
 					<div class="form-group">
-						<label for="end-time">End time:</label>
-						<input type="text" name="end-time" id="end-time"/>
+						<label for="end-time" class="col-sm-3 control-label">End Time</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="end-time" id="end-time"/>
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
 					</div>
 				</form>
 			</div>
