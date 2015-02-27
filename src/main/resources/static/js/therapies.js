@@ -90,3 +90,7 @@ var validateEditForm = function (formObject) {
     //TODO therapyCamera. Ask the client.
     return !error;
 };
+
+$(document).ready(function () {
+	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+});
