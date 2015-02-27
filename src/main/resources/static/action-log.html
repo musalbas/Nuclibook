@@ -1,0 +1,43 @@
+#[def: title = Action Logs]
+#[def: current-page = action-logs]
+
+##_header.html
+
+<div class="row">
+	<div class="col lg-12 col-md-12">
+		<table class="table table-bordered table-hover" id="action-logs-table">
+			<thead>
+				<tr>
+					<th class="text-center">Staff</th>
+					<th class="text-center">Action</th>
+					<th class="text-center">Associated ID</th>
+					<th class="text-center">Notes</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: action-log]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<tr>
+					<td>#staff</td>
+					<td>#action</td>
+					<td>#associated-id</td>
+					<td>#notes</td>
+				</tr>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script src="/js/action-log.js"></script>
+
+##_footer.html
