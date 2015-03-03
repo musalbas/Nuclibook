@@ -3,7 +3,7 @@ package nuclibook.entity_utils;
 import nuclibook.models.PatientQuestion;
 import java.util.List;
 
-public class PatientQuestionsUtils extends AbstractEntityUtils {
+public class PatientQuestionUtils extends AbstractEntityUtils {
 
 	public static PatientQuestion getPatientQuestions(String id) {
 		try {
