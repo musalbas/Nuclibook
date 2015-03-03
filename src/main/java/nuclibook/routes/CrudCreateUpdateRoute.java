@@ -69,6 +69,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffAvailability.class;
 				break;
 
+			case "staff-change-password":
+				entityPair = createUpdateStaffPassword(request);
+				dbClass = Staff.class;
+				break;
+
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
@@ -328,6 +333,27 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private Pair<Status, Object> createUpdateStaffPassword(Request request) {
+
+        // validation
+        if (request.queryParams("password").length() < 6
+                || !request.queryParams("password").equals(request.queryParams("password_check"))) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // TODO: check against current password
+
+        // change current staff password
+        Staff entity = SecurityUtils.getCurrentUser();
+        try {
+            entity.setPassword(request.queryParams("password"));
+        } catch (CannotHashPasswordException e) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        return new Pair<>(Status.OK, entity);
+    }
 
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
