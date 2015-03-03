@@ -156,6 +156,7 @@ public class Staff implements Renderable {
 	 * @param password new password
 	 * @return true if the password is valid according to the password policy, otherwise false.
 	 */
+	// TODO: move this method to controller
 	private boolean validateNewPassword(String password) throws CannotHashPasswordException {
 		// Check that the password is not equivalent to the past 3 passwords
 		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
