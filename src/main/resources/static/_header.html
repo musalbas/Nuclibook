@@ -95,44 +95,60 @@
 						<li#[if: current-page = dashboard] class="active"#[/if]>
 							<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
 						</li>
+						#[ifperm: VIEW_PATIENT_LIST]
 						<li#[if: current-page = patients] class="active"#[/if]>
 							<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
 						</li>
+						#[/ifperm]
+						#[ifperm: VIEW_APPOINTMENTS]
 						<li#[if: current-page = appointments] class="active"#[/if]>
 							<a href="/appointments"><i class="fa fa-fw fa-lg fa-clock-o"></i> Appointments</a>
 						</li>
+						#[/ifperm]
 						<li>
 							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Resources</a>
 							<ul class="nav navbar-nav drop-down-menu">
+								#[ifperm: VIEW_CAMERAS]
 								<li#[if: current-page = cameras] class="active"#[/if]>
 									<a href="/cameras"><i class="fa fa-fw fa-lg fa-camera"></i> Cameras</a>
 								</li>
+								#[/ifperm]
+								#[ifperm: VIEW_CAMERAS]
 								<li#[if: current-page = camera-types] class="active"#[/if]>
 									<a href="/camera-types"><i class="fa fa-fw fa-lg fa-instagram"></i> Camera Types</a>
 								</li>
+								#[/ifperm]
+								#[ifperm: VIEW_THERAPIES]
 								<li#[if: current-page = therapies] class="active"#[/if]>
 									<a href="/therapies"><i class="fa fa-fw fa-lg fa-gears"></i> Therapies</a>
 								</li>
+								#[/ifperm]
+								#[ifperm: VIEW_TRACERS]
 								<li#[if: current-page = tracers] class="active"#[/if]>
 									<a href="/tracers"><i class="fa fa-fw fa-lg fa-flask"></i> Tracers</a>
 								</li>
+								#[/ifperm]
 							</ul>
 						</li>
 						<li>
 							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Staff</a>
 							<ul class="nav navbar-nav drop-down-menu">
+								#[ifperm: VIEW_STAFF]
 								<li#[if: current-page = staff] class="active"#[/if]>
 									<a href="/staff"><i class="fa fa-fw fa-lg fa-user-md"></i> Staff Accounts</a>
 								</li>
+								#[/ifperm]
+								#[ifperm: VIEW_STAFF_ROLES]
 								<li#[if: current-page = staff-roles] class="active"#[/if]>
 									<a href="/staff-roles"><i class="fa fa-fw fa-lg fa-stethoscope"></i> Staff Roles</a>
 								</li>
-								#[ifperm: EDIT_STAFF_AVAILABILITIES]
+								#[/ifperm]
+								#[ifperm: VIEW_STAFF_AVAILABILITIES]
 								<li#[if: current-page = staff-availabilities] class="active"#[/if]>
 									<a href="/select-staff/availabilities"><i class="fa fa-fw fa-lg fa-check-circle"></i> Staff Availabilties</a>
 								</li#[if: current-page = settings] class="active"#[/if]>
 								#[/ifperm]
-								#[ifperm: EDIT_STAFF_ABSENCES]
+								#[ifperm: VIEW_STAFF_ABSENCES]
 								<li#[if: current-page = staff-absences] class="active"#[/if]>
 									<a href="/select-staff/absences"><i class="fa fa-fw fa-lg fa-times-circle"></i> Staff Absences</a>
 								</li#[if: current-page = settings] class="active"#[/if]>

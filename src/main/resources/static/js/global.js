@@ -5,8 +5,11 @@ $(document).ready(function () {
 		window.location.href = $(this).attr('data-target');
 	});
 
-	// hide expanding menus if not on a sub-page, then set up clicks
+	// hide expanding menus if not on a sub-page, hide empty sections, then set up clicks
 	$('.drop-down-menu').each(function (i) {
+		if ($(this).find('li').length == 0) {
+			$(this).parent().hide();
+		}
 		if ($(this).find('li.active').length == 0) {
 			subMenuToggle($(this).parent());
 		}
