@@ -5,9 +5,7 @@ var validateCreateForm = function (formObject) {
 
     var therapyNameString = formObject["name"];
     var therapyDuration = formObject["default-duration"];
-    var therapyTracerRequired = formObject["tracer-required-name"];
     var therapyTracerDose = formObject["tracer-dose"];
-    var therapyCamera = formObject["camera-type-label"];
 
     // Check range to be [1,64]
     if (therapyNameString.trim().length < 1) {
@@ -51,9 +49,7 @@ var validateEditForm = function (formObject) {
 
     var therapyNameString = formObject["name"];
     var therapyDuration = formObject["default-duration"];
-    var therapyTracerRequired = formObject["tracer-required-name"];
     var therapyTracerDose = formObject["tracer-dose"];
-    var therapyCamera = formObject["camera-type-label"];
 
     // Check range to be [1,64]
     if (therapyNameString.trim().length < 1) {

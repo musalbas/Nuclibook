@@ -3,7 +3,7 @@ package nuclibook.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "therapy_cameras")
+@DatabaseTable(tableName = "therapy_camera")
 public class TherapyCameraType {
 
 	@DatabaseField(generatedId = true)
@@ -12,7 +12,7 @@ public class TherapyCameraType {
 	@DatabaseField(canBeNull = false, foreign = true, columnName = "therapy_id", foreignAutoRefresh = true)
 	private Therapy therapy;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "camera_id", foreignAutoRefresh = true)
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "camera_type_id", foreignAutoRefresh = true)
 	private CameraType cameraType;
 
 	public TherapyCameraType() {

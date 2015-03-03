@@ -53,6 +53,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, StaffRole.class);
 			TableUtils.createTableIfNotExists(connection, StaffRolePermission.class);
 			TableUtils.createTableIfNotExists(connection, Therapy.class);
+			TableUtils.createTableIfNotExists(connection, TherapyCameraType.class);
 		} catch (SQLException e) {
 			// TODO deal with exception
 			e.printStackTrace();

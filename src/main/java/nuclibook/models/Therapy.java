@@ -104,8 +104,8 @@ public class Therapy implements Renderable {
 		return sb.substring(0, sb.length() - 1);
 	}
 
-	public void clearPermissions() {
-		if (getCameraTypes() == null) return;
+	public void clearCameraTypes() {
+		if (therapyCameraTypes == null) return;
 		CloseableIterator<TherapyCameraType> iterator = therapyCameraTypes.closeableIterator();
 		try {
 			while (iterator.hasNext()) {
@@ -133,6 +133,7 @@ public class Therapy implements Renderable {
 		return new HashMap<String, String>(){{
 			put("id", getId().toString());
 			put("name", getName());
+			put("camera-type-ids", "IDLIST:" + getCameraTypesIdString());
 			put("default-duration", ((Integer) getDuration()).toString());
 			put("tracer-required-id", getTracerRequired().getId().toString());
 			put("tracer-required-name", getTracerRequired().getName());
