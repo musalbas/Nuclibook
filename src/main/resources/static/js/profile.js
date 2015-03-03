@@ -1,4 +1,4 @@
-var validateEditForm = function (formObject) {
+var validateCreateForm = function (formObject) {
     var error = false;
 
     // check password length

@@ -3,7 +3,7 @@ var validateEditForm = function (formObject) {
 
     // check name to be in interval [1,64]
     if (formObject.name.trim().length < 1) {
-        toastr.error("You did not enter a valid name.");
+        toastr.error("You did not enter a valid name");
         error = true;
     }
     if (formObject.name.length > 64) {
@@ -13,7 +13,7 @@ var validateEditForm = function (formObject) {
 
     // check hospital number to be in interval [1,64]
     if (formObject["hospital-number"].trim().length < 1) {
-        toastr.error("You did not enter a valid hospital number.");
+        toastr.error("You did not enter a valid hospital number");
         error = true;
     }
     if (formObject["hospital-number"].length > 64) {
@@ -29,7 +29,7 @@ var validateCreateForm = function (formObject) {
 
     // check name to be in interval [1,64]
     if (formObject.name.trim().length < 1) {
-        toastr.error("You did not enter a valid name.");
+        toastr.error("You did not enter a valid name");
         error = true;
     }
     if (formObject.name.length > 64) {
@@ -39,7 +39,7 @@ var validateCreateForm = function (formObject) {
 
     // check hospital number to be in interval [1,64]
     if (formObject["hospital-number"].trim().length < 1) {
-        toastr.error("You did not enter a valid hospital number.");
+        toastr.error("You did not enter a valid hospital number");
         error = true;
     }
     if (formObject["hospital-number"].length > 64) {
