@@ -39,6 +39,24 @@ public class Staff implements Renderable {
 	@DatabaseField
 	private String passwordSalt;
 
+	@DatabaseField
+	private String passwordHash1;
+
+	@DatabaseField
+	private String passwordSalt1;
+
+	@DatabaseField
+	private String passwordHash2;
+
+	@DatabaseField
+	private String passwordSalt2;
+
+	@DatabaseField
+	private String passwordHash3;
+
+	@DatabaseField
+	private String passwordSalt3;
+
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
 
@@ -113,6 +131,16 @@ public class Staff implements Renderable {
 
 		// Generate password hash
 		String hash = generateHash(password);
+
+		// Update last 3 passwords
+		this.passwordSalt3 = this.passwordSalt2;
+		this.passwordHash3 = this.passwordHash2;
+
+		this.passwordSalt2 = this.passwordSalt1;
+		this.passwordHash2 = this.passwordHash1;
+
+		this.passwordSalt1 = this.passwordSalt;
+		this.passwordHash1 = this.passwordHash;
 
 		// Update fields
 		this.passwordSalt = salt;
