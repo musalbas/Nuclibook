@@ -1,10 +1,16 @@
 package nuclibook.models;
 
+import com.j256.ormlite.dao.CloseableIterator;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @DatabaseTable(tableName = "therapies")
 public class Therapy implements Renderable {
@@ -24,8 +30,8 @@ public class Therapy implements Renderable {
 	@DatabaseField(width = 32, columnName = "tracer_dose")
 	private String tracerDose;
 
-	@DatabaseField(columnName = "camera_type_required", foreign = true, foreignAutoRefresh = true)
-	private CameraType cameraTypeRequired;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<TherapyCameraType> therapyCameraTypes;
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
@@ -73,12 +79,45 @@ public class Therapy implements Renderable {
 		this.tracerDose = tracerDose;
 	}
 
-	public CameraType getCameraTypeRequired() {
-		return cameraTypeRequired;
+	public List<CameraType> getCameraTypes() {
+		ArrayList<CameraType> output = new ArrayList<>();
+		CloseableIterator<TherapyCameraType> iterator = therapyCameraTypes.closeableIterator();
+		try {
+			CameraType ct;
+			while (iterator.hasNext()) {
+				ct = iterator.next().getCameraType();
+				if (ct != null) output.add(ct);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
 	}
 
-	public void setCameraTypeRequired(CameraType cameraTypeRequired) {
-		this.cameraTypeRequired = cameraTypeRequired;
+	public String getCameraTypesIdString() {
+		List<CameraType> cameraTypeList = getCameraTypes();
+		if (cameraTypeList.isEmpty()) return "0";
+		StringBuilder sb = new StringBuilder();
+		for (CameraType ct : cameraTypeList) {
+			sb.append(ct.getId()).append(",");
+		}
+		return sb.substring(0, sb.length() - 1);
+	}
+
+	public void clearPermissions() {
+		if (getCameraTypes() == null) return;
+		CloseableIterator<TherapyCameraType> iterator = therapyCameraTypes.closeableIterator();
+		try {
+			while (iterator.hasNext()) {
+				AbstractEntityUtils.deleteEntity(TherapyCameraType.class, iterator.next());
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+	}
+
+	public void addCameraType(CameraType ct) {
+		AbstractEntityUtils.createEntity(TherapyCameraType.class, new TherapyCameraType(this, ct));
 	}
 
 	public Boolean getEnabled() {
@@ -98,8 +137,6 @@ public class Therapy implements Renderable {
 			put("tracer-required-id", getTracerRequired().getId().toString());
 			put("tracer-required-name", getTracerRequired().getName());
 			put("tracer-dose", getTracerDose());
-			put("camera-type-id", getCameraTypeRequired().getId().toString());
-			put("camera-type-label", getCameraTypeRequired().getLabel());
 		}};
 	}
 }

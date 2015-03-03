@@ -422,8 +422,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
 		// camera type
-		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
-		entity.setCameraTypeRequired(type);
+		// TODO
+		//CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
+		//entity.setCameraTypeRequired(type);
 
 		return new Pair<>(Status.OK, entity);
 	}
