@@ -46,6 +46,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, CameraType.class);
 			TableUtils.createTableIfNotExists(connection, Tracer.class);
 			TableUtils.createTableIfNotExists(connection, Patient.class);
+			TableUtils.createTableIfNotExists(connection, PatientQuestion.class);
 			TableUtils.createTableIfNotExists(connection, Permission.class);
 			TableUtils.createTableIfNotExists(connection, Staff.class);
 			TableUtils.createTableIfNotExists(connection, StaffAbsence.class);
@@ -53,6 +54,7 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, StaffRole.class);
 			TableUtils.createTableIfNotExists(connection, StaffRolePermission.class);
 			TableUtils.createTableIfNotExists(connection, Therapy.class);
+			TableUtils.createTableIfNotExists(connection, TherapyCameraType.class);
 		} catch (SQLException e) {
 			// TODO deal with exception
 			e.printStackTrace();

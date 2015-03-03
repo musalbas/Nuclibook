@@ -388,7 +388,9 @@ public class HtmlRenderer {
 					for (String id : ids) {
 						output.append(id).append(",");
 					}
-					output.append("]");
+					output.append("],");
+				} else if (e.getValue().startsWith("CUSTOM:")) {
+					output.append("'").append(e.getKey()).append("': ").append(e.getValue().substring(7)).append(",");
 				} else {
 					output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
 				}
