@@ -157,9 +157,9 @@ public class Staff implements Renderable {
 				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
 				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)
 				|| checkPassword(password)) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
