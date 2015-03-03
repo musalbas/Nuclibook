@@ -151,7 +151,7 @@ public class Staff implements Renderable {
 		this.passwordHash = hash;
 	}
 
-	public boolean isInLastThreePasswords(String password) throws CannotHashPasswordException {
+	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
 		// Check that the password is not equivalent to the past 3 passwords
 		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
 				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
