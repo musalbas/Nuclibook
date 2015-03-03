@@ -54,6 +54,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = Patient.class;
 				break;
 
+            case "patient-question":
+                entityPair = createUpdatePatientQuestion(entityId, request);
+                dbClass = PatientQuestion.class;
+
 			case "staff":
 				entityPair = createUpdateStaff(entityId, request);
 				dbClass = Staff.class;
@@ -207,6 +211,36 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private Pair<Status, Object> createUpdatePatientQuestion(int entityId, Request request) {
+        // permission
+        if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
+        // validation
+        if (request.queryParams("description").length() > 256
+                || !request.queryParams("name").matches("[a-zA-Z0-9\\-\\.\\?'\\(\\) ]+")) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // create and set ID
+        PatientQuestion entity;
+        if (createNew) {
+            entity = new PatientQuestion();
+        } else {
+            entity = AbstractEntityUtils.getEntityById(PatientQuestion.class, entityId);
+        }
+
+        // description
+        entity.setDescription(request.queryParams("description"));
+
+        // therapies
+        Therapy therapy = TherapyUtils.getTherapy(request.queryParams("therapy-id"));
+        entity.setTherapy(therapy);
+
+        return new Pair<>(Status.OK, entity);
+    }
 
 	private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
 		// permission
