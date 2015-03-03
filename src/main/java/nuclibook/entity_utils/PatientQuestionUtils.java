@@ -5,15 +5,15 @@ import java.util.List;
 
 public class PatientQuestionUtils extends AbstractEntityUtils {
 
-	public static PatientQuestion getPatientQuestions(String id) {
+	public static PatientQuestion getPatientQuestion(String id) {
 		try {
-			return getPatientQuestions(Integer.parseInt(id));
+			return getPatientQuestion(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
 			return null;
 		}
 	}
 
-	public static PatientQuestion getPatientQuestions(int id) {
+	public static PatientQuestion getPatientQuestion(int id) {
 		return getEntityById(PatientQuestion.class, id);
 	}
 
