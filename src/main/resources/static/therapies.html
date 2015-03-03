@@ -6,8 +6,7 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12">
 		<div class="text-right">
-			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Therapy
-			</button>
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Therapy</button>
 		</div>
 		<table class="table table-bordered table-hover" id="therapies-table">
 			<thead>
@@ -16,7 +15,6 @@
 					<th class="text-center">Default Duration</th>
 					<th class="text-center">Tracer Required</th>
 					<th class="text-center">Tracer Dose</th>
-					<th class="text-center">Camera Required</th>
 					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
@@ -32,7 +30,6 @@
 					<td>#default-duration mins</td>
 					<td>#tracer-required-name</td>
 					<td>#tracer-dose</td>
-					<td>#camera-type-label</td>
 					<td>
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
@@ -128,8 +125,10 @@
 					<div class="form-group patient-question-section">
 						<label class="col-sm-3 control-label">Patient Questions</label>
 						<div class="col-sm-9">
-							<input class="form-control patient-question-input" type="text" name="patient-question-1" placeholder="Leave blank if not required."/>
-							<a href="javascript:;" class="add-question"><span class="fa fa-plus"></span> Add Question</a>
+							<div class="patient-questions">
+								<input class="form-control patient-question-input" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>
+							</div>
+							<br/><a href="javascript:;" class="add-question"><span class="fa fa-plus"></span> Add Question</a>
 						</div>
 					</div>
 				</form>

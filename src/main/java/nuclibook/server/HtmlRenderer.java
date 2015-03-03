@@ -389,6 +389,8 @@ public class HtmlRenderer {
 						output.append(id).append(",");
 					}
 					output.append("],");
+				} else if (e.getValue().startsWith("CUSTOM:")) {
+					output.append("'").append(e.getKey()).append("': ").append(e.getValue().substring(7)).append(",");
 				} else {
 					output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
 				}
