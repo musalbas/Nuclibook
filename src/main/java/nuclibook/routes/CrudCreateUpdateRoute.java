@@ -54,10 +54,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = Patient.class;
 				break;
 
-            case "patient-question":
-                entityPair = createUpdatePatientQuestion(entityId, request);
-                dbClass = PatientQuestion.class;
-
 			case "staff":
 				entityPair = createUpdateStaff(entityId, request);
 				dbClass = Staff.class;
@@ -76,11 +72,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
-				break;
-
-			case "therapy":
-				entityPair = createUpdateTherapy(entityId, request);
-				dbClass = Therapy.class;
 				break;
 		}
 
@@ -211,36 +202,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
-    private Pair<Status, Object> createUpdatePatientQuestion(int entityId, Request request) {
-        // permission
-        if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
-            return new Pair<>(Status.NO_PERMISSION, null);
-        }
-
-        // validation
-        if (request.queryParams("description").length() > 256
-                || !request.queryParams("name").matches("[a-zA-Z0-9\\-\\.\\?'\\(\\) ]+")) {
-            return new Pair<>(Status.FAILED_VALIDATION, null);
-        }
-
-        // create and set ID
-        PatientQuestion entity;
-        if (createNew) {
-            entity = new PatientQuestion();
-        } else {
-            entity = AbstractEntityUtils.getEntityById(PatientQuestion.class, entityId);
-        }
-
-        // description
-        entity.setDescription(request.queryParams("description"));
-
-        // therapies
-        Therapy therapy = TherapyUtils.getTherapy(request.queryParams("therapy-id"));
-        entity.setTherapy(therapy);
-
-        return new Pair<>(Status.OK, entity);
-    }
 
 	private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
 		// permission
@@ -474,11 +435,28 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				continue;
 			}
 
-			// get permission
+            // get permission
 			key = key.substring(12);
 			ct = CameraTypeUtils.getCameraType(key);
 			if (ct != null) entity.addCameraType(ct);
 		}
+
+        // patient questions
+        entity.clearPatientQuestion();
+        PatientQuestion pq;
+        for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+            // get key value
+            key = entry.getKey();
+
+            // is this a permission?
+            if (!key.startsWith("patient-question-")) {
+                continue;
+            }
+
+            pq = new PatientQuestion();
+            pq.setDescription(entry.getValue()[0]);
+            entity.addPatientQuestion(pq);
+        }
 
 		// don't let it be created again if it's new
 		return createNew ? null : new Pair<>(Status.OK, entity);
