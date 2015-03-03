@@ -14,6 +14,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private boolean createNew = false;
 
+	private String customError = null;
+
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle();
@@ -69,6 +71,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffAvailability.class;
 				break;
 
+			case "staff-password-change":
+				entityPair = createUpdateStaffPassword(request);
+				dbClass = Staff.class;
+				break;
+
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
@@ -111,6 +118,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// no permission
 		if (entityPair.getKey() == Status.NO_PERMISSION) {
 			return "no_permission";
+		}
+
+		// custom error
+		if (entityPair.getKey() == Status.CUSTOM_ERROR && customError != null) {
+			return "CUSTOM:" + customError;
 		}
 
 		// fail safe
@@ -329,6 +341,38 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return new Pair<>(Status.OK, entity);
 	}
 
+	private Pair<Status, Object> createUpdateStaffPassword(Request request) {
+		// this is not new
+		createNew = false;
+
+		// check against current password
+		try {
+			if (SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
+				customError = "Your current password was incorrect";
+				return new Pair<>(Status.CUSTOM_ERROR, null);
+			}
+		} catch (CannotHashPasswordException e) {
+			customError = "Your current password was incorrect EXCEPTION";
+			return new Pair<>(Status.CUSTOM_ERROR, null);
+		}
+
+		// validation
+		if (request.queryParams("password").length() < 6
+				|| !request.queryParams("password").equals(request.queryParams("password_check"))) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		// change current staff password
+		Staff entity = SecurityUtils.getCurrentUser();
+		try {
+			entity.setPassword(request.queryParams("password"));
+		} catch (CannotHashPasswordException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		return new Pair<>(Status.OK, entity);
+	}
+
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
 		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
@@ -515,6 +559,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	private enum Status {
 		OK,
 		FAILED_VALIDATION,
-		NO_PERMISSION
+		NO_PERMISSION,
+		CUSTOM_ERROR
 	}
 }

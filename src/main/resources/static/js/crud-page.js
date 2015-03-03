@@ -118,6 +118,10 @@ function openEditModal(objectId) {
 					disableLoading(function () {
 						toastr.error('You do not have permission to edit or create this item');
 					});
+				} else if (result.substr(0, 7) == 'CUSTOM:') {
+					disableLoading(function () {
+						toastr.error(result.substr(7));
+					});
 				} else {
 					disableLoading(function () {
 						toastr.error('Something went wrong; please try again');

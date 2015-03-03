@@ -79,3 +79,9 @@ html, body {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+/* user dropdown menu width adjusting */
+
+.user-dropdown-menu {
+    min-width: 190px;
+}
