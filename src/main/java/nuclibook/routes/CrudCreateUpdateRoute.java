@@ -73,6 +73,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
 				break;
+
+            case "therapy":
+                entityPair = createUpdateTherapy(entityId, request);
+                dbClass = Therapy.class;
+                break;
 		}
 
 		// checks if entity was created
