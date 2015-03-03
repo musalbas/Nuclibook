@@ -118,6 +118,10 @@ $(document).ready(function () {
 });
 
 customFieldPrefill = function (key, data) {
+	if (data == null || data.length == 0) {
+		return '<input class="form-control patient-question-input" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>';
+	}
+
 	var output = '';
 	if (key.substr(7) == 'patient-questions') {
 		for (var i in data) {
