@@ -151,26 +151,16 @@ public class Staff implements Renderable {
 		this.passwordHash = hash;
 	}
 
-	/**
-	 * Checks that a new password does not infringe upon the password policy.
-	 * @param password new password
-	 * @return true if the password is valid according to the password policy, otherwise false.
-	 */
-	// TODO: move this method to controller
-	private boolean validateNewPassword(String password) throws CannotHashPasswordException {
+	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
 		// Check that the password is not equivalent to the past 3 passwords
 		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
 				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
-				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)) {
+				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)
+				|| checkPassword(password)) {
+			return true;
+		} else {
 			return false;
 		}
-
-		// Check that the password is at least 6 characters long
-		if (password.length() < 6) {
-			return false;
-		}
-
-		return true;
 	}
 
 	private String generateHash(String text) throws CannotHashPasswordException {
