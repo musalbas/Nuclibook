@@ -6,8 +6,8 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
-@DatabaseTable(tableName = "tracers")
-public class PatientQuestions implements Renderable {
+@DatabaseTable(tableName = "patient_questions")
+public class PatientQuestion implements Renderable {
 
     @DatabaseField(generatedId = true)
     private Integer id;
@@ -15,10 +15,10 @@ public class PatientQuestions implements Renderable {
     @DatabaseField(width = 256)
     private String description;
 
-    @DatabaseField(columnName = "therapy_required", foreign = true, foreignAutoRefresh = true)
-    private Therapy therapyRequired;
+    @DatabaseField(columnName = "therapy_id", foreign = true, foreignAutoRefresh = true)
+    private Therapy therapy;
 
-    public PatientQuestions() {
+    public PatientQuestion() {
     }
 
     public Integer getId() {
@@ -37,12 +37,12 @@ public class PatientQuestions implements Renderable {
         this.description = description;
     }
 
-    public Therapy getTherapyRequired() {
-        return therapyRequired;
+    public Therapy getTherapy() {
+        return therapy;
     }
 
-    public void setTherapyRequired(Therapy therapyRequired) {
-        this.therapyRequired = therapyRequired;
+    public void setTherapy(Therapy therapy) {
+        this.therapy = therapy;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class PatientQuestions implements Renderable {
         return new HashMap<String, String>(){{
             put("id", getId().toString());
             put("description", getDescription());
-            put("therapy-required", getTherapyRequired().toString());
         }};
     }
 }
