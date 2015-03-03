@@ -10,6 +10,8 @@ import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class StaffRolesRoute extends DefaultRoute {
@@ -32,6 +34,12 @@ public class StaffRolesRoute extends DefaultRoute {
 
 		// get permissions and add to renderer
 		List<Permission> allPermissions = PermissionUtils.getAllPermissions();
+		Collections.sort(allPermissions, new Comparator<Permission>() {
+			@Override
+			public int compare(Permission o1, Permission o2) {
+				return o1.getDescription().compareTo(o2.getDescription());
+			}
+		});
 		renderer.setCollection("permissions", allPermissions);
 
 		return renderer.render();

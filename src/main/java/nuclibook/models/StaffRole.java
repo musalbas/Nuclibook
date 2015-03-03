@@ -9,9 +9,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @DatabaseTable(tableName = "staff_roles")
 public class StaffRole implements Renderable {
@@ -73,6 +71,14 @@ public class StaffRole implements Renderable {
 	public String getPermissionSummary() {
 		// get permissions in a simple format
 		List<Permission> permissions = getPermissions();
+
+		// sort permissions
+		Collections.sort(permissions, new Comparator<Permission>() {
+			@Override
+			public int compare(Permission o1, Permission o2) {
+				return o1.getDescription().compareTo(o2.getDescription());
+			}
+		});
 
 		if (permissions.size() == 0) {
 			return "None";
