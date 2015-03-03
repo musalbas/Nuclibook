@@ -1,14 +1,13 @@
 //Checking for the Add Form to be ok
 var validateCreateForm = function (formObject) {
 	var error = false;
-
 	var therapyNameString = formObject["name"];
 	var therapyDuration = formObject["default-duration"];
 	var therapyTracerDose = formObject["tracer-dose"];
 
 	// Check range to be [1,64]
 	if (therapyNameString.trim().length < 1) {
-		toastr.error("You did not enter a valid name for the therapy.");
+		toastr.error("Please enter a valid name for the therapy.");
 		error = true;
 	}
 	if (therapyNameString.length > 64) {
@@ -18,7 +17,7 @@ var validateCreateForm = function (formObject) {
 
 	// Check if the duration represents a number and is in integer range
 	if ($.isNumeric(therapyDuration) == false) {
-		toastr.error("You did not enter a valid value for the duration of the therapy. Expecting a number.");
+		toastr.error("Please enter a valid value for the duration of the therapy. Expecting a number.");
 		error = true;
 	} else {
 		if (therapyDuration > 2147483647 || therapyDuration < 0) {
@@ -27,10 +26,9 @@ var validateCreateForm = function (formObject) {
 		}
 	}
 
-	//TODO therapyTracerRequired. Ask the client;
-
+    // dose
 	if (therapyTracerDose.trim().length < 1) {
-		toastr.error("You did not enter a valid value for the tracer dose.");
+		toastr.error("Please enter a valid value for the tracer dose.");
 		error = true;
 	}
 	if (therapyTracerDose.length > 32) {
@@ -38,7 +36,19 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
-	//TODO therapyCamera. Ask the client.
+    //loop through patient questions
+    for (var fieldName in formObject) {
+        if (fieldName.indexOf('patient-question') > -1) {
+            var patientQuestion = formObject[fieldName];
+
+            //check range [<256]
+            if (patientQuestion.length > 256) {
+                toastr.error("Patient questions should not exceed 256 characters.");
+                error = true;
+            }
+
+        }
+    }
 
 	return !error;
 };
@@ -52,7 +62,7 @@ var validateEditForm = function (formObject) {
 
 	// Check range to be [1,64]
 	if (therapyNameString.trim().length < 1) {
-		toastr.error("You did not enter a valid name for the therapy.");
+		toastr.error("Please enter a valid name for the therapy.");
 		error = true;
 	}
 	if (therapyNameString.trim().length > 64) {
@@ -62,7 +72,7 @@ var validateEditForm = function (formObject) {
 
 	// Check if the duration represents a number and is in integer range
 	if ($.isNumeric(therapyDuration) == false) {
-		toastr.error("You did not enter a valid value for the duration of the therapy. Expecting a number.");
+		toastr.error("Please enter a valid value for the duration of the therapy. Expecting a number.");
 		error = true;
 	} else {
 		if (therapyDuration > 2147483647 || therapyDuration < 0) {
@@ -74,7 +84,7 @@ var validateEditForm = function (formObject) {
 	//TODO therapyTracerRequired. Ask the client;
 
 	if (therapyTracerDose.trim().length < 1) {
-		toastr.error("You did not enter a valid value for the tracer dose.");
+		toastr.error("Please enter a valid value for the tracer dose.");
 		error = true;
 	}
 	if (therapyTracerDose.trim().length > 32) {
@@ -82,7 +92,19 @@ var validateEditForm = function (formObject) {
 		error = true;
 	}
 
-	//TODO therapyCamera. Ask the client.
+    //loop through patient questions
+    for (var fieldName in formObject) {
+        if (fieldName.indexOf('patient-question') > -1) {
+            var patientQuestion = formObject[fieldName];
+
+            //check range [<256]
+            if (patientQuestion.length > 256) {
+                toastr.error("Patient questions should not exceed 256 characters.");
+                error = true;
+            }
+        }
+    }
+
 	return !error;
 };
 
@@ -90,7 +112,7 @@ $(document).ready(function () {
 	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 
 	$('.add-question').click(function () {
-		var children = $(this).parent('.form-group').children() - 1;
-		$('<br/><input class="form-control" type="text" name="patient-question-' + children + '"/>').insertBefore($(this));
+		var children = $(this).parent().children('input').length + 1;
+		$('<br/><input class="form-control" type="text" name="patient-question-' + children + '" placeholder="Leave blank if not required."/>').insertBefore($(this));
 	});
 });
