@@ -1,5 +1,5 @@
 var validateEditForm = function (formObject) {
-	var error = false;
+    var error = false;
 
     // check name to be in interval [1,64]
     if (formObject.name.trim().length < 1) {
@@ -20,12 +20,27 @@ var validateEditForm = function (formObject) {
         toastr.error("Hospital Number should not exceed 64 characters");
         error = true;
     }
+    //Check for correct DOB
+    console.log(formObject["year-of-birth"]);
+    if (formObject["year-of-birth"] == "Year" || formObject["year-of-birth"] == undefined) {
+        toastr.error("Please select an year for the patient birth.");
+        error = true;
+    }
 
+    if (formObject["month-of-birth"] == "Month" || formObject["month-of-birth"] == undefined) {
+        toastr.error("Please select a month for the patient birth.");
+        error = true;
+    }
+
+    if (formObject["day-of-birth"] == "Day" || formObject["day-of-birth"] == undefined) {
+        toastr.error("Please select a day for the patient birth.");
+        error = true;
+    }
     return !error;
 };
 
 var validateCreateForm = function (formObject) {
-	var error = false;
+    var error = false;
 
     // check name to be in interval [1,64]
     if (formObject.name.trim().length < 1) {
@@ -46,10 +61,25 @@ var validateCreateForm = function (formObject) {
         toastr.error("Hospital Number should not exceed 64 characters");
         error = true;
     }
+    //Check for correct DOB
+    console.log(formObject["year-of-birth"]);
+    if (formObject["year-of-birth"] == "Year" || formObject["year-of-birth"] == undefined) {
+        toastr.error("Please select an year for the patient birth.");
+        error = true;
+    }
 
-	return !error;
+    if (formObject["month-of-birth"] == "Month" || formObject["month-of-birth"] == undefined) {
+        toastr.error("Please select a month for the patient birth.");
+        error = true;
+    }
+
+    if (formObject["day-of-birth"] == "Day" || formObject["day-of-birth"] == undefined) {
+        toastr.error("Please select a day for the patient birth.");
+        error = true;
+    }
+    return !error;
 };
 
 $(document).ready(function () {
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+    setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
 });
