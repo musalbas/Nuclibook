@@ -93,4 +93,9 @@ var validateEditForm = function (formObject) {
 
 $(document).ready(function () {
 	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+
+    $('.add-question').click(function() {
+        var children = $(this).parent('.form-group').children()- 1 ;
+        $('<br/> <input class="form-control" type="text" name="patient-question-' + children + '"/>').insertBefore($(this));
+    });
 });
