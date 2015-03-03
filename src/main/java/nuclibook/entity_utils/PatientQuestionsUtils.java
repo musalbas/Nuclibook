@@ -1,9 +1,6 @@
 package nuclibook.entity_utils;
 
-import nuclibook.models.BookingStaff;
 import nuclibook.models.PatientQuestions;
-import nuclibook.models.Therapy;
-
 import java.util.List;
 
 public class PatientQuestionsUtils extends AbstractEntityUtils {
