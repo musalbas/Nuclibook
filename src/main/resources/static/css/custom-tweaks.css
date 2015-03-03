@@ -18,15 +18,14 @@ html, body {
 
 /* fix sidebar highlights */
 
-.side-nav li ul li {
-	width: 100%;
+.side-nav {
+	height: calc(100% - 51px) !important;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
-/* multi select box for crud forms */
-
-div.multi-select-box {
-	max-height: 150px;
-	overflow-y: scroll;
+.side-nav li ul li {
+	width: 100%;
 }
 
 /* add buttons margin from the bottom */
