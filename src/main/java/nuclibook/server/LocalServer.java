@@ -63,6 +63,7 @@ public class LocalServer {
 		Spark.get("/login", new LoginRoute(RequestType.GET));
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
+		Spark.get("/change-password", new ChangePasswordRoute());
 
 		// action logs
 		Spark.get("/action-log", new ActionLogRoute());
