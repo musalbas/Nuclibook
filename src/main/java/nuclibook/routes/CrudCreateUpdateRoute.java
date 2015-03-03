@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
 import java.util.Map;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
@@ -81,10 +82,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffRole.class;
 				break;
 
-            case "therapy":
-                entityPair = createUpdateTherapy(entityId, request);
-                dbClass = Therapy.class;
-                break;
+			case "therapy":
+				entityPair = createUpdateTherapy(entityId, request);
+				dbClass = Therapy.class;
+				break;
 		}
 
 		// checks if entity was created
@@ -484,39 +485,46 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				continue;
 			}
 
-            // get permission
+			// get permission
 			key = key.substring(12);
 			ct = CameraTypeUtils.getCameraType(key);
 			if (ct != null) entity.addCameraType(ct);
 		}
 
-        // patient questions
-        entity.clearPatientQuestion();
-        PatientQuestion pq;
-        for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
-            // get key value
-            key = entry.getKey();
+		// clear current questions
+		List<PatientQuestion> currentQuestions = entity.getPatientQuestions();
+		if (currentQuestions != null) {
+			for (PatientQuestion pq : currentQuestions) {
+				AbstractEntityUtils.deleteEntity(PatientQuestion.class, pq);
+			}
+		}
 
-            // is this a patient question?
-            if (!key.startsWith("patient-question-")) {
-                continue;
-            }
+		// patient questions
+		PatientQuestion pq;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
 
-            //get value and check length
-            value = entry.getValue()[0];
+			// is this a patient question?
+			if (!key.startsWith("patient-question-")) {
+				continue;
+			}
 
-            if (value.length()==0) {
-                continue;
-            }
-            if(value.length()>256) {
-                return new Pair<>(Status.FAILED_VALIDATION, null);
-            }
+			// get value and check length
+			value = entry.getValue()[0];
+			if (value.length() == 0) {
+				continue;
+			}
+			if (value.length() > 256) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
 
-            //add questions to the entity
-            pq = new PatientQuestion();
-            pq.setDescription(entry.getValue()[0]);
-            entity.addPatientQuestion(pq);
-        }
+			// add questions to the entity
+			pq = new PatientQuestion();
+			pq.setDescription(entry.getValue()[0]);
+			pq.setTherapy(entity);
+			AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
+		}
 
 		// don't let it be created again if it's new
 		return createNew ? null : new Pair<>(Status.OK, entity);

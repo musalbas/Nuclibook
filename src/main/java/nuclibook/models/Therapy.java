@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,8 +124,13 @@ public class Therapy implements Renderable {
 		AbstractEntityUtils.createEntity(TherapyCameraType.class, new TherapyCameraType(this, ct));
 	}
 
-    public List<PatientQuestion> getPatientQuestion() {
-        ArrayList<PatientQuestion> output = new ArrayList<>();
+    public List<PatientQuestion> getPatientQuestions() {
+		try {
+			patientQuestions.refreshCollection();
+		} catch (SQLException e) {
+			return null;
+		}
+		ArrayList<PatientQuestion> output = new ArrayList<>();
         CloseableIterator<PatientQuestion> iterator = patientQuestions.closeableIterator();
         try {
             PatientQuestion pq;
@@ -136,33 +142,6 @@ public class Therapy implements Renderable {
             iterator.closeQuietly();
         }
         return output;
-    }
-
-    public String getPatientQuestionIdString() {
-        List<PatientQuestion> patientQuestionList = getPatientQuestion();
-        if (patientQuestionList.isEmpty()) return "0";
-        StringBuilder sb = new StringBuilder();
-        for (PatientQuestion pq : patientQuestionList) {
-            sb.append(pq.getId()).append(",");
-        }
-        return sb.substring(0, sb.length() - 1);
-    }
-
-    public void clearPatientQuestion() {
-        if (patientQuestions == null) return;
-        CloseableIterator<PatientQuestion> iterator = patientQuestions.closeableIterator();
-        try {
-            while (iterator.hasNext()) {
-                AbstractEntityUtils.deleteEntity(PatientQuestion.class, iterator.next());
-            }
-        } finally {
-            iterator.closeQuietly();
-        }
-    }
-
-    public void addPatientQuestion(PatientQuestion pq) {
-        AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
-        pq.setTherapy(this);
     }
 
 	public Boolean getEnabled() {
