@@ -39,6 +39,24 @@ public class Staff implements Renderable {
 	@DatabaseField
 	private String passwordSalt;
 
+	@DatabaseField
+	private String passwordHash1;
+
+	@DatabaseField
+	private String passwordSalt1;
+
+	@DatabaseField
+	private String passwordHash2;
+
+	@DatabaseField
+	private String passwordSalt2;
+
+	@DatabaseField
+	private String passwordHash3;
+
+	@DatabaseField
+	private String passwordSalt3;
+
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
 
@@ -96,11 +114,15 @@ public class Staff implements Renderable {
 	/* PASSWORDS */
 
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
+		return checkPassword(this.passwordSalt, this.passwordHash, password);
+	}
+
+	public boolean checkPassword(String passwordSalt, String passwordHash, String password) throws CannotHashPasswordException {
 		// Add salt to password
-		password = this.passwordSalt + password;
+		password = passwordSalt + password;
 
 		// Check password
-		return generateHash(password).equals(this.passwordHash);
+		return generateHash(password).equals(passwordHash);
 	}
 
 	public void setPassword(String password) throws CannotHashPasswordException {
@@ -114,9 +136,41 @@ public class Staff implements Renderable {
 		// Generate password hash
 		String hash = generateHash(password);
 
+		// Update last 3 passwords
+		this.passwordSalt3 = this.passwordSalt2;
+		this.passwordHash3 = this.passwordHash2;
+
+		this.passwordSalt2 = this.passwordSalt1;
+		this.passwordHash2 = this.passwordHash1;
+
+		this.passwordSalt1 = this.passwordSalt;
+		this.passwordHash1 = this.passwordHash;
+
 		// Update fields
 		this.passwordSalt = salt;
 		this.passwordHash = hash;
+	}
+
+	/**
+	 * Checks that a new password does not infringe upon the password policy.
+	 * @param password new password
+	 * @return true if the password is valid according to the password policy, otherwise false.
+	 */
+	// TODO: move this method to controller
+	private boolean validateNewPassword(String password) throws CannotHashPasswordException {
+		// Check that the password is not equivalent to the past 3 passwords
+		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
+				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
+				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)) {
+			return false;
+		}
+
+		// Check that the password is at least 6 characters long
+		if (password.length() < 6) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private String generateHash(String text) throws CannotHashPasswordException {
