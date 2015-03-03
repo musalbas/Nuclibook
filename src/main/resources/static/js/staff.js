@@ -22,8 +22,8 @@ var validateCreateForm = function (formObject) {
 	}
 
 	// check password length
-	if (formObject.password.trim().length < 4) {
-		toastr.error("Your password must be at least 4 characters long");
+	if (formObject.password.length < 6) {
+		toastr.error("Your password must be at least 6 characters long");
 		error = true;
 	}
 
