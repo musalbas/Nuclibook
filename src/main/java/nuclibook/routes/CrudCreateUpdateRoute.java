@@ -424,13 +424,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// camera types
 		entity.clearCameraTypes();
 		Map<String, String[]> paramMap = request.queryMap().toMap();
-		String key;
+		String key, value;
 		CameraType ct;
 		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
 			// get key value
 			key = entry.getKey();
 
-			// is this a permission?
+			// is this a camera type
 			if (!key.startsWith("camera-type-")) {
 				continue;
 			}
@@ -448,11 +448,22 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             // get key value
             key = entry.getKey();
 
-            // is this a permission?
+            // is this a patient question?
             if (!key.startsWith("patient-question-")) {
                 continue;
             }
 
+            //get value and check length
+            value = entry.getValue()[0];
+
+            if (value.length()==0) {
+                continue;
+            }
+            if(value.length()>256) {
+                return new Pair<>(Status.FAILED_VALIDATION, null);
+            }
+
+            //add questions to the entity
             pq = new PatientQuestion();
             pq.setDescription(entry.getValue()[0]);
             entity.addPatientQuestion(pq);
