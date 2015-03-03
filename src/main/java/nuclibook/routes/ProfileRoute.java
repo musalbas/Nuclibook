@@ -4,7 +4,7 @@ import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
-public class ChangePasswordRoute extends DefaultRoute {
+public class ProfileRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -13,7 +13,7 @@ public class ChangePasswordRoute extends DefaultRoute {
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("change-password.html");
+		renderer.setTemplateFile("profile.html");
 
 		return renderer.render();
 	}

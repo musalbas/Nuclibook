@@ -29,7 +29,10 @@ public abstract class DefaultRoute implements Route {
 			renderer.setField("logged-in", "yes");
 
 			Staff currentUser = SecurityUtils.getCurrentUser();
+			renderer.setField("current-user-username", currentUser.getUsername());
 			renderer.setField("current-user-name", currentUser.getName());
+			renderer.setField("current-user-role", currentUser.getRole().getLabel());
+			renderer.setField("current-user-permissions-summary", currentUser.getRole().getPermissionSummary());
 		} else {
 			renderer.setField("logged-in", "no");
 		}
