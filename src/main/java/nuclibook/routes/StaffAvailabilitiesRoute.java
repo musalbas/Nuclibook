@@ -20,7 +20,7 @@ public class StaffAvailabilitiesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.EDIT_STAFF_AVAILABILITIES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_AVAILABILITIES, response)) return null;
 
 		// get staff member
 		Staff currentStaff = StaffUtils.getStaff(request.params(":staffid:"));
