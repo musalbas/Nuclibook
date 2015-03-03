@@ -106,27 +106,25 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="camera-type-id" class="col-sm-3 control-label">Camera Type Used</label>
-						<div class="col-sm-9">
-							<select class="form-control" name="camera-type-id" id="camera-type-id">
-								#[collection: camera-types]
+						<label class="col-sm-3 control-label">Camera Types</label>
+						<div class="col-sm-9 container">
+							#[collection: camera-types]
 
-								#[pre]#[/pre]
+							#[pre]#[/pre]
 
-								#[each]
-								<option value="#id">#label</option>
-								#[/each]
+							#[each]
+							<input type="checkbox" class="crud-list-prefill-camera-type-ids" name="camera-type-#id" id="camera-type-#id" value="#id"/>
+							<label for="camera-type-#id">#label</label><br/>
+							#[/each]
 
-								#[post]#[/post]
+							#[post]#[/post]
 
-								#[empty]#[/empty]
+							#[empty]#[/empty]
 
-								#[/collection]
-							</select>
-							<p class="help-block">Select the required camera type for this therapy.</p>
+							#[/collection]
+							<p class="help-block">Select the camera type(s) that can be used for this therapy.</p>
 						</div>
 					</div>
-
 				</form>
 
 			</div>

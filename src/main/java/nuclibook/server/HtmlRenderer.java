@@ -388,7 +388,7 @@ public class HtmlRenderer {
 					for (String id : ids) {
 						output.append(id).append(",");
 					}
-					output.append("]");
+					output.append("],");
 				} else {
 					output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
 				}

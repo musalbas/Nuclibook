@@ -421,11 +421,33 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// name
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
-		// camera type
-		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
-		entity.setCameraTypeRequired(type);
+		// if it's new, we'll save it here so that the permissions can be added properly
+		if (createNew) {
+			AbstractEntityUtils.createEntity(Therapy.class, entity);
+		}
 
-		return new Pair<>(Status.OK, entity);
+		// camera types
+		entity.clearCameraTypes();
+		Map<String, String[]> paramMap = request.queryMap().toMap();
+		String key;
+		CameraType ct;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a permission?
+			if (!key.startsWith("camera-type-")) {
+				continue;
+			}
+
+			// get permission
+			key = key.substring(12);
+			ct = CameraTypeUtils.getCameraType(key);
+			if (ct != null) entity.addCameraType(ct);
+		}
+
+		// don't let it be created again if it's new
+		return createNew ? null : new Pair<>(Status.OK, entity);
 	}
 
 	private Pair<Status, Object> createUpdateTracer(int entityId, Request request) {
