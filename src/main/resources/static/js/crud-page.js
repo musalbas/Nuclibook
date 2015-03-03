@@ -58,6 +58,12 @@ function openEditModal(objectId) {
 		if (typeof(data) != 'undefined') {
 			var input, select;
 			for (var key in data) {
+				// custom fields
+				if (key.substr(0, 7) == 'CUSTOM:') {
+					form.find('.' + key.substr(7)).html(customFieldPrefill(key, data[key]));
+					continue;
+				}
+
 				// basic strings
 				if (typeof data[key] == 'string') {
 					input = form.find('input[name=' + key + ']');
@@ -67,6 +73,7 @@ function openEditModal(objectId) {
 						select = form.find('select[name=' + key + ']');
 						select.val(data[key]).attr('selected', 'selected');
 					}
+					continue;
 				}
 
 				// id lists
@@ -74,6 +81,7 @@ function openEditModal(objectId) {
 					for (var i = 0; i < data[key].length; ++i) {
 						$('.crud-list-prefill-' + key + '[value=' + data[key][i] + ']').attr('checked', 'checked')
 					}
+					continue;
 				}
 			}
 		}
