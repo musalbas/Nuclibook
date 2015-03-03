@@ -33,7 +33,10 @@ public class Therapy implements Renderable {
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<TherapyCameraType> therapyCameraTypes;
 
-	@DatabaseField(defaultValue = "true")
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<PatientQuestion> patientQuestions;
+
+    @DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
 	public Therapy() {
@@ -119,6 +122,48 @@ public class Therapy implements Renderable {
 	public void addCameraType(CameraType ct) {
 		AbstractEntityUtils.createEntity(TherapyCameraType.class, new TherapyCameraType(this, ct));
 	}
+
+    public List<PatientQuestion> getPatientQuestion() {
+        ArrayList<PatientQuestion> output = new ArrayList<>();
+        CloseableIterator<PatientQuestion> iterator = patientQuestions.closeableIterator();
+        try {
+            PatientQuestion pq;
+            while (iterator.hasNext()) {
+                pq = iterator.next();
+                if (pq != null) output.add(pq);
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+        return output;
+    }
+
+    public String getPatientQuestionIdString() {
+        List<PatientQuestion> patientQuestionList = getPatientQuestion();
+        if (patientQuestionList.isEmpty()) return "0";
+        StringBuilder sb = new StringBuilder();
+        for (PatientQuestion pq : patientQuestionList) {
+            sb.append(pq.getId()).append(",");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    public void clearPatientQuestion() {
+        if (patientQuestions == null) return;
+        CloseableIterator<PatientQuestion> iterator = patientQuestions.closeableIterator();
+        try {
+            while (iterator.hasNext()) {
+                AbstractEntityUtils.deleteEntity(PatientQuestion.class, iterator.next());
+            }
+        } finally {
+            iterator.closeQuietly();
+        }
+    }
+
+    public void addPatientQuestion(PatientQuestion pq) {
+        AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
+        pq.setTherapy(this);
+    }
 
 	public Boolean getEnabled() {
 		return enabled;
