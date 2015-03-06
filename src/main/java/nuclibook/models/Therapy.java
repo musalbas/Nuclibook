@@ -22,8 +22,8 @@ public class Therapy implements Renderable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField(defaultValue = "60")
-	private int duration;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<BookingPatternSection> bookingPatternSections;
 
 	@DatabaseField(columnName = "tracer_required", foreign = true, foreignAutoRefresh = true)
 	private Tracer tracerRequired;
@@ -59,12 +59,30 @@ public class Therapy implements Renderable {
 		this.name = name;
 	}
 
-	public int getDuration() {
-		return duration;
+	public List<BookingPatternSection> getBookingPatternSections() {
+		ArrayList<BookingPatternSection> output = new ArrayList<>();
+		CloseableIterator<BookingPatternSection> iterator = bookingPatternSections.closeableIterator();
+		try {
+			BookingPatternSection bps;
+			while (iterator.hasNext()) {
+				bps = iterator.next();
+				if (bps != null) output.add(bps);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public String getBookingPatternSectionListString() {
+		List<BookingPatternSection> bookingPatternSectionList = getBookingPatternSections();
+		if (bookingPatternSectionList.isEmpty()) return "[]";
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (BookingPatternSection bps : bookingPatternSectionList) {
+			sb.append("[").append(bps.isBusy() ? "1," : "0,").append(bps.getMinLength()).append(",").append(bps.getMaxLength()).append("],");
+		}
+		return sb.substring(0, sb.length() - 1) + "]";
 	}
 
 	public Tracer getTracerRequired() {
@@ -170,7 +188,7 @@ public class Therapy implements Renderable {
 			put("name", getName());
 			put("camera-type-ids", "IDLIST:" + getCameraTypesIdString());
 			put("CUSTOM:patient-questions", "CUSTOM:" + getPatientQuestionListString());
-			put("default-duration", ((Integer) getDuration()).toString());
+			put("CUSTOM:booking-pattern-sections", "CUSTOM:" + getBookingPatternSectionListString());
 			put("tracer-required-id", getTracerRequired().getId().toString());
 			put("tracer-required-name", getTracerRequired().getName());
 			put("tracer-dose", getTracerDose());

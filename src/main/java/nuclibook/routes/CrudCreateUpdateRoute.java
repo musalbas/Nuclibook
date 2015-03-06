@@ -454,12 +454,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// name
 		entity.setName(request.queryParams("name"));
 
-		// default-duration
-		try {
-			entity.setDuration(Integer.parseInt(request.queryParams("default-duration")));
-		} catch (NumberFormatException e) {
-			entity.setDuration(0);
-		}
+		// TODO: booking pattern
 
 		// tracer required
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
