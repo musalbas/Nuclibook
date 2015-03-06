@@ -85,3 +85,9 @@ html, body {
 .user-dropdown-menu {
     min-width: 190px;
 }
+
+/* stackable form controls */
+
+.stacked-form-control {
+	margin-bottom: 6px !important;
+}

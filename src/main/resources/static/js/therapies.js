@@ -110,22 +110,30 @@ var validateEditForm = function (formObject) {
 $(document).ready(function () {
 	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 
-	$('.add-question').click(function () {
+	// link for adding booking sections
+	$('.add-booking-section').click(function () {
+		var targetDiv = $('.booking-sections');
+		var childCount = targetDiv.children('input').length;
+		targetDiv.append('<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + childCount + 'a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + childCount + 'b" placeholder="Leave blank if not required."/></div></div>');
+	});
+
+	// link for adding patient questions
+	$('.add-patient-question').click(function () {
 		var targetDiv = $('.patient-questions');
-		var children = targetDiv.children('input').length;
-		targetDiv.append('<br /><input class="form-control" type="text" name="patient-question-' + children + '" placeholder="Leave blank if not required."/>');
+		var childCount = targetDiv.children('input').length;
+		targetDiv.append('<input class="form-control stacked-form-control" type="text" name="patient-question-' + childCount + '" placeholder="Leave blank if not required."/>');
 	});
 });
 
 customFieldPrefill = function (key, data) {
 	if (data == null || data.length == 0) {
-		return '<input class="form-control patient-question-input" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>';
+		return '<input class="form-control" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>';
 	}
 
 	var output = '';
 	if (key.substr(7) == 'patient-questions') {
 		for (var i in data) {
-			output += (output == '' ? '' : '<br />') + '<input class="form-control patient-question-input" type="text" name="patient-question-' + i + '" placeholder="Leave blank if not required." value="' + data[i] + '"/>'
+			output += '<input class="form-control stacked-form-control" type="text" name="patient-question-' + i + '" placeholder="Leave blank if not required." value="' + data[i] + '"/>'
 		}
 	}
 	return output;
