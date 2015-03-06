@@ -86,11 +86,15 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				entityPair = createUpdateTherapy(entityId, request);
 				dbClass = Therapy.class;
 				break;
+
+			default:
+				// un-matched type
+				return "error";
 		}
 
-		// checks if entity was created
+		// some entities handle creation internally
 		if (entityPair == null) {
-			return "error";
+			return "okay";
 		}
 
 		// save/update
@@ -438,7 +442,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (request.queryParams("name").length() > 64
 				|| request.queryParams("tracer-dose").length() > 32
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("default-duration").matches("[0-9]+")
 				|| !request.queryParams("tracer-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -454,8 +457,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// name
 		entity.setName(request.queryParams("name"));
 
-		// TODO: booking pattern
-
 		// tracer required
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
 		entity.setTracerRequired(tracer);
@@ -468,10 +469,51 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			AbstractEntityUtils.createEntity(Therapy.class, entity);
 		}
 
+		// clear current booking pattern
+		List<BookingPatternSection> currentBookingPattern = entity.getBookingPatternSections();
+		if (currentBookingPattern != null) {
+			for (BookingPatternSection bps : currentBookingPattern) {
+				AbstractEntityUtils.deleteEntity(BookingPatternSection.class, bps);
+			}
+		}
+
+		// booking pattern
+		BookingPatternSection bps;
+		Map<String, String[]> paramMap = request.queryMap().toMap();
+		String key, value, valueA, valueB;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a patient question?
+			if (!(key.startsWith("booking-section-") && key.endsWith("a"))) {
+				continue;
+			}
+
+			// get values
+			String entryNumber = key.substring(16, key.length() - 1);
+			valueA = request.queryParams("booking-section-" + entryNumber + "a");
+			valueB = request.queryParams("booking-section-" + entryNumber + "b");
+
+			// TODO: validation
+
+			// add booking pattern sections to the entity
+			bps = new BookingPatternSection();
+			bps.setTherapy(entity);
+			bps.setBusy(valueA.equals("busy"));
+			if (valueB.contains("-")) {
+				String[] valueBParts = valueB.split("\\-");
+				bps.setMinLength(Integer.parseInt(valueBParts[0]));
+				bps.setMaxLength(Integer.parseInt(valueBParts[1]));
+			} else {
+				bps.setMinLength(Integer.parseInt(valueB));
+				bps.setMaxLength(Integer.parseInt(valueB));
+			}
+			AbstractEntityUtils.createEntity(BookingPatternSection.class, bps);
+		}
+
 		// camera types
 		entity.clearCameraTypes();
-		Map<String, String[]> paramMap = request.queryMap().toMap();
-		String key, value;
 		CameraType ct;
 		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
 			// get key value

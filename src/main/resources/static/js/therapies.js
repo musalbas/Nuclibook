@@ -1,7 +1,6 @@
 var validateCreateForm = function (formObject) {
 	var error = false;
 	var therapyNameString = formObject["name"];
-	var therapyDuration = formObject["default-duration"];
 	var therapyTracerDose = formObject["tracer-dose"];
 
 	// Check range to be [1,64]
@@ -15,7 +14,7 @@ var validateCreateForm = function (formObject) {
 	}
 
 	// Check if the duration represents a number and is in integer range
-	if ($.isNumeric(therapyDuration) == false) {
+	/*if ($.isNumeric(therapyDuration) == false) {
 		toastr.error("Please enter a valid value for the duration of the therapy. Expecting a number.");
 		error = true;
 	} else {
@@ -23,7 +22,7 @@ var validateCreateForm = function (formObject) {
 			toastr.error("Therapy duration should be a positive number smaller than 2,147,483,647");
 			error = true;
 		}
-	}
+	}*/
 
 	// dose
 	if (therapyTracerDose.trim().length < 1) {
@@ -35,7 +34,7 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
-	//loop through patient questions
+	// loop through patient questions
 	for (var fieldName in formObject) {
 		if (fieldName.indexOf('patient-question') > -1) {
 			var patientQuestion = formObject[fieldName];
@@ -113,7 +112,7 @@ $(document).ready(function () {
 	// link for adding booking sections
 	$('.add-booking-section').click(function () {
 		var targetDiv = $('.booking-sections');
-		var childCount = targetDiv.children('input').length;
+		var childCount = targetDiv.children('div.row').length;
 		targetDiv.append('<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + childCount + 'a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + childCount + 'b" placeholder="Leave blank if not required."/></div></div>');
 	});
 

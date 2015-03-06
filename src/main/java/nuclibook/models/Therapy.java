@@ -61,6 +61,11 @@ public class Therapy implements Renderable {
 
 	public List<BookingPatternSection> getBookingPatternSections() {
 		ArrayList<BookingPatternSection> output = new ArrayList<>();
+		try {
+			bookingPatternSections.refreshCollection();
+		} catch (SQLException | NullPointerException e) {
+			return output;
+		}
 		CloseableIterator<BookingPatternSection> iterator = bookingPatternSections.closeableIterator();
 		try {
 			BookingPatternSection bps;
@@ -146,7 +151,7 @@ public class Therapy implements Renderable {
 		ArrayList<PatientQuestion> output = new ArrayList<>();
 		try {
 			patientQuestions.refreshCollection();
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			return output;
 		}
 		CloseableIterator<PatientQuestion> iterator = patientQuestions.closeableIterator();
