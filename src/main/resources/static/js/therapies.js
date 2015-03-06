@@ -13,16 +13,7 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
-	// Check if the duration represents a number and is in integer range
-	/*if ($.isNumeric(therapyDuration) == false) {
-		toastr.error("Please enter a valid value for the duration of the therapy. Expecting a number.");
-		error = true;
-	} else {
-		if (therapyDuration > 2147483647 || therapyDuration < 0) {
-			toastr.error("Therapy duration should be a positive number smaller than 2,147,483,647");
-			error = true;
-		}
-	}*/
+	// TODO: validate booking pattern
 
 	// dose
 	if (therapyTracerDose.trim().length < 1) {
@@ -55,7 +46,6 @@ var validateEditForm = function (formObject) {
 	var error = false;
 
 	var therapyNameString = formObject["name"];
-	var therapyDuration = formObject["default-duration"];
 	var therapyTracerDose = formObject["tracer-dose"];
 
 	// Check range to be [1,64]
@@ -68,18 +58,7 @@ var validateEditForm = function (formObject) {
 		error = true;
 	}
 
-	// Check if the duration represents a number and is in integer range
-	if ($.isNumeric(therapyDuration) == false) {
-		toastr.error("Please enter a valid value for the duration of the therapy. Expecting a number.");
-		error = true;
-	} else {
-		if (therapyDuration > 2147483647 || therapyDuration < 0) {
-			toastr.error("Therapy duration should be a positive number smaller than 2,147,483,647");
-			error = true;
-		}
-	}
-
-	//TODO therapyTracerRequired. Ask the client;
+	// TODO: validate booking pattern
 
 	if (therapyTracerDose.trim().length < 1) {
 		toastr.error("Please enter a valid value for the tracer dose.");
@@ -90,7 +69,7 @@ var validateEditForm = function (formObject) {
 		error = true;
 	}
 
-	//loop through patient questions
+	// loop through patient questions
 	for (var fieldName in formObject) {
 		if (fieldName.indexOf('patient-question') > -1) {
 			var patientQuestion = formObject[fieldName];
@@ -111,7 +90,7 @@ $(document).ready(function () {
 
 	// link for adding booking sections
 	$('.add-booking-section').click(function () {
-		var targetDiv = $('.booking-sections');
+		var targetDiv = $('.booking-pattern-sections');
 		var childCount = targetDiv.children('div.row').length;
 		targetDiv.append('<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + childCount + 'a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + childCount + 'b" placeholder="Leave blank if not required."/></div></div>');
 	});
@@ -146,7 +125,7 @@ customFieldPrefill = function (key, data) {
 
 		output = '';
 		for (i in data) {
-			output += '<input class="form-control stacked-form-control" type="text" name="patient-question-' + i + '" placeholder="Leave blank if not required." value="' + data[i] + '"/>'
+			output += '<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + i + 'a"><option value="busy"' + (data[i][0] == 1 ? ' selected' : '') + '>Busy</option><option value="wait"' + (data[i][0] == 0 ? ' selected' : '') + '>Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + i + 'b" placeholder="Leave blank if not required." value="' + (data[i][1] == data[i][2] ? data[i][1] : data[i][1] + '-' + data[i][2]) + '"/></div></div>'
 		}
 		return output;
 	}
