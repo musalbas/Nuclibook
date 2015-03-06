@@ -126,15 +126,31 @@ $(document).ready(function () {
 });
 
 customFieldPrefill = function (key, data) {
-	if (data == null || data.length == 0) {
-		return '<input class="form-control" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>';
-	}
+	var output, i;
 
-	var output = '';
 	if (key.substr(7) == 'patient-questions') {
-		for (var i in data) {
+		if (data == null || data.length == 0) {
+			return '<input class="form-control" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>';
+		}
+
+		output = '';
+		for (i in data) {
 			output += '<input class="form-control stacked-form-control" type="text" name="patient-question-' + i + '" placeholder="Leave blank if not required." value="' + data[i] + '"/>'
 		}
+		return output;
 	}
-	return output;
+
+	if (key.substr(7) == 'booking-pattern-sections') {
+		if (data == null || data.length == 0) {
+			return '<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-0a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-0b" placeholder="Leave blank if not required."/></div></div>';
+		}
+
+		output = '';
+		for (i in data) {
+			output += '<input class="form-control stacked-form-control" type="text" name="patient-question-' + i + '" placeholder="Leave blank if not required." value="' + data[i] + '"/>'
+		}
+		return output;
+	}
+
+	return "";
 };
