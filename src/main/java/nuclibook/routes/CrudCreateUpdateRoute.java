@@ -122,8 +122,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// custom error
-		if (entityPair.getKey() == Status.CUSTOM_ERROR && customError != null) {
-			return "CUSTOM:" + customError;
+		if (entityPair.getKey() == Status.CUSTOM_ERROR) {
+            System.out.println(entityPair.getKey());
+			return "CUSTOM:" + entityPair.getValue();
 		}
 
 		// fail safe
@@ -236,6 +237,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				|| !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
+
+        //check if staff username is taken
+        if(staffUsernameExists(request.queryParams("username"))){
+            return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
+        }
 
 		// create and set ID
 		Staff entity;
@@ -565,6 +571,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private boolean staffUsernameExists(String username){
+        return (StaffUtils.getStaffByUsername(username) != null);
+    }
 
 	private enum Status {
 		OK,
