@@ -13,7 +13,18 @@ var validateCreateForm = function (formObject) {
 		error = true;
 	}
 
-	// TODO: validate booking pattern
+	// loop through booking sections
+	for (var fieldName in formObject) {
+		if (fieldName.indexOf('booking-section') > -1 && fieldName.substr(fieldName.length - 1, 1) == 'b') {
+			var bookingSection = formObject[fieldName];
+
+			// check format
+			if (bookingSection.length > 0 && !/[0-9]+(\\-[0-9]+)?/.test(bookingSection.replace(/\s+/g, ''))) {
+				toastr.error("Please enter a valid booking section length ('00' or '00-00').");
+				error = true;
+			}
+		}
+	}
 
 	// dose
 	if (therapyTracerDose.trim().length < 1) {
@@ -26,11 +37,11 @@ var validateCreateForm = function (formObject) {
 	}
 
 	// loop through patient questions
-	for (var fieldName in formObject) {
+	for (fieldName in formObject) {
 		if (fieldName.indexOf('patient-question') > -1) {
 			var patientQuestion = formObject[fieldName];
 
-			//check range [<256]
+			// check range [<256]
 			if (patientQuestion.length > 256) {
 				toastr.error("Patient questions should not exceed 256 characters.");
 				error = true;
@@ -58,7 +69,18 @@ var validateEditForm = function (formObject) {
 		error = true;
 	}
 
-	// TODO: validate booking pattern
+	// loop through booking sections
+	for (var fieldName in formObject) {
+		if (fieldName.indexOf('booking-section') > -1 && fieldName.substr(fieldName.length - 1, 1) == 'b') {
+			var bookingSection = formObject[fieldName];
+
+			// check format
+			if (bookingSection.length > 0 && !/[0-9]+(\\-[0-9]+)?/.test(bookingSection.replace(/\s+/g, ''))) {
+				toastr.error("Please enter a valid booking section length ('00' or '00-00').");
+				error = true;
+			}
+		}
+	}
 
 	if (therapyTracerDose.trim().length < 1) {
 		toastr.error("Please enter a valid value for the tracer dose.");
@@ -70,11 +92,11 @@ var validateEditForm = function (formObject) {
 	}
 
 	// loop through patient questions
-	for (var fieldName in formObject) {
+	for (fieldName in formObject) {
 		if (fieldName.indexOf('patient-question') > -1) {
 			var patientQuestion = formObject[fieldName];
 
-			//check range [<256]
+			// check range [<256]
 			if (patientQuestion.length > 256) {
 				toastr.error("Patient questions should not exceed 256 characters.");
 				error = true;

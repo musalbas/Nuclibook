@@ -498,9 +498,20 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				continue;
 			}
 			valueA = request.queryParams("booking-section-" + entryNumber + "a");
-			valueB = request.queryParams("booking-section-" + entryNumber + "b");
+			valueB = request.queryParams("booking-section-" + entryNumber + "b").replace(" ", "");
 
-			// TODO: validation
+			// skip blanks
+			if (valueB.length() == 0) {
+				continue;
+			}
+
+			// validation
+			if (!valueA.equals("busy") && !valueB.equals("wait")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+			if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
 
 			// add booking pattern sections to the entity
 			bps = new BookingPatternSection();
