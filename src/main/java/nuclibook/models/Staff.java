@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
+import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -15,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +58,9 @@ public class Staff implements Renderable {
 
 	@DatabaseField
 	private String passwordSalt3;
+
+	@DatabaseField
+	private String passwordChangeDate;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
@@ -113,6 +118,14 @@ public class Staff implements Renderable {
 
 	/* PASSWORDS */
 
+	public DateTime getPasswordChangeDate() {
+		return new DateTime(this.passwordChangeDate);
+	}
+
+	private void updatePasswordChangeDate() {
+		this.passwordChangeDate = new DateTime().toString();
+	}
+
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
 		return checkPassword(this.passwordSalt, this.passwordHash, password);
 	}
@@ -149,6 +162,9 @@ public class Staff implements Renderable {
 		// Update fields
 		this.passwordSalt = salt;
 		this.passwordHash = hash;
+
+		// Update password change date
+		updatePasswordChangeDate();
 	}
 
 	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
