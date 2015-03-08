@@ -17,6 +17,18 @@ $(document).ready(function () {
 		e.preventDefault();
 		subMenuToggle($(this).parent());
 	});
+
+    $(".edit-button").hover(function(){
+        $(this).addClass('btn-warning')
+    }, function(){
+        $(this).removeClass('btn-warning')
+    });
+
+    $(".delete-button").hover(function(){
+        $(this).addClass('btn-danger')
+    }, function(){
+        $(this).removeClass('btn-danger')
+    });
 });
 
 // function to toggle a menu
@@ -31,3 +43,4 @@ function subMenuToggle(menuWrapper) {
 		menuWrapper.find('ul.drop-down-menu').hide();
 	}
 }
+
