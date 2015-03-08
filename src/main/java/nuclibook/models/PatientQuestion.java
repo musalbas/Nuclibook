@@ -18,6 +18,9 @@ public class PatientQuestion implements Renderable {
     @DatabaseField(columnName = "therapy_id", foreign = true, foreignAutoRefresh = true)
     private Therapy therapy;
 
+	@DatabaseField
+	private int sequence;
+
     public PatientQuestion() {
     }
 
@@ -45,7 +48,15 @@ public class PatientQuestion implements Renderable {
         this.therapy = therapy;
     }
 
-    @Override
+	public int getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+	@Override
     public HashMap<String, String> getHashMap() {
         return new HashMap<String, String>(){{
             put("id", getId().toString());

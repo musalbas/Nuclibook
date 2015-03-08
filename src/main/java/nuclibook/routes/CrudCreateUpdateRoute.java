@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 
@@ -86,11 +87,15 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				entityPair = createUpdateTherapy(entityId, request);
 				dbClass = Therapy.class;
 				break;
+
+			default:
+				// un-matched type
+				return "error";
 		}
 
-		// checks if entity was created
+		// some entities handle creation internally
 		if (entityPair == null) {
-			return "error";
+			return "okay";
 		}
 
 		// save/update
@@ -438,7 +443,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (request.queryParams("name").length() > 64
 				|| request.queryParams("tracer-dose").length() > 32
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("default-duration").matches("[0-9]+")
 				|| !request.queryParams("tracer-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -454,29 +458,80 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// name
 		entity.setName(request.queryParams("name"));
 
-		// default-duration
-		try {
-			entity.setDuration(Integer.parseInt(request.queryParams("default-duration")));
-		} catch (NumberFormatException e) {
-			entity.setDuration(0);
-		}
-
 		// tracer required
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
 		entity.setTracerRequired(tracer);
 
-		// name
+		// tracer dose
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
-		// if it's new, we'll save it here so that the permissions can be added properly
+		// if it's new, we'll save it here so that foreign collections can be added properly
 		if (createNew) {
 			AbstractEntityUtils.createEntity(Therapy.class, entity);
 		}
 
+		// clear current booking pattern
+		List<BookingPatternSection> currentBookingPattern = entity.getBookingPatternSections();
+		if (currentBookingPattern != null) {
+			for (BookingPatternSection bps : currentBookingPattern) {
+				AbstractEntityUtils.deleteEntity(BookingPatternSection.class, bps);
+			}
+		}
+
+		// booking pattern
+		BookingPatternSection bps;
+		Map<String, String[]> paramMap = request.queryMap().toMap();
+		String key, value, valueA, valueB;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a patient question?
+			if (!(key.startsWith("booking-section-") && key.endsWith("a"))) {
+				continue;
+			}
+
+			// get values
+			int entryNumber;
+			try {
+				entryNumber = Integer.parseInt(key.substring(16, key.length() - 1));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+			valueA = request.queryParams("booking-section-" + entryNumber + "a");
+			valueB = request.queryParams("booking-section-" + entryNumber + "b").replace(" ", "");
+
+			// skip blanks
+			if (valueB.length() == 0) {
+				continue;
+			}
+
+			// validation
+			if (!valueA.equals("busy") && !valueB.equals("wait")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+			if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+
+			// add booking pattern sections to the entity
+			bps = new BookingPatternSection();
+			bps.setTherapy(entity);
+			bps.setBusy(valueA.equals("busy"));
+			bps.setSequence(entryNumber);
+			if (valueB.contains("-")) {
+				String[] valueBParts = valueB.split("\\-");
+				bps.setMinLength(Integer.parseInt(valueBParts[0]));
+				bps.setMaxLength(Integer.parseInt(valueBParts[1]));
+			} else {
+				bps.setMinLength(Integer.parseInt(valueB));
+				bps.setMaxLength(Integer.parseInt(valueB));
+			}
+			AbstractEntityUtils.createEntity(BookingPatternSection.class, bps);
+		}
+
 		// camera types
 		entity.clearCameraTypes();
-		Map<String, String[]> paramMap = request.queryMap().toMap();
-		String key, value;
 		CameraType ct;
 		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
 			// get key value
@@ -521,10 +576,19 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 
+			// get question number
+			int questionNumber;
+			try {
+				questionNumber = Integer.parseInt(key.substring(17));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+
 			// add questions to the entity
 			pq = new PatientQuestion();
 			pq.setDescription(entry.getValue()[0]);
 			pq.setTherapy(entity);
+			pq.setSequence(questionNumber);
 			AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
 		}
 
