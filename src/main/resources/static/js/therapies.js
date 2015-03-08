@@ -107,25 +107,7 @@ var validateEditForm = function (formObject) {
 	return !error;
 };
 
-$(document).ready(function () {
-	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
-
-	// link for adding booking sections
-	$('.add-booking-section').click(function () {
-		var targetDiv = $('.booking-pattern-sections');
-		var childCount = targetDiv.children('div.row').length;
-		targetDiv.append('<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + childCount + 'a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + childCount + 'b" placeholder="Leave blank if not required."/></div></div>');
-	});
-
-	// link for adding patient questions
-	$('.add-patient-question').click(function () {
-		var targetDiv = $('.patient-questions');
-		var childCount = targetDiv.children('input').length;
-		targetDiv.append('<input class="form-control stacked-form-control" type="text" name="patient-question-' + childCount + '" placeholder="Leave blank if not required."/>');
-	});
-});
-
-customFieldPrefill = function (key, data) {
+var customFieldPrefill = function (key, data) {
 	var output, i;
 
 	if (key.substr(7) == 'patient-questions') {
@@ -154,3 +136,23 @@ customFieldPrefill = function (key, data) {
 
 	return "";
 };
+
+var onFormLoadSetup = function() {
+	// link for adding booking sections
+	$('.add-booking-section').unbind('click').click(function () {
+		var targetDiv = $('.booking-pattern-sections');
+		var childCount = targetDiv.children('div.row').length;
+		targetDiv.append('<div class="row"><div class="col-sm-3"><select class="form-control stacked-form-control" name="booking-section-' + childCount + 'a"><option value="busy">Busy</option><option value="wait">Wait</option></select></div><div class="col-sm-9"><input class="form-control stacked-form-control" type="text" name="booking-section-' + childCount + 'b" placeholder="Leave blank if not required."/></div></div>');
+	});
+
+	// link for adding patient questions
+	$('.add-patient-question').unbind('click').click(function () {
+		var targetDiv = $('.patient-questions');
+		var childCount = targetDiv.children('input').length;
+		targetDiv.append('<input class="form-control stacked-form-control" type="text" name="patient-question-' + childCount + '" placeholder="Leave blank if not required."/>');
+	});
+};
+
+$(document).ready(function () {
+	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+});
