@@ -14,3 +14,8 @@ Created by Fares Alaboud on 03/03/2015
 .table-scrollable thead {
     background-color: #eeeeee;
 }
+
+.data-tables-icon-field {
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+}
