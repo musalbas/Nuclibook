@@ -39,3 +39,7 @@ var validateEditForm = function (formObject) {
 
 	return !error;
 };
+
+$(document).ready(function () {
+	setUpDataTable('#staff-availabilities', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+});
