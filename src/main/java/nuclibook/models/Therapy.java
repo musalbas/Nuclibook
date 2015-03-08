@@ -170,6 +170,14 @@ public class Therapy implements Renderable {
 				pq = iterator.next();
 				if (pq != null) output.add(pq);
 			}
+
+			// sort by sequence
+			output.sort(new Comparator<PatientQuestion>() {
+				@Override
+				public int compare(PatientQuestion o1, PatientQuestion o2) {
+					return o1.getSequence() - o2.getSequence();
+				}
+			});
 		} finally {
 			iterator.closeQuietly();
 		}

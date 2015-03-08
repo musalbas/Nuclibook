@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 
@@ -575,10 +576,19 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 
+			// get question number
+			int questionNumber;
+			try {
+				questionNumber = Integer.parseInt(key.substring(17));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+
 			// add questions to the entity
 			pq = new PatientQuestion();
 			pq.setDescription(entry.getValue()[0]);
 			pq.setTherapy(entity);
+			pq.setSequence(questionNumber);
 			AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
 		}
 
