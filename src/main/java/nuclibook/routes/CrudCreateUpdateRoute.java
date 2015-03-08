@@ -461,10 +461,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
 		entity.setTracerRequired(tracer);
 
-		// name
+		// tracer dose
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
-		// if it's new, we'll save it here so that the permissions can be added properly
+		// if it's new, we'll save it here so that foreign collections can be added properly
 		if (createNew) {
 			AbstractEntityUtils.createEntity(Therapy.class, entity);
 		}
@@ -491,7 +491,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			}
 
 			// get values
-			String entryNumber = key.substring(16, key.length() - 1);
+			int entryNumber;
+			try {
+				entryNumber = Integer.parseInt(key.substring(16, key.length() - 1));
+			} catch (NumberFormatException e) {
+				continue;
+			}
 			valueA = request.queryParams("booking-section-" + entryNumber + "a");
 			valueB = request.queryParams("booking-section-" + entryNumber + "b");
 
@@ -501,6 +506,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			bps = new BookingPatternSection();
 			bps.setTherapy(entity);
 			bps.setBusy(valueA.equals("busy"));
+			bps.setSequence(entryNumber);
 			if (valueB.contains("-")) {
 				String[] valueBParts = valueB.split("\\-");
 				bps.setMinLength(Integer.parseInt(valueBParts[0]));

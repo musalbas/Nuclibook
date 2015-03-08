@@ -21,6 +21,9 @@ public class BookingPatternSection {
 	@DatabaseField
 	private int maxLength;
 
+	@DatabaseField
+	private int sequence;
+
 	public BookingPatternSection() {
 	}
 
@@ -62,5 +65,13 @@ public class BookingPatternSection {
 
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
+	}
+
+	public int getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 }

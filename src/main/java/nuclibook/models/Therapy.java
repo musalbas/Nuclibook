@@ -10,6 +10,7 @@ import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,6 +74,14 @@ public class Therapy implements Renderable {
 				bps = iterator.next();
 				if (bps != null) output.add(bps);
 			}
+
+			// sort by sequence
+			output.sort(new Comparator<BookingPatternSection>() {
+				@Override
+				public int compare(BookingPatternSection o1, BookingPatternSection o2) {
+					return o1.getSequence() - o2.getSequence();
+				}
+			});
 		} finally {
 			iterator.closeQuietly();
 		}
