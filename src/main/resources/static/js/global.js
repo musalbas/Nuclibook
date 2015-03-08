@@ -18,13 +18,13 @@ $(document).ready(function () {
 		subMenuToggle($(this).parent());
 	});
 
-    $("#edit-btn").hover(function(){
+    $(".edit-button").hover(function(){
         $(this).addClass('btn-warning')
     }, function(){
         $(this).removeClass('btn-warning')
     });
 
-    $("#delete-btn").hover(function(){
+    $(".delete-button").hover(function(){
         $(this).addClass('btn-danger')
     }, function(){
         $(this).removeClass('btn-danger')
