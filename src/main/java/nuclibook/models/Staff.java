@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
+import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -59,7 +60,7 @@ public class Staff implements Renderable {
 	private String passwordSalt3;
 
 	@DatabaseField
-	private Date passwordChangeDate;
+	private String passwordChangeDate;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
@@ -117,12 +118,12 @@ public class Staff implements Renderable {
 
 	/* PASSWORDS */
 
-	public Date getPasswordChangeDate() {
-		return this.passwordChangeDate;
+	public DateTime getPasswordChangeDate() {
+		return new DateTime(this.passwordChangeDate);
 	}
 
 	private void updatePasswordChangeDate() {
-		this.passwordChangeDate = new Date();
+		this.passwordChangeDate = new DateTime().toString();
 	}
 
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
