@@ -59,6 +59,7 @@
 				<form class="form-horizontal edit-form">
 					<input type="hidden" name="entity-type" value="therapy"/>
 					<input type="hidden" name="entity-id" value="0"/>
+
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">Name</label>
 						<div class="col-sm-9">
@@ -66,13 +67,28 @@
 							<p class="help-block">Enter the name of the therapy.</p>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="default-duration" class="col-sm-3 control-label">Default Duration</label>
+
+					<div class="form-group patient-question-section">
+						<label class="col-sm-3 control-label">Booking Pattern</label>
 						<div class="col-sm-9">
-							<input class="form-control" type="text" name="default-duration" id="default-duration"/>
-							<p class="help-block">This will be measured in minutes. Please enter a number.</p>
+							<div class="booking-pattern-sections">
+								<div class="row">
+									<div class="col-sm-3">
+										<select class="form-control stacked-form-control" name="booking-section-0a">
+											<option value="busy">Busy</option>
+											<option value="wait">Wait</option>
+										</select>
+									</div>
+									<div class="col-sm-9">
+										<input class="form-control stacked-form-control" type="text" name="booking-section-0b" placeholder="Leave blank if not required."/>
+									</div>
+								</div>
+							</div>
+							<p class="help-block"><a href="javascript:;" class="add-booking-section"><span class="fa fa-plus"></span> Add Section</a></p>
+							<p class="help-block">Enter times in minutes; enter ranges as &quot;15-20&quot;.</p>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label for="tracer-required-id" class="col-sm-3 control-label">Tracer Required</label>
 						<div class="col-sm-9">
@@ -94,6 +110,7 @@
 							<p class="help-block">Select the tracer required for this therapy.</p>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label for="tracer-dose" class="col-sm-3 control-label">Tracer Dose</label>
 						<div class="col-sm-9">
@@ -101,6 +118,7 @@
 							<p class="help-block">Enter the required dose for this therapy.</p>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Camera Types</label>
 						<div class="col-sm-9 container">
@@ -126,9 +144,9 @@
 						<label class="col-sm-3 control-label">Patient Questions</label>
 						<div class="col-sm-9">
 							<div class="patient-questions">
-								<input class="form-control patient-question-input" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>
+								<input class="form-control stacked-form-control" type="text" name="patient-question-0" placeholder="Leave blank if not required."/>
 							</div>
-							<br/><a href="javascript:;" class="add-question"><span class="fa fa-plus"></span> Add Question</a>
+							<p class="help-block"><a href="javascript:;" class="add-patient-question"><span class="fa fa-plus"></span> Add Question</a></p>
 						</div>
 					</div>
 				</form>

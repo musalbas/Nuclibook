@@ -1,4 +1,4 @@
-var editModal, deleteModal, loadingModal;
+var editModal, deleteModal, loadingModal, originalEditFormHtml;
 
 $.fn.serializeObject = function () {
 	var o = {};
@@ -22,6 +22,9 @@ $(document).ready(function (e) {
 	deleteModal = $('.delete-modal');
 	loadingModal = $('.loading-modal');
 
+	// save modal content
+	originalEditFormHtml = editModal.html();
+
 	// link up clickable items
 	$('.create-button').click(function (e) {
 		openEditModal(0);
@@ -33,9 +36,15 @@ $(document).ready(function (e) {
 		openDeleteModal($(this).attr('data-id'));
 	});
 
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
+
 });
 
 function openEditModal(objectId) {
+	// reset HTML
+	editModal.html(originalEditFormHtml);
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
+
 	// find form
 	var form = editModal.find('.edit-form');
 	form.find('input[name=entity-id]').val(objectId);
