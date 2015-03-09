@@ -8,14 +8,12 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
-import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private boolean createNew = false;
-
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -241,10 +239,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
-        //check if staff username is taken
-        if(staffUsernameExists(request.queryParams("username"))){
-            return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
-        }
+		// check if staff username is taken
+		if (StaffUtils.usernameExists(request.queryParams("username"))) {
+			return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
+		}
 
 		// create and set ID
 		Staff entity;
@@ -631,10 +629,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
-    private boolean staffUsernameExists(String username){
-        return (StaffUtils.getStaffByUsername(username) != null);
-    }
 
 	private enum Status {
 		OK,

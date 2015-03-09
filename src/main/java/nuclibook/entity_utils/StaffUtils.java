@@ -47,7 +47,7 @@ public class StaffUtils extends AbstractEntityUtils {
 	 * @param endDate   the end date of the queried time interval
 	 * @return true if the staff member is available within the specified period; false otherwise
 	 */
-	public boolean isAvailable(Staff staff, DateTime startDate, DateTime endDate) {
+	public static boolean isAvailable(Staff staff, DateTime startDate, DateTime endDate) {
 		int staffId = staff.getId();
 
 		// endDate can't be earlier than startDate
@@ -90,7 +90,8 @@ public class StaffUtils extends AbstractEntityUtils {
 		}
 
         /* BOOKINGS */
-		List<BookingStaff> bookingStaff = BookingStaffUtils.getBookingStaffByStaffId(staffId);
+		// TODO: update to allow for new booking model
+		/*List<BookingStaff> bookingStaff = BookingStaffUtils.getBookingStaffByStaffId(staffId);
 		Booking booking;
 		for (BookingStaff bs : bookingStaff) {
 			booking = bs.getBooking();
@@ -100,8 +101,13 @@ public class StaffUtils extends AbstractEntityUtils {
 					|| (booking.getEnd().isAfter(startDate) && booking.getEnd().isBefore(endDate))) {
 				return false; // not allowed to overlap with ANY bookings
 			}
-		}
+		}*/
 
 		return true;
 	}
+
+	public static boolean usernameExists(String username) {
+		return (getStaffByUsername(username) != null);
+	}
+
 }
