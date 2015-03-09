@@ -16,7 +16,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	private boolean createNew = false;
 
-	private String customError = null;
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -127,8 +126,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// custom error
-		if (entityPair.getKey() == Status.CUSTOM_ERROR && customError != null) {
-			return "CUSTOM:" + customError;
+		if (entityPair.getKey() == Status.CUSTOM_ERROR) {
+			return "CUSTOM:" + entityPair.getValue();
 		}
 
 		// fail safe
@@ -241,6 +240,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				|| !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
+
+        //check if staff username is taken
+        if(staffUsernameExists(request.queryParams("username"))){
+            return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
+        }
 
 		// create and set ID
 		Staff entity;
@@ -356,12 +360,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// check against current password
 		try {
 			if (SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
-				customError = "Your current password was incorrect";
-				return new Pair<>(Status.CUSTOM_ERROR, null);
+				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 			}
 		} catch (CannotHashPasswordException e) {
-			customError = "Your current password was incorrect EXCEPTION";
-			return new Pair<>(Status.CUSTOM_ERROR, null);
+			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect EXCEPTION");
 		}
 
 		// validation
@@ -629,6 +631,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private boolean staffUsernameExists(String username){
+        return (StaffUtils.getStaffByUsername(username) != null);
+    }
 
 	private enum Status {
 		OK,
