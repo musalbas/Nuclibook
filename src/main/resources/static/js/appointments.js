@@ -81,7 +81,6 @@ $(document).ready(function () {
                         },
 
                         defaultView: 'agendaWeek',
-                        editable: true,
                         selectable: true,
                         selectHelper: true,
 
@@ -104,7 +103,9 @@ $(document).ready(function () {
                         },
 
                         events: appointmentsArray,
-                        timeFormat: 'H(:mm)'
+                        timeFormat: 'H(:mm)',
+                        weekends : false,
+                        slotMinutes : 15
 
                     });
 
