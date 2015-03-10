@@ -357,7 +357,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// check against current password
 		try {
-			if (SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
+			if (!SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
 				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 			}
 		} catch (CannotHashPasswordException e) {
