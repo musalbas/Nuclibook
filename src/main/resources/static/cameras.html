@@ -28,10 +28,15 @@
 				<tr>
 					<td>#camera-type-label</td>
 					<td>#room-number</td>
-					<td>
+                    <td>
+                        #[ifperm: EDIT_CAMERAS]
 						<button class="btn edit-button" data-id="#id">Edit</button>
-						<button class="btn delete-button" data-id="#id">Delete</button>
-					</td>
+                        <button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_CAMERAS]
+                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
+                    </td>
 				</tr>
 				#[/each]
 
