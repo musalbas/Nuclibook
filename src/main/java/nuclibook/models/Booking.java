@@ -9,7 +9,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -32,6 +31,9 @@ public class Booking {
 
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingSection> bookingSections;
+
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<BookingStaff> bookingStaff;
 
     @DatabaseField(width = 16)
     private String status;
@@ -126,6 +128,30 @@ public class Booking {
 			while (iterator.hasNext()) {
 				bs = iterator.next();
 				if (bs != null) output.add(bs);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
+	}
+
+	/**
+	 * Get the list of staff for this booking.
+	 * @return The list of staff for this booking.
+	 */
+	public List<Staff> getStaff() {
+		ArrayList<Staff> output = new ArrayList<>();
+		try {
+			bookingStaff.refreshCollection();
+		} catch (SQLException | NullPointerException e) {
+			return output;
+		}
+		CloseableIterator<BookingStaff> iterator = bookingStaff.closeableIterator();
+		try {
+			BookingStaff bs;
+			while (iterator.hasNext()) {
+				bs = iterator.next();
+				if (bs != null) output.add(bs.getStaff());
 			}
 		} finally {
 			iterator.closeQuietly();
