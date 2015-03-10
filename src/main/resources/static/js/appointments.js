@@ -70,46 +70,56 @@ $(document).ready(function () {
                     }
                 }
                 // show calendar
-                var calendar = $('.calendar').show().fullCalendar({
-                    header: {
 
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'agendaWeek'
+                var calendar =
+                    $('.calendar').show().fullCalendar({
+                        header: {
 
-                    },
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'agendaWeek'
 
-                    defaultView: 'agendaWeek',
-                    editable: true,
-                    selectable: true,
-                    selectHelper: true,
+                        },
+
+                        defaultView: 'agendaWeek',
+                        selectable: true,
+                        selectHelper: true,
 
 
-                    select: function (start, end, allDay) {
-                        var title = prompt('Event Title:');
+                        select: function (start, end, allDay) {
+                            var title = prompt('Event Title:');
 
-                        if (title) {
-                            calendar.fullCalendar('renderEvent',
-                                {
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                },
-                                true // make the event "stick"
-                            );
-                        }
-                        calendar.fullCalendar('unselect');
-                    },
+                            if (title) {
+                                calendar.fullCalendar('renderEvent',
+                                    {
+                                        title: title,
+                                        start: start,
+                                        end: end,
+                                        allDay: allDay
+                                    },
+                                    true // make the event "stick"
+                                );
+                            }
+                            calendar.fullCalendar('unselect');
+                        },
 
-                    events: appointmentsArray,
-                    timeFormat: 'H(:mm)'
+                        events: appointmentsArray,
+                        timeFormat: 'H(:mm)',
+                        weekends: false,
+                        slotMinutes: 15
 
-                });
-            });
+                    });
 
-        // datatables
-        setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
-        setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+
+            }
+        ).fail(function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+                console.log("failed to retrieve bookings");
+            }
+        );
     });
+
+    // datatables
+    setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+    setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 });
