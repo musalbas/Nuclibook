@@ -259,7 +259,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// password
 		if (request.queryParams("password") != null && request.queryParams("password").length() > 0) {
 			// password strength validation
-			String passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+			String passwordError = null;
+			try {
+				passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+			} catch (CannotHashPasswordException e) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
 			if (passwordError != null) {
 				return new Pair<>(Status.CUSTOM_ERROR, passwordError);
 			}
@@ -374,7 +379,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// password strength validation
-		String passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+		String passwordError = null;
+		try {
+			passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+		} catch (CannotHashPasswordException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
 		if (passwordError != null) {
 			return new Pair<>(Status.CUSTOM_ERROR, passwordError);
 		}

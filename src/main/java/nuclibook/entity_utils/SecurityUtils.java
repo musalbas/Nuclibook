@@ -63,9 +63,11 @@ public class SecurityUtils {
 		return true;
 	}
 
-	public static String validateNewPassword(Staff staff, String password) {
+	public static String validateNewPassword(Staff staff, String password) throws CannotHashPasswordException {
 		if (password.length() < 6) {
 			return "Password must be at least 6 characters long.";
+		} else if (staff.isInLastPasswords(password)) {
+			return "Password must not be the same as the last few passwords.";
 		}
 
 		return null;
