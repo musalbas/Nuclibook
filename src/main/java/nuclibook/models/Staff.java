@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
+import org.joda.time.DateTime;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -15,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +40,27 @@ public class Staff implements Renderable {
 
 	@DatabaseField
 	private String passwordSalt;
+
+	@DatabaseField
+	private String passwordHash1;
+
+	@DatabaseField
+	private String passwordSalt1;
+
+	@DatabaseField
+	private String passwordHash2;
+
+	@DatabaseField
+	private String passwordSalt2;
+
+	@DatabaseField
+	private String passwordHash3;
+
+	@DatabaseField
+	private String passwordSalt3;
+
+	@DatabaseField
+	private String passwordChangeDate;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<StaffAvailability> availabilities;
@@ -95,12 +118,24 @@ public class Staff implements Renderable {
 
 	/* PASSWORDS */
 
+	public DateTime getPasswordChangeDate() {
+		return new DateTime(this.passwordChangeDate);
+	}
+
+	private void updatePasswordChangeDate() {
+		this.passwordChangeDate = new DateTime().toString();
+	}
+
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
+		return checkPassword(this.passwordSalt, this.passwordHash, password);
+	}
+
+	public boolean checkPassword(String passwordSalt, String passwordHash, String password) throws CannotHashPasswordException {
 		// Add salt to password
-		password = this.passwordSalt + password;
+		password = passwordSalt + password;
 
 		// Check password
-		return generateHash(password).equals(this.passwordHash);
+		return generateHash(password).equals(passwordHash);
 	}
 
 	public void setPassword(String password) throws CannotHashPasswordException {
@@ -114,9 +149,34 @@ public class Staff implements Renderable {
 		// Generate password hash
 		String hash = generateHash(password);
 
+		// Update last 3 passwords
+		this.passwordSalt3 = this.passwordSalt2;
+		this.passwordHash3 = this.passwordHash2;
+
+		this.passwordSalt2 = this.passwordSalt1;
+		this.passwordHash2 = this.passwordHash1;
+
+		this.passwordSalt1 = this.passwordSalt;
+		this.passwordHash1 = this.passwordHash;
+
 		// Update fields
 		this.passwordSalt = salt;
 		this.passwordHash = hash;
+
+		// Update password change date
+		updatePasswordChangeDate();
+	}
+
+	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
+		// Check that the password is not equivalent to the past 3 passwords
+		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
+				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
+				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)
+				|| checkPassword(password)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private String generateHash(String text) throws CannotHashPasswordException {

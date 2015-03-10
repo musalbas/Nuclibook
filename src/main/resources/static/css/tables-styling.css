@@ -1,0 +1,21 @@
+/*
+Created by Fares Alaboud on 03/03/2015
+*/
+
+.dataTables_length select {
+    display: inline;
+}
+
+.dataTables_filter label input {
+    display: inline;
+    margin-left: 20px;
+}
+
+.table-scrollable thead {
+    background-color: #eeeeee;
+}
+
+.data-tables-icon-field {
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+}

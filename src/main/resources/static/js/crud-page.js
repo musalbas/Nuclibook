@@ -1,4 +1,4 @@
-var editModal, deleteModal, loadingModal;
+var editModal, deleteModal, loadingModal, originalEditFormHtml;
 
 $.fn.serializeObject = function () {
 	var o = {};
@@ -22,6 +22,9 @@ $(document).ready(function (e) {
 	deleteModal = $('.delete-modal');
 	loadingModal = $('.loading-modal');
 
+	// save modal content
+	originalEditFormHtml = editModal.html();
+
 	// link up clickable items
 	$('.create-button').click(function (e) {
 		openEditModal(0);
@@ -33,9 +36,15 @@ $(document).ready(function (e) {
 		openDeleteModal($(this).attr('data-id'));
 	});
 
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
+
 });
 
 function openEditModal(objectId) {
+	// reset HTML
+	editModal.html(originalEditFormHtml);
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
+
 	// find form
 	var form = editModal.find('.edit-form');
 	form.find('input[name=entity-id]').val(objectId);
@@ -58,6 +67,12 @@ function openEditModal(objectId) {
 		if (typeof(data) != 'undefined') {
 			var input, select;
 			for (var key in data) {
+				// custom fields
+				if (key.substr(0, 7) == 'CUSTOM:') {
+					form.find('.' + key.substr(7)).html(customFieldPrefill(key, data[key]));
+					continue;
+				}
+
 				// basic strings
 				if (typeof data[key] == 'string') {
 					input = form.find('input[name=' + key + ']');
@@ -67,6 +82,7 @@ function openEditModal(objectId) {
 						select = form.find('select[name=' + key + ']');
 						select.val(data[key]).attr('selected', 'selected');
 					}
+					continue;
 				}
 
 				// id lists
@@ -74,6 +90,7 @@ function openEditModal(objectId) {
 					for (var i = 0; i < data[key].length; ++i) {
 						$('.crud-list-prefill-' + key + '[value=' + data[key][i] + ']').attr('checked', 'checked')
 					}
+					continue;
 				}
 			}
 		}
@@ -117,6 +134,10 @@ function openEditModal(objectId) {
 				} else if (result == 'no_permission') {
 					disableLoading(function () {
 						toastr.error('You do not have permission to edit or create this item');
+					});
+				} else if (result.substr(0, 7) == 'CUSTOM:') {
+					disableLoading(function () {
+						toastr.error(result.substr(7));
 					});
 				} else {
 					disableLoading(function () {

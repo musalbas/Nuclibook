@@ -62,21 +62,36 @@
 						<label for="name" class="col-sm-3 control-label">Name</label>
 						<div class="col-sm-9">
 							<input class="form-control" type="text" name="name" id="name"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<p class="help-block"> Enter the patient's full name.</p>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="hospital-number" class="col-sm-3 control-label">Hospital Number</label>
 						<div class="col-sm-9">
 							<input class="form-control" type="text" name="hospital-number" id="hospital-number"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<p class="help-block">Enter the patient's hospital number.</p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="date-of-birth" class="col-sm-3 control-label">Date of Birth</label>
+						<label class="col-sm-3 control-label">Date of Birth</label>
 						<div class="col-sm-9">
-							<input class="form-control" type="text" name="date-of-birth" id="date-of-birth"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<div class="col-sm-4" style="padding-left: 0;">
+								<select class="form-control" name="year-of-birth" id="year-of-birth">
+									<option value="" disabled selected>Year</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<select class="form-control" name="month-of-birth" id="month-of-birth" disabled>
+									<option value="" disabled selected>Month</option>
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control" name="day-of-birth" id="day-of-birth" disabled>
+									<option value="">Day</option>
+								</select>
+							</div>
+							<br style="clear: both"/>
+							<p class="help-block">Select the patient's date of birth.</p>
 						</div>
 					</div>
 
@@ -91,6 +106,8 @@
 </div>
 
 <script src="/js/patients.js"></script>
+<script src="/js/date-selector.js"></script>
+
 
 #[def: entity-name-title = Patient]
 #[def: entity-name-body = patient]

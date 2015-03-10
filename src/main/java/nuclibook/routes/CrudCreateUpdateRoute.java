@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
 import java.util.Map;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
@@ -69,6 +70,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				dbClass = StaffAvailability.class;
 				break;
 
+			case "staff-password-change":
+				entityPair = createUpdateStaffPassword(request);
+				dbClass = Staff.class;
+				break;
+
 			case "staff-role":
 				entityPair = createUpdateStaffRole(entityId, request);
 				dbClass = StaffRole.class;
@@ -78,11 +84,15 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				entityPair = createUpdateTherapy(entityId, request);
 				dbClass = Therapy.class;
 				break;
+
+			default:
+				// un-matched type
+				return "error";
 		}
 
-		// checks if entity was created
+		// some entities handle creation internally
 		if (entityPair == null) {
-			return "error";
+			return "okay";
 		}
 
 		// save/update
@@ -111,6 +121,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// no permission
 		if (entityPair.getKey() == Status.NO_PERMISSION) {
 			return "no_permission";
+		}
+
+		// custom error
+		if (entityPair.getKey() == Status.CUSTOM_ERROR) {
+			return "CUSTOM:" + entityPair.getValue();
 		}
 
 		// fail safe
@@ -184,7 +199,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				|| request.queryParams("hospital-number").length() > 64
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
-				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
+				|| !request.queryParams("year-of-birth").matches("[0-9]{4}")
+				|| !request.queryParams("month-of-birth").matches("[0-9]{2}")
+				|| !request.queryParams("day-of-birth").matches("[0-9]{1,2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -203,7 +220,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setHospitalNumber(request.queryParams("hospital-number"));
 
 		// dob
-		entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
+		entity.setDateOfBirth(new DateTime(request.queryParams("year-of-birth") + "-" + request.queryParams("month-of-birth") + "-" + request.queryParams("day-of-birth")));
 
 		return new Pair<>(Status.OK, entity);
 	}
@@ -220,6 +237,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("username").matches("[a-zA-Z0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		// check if staff username is taken
+		if (StaffUtils.usernameExists(request.queryParams("username"))) {
+			return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
 		}
 
 		// create and set ID
@@ -329,6 +351,36 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return new Pair<>(Status.OK, entity);
 	}
 
+	private Pair<Status, Object> createUpdateStaffPassword(Request request) {
+		// this is not new
+		createNew = false;
+
+		// check against current password
+		try {
+			if (SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
+				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
+			}
+		} catch (CannotHashPasswordException e) {
+			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect EXCEPTION");
+		}
+
+		// validation
+		if (request.queryParams("password").length() < 6
+				|| !request.queryParams("password").equals(request.queryParams("password_check"))) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		// change current staff password
+		Staff entity = SecurityUtils.getCurrentUser();
+		try {
+			entity.setPassword(request.queryParams("password"));
+		} catch (CannotHashPasswordException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+
+		return new Pair<>(Status.OK, entity);
+	}
+
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// permission
 		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
@@ -391,7 +443,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (request.queryParams("name").length() > 64
 				|| request.queryParams("tracer-dose").length() > 32
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("default-duration").matches("[0-9]+")
 				|| !request.queryParams("tracer-dose").matches("[a-zA-Z0-9\\-\\. ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -407,25 +458,142 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// name
 		entity.setName(request.queryParams("name"));
 
-		// default-duration
-		try {
-			entity.setDuration(Integer.parseInt(request.queryParams("default-duration")));
-		} catch (NumberFormatException e) {
-			entity.setDuration(0);
-		}
-
 		// tracer required
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer-required-id"));
 		entity.setTracerRequired(tracer);
 
-		// name
+		// tracer dose
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
-		// camera type
-		CameraType type = CameraTypeUtils.getCameraType(request.queryParams("camera-type-id"));
-		entity.setCameraTypeRequired(type);
+		// if it's new, we'll save it here so that foreign collections can be added properly
+		if (createNew) {
+			AbstractEntityUtils.createEntity(Therapy.class, entity);
+		}
 
-		return new Pair<>(Status.OK, entity);
+		// clear current booking pattern
+		List<BookingPatternSection> currentBookingPattern = entity.getBookingPatternSections();
+		if (currentBookingPattern != null) {
+			for (BookingPatternSection bps : currentBookingPattern) {
+				AbstractEntityUtils.deleteEntity(BookingPatternSection.class, bps);
+			}
+		}
+
+		// booking pattern
+		BookingPatternSection bps;
+		Map<String, String[]> paramMap = request.queryMap().toMap();
+		String key, value, valueA, valueB;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a patient question?
+			if (!(key.startsWith("booking-section-") && key.endsWith("a"))) {
+				continue;
+			}
+
+			// get values
+			int entryNumber;
+			try {
+				entryNumber = Integer.parseInt(key.substring(16, key.length() - 1));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+			valueA = request.queryParams("booking-section-" + entryNumber + "a");
+			valueB = request.queryParams("booking-section-" + entryNumber + "b").replace(" ", "");
+
+			// skip blanks
+			if (valueB.length() == 0) {
+				continue;
+			}
+
+			// validation
+			if (!valueA.equals("busy") && !valueB.equals("wait")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+			if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+
+			// add booking pattern sections to the entity
+			bps = new BookingPatternSection();
+			bps.setTherapy(entity);
+			bps.setBusy(valueA.equals("busy"));
+			bps.setSequence(entryNumber);
+			if (valueB.contains("-")) {
+				String[] valueBParts = valueB.split("\\-");
+				bps.setMinLength(Integer.parseInt(valueBParts[0]));
+				bps.setMaxLength(Integer.parseInt(valueBParts[1]));
+			} else {
+				bps.setMinLength(Integer.parseInt(valueB));
+				bps.setMaxLength(Integer.parseInt(valueB));
+			}
+			AbstractEntityUtils.createEntity(BookingPatternSection.class, bps);
+		}
+
+		// camera types
+		entity.clearCameraTypes();
+		CameraType ct;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a camera type
+			if (!key.startsWith("camera-type-")) {
+				continue;
+			}
+
+			// get permission
+			key = key.substring(12);
+			ct = CameraTypeUtils.getCameraType(key);
+			if (ct != null) entity.addCameraType(ct);
+		}
+
+		// clear current questions
+		List<PatientQuestion> currentQuestions = entity.getPatientQuestions();
+		if (currentQuestions != null) {
+			for (PatientQuestion pq : currentQuestions) {
+				AbstractEntityUtils.deleteEntity(PatientQuestion.class, pq);
+			}
+		}
+
+		// patient questions
+		PatientQuestion pq;
+		for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+			// get key value
+			key = entry.getKey();
+
+			// is this a patient question?
+			if (!key.startsWith("patient-question-")) {
+				continue;
+			}
+
+			// get value and check length
+			value = entry.getValue()[0];
+			if (value.length() == 0) {
+				continue;
+			}
+			if (value.length() > 256) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+
+			// get question number
+			int questionNumber;
+			try {
+				questionNumber = Integer.parseInt(key.substring(17));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+
+			// add questions to the entity
+			pq = new PatientQuestion();
+			pq.setDescription(entry.getValue()[0]);
+			pq.setTherapy(entity);
+			pq.setSequence(questionNumber);
+			AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
+		}
+
+		// don't let it be created again if it's new
+		return createNew ? null : new Pair<>(Status.OK, entity);
 	}
 
 	private Pair<Status, Object> createUpdateTracer(int entityId, Request request) {
@@ -465,6 +633,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	private enum Status {
 		OK,
 		FAILED_VALIDATION,
-		NO_PERMISSION
+		NO_PERMISSION,
+		CUSTOM_ERROR
 	}
 }

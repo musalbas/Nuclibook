@@ -27,8 +27,8 @@
 				<tr>
 					<td>#label</td>
 					<td>
-						<button class="btn edit-button" data-id="#id">Edit</button>
-						<button class="btn delete-button" data-id="#id">Delete</button>
+						<button class="btn edit-button" id="edit-btn" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
+						<button class="btn delete-button" id="delete-btn" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
 					</td>
 				</tr>
 				#[/each]
@@ -58,7 +58,7 @@
 						<label for="label" class="col-sm-3 control-label">Label</label>
 						<div class="col-sm-9">
 							<input class="form-control" type="text" name="label" id="label"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<p class="help-block">Enter the name of the camera type.</p>
 						</div>
 					</div>
 				</form>
