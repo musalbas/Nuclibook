@@ -39,6 +39,8 @@ public class CalendarRoute extends DefaultRoute {
         //TODO: magician, pls provide ;(((
         List<Booking> bookings = null;//BookingUtils.getBookingsByDateRange(startDate, endDate);
 
+        //TODO create a HashMap for [Day, List<Booking] pairs
+
         StringBuilder jsonOutput = new StringBuilder();
         jsonOutput.append("{ 'week': [");
 
