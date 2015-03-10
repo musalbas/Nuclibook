@@ -28,8 +28,13 @@
 					<td>#label</td>
 					<td>#HTMLOKAY:permission-summary</td>
 					<td>
+                        #[ifperm: EDIT_STAFF_ROLES]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_STAFF_ROLES]
+                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
 					</td>
 				</tr>
 				#[/each]

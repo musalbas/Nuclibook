@@ -35,8 +35,13 @@
 					<td>#from</td>
 					<td>#to</td>
 					<td>
+                        #[ifperm: EDIT_STAFF_ABSENCES]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_STAFF_ABSENCES]
+                        YOUR ROLE PERMISSIONS DOES NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
 					</td>
 				</tr>
 
