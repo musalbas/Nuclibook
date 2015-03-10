@@ -41,18 +41,48 @@ $(document).ready(function () {
 		$('#go-back-to-select-therapy').hide();
 
 		// show calendar
-		$('.calendar').show().fullCalendar({
-			header: {
 
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
+        var calendar  =
+		$('.calendar').show().fullCalendar({
+            header: {
+
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+
+            },
 
             defaultView: 'agendaWeek',
-			editable: true
-		});
+            editable: true,
+            selectable:true,
+            selectHelper: true,
+
+            select: function(start, end, allDay)
+            {
+                var title = prompt('Event Title:');
+
+                if (title)
+                {
+                    calendar.fullCalendar('renderEvent',
+                        {
+                            title: title,
+                            start: start,
+                            end: end,
+                            allDay: allDay
+                        },
+                        true // make the event "stick"
+                    );
+                }
+                calendar.fullCalendar('unselect');
+            }
+
+        });
+
+
 	});
+
+
+
 
 	// datatables
 	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
