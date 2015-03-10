@@ -64,7 +64,7 @@ public class SecurityUtils {
 	}
 
 	public static String validateNewPassword(Staff staff, String password) {
-		if (password.length() < 60) {
+		if (password.length() < 6) {
 			return "Password must be at least 6 characters long.";
 		}
 
