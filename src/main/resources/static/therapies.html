@@ -5,9 +5,11 @@
 ##_header.html
 <div class="row">
 	<div class="col-lg-12 col-md-12">
+        #[ifperm: EDIT_THERAPIES]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Therapy</button>
 		</div>
+        #[/ifperm]
 		<table class="table table-bordered table-hover" id="therapies-table">
 			<thead>
 				<tr>
@@ -36,7 +38,7 @@
 						<button class="btn delete-button" data-id="#id">Delete</button>
                         #[/ifperm]
                         #[!ifperm: EDIT_THERAPIES]
-                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        -
                         #[/!ifperm]
                     </td>
 				</tr>
