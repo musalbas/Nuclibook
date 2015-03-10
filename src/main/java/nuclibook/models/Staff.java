@@ -11,7 +11,6 @@ import nuclibook.server.Renderable;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
-import org.joda.time.Period;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -332,10 +331,4 @@ public class Staff implements Renderable {
 			}
 		};
 	}
-
-    public String getDaysRemainingToPasswordChangePrompt() {
-        Duration duration = new Duration(getPasswordChangeDate(), new DateTime());
-
-        return new Long(90 - (new Duration(getPasswordChangeDate(), new DateTime()).getStandardDays())).toString();
-    }
 }
