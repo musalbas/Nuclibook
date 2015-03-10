@@ -14,10 +14,10 @@ public class BookingSection {
 	private Booking booking;
 
 	@DatabaseField
-	private String start;
+	private long start;
 
 	@DatabaseField
-	private String end;
+	private long end;
 
 	public BookingSection() {
 	}
@@ -40,6 +40,7 @@ public class BookingSection {
 
 	/**
 	 * Get the booking section start time.
+	 *
 	 * @return The booking start time.
 	 */
 	public DateTime getStart() {
@@ -48,14 +49,16 @@ public class BookingSection {
 
 	/**
 	 * Set the booking section start time.
+	 *
 	 * @param start The booking start time.
 	 */
 	public void setStart(DateTime start) {
-		this.start = start.toString();
+		this.start = start.getMillis();
 	}
 
 	/**
 	 * Get the booking section end time.
+	 *
 	 * @return The booking end time.
 	 */
 	public DateTime getEnd() {
@@ -64,10 +67,11 @@ public class BookingSection {
 
 	/**
 	 * Set the booking section end time.
+	 *
 	 * @param end The booking end time.
 	 */
 	public void setEnd(DateTime end) {
-		this.end = end.toString();
+		this.end = end.getMillis();
 	}
 
 }

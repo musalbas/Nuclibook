@@ -119,4 +119,16 @@ public abstract class AbstractEntityUtils {
 			}
 		}
 	}
+
+	public static <E> Dao<E, Integer> acquireDao(Class dbClass) {
+		ConnectionSource conn = SqlServerConnection.acquireConnection();
+		if (conn != null) {
+			try {
+				return DaoManager.createDao(conn, dbClass);
+			} catch (SQLException e) {
+				// fail
+			}
+		}
+		return null;
+	}
 }
