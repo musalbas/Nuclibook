@@ -258,6 +258,17 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// password
 		if (request.queryParams("password") != null && request.queryParams("password").length() > 0) {
+			// password strength validation
+			String passwordError = null;
+			try {
+				passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+			} catch (CannotHashPasswordException e) {
+				return new Pair<>(Status.FAILED_VALIDATION, null);
+			}
+			if (passwordError != null) {
+				return new Pair<>(Status.CUSTOM_ERROR, passwordError);
+			}
+
 			try {
 				entity.setPassword(request.queryParams("password"));
 			} catch (CannotHashPasswordException e) {
@@ -355,23 +366,35 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// this is not new
 		createNew = false;
 
+		// get current user
+		Staff entity = SecurityUtils.getCurrentUser();
+
 		// check against current password
 		try {
-			if (SecurityUtils.getCurrentUser().checkPassword(request.queryParams("old_password"))) {
+			if (!entity.checkPassword(request.queryParams("password_old"))) {
 				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 			}
 		} catch (CannotHashPasswordException e) {
 			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect EXCEPTION");
 		}
 
-		// validation
-		if (request.queryParams("password").length() < 6
-				|| !request.queryParams("password").equals(request.queryParams("password_check"))) {
+		// password strength validation
+		String passwordError = null;
+		try {
+			passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
+		} catch (CannotHashPasswordException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+		if (passwordError != null) {
+			return new Pair<>(Status.CUSTOM_ERROR, passwordError);
+		}
+
+		// password check validation
+		if (!request.queryParams("password").equals(request.queryParams("password_check"))) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
 		// change current staff password
-		Staff entity = SecurityUtils.getCurrentUser();
 		try {
 			entity.setPassword(request.queryParams("password"));
 		} catch (CannotHashPasswordException e) {
