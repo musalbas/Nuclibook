@@ -6,9 +6,11 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
+        #[ifperm: EDIT_STAFF_ROLES]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Staff Role</button>
 		</div>
+        #[/ifperm]
 		<table class="table table-bordered table-hover" id="staff-roles-table">
 			<thead>
 				<tr>
@@ -27,8 +29,13 @@
 					<td>#label</td>
 					<td>#HTMLOKAY:permission-summary</td>
 					<td>
+                        #[ifperm: EDIT_STAFF_ROLES]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_STAFF_ROLES]
+                        -
+                        #[/!ifperm]
 					</td>
 				</tr>
 				#[/each]

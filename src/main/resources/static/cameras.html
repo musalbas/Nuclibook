@@ -6,10 +6,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
+        #[ifperm: EDIT_CAMERAS]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Camera
 			</button>
 		</div>
+        #[/ifperm]
 		<table class="table table-bordered table-hover" id="cameras-table">
 			<thead>
 				<tr>
@@ -28,10 +30,15 @@
 				<tr>
 					<td>#camera-type-label</td>
 					<td>#room-number</td>
-					<td>
+                    <td>
+                        #[ifperm: EDIT_CAMERAS]
 						<button class="btn edit-button" data-id="#id">Edit</button>
-						<button class="btn delete-button" data-id="#id">Delete</button>
-					</td>
+                        <button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_CAMERAS]
+                        -
+                        #[/!ifperm]
+                    </td>
 				</tr>
 				#[/each]
 

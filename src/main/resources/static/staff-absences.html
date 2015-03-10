@@ -13,10 +13,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
+        #[ifperm: EDIT_STAFF_ABSENCES]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Absence
 			</button>
 		</div>
+        #[/ifperm]
 		<table class="table table-bordered table-hover" id="staff-absences">
 			<thead>
 				<tr>
@@ -35,8 +37,13 @@
 					<td>#from</td>
 					<td>#to</td>
 					<td>
+                        #[ifperm: EDIT_STAFF_ABSENCES]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_STAFF_ABSENCES]
+                        -
+                        #[/!ifperm]
 					</td>
 				</tr>
 

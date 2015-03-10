@@ -6,9 +6,11 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-		<div class="text-right">
+        #[ifperm: EDIT_TRACERS]
+        <div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i> &nbsp;Add Tracer</button>
 		</div>
+        #[/ifperm]
 		<table class="table table-bordered table-hover" id="tracers-table">
 			<thead>
 				<tr>
@@ -28,9 +30,14 @@
 					<td>#name</td>
 					<td>#order-time day(s)</td>
 					<td>
-						<button class="btn edit-button" data-id="#id">Edit</button>
+                        #[ifperm: EDIT_TRACERS]
+                        <button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
-					</td>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_TRACERS]
+                        -
+                        #[/!ifperm]
+                    </td>
 				</tr>
 				#[/each]
 
