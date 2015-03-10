@@ -1,30 +1,93 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
-import nuclibook.entity_utils.TracerUtils;
-import nuclibook.models.CameraType;
-import nuclibook.models.Therapy;
-import nuclibook.models.Tracer;
-import nuclibook.server.HtmlRenderer;
+import nuclibook.models.Booking;
+import nuclibook.models.BookingSection;
+import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarRoute extends DefaultRoute {
 
-	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		// necessary prelim routine
-		prepareToHandle();
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        // necessary prelim routine
+        prepareToHandle();
 
-		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return null;
-        String startDate = request.queryParams("start");
+        // security check
+        //TODO - what will this be? It's both viewing and editing an appointment, since you can book from the calendar.
 
-		return  "{\"week\" :[ { \"day\": \"2015-03-10\", \"bookings\": [ { \"patientId\": \"0000000\", \"therapyName\": \"therapy A\", \"bookingSections\": [ { \"startTime\": \"09:30\", \"endTime\": \"11:50\" }, { \"startTime\": \"14:00\", \"endTime\": \"16:55\" } ]}, { \"patientId\": \"8888888\", \"therapyName\": \"therapy B\", \"bookingSections\": [ { \"startTime\": \"17:30\", \"endTime\": \"19:30\" }, { \"startTime\": \"20:00\", \"endTime\": \"21:00\" }, { \"startTime\": \"21:00\", \"endTime\": \"21:30\" } ]} ]}, { \"day\": \"2015-03-13\", \"bookings\": [ { \"patientId\": \"0000000\", \"therapyName\": \"therapy A\", \"bookingSections\": [ { \"startTime\": \"09:30\", \"endTime\": \"11:00\" }, { \"startTime\": \"12:00\", \"endTime\": \"12:30\" } ]}, { \"patientId\": \"8888888\", \"therapyName\": \"therapy B\", \"bookingSections\": [ { \"startTime\": \"13:30\", \"endTime\": \"17:40\" }, { \"startTime\": \"17:50\", \"endTime\": \"18:50\" }, { \"startTime\": \"19:00\", \"endTime\": \"21:20\" } ]} ]} ]}";
-	}
+        if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return null;
+        String start = request.queryParams("start");
+        String end = request.queryParams("end");
+        DateTime startDate = new DateTime(start);
+        DateTime endDate = new DateTime(end);
+
+        List<DateTime> allDays = new ArrayList<DateTime>();
+        DateTime toAdd = startDate;
+        for (int i = startDate.getDayOfWeek(); i <= endDate.getDayOfWeek(); i++) {
+            allDays.add(toAdd);
+            toAdd = startDate.plusDays(1);
+        }
+
+        //magix to retrieve bookings by date
+        //TODO: magician, pls provide ;(((
+        List<Booking> bookings = null;//BookingUtils.getBookingsByDateRange(startDate, endDate);
+
+        StringBuilder jsonOutput = new StringBuilder();
+        jsonOutput.append("{ 'week': [");
+
+        //put in bookings
+        for (int i = 0; i < allDays.size(); i++) {
+            jsonOutput.append("{");
+            jsonOutput.append("'day': '" + allDays.get(i) + "'");
+            jsonOutput.append("'bookings': [");
+
+            for (int j = 0; j < bookings.size(); j++) {
+                jsonOutput.append("{");
+                jsonOutput.append("'patientId': '" + bookings.get(i).getPatient().getId() + "'");
+                jsonOutput.append("'therapyName': '" + bookings.get(i).getTherapy().getName() + "'");
+                jsonOutput.append("'bookingSections': [");
+
+                List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
+                for (int k = 0; k < bookingSections.size(); k++) {
+                    jsonOutput.append("{");
+                    jsonOutput.append("'start-time': '" + bookingSections.get(i).getStart() + "'");
+                    jsonOutput.append("'end-time': '" + bookingSections.get(i).getEnd() + "'");
+
+                    if (j == bookingSections.size() - 1) {
+                        jsonOutput.append("}");
+                    } else {
+                        jsonOutput.append("}, ");
+                    }
+                }
+                //close booking sections array
+                jsonOutput.append("]");
+
+                if (j == bookings.size() - 1) {
+                    jsonOutput.append("}");
+                } else {
+                    jsonOutput.append("}, ");
+                }
+            }
+            //close bookings array
+            jsonOutput.append("]");
+
+            if (i == allDays.size() - 1) {
+                jsonOutput.append("}");
+            } else {
+                jsonOutput.append("}, ");
+            }
+
+        }
+        //close days array and week immediately after
+        jsonOutput.append("]}");
+
+        return jsonOutput;
+    }
 }
