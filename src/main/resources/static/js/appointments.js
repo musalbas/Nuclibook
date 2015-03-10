@@ -42,14 +42,13 @@ $(document).ready(function () {
         $('#go-back-to-select-therapy').hide();
 
         // show calendar
-
         var calendar =
             $('.calendar').show().fullCalendar({
                 header: {
 
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+                    right: 'agendaWeek'
 
                 },
 
