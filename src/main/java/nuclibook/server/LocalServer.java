@@ -89,6 +89,9 @@ public class LocalServer {
         // appointments
         Spark.get("/appointments", new AppointmentsRoute());
 
+        // calendar week view
+        Spark.get("/calendar", new CalendarRoute());
+
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 	}
