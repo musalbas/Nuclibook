@@ -35,10 +35,7 @@ $(document).ready(function () {
         $('#page-three').slideUp(500);
     });
 
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+
     $('#view-available-appointments').click(function () {
         // hide buttons
         $(this).slideUp(300);
@@ -81,15 +78,15 @@ $(document).ready(function () {
 
                 events: [
                     {
-                        title:  'My Event',
-                        start:  '2015-03-10T14:30:00',
-                        end  : '2015-03-10T16:30:00',
+                        title: 'My Event',
+
+                        start: '2015-03-10T14:30:00',
+                        end: '2015-03-10T16:30:00',
                         allDay: false
                     }
                     // other events here...
                 ],
                 timeFormat: 'H(:mm)'
-
 
             });
 
