@@ -23,9 +23,9 @@ public class CalendarRoute extends DefaultRoute {
 
 		// security check
 		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return null;
-        String startDate = request.queryParams("start-date");
+        String startDate = request.queryParams("start");
 
-		return "{ \"week\": [" + //startDate +
+		return "{ \"week\": [" +
                         " { \"day\": \"12-03-15\", " +
                         " \"bookings\": [ " +
                                         " { \"patient-id\": \"0000000\", " +

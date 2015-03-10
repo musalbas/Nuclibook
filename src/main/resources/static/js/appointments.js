@@ -91,9 +91,7 @@ $(document).ready(function () {
             });
 
         // ajax for retrieving current booking sections
-        $.post(
-            '/calendar',
-            { start_date: new Date().getDate() }
+        $.get('/calendar?start=' + new Date()
         ).done(function (result) {
                 console.log(result);
             }
