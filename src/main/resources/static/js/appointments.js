@@ -1,50 +1,100 @@
-/**
- * Created by GEORGE RADUTA on 09.02.2015.
- */
+var patientId = 0;
+var therapyId = 0;
+
+$(document).ready(function () {
+
+    $('.select-patient').click(function () {
+        // get id and name
+        patientId = $(this).attr('data-id');
+        $('.patient-selected').html($(this).attr('data-name'));
+
+        // open next page
+        $('#page-one').slideUp(500);
+        $('#page-two').slideDown(500);
+    });
+
+    $('#go-back-to-select-patient').click(function () {
+        // open prev page
+        $('#page-one').slideDown(500);
+        $('#page-two').slideUp(500);
+    });
+
+    $('.select-therapy').click(function () {
+        // get id and name
+        therapyId = $(this).attr('data-id');
+        $('.therapy-selected').html($(this).attr('data-name'));
+
+        // open next page
+        $('#page-two').slideUp(500);
+        $('#page-three').slideDown(500);
+    });
+
+    $('#go-back-to-select-therapy').click(function () {
+        // open prev page
+        $('#page-two').slideDown(500);
+        $('#page-three').slideUp(500);
+    });
 
 
-function tst() {
-    console.log("Mata");
-}
+    $('#view-available-appointments').click(function () {
+        // hide buttons
+        $(this).slideUp(300);
+        $('#go-back-to-select-therapy').hide();
 
-function showDetailsOfAppointment() {
-    var appointmentOverLay = document.getElementById("overLayDiv");
-    var contentOfSite = document.getElementById("page-wrapper");
-    var nameOfClient = document.getElementById("nameOfClientAppointment");
+        // show calendar
 
-    contentOfSite.style.opacity = "0.2";
-    appointmentOverLay.style.visibility = "visible";
-    appointmentOverLay.style.display = "block";
-    }
+        var calendar =
+            $('.calendar').show().fullCalendar({
+                header: {
 
-function bookAnAppointment() {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
 
-    var aElementAppoinment = document.createElement("a");
-    aElementAppoinment.className = "list-group-item list-group-item-danger";
-    aElementAppoinment.setAttribute("onclick", "showDetailsOfAppointment()");
+                },
 
-    var span = document.createElement("span");
-    span.className = "badge alert-danger";
-    span.innerHTML = "Date selected"; //TODO
-    aElementAppoinment.appendChild(span);
-
-    var detailsI = document.createElement("i")
-    detailsI.className = "fa fa-fw fa-warning text-left";
-    detailsI.innerHTML = " ";
-    aElementAppoinment.appendChild(detailsI);
-
-    var labelName = document.createElement("label");
-    labelName.innerHTML = "&nbsp; Name Of Patient";
-    aElementAppoinment.appendChild(labelName);
-
-    document.getElementById("upcomingAppointmentsList").appendChild(aElementAppoinment);
+                defaultView: 'agendaWeek',
+                editable: true,
+                selectable: true,
+                selectHelper: true,
 
 
-//<a href="#" class="list-group-item" onclick=showDetailsOfAppointment()>
-//    <span class="badge">Today</span>
-//    <i class="fa fa-fw fa-calendar"></i> Abigail Rainbow
-//    </a>
-    console.log("Appointment Booked");
-}
+                select: function (start, end, allDay) {
+                    var title = prompt('Event Title:');
+
+                    if (title) {
+                        calendar.fullCalendar('renderEvent',
+                            {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: allDay
+                            },
+                            true // make the event "stick"
+                        );
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+
+                events: [
+                    {
+                        title: 'My Event',
+
+                        start: '2015-03-10T14:30:00',
+                        end: '2015-03-10T16:30:00',
+                        allDay: false
+                    }
+                    // other events here...
+                ],
+                timeFormat: 'H(:mm)'
+
+            });
 
 
+    });
+
+
+    // datatables
+    setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+    setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+});

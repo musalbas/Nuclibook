@@ -1,347 +1,102 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>NHS Nuclear Medicine Booking System | Appoinments</title>
+#[def: title = Booking Appointments]
+#[def: current-page = appointments]
+#[def: calendar = yes]
 
-        <!-- Bootstrap Core CSS -->
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
+##_header.html
 
-        <!-- Custom CSS -->
-        <link href="/css/sb-admin.css" rel="stylesheet">
+//appointments page
+<div class="row">
+	<div class="col-md-12 col-lg-12" id="page-one">
+		<table class=" table table-bordered table-hover" id="patients-table">
+			<thead>
+				<tr>
+					<th class="text-center">Patient Name</th>
+					<th class="text-center">Hospital Number</th>
+					<th class="text-center">Date of birth</th>
+					<th class="text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: patients]
 
-        <!-- Morris Charts CSS -->
-        <link href="/css/plugins/morris.css" rel="stylesheet">
+				#[pre]#[/pre]
 
-        <!-- Custom Fonts -->
-        <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#hospital-number</td>
+					<td>#date-of-birth</td>
+					<td>
+						<button class="btn select-patient" data-id="#id" data-name="#name">Select #name</button>
+					</td>
+				</tr>
+				#[/each]
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+				#[post]#[/post]
 
-        <![end if]-->
+				#[empty]#[/empty]
 
-        <!-- Custom CSS -->
-        <link rel="stylesheet" type="text/css" href="/css/appointments.css">
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-    </head>
+	<div hidden class="col-md-12 col-lg-12" id="page-two">
+		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span>
+			<a class="small" id="go-back-to-select-patient">[Change]</a></p>
 
-    <body>
-    <div id="wrapper">
+		<table class="table table-bordered table-hover" id="therapies-table">
+			<thead>
+				<tr>
+					<th class="text-center">Name</th>
+					<th class="text-center">Default Duration</th>
+					<th class="text-center">Tracer Required</th>
+					<th class="text-center">Tracer Dose</th>
+					<th class="text-center">Camera Required</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
 
-        <!-- Navigation DO NOT TOUCH -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">Nuclibook</a>
-                <p class="navbar-brand">|</p>
-                <a class="navbar-brand" href="appointments.html"> Appointments </a>
-            </div>
-            <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>USERNAME</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+			<tbody>
+				#[collection: therapies]
 
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> USERNAME <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
-                    <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-                    </li>
-                    <li class="active">
-                        <a href="appointments.html"><i class="fa fa-fw fa-clock-o"></i> Appointments</a>
-                    </li>
-                    <li>
-                        <a href="orders.html"><i class="fa fa-fw fa-truck"></i> Orders</a>
-                    </li>
-                    <li>
-                        <a href="patients.html"><i class="fa fa-fw fa-group"></i> Patients</a>
-                    </li>
-                    <li>
-                        <a href="radiographers.html"><i class="fa fa-fw fa-stethoscope"></i> Radiographers</a>
-                    </li>
-                    <li>
-                        <a href="tracers.html"><i class="fa fa-fw fa-flask"></i> Radiotracers</a>
-                    </li>
-                    <li>
-                        <a href="cameras.html"><i class="fa fa-fw fa-camera"></i> Cameras</a>
-                    </li>
-                    <li>
-                        <a href="therapies.html"><i class="fa fa-fw fa-pencil-square-o"></i> Therapies</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-cog"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="action-log.html"><i class="fa fa-fw fa-list"></i> Activity Log</a>
-                            </li>
-                            <li>
-                                <a href="settings.html"><i class="fa fa-fw fa-database"></i> Admin Settings</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-        <!-- END OF Navigation - DO NOT TOUCH -->
+				#[pre]#[/pre]
 
-        <div id="page-wrapper">
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#default-duration mins</td>
+					<td>#tracer-required-name</td>
+					<td>#tracer-dose</td>
+					<td>#camera-type-label</td>
+					<td>
+						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
+					</td>
+				</tr>
+				#[/each]
 
-            <div class="container-fluid">
+				#[post]#[/post]
 
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header" >
-                            Appointments <!-- <small>Overview</small> -->
-                        </h1>
-                    </div>
-                </div>
-                <!-- /.row -->
-                <!-- .row -->
+				#[empty]#[/empty]
 
-                <div class="row">
-                    <!-- Unconfirmed Appointments -->
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Unconfirmed Appointments</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-danger" onclick=showDetailsOfAppointment()>
-                                        <span class="badge alert-danger">appointment in 9 days</span>
-                                        <i class="fa fa-fw fa-warning"></i>
-                                        <label>Joe Swanson</label>
-                                    </a>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View All Unconfirmed Appointments <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-                        </div>
-                    </div>
-                    <!-- Upcoming Appointments -->
-                    <div class="col-lg-6 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Upcoming Appointments</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group" id = "upcomingAppointmentsList">
-                                    <a href="#" class="list-group-item" onclick=showDetailsOfAppointment()>
-                                        <span class="badge">Today</span>
-                                        <i class="fa fa-fw fa-calendar"></i>
-                                        <label> Abigail Rainbow</label>
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-danger" onclick=showDetailsOfAppointment()>
-                                        <span class="badge alert-danger">appointment in 9 days</span>
-                                        <i class="fa fa-fw fa-warning"></i>
-                                        <label>Joe Swanson</label>
-                                    </a>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View All Upcoming Appointments <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-                <!-- /Unconfirmed Appointments -->
+	<div hidden class="col-md-12 col-lg-12" id="page-three">
+		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span></p>
+		<p><strong>Therapy Selected:</strong> <span class="therapy-selected"></span>
+			<a class="small" id="go-back-to-select-therapy">[Change]</a></p>
 
+		<button class="btn btn-primary" id="view-available-appointments">View Available Appointments</button>
+	</div>
 
-                <!-- .row -->
-                <div class="row">
-                    <!-- Book an Appointment -->
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Book an Appointment</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label>Patient</label>
-                                        <select class="form-control">
-                                            <option>Please select a patient</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label>Therapy</label>
-                                        <select class="form-control">
-                                            <option>Please select a therapy</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class = "col-lg-4">
-                                    <div class = "form-group">
-                                        <label> Date </label>
-                                        <select class = "form-control">
-                                            <option>Please select a date</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class = "text-right">
-                                    <button class = "btn-lg" onclick=bookAnAppointment()> Book appointment</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+	<div hidden class="col-md-12 col-lg-12 calendar"></div>
+</div>
 
-                    <!-- /Book an Appointment -->
-                    <!-- All Appointments -->
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Appointments History</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-success" onclick=showDetailsOfAppointment()>
-                                            <span class="badge alert-success">appointment 1 day ago</span>
-                                            <i class="fa fa-fw fa-check-circle"></i>
-                                            <label> Joe Cole </label>
-                                        </a>
-                                    </div>
-                                    <div class="text-right">
-                                        <a href="#">View All Appointments <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<script src="/js/core/jquery-ui.min.js"></script>
+<script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script src="/js/appointments.js"></script>
 
-                    <!-- /All Appointments -->
-                    <!-- /.row -->
-                </div>
-
-                 <!-- /.row -->
-
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
-        <!-- OverLay -->
-        <div class="col-lg-10 col-md-10" style = "visibility: hidden" id = "overLayDiv">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title" id = "nameOfClientAppointment"><b>Name Of the Client in due days</b></h3>
-                </div>
-                <div class="panel-body">
-                    <div class = "panel-group">
-                    <h4>Name of the Client : </h4>
-                    <h4>Date of the Appointment : </h4>
-                    <h4>Details about the appointment : </h4>
-                    <h4>State of the appointment : Confirmed/Not Confirmed </h4>
-                    </div>
-                    <div class="text-right">
-                        <a href="appointments.html">  <i class="fa fa-arrow-circle-left"></i> Go back to Appointments</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- /OverLay -->
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-        <script src="/js/jquery.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="/js/bootstrap.min.js"></script>
-
-        <!-- Morris Charts JavaScript -->
-        <script src="/js/plugins/morris/raphael.min.js"></script>
-        <script src="/js/plugins/morris/morris.min.js"></script>
-        <script src="/js/plugins/morris/morris-data.js"></script>
-    <script src = "/js/appointments.js"></script>
-    </body>
-
-</html>
+##_footer.html
