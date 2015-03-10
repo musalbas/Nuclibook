@@ -33,8 +33,13 @@
 					<td>#name</td>
 					<td>#role-label</td>
 					<td>
+                        #[ifperm: EDIT_STAFF]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_STAFF]
+                        -
+                        #[/!ifperm]
 					</td>
 				</tr>
 				#[/each]
