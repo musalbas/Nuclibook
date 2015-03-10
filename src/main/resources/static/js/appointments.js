@@ -43,10 +43,13 @@ $(document).ready(function () {
 		// show calendar
 		$('.calendar').show().fullCalendar({
 			header: {
+
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
+
+            defaultView: 'agendaWeek',
 			editable: true
 		});
 	});
