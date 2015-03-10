@@ -28,9 +28,14 @@
 					<td>#name</td>
 					<td>#order-time day(s)</td>
 					<td>
-						<button class="btn edit-button" data-id="#id">Edit</button>
+                        #[ifperm: EDIT_TRACERS]
+                        <button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
-					</td>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_TRACERS]
+                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
+                    </td>
 				</tr>
 				#[/each]
 

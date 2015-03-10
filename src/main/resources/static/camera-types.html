@@ -27,9 +27,14 @@
 				<tr>
 					<td>#label</td>
 					<td>
+                        #[ifperm: EDIT_CAMERAS]
 						<button class="btn edit-button" id="edit-btn" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
 						<button class="btn delete-button" id="delete-btn" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
-					</td>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_CAMERAS]
+                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
+                    </td>
 				</tr>
 				#[/each]
 

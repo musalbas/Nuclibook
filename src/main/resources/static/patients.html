@@ -30,8 +30,13 @@
 					<td>#hospital-number</td>
 					<td>#date-of-birth</td>
 					<td>
+                        #[ifperm: EDIT_PATIENTS]
 						<button class="btn edit-button" data-id="#id">Edit</button>
 						<button class="btn delete-button" data-id="#id">Delete</button>
+                        #[/ifperm]
+                        #[!ifperm: EDIT_PATIENTS]
+                        YOUR ROLE PERMISSIONS DO NOT ALLOW YOU TO EDIT/DELETE
+                        #[/!ifperm]
 					</td>
 				</tr>
 				#[/each]
