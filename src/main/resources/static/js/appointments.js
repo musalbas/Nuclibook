@@ -90,9 +90,20 @@ $(document).ready(function () {
 
             });
 
+        // ajax for retrieving current booking sections
+        $.post(
+            '/calendar',
+            { start_date: new Date().getDate() }
+        ).done(function (result) {
+                console.log(result);
+            }
+        ).fail(function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+                console.log("failed to retrieve bookings");
+            }
+        );
 
     });
-
 
     // datatables
     setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
