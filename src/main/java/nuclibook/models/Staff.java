@@ -9,6 +9,8 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Duration;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -324,6 +326,8 @@ public class Staff implements Renderable {
 				put("username", getUsername());
 				put("role-id", getRole() == null ? "0" : getRole().getId().toString());
 				put("role-label", getRole() == null ? "-" : getRole().getLabel());
+                // TODO: password-reminder field?
+                put("pass-days-remaining", String.valueOf(new Duration(getPasswordChangeDate(), new DateTime()).getStandardDays()));
 			}
 		};
 	}
