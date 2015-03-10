@@ -49,7 +49,7 @@ $(document).ready(function () {
 
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+                    right: 'agendaWeek'
 
                 },
 
