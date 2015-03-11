@@ -239,8 +239,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
-		// check if staff username is taken
-		if (StaffUtils.usernameExists(request.queryParams("username"))) {
+		// check if staff username is taken and the request is not updating a user
+		if (StaffUtils.usernameExists(request.queryParams("username")) && createNew) {
 			return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
 		}
 
