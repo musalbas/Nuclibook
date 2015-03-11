@@ -240,7 +240,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// check if staff username is taken
-		if (StaffUtils.usernameExists(request.queryParams("username"))) {
+		if (StaffUtils.usernameExists(request.queryParams("username")) && request.queryParams("entity-id").equals("0")) {
 			return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
 		}
 
