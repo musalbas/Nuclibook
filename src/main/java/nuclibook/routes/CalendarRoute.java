@@ -55,8 +55,8 @@ public class CalendarRoute extends DefaultRoute {
                     jsonOutput.append(", { ");
                 }
 
-                jsonOutput.append("'startTime': '").append(bookingSections.get(i).getStart().toString("YYYY-MM-dd HH:mm") + "'");
-                jsonOutput.append("'endTime': '").append(bookingSections.get(i).getEnd().toString("YYYY-MM-dd HH:mm") + "'");
+                jsonOutput.append("'startTime': '").append(bookingSections.get(i).getStart().toString("YYYY-MM-dd HH:mm")).append("'");
+                jsonOutput.append("'endTime': '").append(bookingSections.get(i).getEnd().toString("YYYY-MM-dd HH:mm")).append("'");
                 jsonOutput.append("}");
             }
 
