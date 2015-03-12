@@ -19,7 +19,15 @@ public class TracerOrderUtils extends AbstractEntityUtils {
 	}
 
 	public static List<TracerOrder> getAllTracerOrders() {
-		return getAllEntities(TracerOrder.class);
+		return getAllTracerOrders(false);
+	}
+
+	public static List<TracerOrder> getAllTracerOrders(boolean pendingOnly) {
+		if (pendingOnly) {
+			return getTracerOrdersByStatus("pending");
+		} else {
+			return getAllEntities(TracerOrder.class);
+		}
 	}
 
 	public static List<TracerOrder> getTracerOrdersByStatus(String status) {
