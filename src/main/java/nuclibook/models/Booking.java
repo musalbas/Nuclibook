@@ -269,6 +269,8 @@ public class Booking implements Renderable {
 			put("therapy-name", getTherapy().getName());
 			put("camera-type-label", getCamera().getType().getLabel());
 			put("camera-room-number", getCamera().getRoomNumber());
+			put("tracer-name", getTracer().getName());
+			put("tracer-dose", getTracerDose());
 			put("status", getStatus());
 
 			// get status label
