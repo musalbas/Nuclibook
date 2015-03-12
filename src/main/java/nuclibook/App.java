@@ -21,35 +21,23 @@ import java.util.Timer;
 
 public class App extends Application {
 
-    ToolBar toolBar1 = new ToolBar();
-    HBox hBox = new HBox(toolBar1);
+    //toolbar and hbox to be used by animation objects
+    final ToolBar toolBar1 = new ToolBar();
+    final HBox hBox = new HBox(toolBar1);
 
     @Override
     public void start(Stage stage) {
 
+        final WebView webView = new WebView();
+        final WebEngine webEngine = webView.getEngine();
+
+        //set up progress bar
         final ProgressBar progressBar = new ProgressBar(0);
         progressBar.prefWidthProperty().bind(toolBar1.widthProperty().subtract(30));
-        WebView webView = new WebView();
-        final WebEngine webEngine = webView.getEngine();
         toolBar1.getItems().add(progressBar);
-        StackPane mainPane = new StackPane();
-        BorderPane pane = new BorderPane();
-        hBox.setHgrow(toolBar1, Priority.ALWAYS);
-        hBox.setPrefHeight(0);
-        hBox.setMinHeight(0);
-        pane.setBottom(hBox);
-        pane.setPickOnBounds(false);
-        mainPane.getChildren().add(webView);
-        mainPane.getChildren().add(pane);
-        Scene scene = new Scene(mainPane, 1132, 700);
-        stage.setScene(scene);
-        stage.setMinHeight(340);
-        stage.setMinWidth(600);
-        stage.setMaximized(true);
-        stage.show();
-
-
         progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
+
+        //webView settings
         webView.getEngine().load("http://localhost:4567");
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
             Timer timer =  new Timer();
@@ -85,12 +73,31 @@ public class App extends Application {
 
                 }
 
-                //set pag
+                //set page title
                 if(newState == Worker.State.SUCCEEDED){
                     stage.setTitle(getTitle(webEngine));
                 }
             }
         });
+
+        //set up panes for scene
+        final StackPane mainPane = new StackPane();
+        final BorderPane pane = new BorderPane();
+        hBox.setHgrow(toolBar1, Priority.ALWAYS);
+        hBox.setPrefHeight(0);
+        hBox.setMinHeight(0);
+        pane.setBottom(hBox);
+        pane.setPickOnBounds(false);
+        mainPane.getChildren().add(webView);
+        mainPane.getChildren().add(pane);
+
+        //set up stage
+        Scene scene = new Scene(mainPane, 1132, 700);
+        stage.setScene(scene);
+        stage.setMinHeight(340);
+        stage.setMinWidth(600);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     public static void main(String[] args) {
