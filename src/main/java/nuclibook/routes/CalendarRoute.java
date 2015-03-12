@@ -1,14 +1,11 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.CameraTypeUtils;
+import nuclibook.entity_utils.BookingUtils;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
-import nuclibook.entity_utils.TracerUtils;
-import nuclibook.models.CameraType;
-import nuclibook.models.Therapy;
-import nuclibook.models.Tracer;
-import nuclibook.server.HtmlRenderer;
+import nuclibook.models.Booking;
+import nuclibook.models.BookingSection;
+import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
@@ -16,75 +13,58 @@ import java.util.List;
 
 public class CalendarRoute extends DefaultRoute {
 
-	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		// necessary prelim routine
-		prepareToHandle();
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        // necessary prelim routine
+        prepareToHandle();
 
-		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return null;
-        String startDate = request.queryParams("start");
+        // security check
+        if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return "no_permission";
 
-		return "{ \"week\": [" +
-                        " { \"day\": \"12-03-15\", " +
-                        " \"bookings\": [ " +
-                                        " { \"patient-id\": \"0000000\", " +
-                                        " \"therapy-name\": \"therapy A\", " +
-                                        " \"booking-sections\": [ " +
-                                                                " { \"start-time\": \"15:30\", " +
-                                                                "   \"end-time\": \"15:50\" }, " +
+        // get start/end date
+        String start = request.queryParams("start");
+        String end = request.queryParams("end");
+        DateTime startDate = new DateTime(start + " 00:00:00");
+        DateTime endDate = new DateTime(end + " 23:59:59");
 
-                                                                " { \"start-time\": \"16:00\", " +
-                                                                "   \"end-time\": \"16:55\" } " +
-                                                                "]" +
-                                        "}, " +
+        // get bookings between start/end dates
+        List<Booking> bookings = BookingUtils.getBookingsByDateRange(startDate, endDate);
 
-                                        " { \"patient-id\": \"8888888\", " +
-                                                " \"therapy-name\": \"therapy B\", " +
-                                                " \"booking-sections\": [ " +
-                                                                        " { \"start-time\": \"17:30\", " +
-                                                                        "   \"end-time\": \"17:40\" }, " +
+        //build json
+        StringBuilder jsonOutput = new StringBuilder();
+        jsonOutput.append("{ 'bookings': [");
 
-                                                                        " { \"start-time\": \"17:50\", " +
-                                                                        "   \"end-time\": \"18:00\" }, " +
+        for (int i = 0; i < bookings.size(); i++) {
 
-                                                                        " { \"start-time\": \"18:10\", " +
-                                                                        "   \"end-time\": \"18:20\" } " +
-                                                                        "]" +
-                                        "} " +
+            if (i == 0) {
+                jsonOutput.append("{");
+            } else {
+                jsonOutput.append(", { ");
+            }
 
-                                        "]" +
-                    "}, " +
-                    " { \"day\": \"12-03-15\", " +
-                    " \"bookings\": [ " +
-                                    " { \"patient-id\": \"0000000\", " +
-                                    " \"therapy-name\": \"therapy A\", " +
-                                    " \"booking-sections\": [ " +
-                                                            " { \"start-time\": \"15:30\", " +
-                                                            "   \"end-time\": \"15:50\" }, " +
+            jsonOutput.append("'patientId': '").append(bookings.get(i).getPatient().getId()).append("'");
+            jsonOutput.append("'therapyName': '").append(bookings.get(i).getTherapy().getName().replace("'", "\\'")).append("'");
+            jsonOutput.append("'bookingSections': [");
 
-                                                            " { \"start-time\": \"16:00\", " +
-                                                            "   \"end-time\": \"16:55\" } " +
-                                                             "]" +
-                                    "}, " +
+            List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
+            for (int j = 0; j < bookingSections.size(); j++) {
 
-                                    " { \"patient-id\": \"8888888\", " +
-                                    " \"therapy-name\": \"therapy B\", " +
-                                    " \"booking-sections\": [ " +
-                                                            " { \"start-time\": \"17:30\", " +
-                                                            "   \"end-time\": \"17:40\" }, " +
+                if (j == 0) {
+                    jsonOutput.append("{");
+                } else {
+                    jsonOutput.append(", { ");
+                }
 
-                                                            " { \"start-time\": \"17:50\", " +
-                                                            "   \"end-time\": \"18:00\" }, " +
+                jsonOutput.append("'startTime': '").append(bookingSections.get(i).getStart().toString("YYYY-MM-dd HH:mm")).append("'");
+                jsonOutput.append("'endTime': '").append(bookingSections.get(i).getEnd().toString("YYYY-MM-dd HH:mm")).append("'");
+                jsonOutput.append("}");
+            }
 
-                                                            " { \"start-time\": \"18:10\", " +
-                                                            "   \"end-time\": \"18:20\" } " +
-                                                            "]" +
-                                     "} " +
+            jsonOutput.append("]}");
+        }
 
-                                    "]" +
-                    "} " +
-                    "]" +
-                "}";
-	}
+        jsonOutput.append("]}");
+
+        return jsonOutput;
+    }
 }
