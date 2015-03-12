@@ -95,6 +95,7 @@ public class LocalServer {
 
 		// tracer orders
 		Spark.get("/tracer-order-details/:tracerorderid:", new TracerOrderDetailsRoute());
+		Spark.get("/tracer-order-details/:tracerorderid:/:newstatus:", new TracerOrderDetailsRoute());
 
         // calendar week view
         Spark.get("/calendar", new CalendarRoute());
