@@ -172,10 +172,9 @@
 				<div class="container-fluid">
 					<div class="row">
                         <div class="col-lg-12">
-                            #[def: password-reminder = yes]
-                            #[if: password-reminder = yes]
+                            #[if: show-password-reminder = yes]
                             <div class="alert alert-warning" style="margin-top: 50px" role="alert">
-                                You have #pass-days-remaining days remaining before you will be forced to change your password. <a href="/profile">Change it now.</a>
+                                You have #days-since-password-changed days remaining before you will be forced to change your password. <a href="/profile">Change it now.</a>
                             </div>
                             #[/if]
 							<h1 class="page-header">

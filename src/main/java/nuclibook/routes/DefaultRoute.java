@@ -34,6 +34,11 @@ public abstract class DefaultRoute implements Route {
 			renderer.setField("current-user-name", currentUser.getName());
 			renderer.setField("current-user-role", currentUser.getRole().getLabel());
 			renderer.setField("current-user-permissions-summary", currentUser.getRole().getPermissionSummary());
+            renderer.setField("days-since-password-changed", currentUser.getDaysRemainingToPasswordChangePrompt());
+            if(Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) >= 1
+                    && Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) <= 9) {
+                renderer.setField("show-password-reminder", "yes");
+            }
 		} else {
 			renderer.setField("logged-in", "no");
 		}
