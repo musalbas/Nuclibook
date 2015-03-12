@@ -30,6 +30,7 @@ public abstract class DefaultRoute implements Route {
 
 		// set up login field
 		if (SecurityUtils.checkLoggedIn()) {
+
 			renderer.setField("logged-in", "yes");
 
 			Staff currentUser = SecurityUtils.getCurrentUser();
@@ -41,8 +42,10 @@ public abstract class DefaultRoute implements Route {
             renderer.setField("days-since-password-changed", currentUser.getDaysRemainingToPasswordChangePrompt());
             if(Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) >= 1
                     && Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) <= 9) {
+                System.out.println("PASSWORD CHANGE SOON! DAYS REMAINING: " + currentUser.getDaysRemainingToPasswordChangePrompt());
                 renderer.setField("show-password-reminder", "yes");
             } else if (Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) < 1) {
+                System.out.println("FORCE PASSWORD CHANGE, REDIRECT DEM SWAGGERS");
                 renderer.setField("force-password-change", "yes");
             }
 		} else {
