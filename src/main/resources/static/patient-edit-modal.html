@@ -27,20 +27,21 @@
 						<label class="col-sm-3 control-label">Date of Birth</label>
 						<div class="col-sm-9">
 							<div class="col-sm-4" style="padding-left: 0;">
-								<select class="form-control" name="year-of-birth" id="year-of-birth">
+								<select class="form-control" name="date-selector-year" id="date-selector-year">
 									<option value="" disabled selected>Year</option>
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<select class="form-control" name="month-of-birth" id="month-of-birth" disabled>
+								<select class="form-control" name="date-selector-month" id="date-selector-month" disabled>
 									<option value="" disabled selected>Month</option>
 								</select>
 							</div>
 							<div class="col-sm-3">
-								<select class="form-control" name="day-of-birth" id="day-of-birth" disabled>
+								<select class="form-control" name="date-selector-day" id="date-selector-day" disabled>
 									<option value="">Day</option>
 								</select>
 							</div>
+							<input type="hidden" name="date-of-birth" id="date-selector-output"/>
 							<br style="clear: both"/>
 							<p class="help-block">Select the patient's date of birth.</p>
 						</div>
