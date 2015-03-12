@@ -15,3 +15,11 @@ var validateCreateForm = function (formObject) {
 
     return !error;
 };
+
+$(document).ready(function() {
+    openPasswordModal();
+});
+
+var openPasswordModal = function() {
+    $("#edit-password-button").trigger('click');
+};

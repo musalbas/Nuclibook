@@ -200,6 +200,11 @@
                                 You have #days-since-password-changed days remaining before you will be forced to change your password. <a href="/profile">Change it now.</a>
                             </div>
                             #[/if]
+                            #[if: force-password-change = yes]
+                            <script>
+                                forcePasswordChange();
+                            </script>
+                            #[/if]
 							<h1 class="page-header">
 								#title
 							</h1>
