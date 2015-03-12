@@ -87,4 +87,15 @@ function prepareDateSelector() {
 		var selectedDay = dayField.find('option:selected').val();
 		outputField.val(selectedYear + "-" + selectedMonth + "-" + (selectedDay < 10 ? '0' : '') + selectedDay);
 	});
+
+	// attempt to pre-fill
+	if (outputField.val().match(/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)) {
+		var parts = outputField.val().split("-", 3);
+		yearField.val(parts[0])
+			.trigger('change');
+		monthField.val(parts[1])
+			.trigger('change');
+		dayField.val(parseInt(parts[2]))
+			.trigger('change');
+	}
 }

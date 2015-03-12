@@ -43,7 +43,6 @@ $(document).ready(function (e) {
 function openEditModal(objectId) {
 	// reset HTML
 	editModal.html(originalEditFormHtml);
-	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
 
 	// find form
 	var form = editModal.find('.edit-form');
@@ -95,6 +94,9 @@ function openEditModal(objectId) {
 			}
 		}
 	}
+
+	// any custom setup?
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
 
 	// cancel button
 	editModal.find('.btn-cancel').unbind('click').click(function (e) {
