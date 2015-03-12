@@ -80,6 +80,10 @@ var validateCreateForm = function (formObject) {
     return !error;
 };
 
+var onFormLoadSetup = function () {
+	prepareDateSelector();
+};
+
 $(document).ready(function () {
     setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
 });

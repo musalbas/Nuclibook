@@ -124,7 +124,6 @@ function openEditModal(objectId) {
 
 					// hide loading and reload
 					disableLoading(function () {
-						// TODO: better solution to this
 						location.reload();
 					});
 				} else if (result == 'failed_validation') {
@@ -186,7 +185,6 @@ function openDeleteModal(objectId) {
 
 					// hide loading and reload
 					disableLoading(function () {
-						// TODO: better solution to this
 						location.reload();
 					});
 				} else if (result == 'no_permission') {
