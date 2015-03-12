@@ -38,6 +38,8 @@ public abstract class DefaultRoute implements Route {
             if(Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) >= 1
                     && Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) <= 9) {
                 renderer.setField("show-password-reminder", "yes");
+            } else if (Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) < 1) {
+                renderer.setField("force-password-change", "yes");
             }
 		} else {
 			renderer.setField("logged-in", "no");

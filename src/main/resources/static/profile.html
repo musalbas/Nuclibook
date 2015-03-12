@@ -38,7 +38,7 @@
 	</div>
 	<div class="col-md-8 col-lg-8">
 		<p>
-			<button class="btn edit-button btn-primary" data-id="0">Change Password</button>
+			<button id="edit-password-button" class="btn edit-button btn-primary" data-id="0">Change Password</button>
 		</p>
 	</div>
 </div>
@@ -85,6 +85,10 @@
 </div>
 
 <script src="/js/profile.js"></script>
+
+#[if: open-password-modal = yes]
+<script> openPasswordModal() </script>
+#[/if]
 
 ##_loading-modal.html
 
