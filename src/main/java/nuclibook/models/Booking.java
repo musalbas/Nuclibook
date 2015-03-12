@@ -205,6 +205,15 @@ public class Booking implements Renderable {
 			// get date
 			List<BookingSection> bookingSections = getBookingSections();
 			put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+
+			// get notes
+			String notes = getNotes();
+			if (notes == null || notes.length() == 0) {
+				notes = "<em>None</em>";
+			} else {
+				notes = notes.replace("\n", "<br />");
+			}
+			put("notes", notes);
 		}};
 	}
 }
