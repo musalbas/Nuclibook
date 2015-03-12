@@ -6,7 +6,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
 import nuclibook.models.BookingStaff;
-import nuclibook.models.Staff;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class BookingUtils extends AbstractEntityUtils {
 
-	public static Staff getBooking(String id) {
+	public static Booking getBooking(String id) {
 		try {
 			return getBooking(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
@@ -24,7 +23,7 @@ public class BookingUtils extends AbstractEntityUtils {
 		}
 	}
 
-	public static Staff getBooking(int id) {
+	public static Booking getBooking(int id) {
 		return getEntityById(Booking.class, id);
 	}
 

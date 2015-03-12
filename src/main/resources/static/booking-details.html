@@ -1,55 +1,73 @@
-#[def: title = Patient Details]
-#[def: current-page = patients]
+#[def: title = Booking Details]
+#[def: current-page = bookings]
 
 ##_header.html
 
-#[if: no-patient = yes]
+#[if: no-booking = yes]
 <div class="alert alert-danger" role="alert">
-	<p>That patient does not exist.</p>
+	<p>That booking does not exist.</p>
 </div>
 #[/if]
 
-#[!if: no-patient = yes]
+#[!if: no-booking = yes]
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
-		<p><strong>Patient ID:</strong></p>
+		<p><strong>Booking ID:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<p>#id</p>
+		<p>#booking-id</p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
-		<p><strong>Name:</strong></p>
+		<p><strong>Therapy:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<p>#name</p>
+		<p>#therapy-name</p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
-		<p><strong>Hospital Number:</strong></p>
+		<p><strong>Camera:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<p>#hospital-number</p>
+		<p>#camera-type-label, #camera-room-number</p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
-		<p><strong>Date of Birth:</strong></p>
+		<p><strong>Status:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<p>#date-of-birth</p>
+		<p>#status</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Patient:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#name#[ifperm: VIEW_PATIENT_DETAILS] (<a href="/patient-details/#id">view details</a>)#[/ifperm]</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Notes:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#HTMLOKAY:notes</p>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">
-			Booking History
+			Booking Schedule
 		</h1>
 	</div>
 </div>
