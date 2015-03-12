@@ -90,18 +90,17 @@ public class StaffUtils extends AbstractEntityUtils {
 		}
 
         /* BOOKINGS */
-		// TODO: update to allow for new booking model
-		/*List<BookingStaff> bookingStaff = BookingStaffUtils.getBookingStaffByStaffId(staffId);
-		Booking booking;
-		for (BookingStaff bs : bookingStaff) {
-			booking = bs.getBooking();
-			if ((booking.getStart().isBefore(startDate) && booking.getEnd().isAfter(endDate))
-					|| (booking.getStart().isAfter(startDate) && booking.getEnd().isBefore(endDate))
-					|| (booking.getStart().isAfter(startDate) && booking.getStart().isBefore(endDate))
-					|| (booking.getEnd().isAfter(startDate) && booking.getEnd().isBefore(endDate))) {
-				return false; // not allowed to overlap with ANY bookings
-			}
-		}*/
+        List<Booking> bookings = BookingUtils.getBookingsByStaffId(staffId);
+        for(Booking b: bookings) {
+            for(BookingSection bs: b.getBookingSections()) {
+                if ((bs.getStart().isBefore(startDate) && bs.getEnd().isAfter(endDate))
+                        || (bs.getStart().isAfter(startDate) && bs.getEnd().isBefore(endDate))
+                        || (bs.getStart().isAfter(startDate) && bs.getStart().isBefore(endDate))
+                        || (bs.getEnd().isAfter(startDate) && bs.getEnd().isBefore(endDate))) {
+                    return false; // not allowed to overlap with ANY bookings
+                }
+            }
+        }
 
 		return true;
 	}
