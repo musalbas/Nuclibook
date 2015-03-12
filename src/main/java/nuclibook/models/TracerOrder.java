@@ -27,8 +27,8 @@ public class TracerOrder implements Renderable {
 	@DatabaseField
 	private long dateRequired;
 
-	@DatabaseField
-	private boolean done;
+	@DatabaseField(width = 16)
+	private String status;
 
 	public TracerOrder() {
 	}
@@ -69,12 +69,12 @@ public class TracerOrder implements Renderable {
 		this.dateRequired = dateRequired.getMillis();
 	}
 
-	public boolean isDone() {
-		return done;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setDone(boolean done) {
-		this.done = done;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override
@@ -85,7 +85,13 @@ public class TracerOrder implements Renderable {
 			put("tracer-name", getTracer().getName());
 			put("tracer-dose", getTracerDose());
 			put("date-required", getDateRequired().toString("YYYY-MM-dd HH:mm"));
-			put("done", isDone() ? "1" : "0");
+			put("status", getStatus());
+
+			// get status label
+			String statusLabel = "default";
+			if (getStatus().equals("pending")) statusLabel = "warning";
+			if (getStatus().equals("ordered")) statusLabel = "success";
+			put("status-with-label", "<span class=\"label label-as-badge label-" + statusLabel + "\">" + getStatus() + "</span>");
 
 			// put days until string
 			int daysUntil = Days.daysBetween(new LocalDate(), getDateRequired().toLocalDate()).getDays();
