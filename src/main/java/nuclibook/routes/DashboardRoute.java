@@ -25,7 +25,7 @@ public class DashboardRoute extends DefaultRoute {
 		renderer.setCollection("unconfirmed-bookings", unconfirmedBookings);
 
 		// get unordered tracers
-		List<TracerOrder> unorderedTracers = TracerOrderUtils.getTracerOrdersByStatus("unordered");
+		List<TracerOrder> unorderedTracers = TracerOrderUtils.getTracerOrdersByStatus("pending");
 		renderer.setCollection("unordered-tracers", unorderedTracers);
 
 		return renderer.render();

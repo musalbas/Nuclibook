@@ -35,6 +35,12 @@ $(document).ready(function () {
     }, function(){
         $(this).removeClass('btn-info')
     });
+
+    $(".confirm-button").hover(function(){
+        $(this).addClass('btn-success')
+    }, function(){
+        $(this).removeClass('btn-success')
+    });
 });
 
 // function to toggle a menu
