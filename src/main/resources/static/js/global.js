@@ -29,6 +29,12 @@ $(document).ready(function () {
     }, function(){
         $(this).removeClass('btn-danger')
     });
+
+    $(".info-button").hover(function(){
+        $(this).addClass('btn-info')
+    }, function(){
+        $(this).removeClass('btn-info')
+    });
 });
 
 // function to toggle a menu

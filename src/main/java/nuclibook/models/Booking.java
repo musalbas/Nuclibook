@@ -6,27 +6,29 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Model representing a booking.
  */
 @DatabaseTable(tableName = "bookings")
-public class Booking {
+public class Booking implements Renderable {
 
     @DatabaseField(generatedId = true)
     private Integer id;
 
-    @DatabaseField(columnName = "patient_id", foreign = true)
+    @DatabaseField(columnName = "patient_id", foreign = true, foreignAutoRefresh = true)
     private Patient patient;
 
-    @DatabaseField(columnName = "therapy", foreign = true)
+    @DatabaseField(columnName = "therapy", foreign = true, foreignAutoRefresh = true)
     private Therapy therapy;
 
-    @DatabaseField(columnName = "camera", foreign = true)
+    @DatabaseField(columnName = "camera", foreign = true, foreignAutoRefresh = true)
     private Camera camera;
 
 	@ForeignCollectionField(eager = true)
@@ -189,5 +191,20 @@ public class Booking {
 	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>(){{
+			put("booking-id", getId().toString());
+			put("therapy-name", getTherapy().getName());
+			put("camera-type-label", getCamera().getType().getLabel());
+			put("camera-room-number", getCamera().getRoomNumber());
+			put("status", getStatus());
+
+			// get date
+			List<BookingSection> bookingSections = getBookingSections();
+			put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+		}};
 	}
 }
