@@ -27,7 +27,7 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		TracerOrder tracerOrder = TracerOrderUtils.getTracerOrder(request.params(":tracerorderid:"));
 
 		// update?
-		if (request.params(":newstatus:") != null) {
+		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
 			tracerOrder.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(TracerOrder.class, tracerOrder);
 		}

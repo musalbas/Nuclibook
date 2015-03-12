@@ -31,7 +31,7 @@ public class BookingDetailsRoute extends DefaultRoute {
 		Booking booking = BookingUtils.getBooking(request.params(":bookingid:"));
 
 		// update?
-		if (request.params(":newstatus:") != null) {
+		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_APPOINTMENTS)) {
 			booking.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(Booking.class, booking);
 		}
