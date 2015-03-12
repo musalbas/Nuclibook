@@ -10,6 +10,7 @@ import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDetailsRoute extends DefaultRoute {
@@ -35,6 +36,11 @@ public class PatientDetailsRoute extends DefaultRoute {
 
 		renderer.setField("no-patient", "no");
 		renderer.setBulkFields(patient.getHashMap());
+
+		// add pseudo-collection for this patient
+		renderer.setCollection("patients", new ArrayList<Patient>(){{
+			add(patient);
+		}});
 
 		// add patient bookings
 		List<Booking> bookings = BookingUtils.getBookingsByPatientId(patient.getId());
