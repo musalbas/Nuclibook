@@ -334,11 +334,8 @@ public class Staff implements Renderable {
 	}
 
     public String getDaysRemainingToPasswordChangePrompt() {
-//        DateTime changed = getPasswordChangeDate();
-//        DateTime now = new DateTime();
-//
-//        Period period = new Period(changed, now);
+        Duration duration = new Duration(getPasswordChangeDate(), new DateTime());
 
-        return new Integer(90 - (new Period(getPasswordChangeDate(), new DateTime())).getDays()).toString();
+        return new Long(90 - (new Duration(getPasswordChangeDate(), new DateTime()).getStandardDays())).toString();
     }
 }
