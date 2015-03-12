@@ -24,6 +24,9 @@ public class LocalServer {
 		Spark.staticFileLocation("/static");
 
 		// page security
+		// TODO: REMOVE THIS
+		SecurityUtils.attemptLogin("06111993", "123456789");
+
 		Spark.before((request, response) -> {
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();
@@ -89,6 +92,13 @@ public class LocalServer {
         // bookings
         Spark.get("/appointments", new AppointmentsRoute());
         Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
+        Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
+
+		// tracer orders
+		Spark.get("/tracer-orders", new TracerOrdersRoute(false));
+		Spark.get("/tracer-orders/all", new TracerOrdersRoute(true));
+		Spark.get("/tracer-order-details/:tracerorderid:", new TracerOrderDetailsRoute());
+		Spark.get("/tracer-order-details/:tracerorderid:/:newstatus:", new TracerOrderDetailsRoute());
 
         // calendar week view
         Spark.get("/calendar", new CalendarRoute());

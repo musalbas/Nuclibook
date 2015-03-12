@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.BookingUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Booking;
@@ -26,8 +27,16 @@ public class BookingDetailsRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("booking-details.html");
 
-		// add booking
+		// get booking
 		Booking booking = BookingUtils.getBooking(request.params(":bookingid:"));
+
+		// update?
+		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_APPOINTMENTS)) {
+			booking.setStatus(request.params(":newstatus:"));
+			AbstractEntityUtils.updateEntity(Booking.class, booking);
+		}
+
+		// add booking to renderer
 		if (booking == null) {
 			renderer.setField("no-booking", "yes");
 			return renderer.render();

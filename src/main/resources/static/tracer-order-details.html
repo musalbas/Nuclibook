@@ -1,0 +1,72 @@
+#[def: title = Tracer Order Details]
+#[def: current-page = tracers]
+
+##_header.html
+
+#[if: no-tracer-order = yes]
+<div class="alert alert-danger" role="alert">
+	<p>That tracer order does not exist.</p>
+</div>
+#[/if]
+
+#[!if: no-tracer-order = yes]
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Order ID:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#tracer-order-id</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Status:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#HTMLOKAY:status-with-label</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Tracer:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#tracer-name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Dose:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#tracer-dose</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Required By:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#date-required (#days-until)</p>
+	</div>
+</div>
+
+#[ifperm: EDIT_TRACERS]
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Update Status:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<button class="btn confirm-button link-button" data-id="#id" data-target="/tracer-order-details/#tracer-order-id/ordered"><i class="fa fa-check-circle"></i> Ordered</button>
+		<button class="btn edit-button link-button" data-id="#id" data-target="/tracer-order-details/#tracer-order-id/pending"><i class="fa fa-minus-circle"></i> Pending</button>
+		<button class="btn delete-button link-button" data-id="#id" data-target="/tracer-order-details/#tracer-order-id/cancelled"><i class="fa fa-times-circle"></i> Cancelled</button>
+	</div>
+</div>
+#[/ifperm]
+#[/if]
+
+##_footer.html

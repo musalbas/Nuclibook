@@ -39,6 +39,15 @@
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Tracer:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#tracer-name, #tracer-dose</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
 		<p><strong>Status:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
@@ -63,6 +72,18 @@
 		<p>#HTMLOKAY:notes</p>
 	</div>
 </div>
+
+#[ifperm: EDIT_APPOINTMENTS]
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Update Status:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<button class="btn confirm-button link-button" data-id="#id" data-target="/booking-details/#booking-id/confirmed"><i class="fa fa-check-circle"></i> Confirmed</button>
+		<button class="btn edit-button link-button" data-id="#id" data-target="/booking-details/#booking-id/unconfirmed"><i class="fa fa-minus-circle"></i> Unconfirmed</button>
+	</div>
+</div>
+#[/ifperm]
 
 <div class="row">
 	<div class="col-lg-12">
