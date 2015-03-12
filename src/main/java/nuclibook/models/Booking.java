@@ -10,6 +10,7 @@ import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -134,6 +135,15 @@ public class Booking implements Renderable {
 		} finally {
 			iterator.closeQuietly();
 		}
+
+		// sort by date
+		output.sort(new Comparator<BookingSection>() {
+			@Override
+			public int compare(BookingSection o1, BookingSection o2) {
+				return o1.getStart().compareTo(o2.getStart());
+			}
+		});
+
 		return output;
 	}
 
