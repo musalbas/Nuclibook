@@ -18,6 +18,10 @@ public class TracerOrderUtils extends AbstractEntityUtils {
 		return getEntityById(TracerOrder.class, id);
 	}
 
+	public static List<TracerOrder> getAllTracerOrders() {
+		return getAllEntities(TracerOrder.class);
+	}
+
 	public static List<TracerOrder> getTracerOrdersByStatus(String status) {
 		return getEntitiesByField(TracerOrder.class, "status", status);
 	}
