@@ -1,0 +1,58 @@
+<div class="modal hide fade edit-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="edit-mode">Edit Patient</h3>
+				<h3 class="create-mode">Create Patient</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="patient"/>
+					<input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group">
+						<label for="name" class="col-sm-3 control-label">Name</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="name" id="name"/>
+							<p class="help-block"> Enter the patient's full name.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="hospital-number" class="col-sm-3 control-label">Hospital Number</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="hospital-number" id="hospital-number"/>
+							<p class="help-block">Enter the patient's hospital number.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Date of Birth</label>
+						<div class="col-sm-9">
+							<div class="col-sm-4" style="padding-left: 0;">
+								<select class="form-control" name="date-selector-year" id="date-selector-year">
+									<option value="" disabled selected>Year</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<select class="form-control" name="date-selector-month" id="date-selector-month" disabled>
+									<option value="" disabled selected>Month</option>
+								</select>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control" name="date-selector-day" id="date-selector-day" disabled>
+									<option value="">Day</option>
+								</select>
+							</div>
+							<input type="hidden" name="date-of-birth" id="date-selector-output"/>
+							<br style="clear: both"/>
+							<p class="help-block">Select the patient's date of birth.</p>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>

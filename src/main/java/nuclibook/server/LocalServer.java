@@ -86,11 +86,15 @@ public class LocalServer {
 		Spark.get("/staff-absences/:staffid:", new StaffAbsencesRoute());
         Spark.get("/staff-availabilities/:staffid:", new StaffAvailabilitiesRoute());
 
-        // appointments
+        // bookings
         Spark.get("/appointments", new AppointmentsRoute());
+        Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 
         // calendar week view
         Spark.get("/calendar", new CalendarRoute());
+
+		// patients
+		Spark.get("/patient-details/:patientid:", new PatientDetailsRoute());
 
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());

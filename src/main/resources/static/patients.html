@@ -6,12 +6,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-        #[ifperm: EDIT_PATIENTS]
+		#[ifperm: EDIT_PATIENTS]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Patient
 			</button>
 		</div>
-        #[/!ifperm]
+		#[/!ifperm]
 		<table class=" table table-bordered table-hover" id="patients-table">
 			<thead>
 				<tr>
@@ -32,13 +32,13 @@
 					<td>#hospital-number</td>
 					<td>#date-of-birth</td>
 					<td>
-                        #[ifperm: EDIT_PATIENTS]
-						<button class="btn edit-button" data-id="#id">Edit</button>
-						<button class="btn delete-button" data-id="#id">Delete</button>
-                        #[/ifperm]
-                        #[!ifperm: EDIT_PATIENTS]
-                        -
-                        #[/!ifperm]
+						#[ifperm: EDIT_PATIENTS]
+						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
+						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
+						#[/ifperm]
+						#[ifperm: VIEW_PATIENT_DETAILS]
+						<button class="btn info-button link-button" data-target="/patient-details/#id"><i class="fa fa-list-alt"></i> View Details</button>
+						#[/ifperm]
 					</td>
 				</tr>
 				#[/each]
@@ -54,67 +54,10 @@
 	</div>
 </div>
 
-<div class="modal hide fade edit-modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="edit-mode">Edit Patient</h3>
-				<h3 class="create-mode">Create Patient</h3>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal edit-form">
-					<input type="hidden" name="entity-type" value="patient"/>
-					<input type="hidden" name="entity-id" value="0"/>
-					<div class="form-group">
-						<label for="name" class="col-sm-3 control-label">Name</label>
-						<div class="col-sm-9">
-							<input class="form-control" type="text" name="name" id="name"/>
-							<p class="help-block"> Enter the patient's full name.</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="hospital-number" class="col-sm-3 control-label">Hospital Number</label>
-						<div class="col-sm-9">
-							<input class="form-control" type="text" name="hospital-number" id="hospital-number"/>
-							<p class="help-block">Enter the patient's hospital number.</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label">Date of Birth</label>
-						<div class="col-sm-9">
-							<div class="col-sm-4" style="padding-left: 0;">
-								<select class="form-control" name="year-of-birth" id="year-of-birth">
-									<option value="" disabled selected>Year</option>
-								</select>
-							</div>
-							<div class="col-sm-5">
-								<select class="form-control" name="month-of-birth" id="month-of-birth" disabled>
-									<option value="" disabled selected>Month</option>
-								</select>
-							</div>
-							<div class="col-sm-3">
-								<select class="form-control" name="day-of-birth" id="day-of-birth" disabled>
-									<option value="">Day</option>
-								</select>
-							</div>
-							<br style="clear: both"/>
-							<p class="help-block">Select the patient's date of birth.</p>
-						</div>
-					</div>
-
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-cancel">Cancel</button>
-				<button type="button" class="btn btn-primary btn-save">Ok</button>
-			</div>
-		</div>
-	</div>
-</div>
+##patient-edit-modal.html
 
 <script src="/js/patients.js"></script>
 <script src="/js/date-selector.js"></script>
-
 
 #[def: entity-name-title = Patient]
 #[def: entity-name-body = patient]

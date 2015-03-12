@@ -1,0 +1,95 @@
+#[def: title = Booking Details]
+#[def: current-page = bookings]
+
+##_header.html
+
+#[if: no-booking = yes]
+<div class="alert alert-danger" role="alert">
+	<p>That booking does not exist.</p>
+</div>
+#[/if]
+
+#[!if: no-booking = yes]
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Booking ID:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#booking-id</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Therapy:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#therapy-name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Camera:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#camera-type-label, #camera-room-number</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Status:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#status</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Patient:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#name#[ifperm: VIEW_PATIENT_DETAILS] (<a href="/patient-details/#id">view details</a>)#[/ifperm]</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Notes:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#HTMLOKAY:notes</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			Booking Schedule
+		</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		#[collection: booking-sections]
+
+		#[pre]#[/pre]
+
+		#[each]
+		<p><strong>#start-date</strong> @ #start-time - #end-time</p>
+		#[/each]
+
+		#[post]#[/post]
+
+		#[empty]<p>This booking currently has no schedule.</p>#[/empty]
+
+		#[/collection]
+	</div>
+</div>
+
+#[/if]
+
+##_footer.html

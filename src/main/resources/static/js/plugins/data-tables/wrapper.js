@@ -1,4 +1,9 @@
-function setUpDataTable(tableId, orderBy, colDefs) {
+function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
+
+	// ordering override
+	if (typeof orderingOverride == 'undefined') {
+		orderingOverride = 'asc';
+	}
 
 	// make column defs
 	var columnDefs = [];
@@ -27,7 +32,7 @@ function setUpDataTable(tableId, orderBy, colDefs) {
 				"sortAscending": ": activate to sort column ascending",
 				"sortDescending": ": activate to sort column descending"
 			},
-			"emptyTable": "<i>There's nothing here yet! Click on the Add button on the top right to add an entry to this table.</i>",
+			"emptyTable": "<i>There is no data to display in this table.</i>",
 			"info": "Showing _START_ of _END_ (_TOTAL_ results found)",
 			"infoEmpty": "No entries found",
 			"infoFiltered": "from _MAX_ entries",
@@ -50,7 +55,7 @@ function setUpDataTable(tableId, orderBy, colDefs) {
 		"pageLength": 20,
 		"pagingType": "bootstrap_full_number",
 		"order": [
-			[orderBy, "asc"]
+			[orderBy, orderingOverride]
 		]
 	});
 

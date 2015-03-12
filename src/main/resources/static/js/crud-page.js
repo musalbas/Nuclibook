@@ -43,7 +43,6 @@ $(document).ready(function (e) {
 function openEditModal(objectId) {
 	// reset HTML
 	editModal.html(originalEditFormHtml);
-	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
 
 	// find form
 	var form = editModal.find('.edit-form');
@@ -96,6 +95,9 @@ function openEditModal(objectId) {
 		}
 	}
 
+	// any custom setup?
+	if (typeof(onFormLoadSetup) == 'function') onFormLoadSetup();
+
 	// cancel button
 	editModal.find('.btn-cancel').unbind('click').click(function (e) {
 		editModal.modal('hide');
@@ -124,7 +126,6 @@ function openEditModal(objectId) {
 
 					// hide loading and reload
 					disableLoading(function () {
-						// TODO: better solution to this
 						location.reload();
 					});
 				} else if (result == 'failed_validation') {
@@ -186,7 +187,6 @@ function openDeleteModal(objectId) {
 
 					// hide loading and reload
 					disableLoading(function () {
-						// TODO: better solution to this
 						location.reload();
 					});
 				} else if (result == 'no_permission') {

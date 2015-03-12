@@ -6,28 +6,31 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Model representing a booking.
  */
 @DatabaseTable(tableName = "bookings")
-public class Booking {
+public class Booking implements Renderable {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(columnName = "patient_id", foreign = true)
-    private Patient patient;
+	@DatabaseField(columnName = "patient_id", foreign = true, foreignAutoRefresh = true)
+	private Patient patient;
 
-    @DatabaseField(columnName = "therapy", foreign = true)
-    private Therapy therapy;
+	@DatabaseField(columnName = "therapy", foreign = true, foreignAutoRefresh = true)
+	private Therapy therapy;
 
-    @DatabaseField(columnName = "camera", foreign = true)
-    private Camera camera;
+	@DatabaseField(columnName = "camera", foreign = true, foreignAutoRefresh = true)
+	private Camera camera;
 
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingSection> bookingSections;
@@ -35,20 +38,21 @@ public class Booking {
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingStaff> bookingStaff;
 
-    @DatabaseField(width = 16)
-    private String status;
+	@DatabaseField(width = 16)
+	private String status;
 
-    @DatabaseField(dataType = DataType.LONG_STRING)
-    private String notes;
+	@DatabaseField(dataType = DataType.LONG_STRING)
+	private String notes;
 
 	/**
 	 * Initialise a booking.
 	 */
-    public Booking() {
-    }
+	public Booking() {
+	}
 
 	/**
 	 * Get the ID of the booking.
+	 *
 	 * @return The ID of the booking.
 	 */
 	public Integer getId() {
@@ -57,6 +61,7 @@ public class Booking {
 
 	/**
 	 * Set the ID of the booking.
+	 *
 	 * @param id The ID of the booking.
 	 */
 	public void setId(Integer id) {
@@ -65,6 +70,7 @@ public class Booking {
 
 	/**
 	 * Get the patient.
+	 *
 	 * @return The patient.
 	 */
 	public Patient getPatient() {
@@ -73,6 +79,7 @@ public class Booking {
 
 	/**
 	 * Set the patient.
+	 *
 	 * @param patient The patient.
 	 */
 	public void setPatient(Patient patient) {
@@ -81,6 +88,7 @@ public class Booking {
 
 	/**
 	 * Get the therapy.
+	 *
 	 * @return The therapy.
 	 */
 	public Therapy getTherapy() {
@@ -89,6 +97,7 @@ public class Booking {
 
 	/**
 	 * Set the therapy.
+	 *
 	 * @param therapy The therapy.
 	 */
 	public void setTherapy(Therapy therapy) {
@@ -97,6 +106,7 @@ public class Booking {
 
 	/**
 	 * Get the camera.
+	 *
 	 * @return The camera.
 	 */
 	public Camera getCamera() {
@@ -105,6 +115,7 @@ public class Booking {
 
 	/**
 	 * Set the camera
+	 *
 	 * @param camera The camera.
 	 */
 	public void setCamera(Camera camera) {
@@ -113,6 +124,7 @@ public class Booking {
 
 	/**
 	 * Get the list of booking sections for this booking.
+	 *
 	 * @return The list of booking sections for this booking.
 	 */
 	public List<BookingSection> getBookingSections() {
@@ -132,11 +144,21 @@ public class Booking {
 		} finally {
 			iterator.closeQuietly();
 		}
+
+		// sort by date
+		output.sort(new Comparator<BookingSection>() {
+			@Override
+			public int compare(BookingSection o1, BookingSection o2) {
+				return o1.getStart().compareTo(o2.getStart());
+			}
+		});
+
 		return output;
 	}
 
 	/**
 	 * Get the list of staff for this booking.
+	 *
 	 * @return The list of staff for this booking.
 	 */
 	public List<Staff> getStaff() {
@@ -161,6 +183,7 @@ public class Booking {
 
 	/**
 	 * Get the status of the booking.
+	 *
 	 * @return The status of the booking.
 	 */
 	public String getStatus() {
@@ -169,6 +192,7 @@ public class Booking {
 
 	/**
 	 * Set the status of the booking
+	 *
 	 * @param status The status of the booking.
 	 */
 	public void setStatus(String status) {
@@ -177,6 +201,7 @@ public class Booking {
 
 	/**
 	 * Get the notes associated with the booking.
+	 *
 	 * @return The notes associated with the booking.
 	 */
 	public String getNotes() {
@@ -185,9 +210,38 @@ public class Booking {
 
 	/**
 	 * Set the notes associated with the booking.
+	 *
 	 * @param notes The notes associated with the booking.
 	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>() {{
+			put("booking-id", getId().toString());
+			put("therapy-name", getTherapy().getName());
+			put("camera-type-label", getCamera().getType().getLabel());
+			put("camera-room-number", getCamera().getRoomNumber());
+			put("status", getStatus());
+
+			// get date
+			List<BookingSection> bookingSections = getBookingSections();
+			if (bookingSections.isEmpty()) {
+				put("date", "?");
+			} else {
+				put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+			}
+
+			// get notes
+			String notes = getNotes();
+			if (notes == null || notes.length() == 0) {
+				notes = "<em>None</em>";
+			} else {
+				notes = notes.replace("\n", "<br />");
+			}
+			put("notes", notes);
+		}};
 	}
 }

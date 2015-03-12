@@ -21,18 +21,18 @@ var validateEditForm = function (formObject) {
         error = true;
     }
     //Check for correct DOB
-    console.log(formObject["year-of-birth"]);
-    if (formObject["year-of-birth"] == "Year" || formObject["year-of-birth"] == undefined) {
-        toastr.error("Please select an year for the patient birth.");
+    console.log(formObject["date-selector-year"]);
+    if (formObject["date-selector-year"] == "Year" || formObject["date-selector-year"] == undefined) {
+        toastr.error("Please select a year for the patient birth.");
         error = true;
     }
 
-    if (formObject["month-of-birth"] == "Month" || formObject["month-of-birth"] == undefined) {
+    if (formObject["date-selector-month"] == "Month" || formObject["date-selector-month"] == undefined) {
         toastr.error("Please select a month for the patient birth.");
         error = true;
     }
 
-    if (formObject["day-of-birth"] == "Day" || formObject["day-of-birth"] == undefined) {
+    if (formObject["date-selector-day"] == "Day" || formObject["date-selector-day"] == undefined) {
         toastr.error("Please select a day for the patient birth.");
         error = true;
     }
@@ -62,22 +62,26 @@ var validateCreateForm = function (formObject) {
         error = true;
     }
     //Check for correct DOB
-    console.log(formObject["year-of-birth"]);
-    if (formObject["year-of-birth"] == "Year" || formObject["year-of-birth"] == undefined) {
-        toastr.error("Please select an year for the patient birth.");
+    console.log(formObject["date-selector-year"]);
+    if (formObject["date-selector-year"] == "Year" || formObject["date-selector-year"] == undefined) {
+        toastr.error("Please select a year for the patient birth.");
         error = true;
     }
 
-    if (formObject["month-of-birth"] == "Month" || formObject["month-of-birth"] == undefined) {
+    if (formObject["date-selector-month"] == "Month" || formObject["date-selector-month"] == undefined) {
         toastr.error("Please select a month for the patient birth.");
         error = true;
     }
 
-    if (formObject["day-of-birth"] == "Day" || formObject["day-of-birth"] == undefined) {
+    if (formObject["date-selector-day"] == "Day" || formObject["date-selector-day"] == undefined) {
         toastr.error("Please select a day for the patient birth.");
         error = true;
     }
     return !error;
+};
+
+var onFormLoadSetup = function () {
+	prepareDateSelector();
 };
 
 $(document).ready(function () {
