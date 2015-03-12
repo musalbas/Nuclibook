@@ -1,7 +1,18 @@
 #[def: title = Tracer Orders]
-#[def: current-page = tracers]
+#[def: current-page = tracer-orders]
 
 ##_header.html
+
+<div class="row">
+	<div class="col-lg-12">
+		#[if: show-all = yes]
+		<p><strong>Show:</strong> <i class="fa fa-fw fa-check-square-o"></i> <a href="/tracer-orders/all">All Orders</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-square-o"></i> <a href="/tracer-orders">Pending Orders Only</a></p>
+		#[/if]
+		#[!if: show-all = yes]
+		<p><strong>Show:</strong> <i class="fa fa-fw fa-square-o"></i> <a href="/tracer-orders/all">All Orders</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-check-square-o"></i> <a href="/tracer-orders">Pending Orders Only</a></p>
+		#[/if]
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
@@ -12,6 +23,7 @@
 					<th class="text-center">Tracer</th>
 					<th class="text-center">Dose</th>
 					<th class="text-center">Status</th>
+					<th class="text-center">Actions</th>
 				</tr>
 			</thead>
 
@@ -26,6 +38,7 @@
 					<td>#tracer-name</td>
 					<td>#tracer-dose</td>
 					<td>#HTMLOKAY:status-with-label</td>
+					<td><button class="btn info-button link-button" data-target="/tracer-order-details/#tracer-order-id"><i class="fa fa-list-alt"></i> View Details</button></td>
 				</tr>
 				#[/each]
 

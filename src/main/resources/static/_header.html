@@ -145,6 +145,12 @@
 						<a href="/tracers"><i class="fa fa-fw fa-lg fa-flask"></i> Tracers</a>
 						</li>
 						#[/ifperm]
+						#[ifperm: VIEW_TRACERS]
+						<li
+						#[if: current-page = tracer-orders] class="active"#[/if]>
+						<a href="/tracer-orders"><i class="fa fa-fw fa-lg fa-truck"></i> Tracer Orders</a>
+						</li>
+						#[/ifperm]
 					</ul>
 					</li>
 					<li>
