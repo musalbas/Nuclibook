@@ -24,6 +24,10 @@ public abstract class DefaultRoute implements Route {
 	}
 
 	public void prepareToHandle() {
+		// make sure this is a fresh start
+		renderer.clearFields();
+		renderer.clearCollections();
+
 		// set up login field
 		if (SecurityUtils.checkLoggedIn()) {
 			renderer.setField("logged-in", "yes");
