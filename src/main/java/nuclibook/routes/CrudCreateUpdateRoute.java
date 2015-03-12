@@ -199,9 +199,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				|| request.queryParams("hospital-number").length() > 64
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
-				|| !request.queryParams("year-of-birth").matches("[0-9]{4}")
-				|| !request.queryParams("month-of-birth").matches("[0-9]{2}")
-				|| !request.queryParams("day-of-birth").matches("[0-9]{1,2}")) {
+				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -220,7 +218,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setHospitalNumber(request.queryParams("hospital-number"));
 
 		// dob
-		entity.setDateOfBirth(new DateTime(request.queryParams("year-of-birth") + "-" + request.queryParams("month-of-birth") + "-" + request.queryParams("day-of-birth")));
+		entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
 
 		return new Pair<>(Status.OK, entity);
 	}

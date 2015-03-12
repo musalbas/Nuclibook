@@ -1,13 +1,14 @@
 function prepareDateSelector() {
 	// get fields
-	var yearField = $('#year-of-birth');
-	var monthField = $('#month-of-birth');
-	var dateField = $('#day-of-birth');
+	var yearField = $('#date-selector-year');
+	var monthField = $('#date-selector-month');
+	var dayField = $('#date-selector-day');
+	var outputField = $('#date-selector-output');
 
 	// clear!
 	yearField.empty().unbind('change').append('<option value="" disabled selected>Year</option>');
 	monthField.empty().unbind('change').append('<option value="" disabled selected>Month</option>');
-	dateField.empty().unbind('change').append('<option value="" disabled selected>Day</option>');
+	dayField.empty().unbind('change').append('<option value="" disabled selected>Day</option>');
 
 	// add the last 100 years
 	var curYear = (new Date).getFullYear();
@@ -37,7 +38,7 @@ function prepareDateSelector() {
 			monthField.removeAttr('disabled');
 			monthField.find('option').attr('selected', '');
 			monthField.find('option').eq(0).attr('selected', 'selected');
-			dateField.attr('disabled', '')
+			dayField.attr('disabled', '')
 				.empty()
 				.append('<option disabled selected>Day</option>');
 		}
@@ -49,33 +50,41 @@ function prepareDateSelector() {
 		var selectedYear = parseInt(yearField.find('option:selected').text(), 10);
 		var selectedMonth = monthField.find('option:selected').text();
 		var monthsArr = ['January', 'March', 'May', 'July', 'August', 'October', 'December'];
-		dateField.empty()
+		dayField.empty()
 			.append('<option disabled selected>Day</option>');
 
 		if ($.inArray(selectedMonth, monthsArr) > -1) {
 			for (i = 1; i <= 31; ++i) {
-				dateField.append('<option value="' + i + '">' + i + '</option>');
+				dayField.append('<option value="' + i + '">' + i + '</option>');
 			}
 		} else {
 			if (selectedMonth == "February") {
 				if (((selectedYear % 4 == 0) && (selectedYear % 100 != 0)) || (selectedYear % 400 == 0)) {
 					for (i = 1; i <= 29; ++i) {
-						dateField.append('<option value="' + i + '">' + i + '</option>');
+						dayField.append('<option value="' + i + '">' + i + '</option>');
 					}
 				} else {
 					for (i = 1; i <= 28; ++i) {
-						dateField.append('<option value="' + i + '">' + i + '</option>');
+						dayField.append('<option value="' + i + '">' + i + '</option>');
 					}
 				}
 			} else {
 				for (i = 1; i <= 30; ++i) {
-					dateField.append('<option value="' + i + '">' + i + '</option>');
+					dayField.append('<option value="' + i + '">' + i + '</option>');
 				}
 			}
 		}
 
 		if (selectedMonth != "Month") {
-			dateField.removeAttr('disabled');
+			dayField.removeAttr('disabled');
 		}
+	});
+
+	// day click
+	dayField.change(function (e) {
+		var selectedYear = yearField.find('option:selected').val();
+		var selectedMonth = monthField.find('option:selected').val();
+		var selectedDay = dayField.find('option:selected').val();
+		outputField.val(selectedYear + "-" + selectedMonth + "-" + (selectedDay < 10 ? '0' : '') + selectedDay);
 	});
 }
