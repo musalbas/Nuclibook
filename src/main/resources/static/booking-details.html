@@ -74,52 +74,22 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<table class="table table-bordered table-hover" id="booking-history-table">
-			<thead>
-				<tr>
-					<th class="text-center">Date</th>
-					<th class="text-center">Therapy</th>
-					<th class="text-center">Camera</th>
-					<th class="text-center">Status</th>
-					<th class="text-center">Actions</th>
-				</tr>
-			</thead>
+		#[collection: booking-sections]
 
-			<tbody>
-				#[collection: bookings]
+		#[pre]#[/pre]
 
-				#[pre]#[/pre]
+		#[each]
+		<p><strong>#start-date</strong> @ #start-time - #end-time</p>
+		#[/each]
 
-				#[each]
-				<tr>
-					<td>#date</td>
-					<td>#therapy-name</td>
-					<td>#camera-type-label, #camera-room-number</td>
-					<td>#status</td>
-					<td>
-						#[ifperm: VIEW_APPOINTMENTS]
-						<button class="btn link-button info-button" data-target="/booking-details/#booking-id">
-							<i class="fa fa-list-alt"></i> View Details
-						</button>
-						#[/ifperm]
-						#[!ifperm: VIEW_APPOINTMENTS]
-						-
-						#[/!ifperm]
-					</td>
-				</tr>
-				#[/each]
+		#[post]#[/post]
 
-				#[post]#[/post]
+		#[empty]#[/empty]
 
-				#[empty]#[/empty]
-
-				#[/collection]
-			</tbody>
-		</table>
+		#[/collection]
 	</div>
 </div>
 
-<script src="/js/patient-details.js"></script>
 #[/if]
 
 ##_footer.html

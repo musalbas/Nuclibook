@@ -2,10 +2,13 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import nuclibook.server.Renderable;
 import org.joda.time.DateTime;
 
+import java.util.HashMap;
+
 @DatabaseTable(tableName = "booking_sections")
-public class BookingSection {
+public class BookingSection implements Renderable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -74,4 +77,17 @@ public class BookingSection {
 		this.end = end.getMillis();
 	}
 
+	@Override
+	public HashMap<String, String> getHashMap() {
+		return new HashMap<String, String>(){{
+			put("start", getStart().toString("YYYY-MM-dd HH:mm"));
+			put("end", getEnd().toString("YYYY-MM-dd HH:mm"));
+
+			put("start-date", getStart().toString("YYYY-MM-dd"));
+			put("end-date", getEnd().toString("YYYY-MM-dd"));
+
+			put("start-time", getStart().toString("HH:mm"));
+			put("end-time", getEnd().toString("HH:mm"));
+		}};
+	}
 }
