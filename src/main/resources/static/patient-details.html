@@ -1,5 +1,6 @@
 #[def: title = Patient Details]
 #[def: current-page = patients]
+#[def: crud = yes]
 
 ##_header.html
 
@@ -43,6 +44,13 @@
 	</div>
 	<div class="col-md-8 col-lg-8">
 		<p>#date-of-birth</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4">&nbsp;</div>
+	<div class="col-md-8 col-lg-8">
+		<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
 	</div>
 </div>
 
@@ -100,6 +108,15 @@
 		</table>
 	</div>
 </div>
+
+##patient-edit-modal.html
+
+<script src="/js/patients.js"></script>
+<script src="/js/date-selector.js"></script>
+
+##_loading-modal.html
+
+#[collectionmap: objectMap: patients]
 
 <script src="/js/patient-details.js"></script>
 #[/if]
