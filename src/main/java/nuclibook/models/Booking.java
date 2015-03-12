@@ -28,11 +28,17 @@ public class Booking implements Renderable {
 	@DatabaseField(columnName = "patient_id", foreign = true, foreignAutoRefresh = true)
 	private Patient patient;
 
-	@DatabaseField(columnName = "therapy", foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(columnName = "therapy_id", foreign = true, foreignAutoRefresh = true)
 	private Therapy therapy;
 
-	@DatabaseField(columnName = "camera", foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(columnName = "camera_id", foreign = true, foreignAutoRefresh = true)
 	private Camera camera;
+
+	@DatabaseField(columnName = "tracer_id", foreign = true, foreignAutoRefresh = true)
+	private Tracer tracer;
+
+	@DatabaseField(width = 32, columnName = "tracer_dose")
+	private String tracerDose;
 
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingSection> bookingSections;
@@ -122,6 +128,42 @@ public class Booking implements Renderable {
 	 */
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	/**
+	 * Get the tracer
+	 *
+	 * @return The tracer
+	 */
+	public Tracer getTracer() {
+		return tracer;
+	}
+
+	/**
+	 * Set the tracer
+	 *
+	 * @param tracer The tracer
+	 */
+	public void setTracer(Tracer tracer) {
+		this.tracer = tracer;
+	}
+
+	/**
+	 * Get the tracer dose.
+	 *
+	 * @return The tracer dose.
+	 */
+	public String getTracerDose() {
+		return tracerDose;
+	}
+
+	/**
+	 * Set the tracer dose
+	 *
+	 * @param tracerDose The tracer dose.
+	 */
+	public void setTracerDose(String tracerDose) {
+		this.tracerDose = tracerDose;
 	}
 
 	/**
