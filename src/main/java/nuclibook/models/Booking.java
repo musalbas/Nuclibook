@@ -7,6 +7,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.server.Renderable;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -239,6 +241,20 @@ public class Booking implements Renderable {
 				put("date", "?");
 			} else {
 				put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+			}
+
+			// get days until
+			if (bookingSections.isEmpty()) {
+				put("days-until", "?");
+			} else {
+				int daysUntil = Days.daysBetween(new LocalDate(), bookingSections.get(0).getStart().toLocalDate()).getDays();
+				if (daysUntil == 0) {
+					put("days-until", "today");
+				} else if (daysUntil < 0) {
+					put("days-until", daysUntil + " day" + (daysUntil == -1 ? "" : "s") + " ago");
+				} else {
+					put("days-until", "in " + daysUntil + " day" + (daysUntil == -1 ? "" : "s"));
+				}
 			}
 
 			// get notes
