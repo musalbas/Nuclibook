@@ -6,12 +6,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-        #[ifperm: EDIT_PATIENTS]
+		#[ifperm: EDIT_PATIENTS]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Patient
 			</button>
 		</div>
-        #[/!ifperm]
+		#[/!ifperm]
 		<table class=" table table-bordered table-hover" id="patients-table">
 			<thead>
 				<tr>
@@ -32,13 +32,13 @@
 					<td>#hospital-number</td>
 					<td>#date-of-birth</td>
 					<td>
-                        #[ifperm: EDIT_PATIENTS]
+						#[ifperm: EDIT_PATIENTS]
 						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
 						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
-                        #[/ifperm]
-                        #[!ifperm: EDIT_PATIENTS]
-                        -
-                        #[/!ifperm]
+						#[/ifperm]
+						#[ifperm: VIEW_PATIENT_DETAILS]
+						<button class="btn info-button link-button" data-target="/patient-details/#id"><i class="fa fa-list-alt"></i> Info</button>
+						#[/ifperm]
 					</td>
 				</tr>
 				#[/each]
