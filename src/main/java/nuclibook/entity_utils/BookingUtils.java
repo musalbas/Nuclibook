@@ -27,6 +27,18 @@ public class BookingUtils extends AbstractEntityUtils {
 		return getEntityById(Booking.class, id);
 	}
 
+    public static List<Booking> getBookingsByStaffId(String staffId) {
+        try {
+             return getBookingsByStaffId(Integer.parseInt(staffId));
+             } catch (NumberFormatException e) {
+             return null;
+             }
+    }
+
+    public static List<Booking> getBookingsByStaffId(int staffId) {
+        return getEntitiesByField(Booking.class, "staff_id", staffId);
+    }
+
 	public static List<Booking> getBookingsByDateRange(DateTime startDate, DateTime endDate) {
 		// find all booking sections between the supplied dates
 		Dao<BookingSection, Integer> dao = acquireDao(BookingSection.class);
