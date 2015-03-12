@@ -20,17 +20,17 @@ import java.util.List;
 @DatabaseTable(tableName = "bookings")
 public class Booking implements Renderable {
 
-    @DatabaseField(generatedId = true)
-    private Integer id;
+	@DatabaseField(generatedId = true)
+	private Integer id;
 
-    @DatabaseField(columnName = "patient_id", foreign = true, foreignAutoRefresh = true)
-    private Patient patient;
+	@DatabaseField(columnName = "patient_id", foreign = true, foreignAutoRefresh = true)
+	private Patient patient;
 
-    @DatabaseField(columnName = "therapy", foreign = true, foreignAutoRefresh = true)
-    private Therapy therapy;
+	@DatabaseField(columnName = "therapy", foreign = true, foreignAutoRefresh = true)
+	private Therapy therapy;
 
-    @DatabaseField(columnName = "camera", foreign = true, foreignAutoRefresh = true)
-    private Camera camera;
+	@DatabaseField(columnName = "camera", foreign = true, foreignAutoRefresh = true)
+	private Camera camera;
 
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingSection> bookingSections;
@@ -38,20 +38,21 @@ public class Booking implements Renderable {
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<BookingStaff> bookingStaff;
 
-    @DatabaseField(width = 16)
-    private String status;
+	@DatabaseField(width = 16)
+	private String status;
 
-    @DatabaseField(dataType = DataType.LONG_STRING)
-    private String notes;
+	@DatabaseField(dataType = DataType.LONG_STRING)
+	private String notes;
 
 	/**
 	 * Initialise a booking.
 	 */
-    public Booking() {
-    }
+	public Booking() {
+	}
 
 	/**
 	 * Get the ID of the booking.
+	 *
 	 * @return The ID of the booking.
 	 */
 	public Integer getId() {
@@ -60,6 +61,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the ID of the booking.
+	 *
 	 * @param id The ID of the booking.
 	 */
 	public void setId(Integer id) {
@@ -68,6 +70,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the patient.
+	 *
 	 * @return The patient.
 	 */
 	public Patient getPatient() {
@@ -76,6 +79,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the patient.
+	 *
 	 * @param patient The patient.
 	 */
 	public void setPatient(Patient patient) {
@@ -84,6 +88,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the therapy.
+	 *
 	 * @return The therapy.
 	 */
 	public Therapy getTherapy() {
@@ -92,6 +97,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the therapy.
+	 *
 	 * @param therapy The therapy.
 	 */
 	public void setTherapy(Therapy therapy) {
@@ -100,6 +106,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the camera.
+	 *
 	 * @return The camera.
 	 */
 	public Camera getCamera() {
@@ -108,6 +115,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the camera
+	 *
 	 * @param camera The camera.
 	 */
 	public void setCamera(Camera camera) {
@@ -116,6 +124,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the list of booking sections for this booking.
+	 *
 	 * @return The list of booking sections for this booking.
 	 */
 	public List<BookingSection> getBookingSections() {
@@ -149,6 +158,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the list of staff for this booking.
+	 *
 	 * @return The list of staff for this booking.
 	 */
 	public List<Staff> getStaff() {
@@ -173,6 +183,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the status of the booking.
+	 *
 	 * @return The status of the booking.
 	 */
 	public String getStatus() {
@@ -181,6 +192,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the status of the booking
+	 *
 	 * @param status The status of the booking.
 	 */
 	public void setStatus(String status) {
@@ -189,6 +201,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Get the notes associated with the booking.
+	 *
 	 * @return The notes associated with the booking.
 	 */
 	public String getNotes() {
@@ -197,6 +210,7 @@ public class Booking implements Renderable {
 
 	/**
 	 * Set the notes associated with the booking.
+	 *
 	 * @param notes The notes associated with the booking.
 	 */
 	public void setNotes(String notes) {
@@ -205,7 +219,7 @@ public class Booking implements Renderable {
 
 	@Override
 	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>(){{
+		return new HashMap<String, String>() {{
 			put("booking-id", getId().toString());
 			put("therapy-name", getTherapy().getName());
 			put("camera-type-label", getCamera().getType().getLabel());
@@ -214,7 +228,11 @@ public class Booking implements Renderable {
 
 			// get date
 			List<BookingSection> bookingSections = getBookingSections();
-			put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+			if (bookingSections.isEmpty()) {
+				put("date", "?");
+			} else {
+				put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
+			}
 
 			// get notes
 			String notes = getNotes();
