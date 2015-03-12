@@ -29,6 +29,10 @@ $(document).ready(function () {
     }, function(){
         $(this).removeClass('btn-danger')
     });
+
+    setTimeout(function () {
+        forcePasswordChange();
+    }, 100);
 });
 
 // function to toggle a menu
@@ -44,6 +48,6 @@ function subMenuToggle(menuWrapper) {
 	}
 }
 
-function forcePasswordChange() {
-    window.location.href("/profile?changepw=1")
+var forcePasswordChange = function () {
+    window.location.replace("/profile?changepw=1")
 }
