@@ -227,6 +227,12 @@ public class Booking implements Renderable {
 			put("camera-room-number", getCamera().getRoomNumber());
 			put("status", getStatus());
 
+			// get status label
+			String statusLabel = "default";
+			if (getStatus().equals("unconfirmed")) statusLabel = "warning";
+			if (getStatus().equals("confirmed")) statusLabel = "success";
+			put("status-with-label", "<span class=\"label label-as-badge label-" + statusLabel + "\">" + getStatus() + "</span>");
+
 			// get date
 			List<BookingSection> bookingSections = getBookingSections();
 			if (bookingSections.isEmpty()) {
