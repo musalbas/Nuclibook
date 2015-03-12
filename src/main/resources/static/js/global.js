@@ -50,3 +50,6 @@ function subMenuToggle(menuWrapper) {
 	}
 }
 
+function forcePasswordChange() {
+    window.location.href("/profile?changepw=1")
+}
