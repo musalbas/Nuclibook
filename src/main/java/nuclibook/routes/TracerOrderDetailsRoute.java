@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
 import nuclibook.models.TracerOrder;
@@ -22,8 +23,16 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("tracer-order-details.html");
 
-		// add tracer order
+		// get tracer order
 		TracerOrder tracerOrder = TracerOrderUtils.getTracerOrder(request.params(":tracerorderid:"));
+
+		// update?
+		if (request.params(":newstatus:") != null) {
+			tracerOrder.setStatus(request.params(":newstatus:"));
+			AbstractEntityUtils.updateEntity(TracerOrder.class, tracerOrder);
+		}
+
+		// add tracer order to renderer
 		if (tracerOrder == null) {
 			renderer.setField("no-tracer-order", "yes");
 			return renderer.render();
