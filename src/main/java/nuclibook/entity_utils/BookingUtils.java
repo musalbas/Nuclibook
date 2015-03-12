@@ -5,6 +5,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
+import nuclibook.models.BookingStaff;
 import nuclibook.models.Staff;
 import org.joda.time.DateTime;
 
@@ -27,17 +28,34 @@ public class BookingUtils extends AbstractEntityUtils {
 		return getEntityById(Booking.class, id);
 	}
 
-    public static List<Booking> getBookingsByStaffId(String staffId) {
-        try {
-             return getBookingsByStaffId(Integer.parseInt(staffId));
-             } catch (NumberFormatException e) {
-             return null;
-             }
-    }
+	public static List<Booking> getBookingsByStaffId(String staffId) {
+		try {
+			return getBookingsByStaffId(Integer.parseInt(staffId));
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 
     public static List<Booking> getBookingsByStaffId(int staffId) {
-        return getEntitiesByField(Booking.class, "staff_id", staffId);
+		List<BookingStaff> bookingStaff = getEntitiesByField(BookingStaff.class, "staff_id", staffId);
+		HashSet<Booking> bookings = new HashSet<>();
+		for (BookingStaff bs : bookingStaff) {
+			bookings.add(bs.getBooking());
+		}
+        return new ArrayList<>(bookings);
     }
+
+	public static List<Booking> getBookingsByPatientId(String patientId) {
+		try {
+			return getBookingsByPatientId(Integer.parseInt(patientId));
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public static List<Booking> getBookingsByPatientId(int patientId) {
+		return getEntitiesByField(Booking.class, "patient_id", patientId);
+	}
 
 	public static List<Booking> getBookingsByDateRange(DateTime startDate, DateTime endDate) {
 		// find all booking sections between the supplied dates
