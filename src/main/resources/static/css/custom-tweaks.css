@@ -83,11 +83,17 @@ html, body {
 /* user dropdown menu width adjusting */
 
 .user-dropdown-menu {
-    min-width: 190px;
+	min-width: 190px;
 }
 
 /* stackable form controls */
 
 .stacked-form-control {
 	margin-bottom: 6px !important;
+}
+
+/* label/badge hack */
+
+.label-as-badge {
+	border-radius: 1em;
 }

@@ -528,7 +528,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			}
 
 			// validation
-			if (!valueA.equals("busy") && !valueB.equals("wait")) {
+			if (!valueA.equals("busy") && !valueA.equals("wait")) {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 			if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {

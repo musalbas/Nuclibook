@@ -6,21 +6,34 @@
 	<div class="col-lg-6 col-md-6">
 		<div class="panel panel-yellow">
 			<div class="panel-heading">
-				<h3 class="panel-title">Unconfirmed Appointments</h3>
+				<h3 class="panel-title">Unconfirmed Bookings</h3>
 			</div>
 			<div class="panel-body">
 				<div class="list-group">
-					<a href="#" class="list-group-item">
-						<span class="badge">appointment in 5 days</span>
-						<i class="fa fa-fw fa-clock-o"></i> Joe Swanson
+					#[collection: unconfirmed-bookings]
+
+					#[pre]#[/pre]
+
+					#[each]
+					<a href="/booking-details/#booking-id" class="list-group-item">
+						<i class="fa fa-fw fa-clock-o"></i> #patient-name, #therapy-name
+						<span class="label label-default label-as-badge pull-right">#days-until</span>
 					</a>
-					<a href="#" class="list-group-item">
-						<span class="badge">appointment in 9 days</span>
-						<i class="fa fa-fw fa-clock-o"></i> Abigail Rainbow
-					</a>
+					#[/each]
+
+					#[post]#[/post]
+
+					#[empty]
+					<span class="list-group-item">
+						<em>None</em>
+					</span>
+					#[/empty]
+
+					#[/collection]
 				</div>
 				<div class="text-right">
-					<a href="#">View All Appointments <i class="fa fa-arrow-circle-right"></i></a>
+					<!-- TODO -->
+					<a href="/bookings">View All Bookings <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 		</div>

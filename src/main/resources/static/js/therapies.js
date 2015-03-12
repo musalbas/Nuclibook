@@ -154,5 +154,5 @@ var onFormLoadSetup = function() {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
 });
