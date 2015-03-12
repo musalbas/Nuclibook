@@ -24,6 +24,9 @@ public class LocalServer {
 		Spark.staticFileLocation("/static");
 
 		// page security
+		// TODO: REMOVE THIS
+		SecurityUtils.attemptLogin("06111993", "123456789");
+
 		Spark.before((request, response) -> {
 			// check if they are accessing a non-secure page
 			String path = request.pathInfo();

@@ -1,7 +1,9 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.BookingUtils;
+import nuclibook.entity_utils.TracerOrderUtils;
 import nuclibook.models.Booking;
+import nuclibook.models.TracerOrder;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -21,6 +23,10 @@ public class DashboardRoute extends DefaultRoute {
 		// get unconfirmed bookings
 		List<Booking> unconfirmedBookings = BookingUtils.getBookingsByStatus("unconfirmed");
 		renderer.setCollection("unconfirmed-bookings", unconfirmedBookings);
+
+		// get unordered tracers
+		List<TracerOrder> unorderedTracers = TracerOrderUtils.getTracerOrdersByStatus("unordered");
+		renderer.setCollection("unordered-tracers", unorderedTracers);
 
 		return renderer.render();
 	}

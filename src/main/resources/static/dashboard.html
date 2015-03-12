@@ -41,33 +41,34 @@
 	<div class="col-lg-6 col-md-6">
 		<div class="panel panel-red">
 			<div class="panel-heading">
-				<h3 class="panel-title">Unordered Radio Tracers</h3>
+				<h3 class="panel-title">Unordered Tracers</h3>
 			</div>
 			<div class="panel-body">
 				<div class="list-group">
-					<a href="#" class="list-group-item">
-						<span class="badge">1 day(s) left</span>
-						<i class="fa fa-fw fa-flask"></i> RadioTracer1
+					#[collection: unordered-tracers]
+
+					#[pre]#[/pre]
+
+					#[each]
+					<a href="/tracer-order-details/#tracer-order-id" class="list-group-item">
+						<i class="fa fa-fw fa-flask"></i> #tracer-name, #tracer-dose
+						<span class="label label-default label-as-badge pull-right">due #days-until</span>
 					</a>
-					<a href="#" class="list-group-item">
-						<span class="badge">4 day(s) left</span>
-						<i class="fa fa-fw fa-flask"></i> RadioTracer2
-					</a>
-					<a href="#" class="list-group-item">
-						<span class="badge">4 days left</span>
-						<i class="fa fa-fw fa-flask"></i> RadioTracer3
-					</a>
-					<a href="#" class="list-group-item">
-						<span class="badge">7 days left</span>
-						<i class="fa fa-fw fa-flask"></i> RadioTracer3
-					</a>
-					<a href="#" class="list-group-item">
-						<span class="badge">10 days left</span>
-						<i class="fa fa-fw fa-flask"></i> RadioTracer5
-					</a>
+					#[/each]
+
+					#[post]#[/post]
+
+					#[empty]
+					<span class="list-group-item">
+						<em>None</em>
+					</span>
+					#[/empty]
+
+					#[/collection]
 				</div>
 				<div class="text-right">
-					<a href="#">Order Radio Tracer <i class="fa fa-arrow-circle-right"></i></a>
+					<!-- TODO -->
+					<a href="/tracer-orders">All Orders <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 		</div>
