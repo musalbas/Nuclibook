@@ -30,9 +30,17 @@ $(document).ready(function () {
         $(this).removeClass('btn-danger')
     });
 
-    setTimeout(function () {
-        forcePasswordChange();
-    }, 100);
+    $(".info-button").hover(function(){
+        $(this).addClass('btn-info')
+    }, function(){
+        $(this).removeClass('btn-info')
+    });
+
+    $(".confirm-button").hover(function(){
+        $(this).addClass('btn-success')
+    }, function(){
+        $(this).removeClass('btn-success')
+    });
 });
 
 // function to toggle a menu
@@ -48,6 +56,6 @@ function subMenuToggle(menuWrapper) {
 	}
 }
 
-var forcePasswordChange = function () {
-    window.location.replace("/profile?changepw=1")
+function forcePasswordChange() {
+    window.location.href("/profile?changepw=1")
 }
