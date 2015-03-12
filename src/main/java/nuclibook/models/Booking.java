@@ -221,6 +221,7 @@ public class Booking implements Renderable {
 	public HashMap<String, String> getHashMap() {
 		return new HashMap<String, String>() {{
 			put("booking-id", getId().toString());
+			put("patient-name", getPatient().getName());
 			put("therapy-name", getTherapy().getName());
 			put("camera-type-label", getCamera().getType().getLabel());
 			put("camera-room-number", getCamera().getRoomNumber());
