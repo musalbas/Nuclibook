@@ -1,0 +1,66 @@
+#[def: title = Patient Details]
+#[def: current-page = patients]
+
+##_header.html
+
+#[if: no-patient = yes]
+<div class="alert alert-danger" role="alert">
+	<p>That patient does not exist.</p>
+</div>
+#[/if]
+
+#[!if: no-patient = yes]
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>ID:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#id</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Name:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Hospital Number:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#hospital-number</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Date of Birth:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#date-of-birth</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			Patient History
+		</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<p>TODO</p>
+	</div>
+</div>
+
+<script src="/js/patient-history.js"></script>
+#[/if]
+
+##_footer.html

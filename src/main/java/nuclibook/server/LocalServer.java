@@ -92,6 +92,9 @@ public class LocalServer {
         // calendar week view
         Spark.get("/calendar", new CalendarRoute());
 
+		// patients
+		Spark.get("/patient-details/:patientid:", new PatientDetailsRoute());
+
 		// debugging
 		Spark.get("/htmltest/:file", new HtmlTestRoute());
 	}
