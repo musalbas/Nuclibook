@@ -19,7 +19,7 @@ public class CalendarRoute extends DefaultRoute {
         prepareToHandle();
 
         // security check
-        if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return null;
+        if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return "no_permission";
 
         // get start/end date
         String start = request.queryParams("start");
@@ -42,8 +42,8 @@ public class CalendarRoute extends DefaultRoute {
                 jsonOutput.append(", { ");
             }
 
-            jsonOutput.append("'patientId': '").append(bookings.get(i).getPatient().getId() + "'");
-            jsonOutput.append("'therapyName': '").append(bookings.get(i).getTherapy().getName() + "'");
+            jsonOutput.append("'patientId': '").append(bookings.get(i).getPatient().getId()).append("'");
+            jsonOutput.append("'therapyName': '").append(bookings.get(i).getTherapy().getName().replace("'", "\\'")).append("'");
             jsonOutput.append("'bookingSections': [");
 
             List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
@@ -55,8 +55,8 @@ public class CalendarRoute extends DefaultRoute {
                     jsonOutput.append(", { ");
                 }
 
-                jsonOutput.append("'startTime': '").append(bookingSections.get(i).getStart() + "'");
-                jsonOutput.append("'endTime': '").append(bookingSections.get(i).getEnd() + "'");
+                jsonOutput.append("'startTime': '").append(bookingSections.get(i).getStart().toString("YYYY-MM-dd HH:mm") + "'");
+                jsonOutput.append("'endTime': '").append(bookingSections.get(i).getEnd().toString("YYYY-MM-dd HH:mm") + "'");
                 jsonOutput.append("}");
             }
 
