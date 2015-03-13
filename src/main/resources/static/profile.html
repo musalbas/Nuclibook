@@ -34,6 +34,15 @@
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Password Change In:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		#current-user-days-until-password-change days
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
 		<p><strong>Password Options:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
@@ -87,7 +96,9 @@
 <script src="/js/profile.js"></script>
 
 #[if: open-password-modal = yes]
-<script> openPasswordModal() </script>
+<script type="text/javascript">
+	openPasswordModal();
+</script>
 #[/if]
 
 ##_loading-modal.html

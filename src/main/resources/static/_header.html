@@ -197,13 +197,8 @@
                         <div class="col-lg-12">
                             #[if: show-password-reminder = yes]
                             <div class="alert alert-warning" style="margin-top: 50px" role="alert">
-                                You have #days-since-password-changed days remaining before you will be forced to change your password. <a href="/profile">Change it now.</a>
+                                You have #current-user-days-until-password-change days remaining before you will be forced to change your password. <a href="/profile?changepw=1">Click to change it now.</a>
                             </div>
-                            #[/if]
-                            #[if: force-password-change = yes]
-                            <script>
-                                forcePasswordChange();
-                            </script>
                             #[/if]
 							<h1 class="page-header">
 								#title

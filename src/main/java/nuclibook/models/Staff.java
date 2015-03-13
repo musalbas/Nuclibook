@@ -10,8 +10,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.Duration;
-import org.joda.time.Period;
+import org.joda.time.LocalDate;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -19,7 +18,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,11 +63,11 @@ public class Staff implements Renderable {
 	@DatabaseField
 	private String passwordChangeDate;
 
-    @ForeignCollectionField(eager = true)
-    private ForeignCollection<StaffAvailability> availabilities;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<StaffAvailability> availabilities;
 
-    @ForeignCollectionField(eager = true)
-    private ForeignCollection<StaffAbsence> absences;
+	@ForeignCollectionField(eager = true)
+	private ForeignCollection<StaffAbsence> absences;
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
@@ -172,14 +170,10 @@ public class Staff implements Renderable {
 
 	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
 		// Check that the password is not equivalent to the past 3 passwords
-		if (checkPassword(this.passwordSalt1, this.passwordHash1, password)
+		return checkPassword(this.passwordSalt1, this.passwordHash1, password)
 				|| checkPassword(this.passwordSalt2, this.passwordHash2, password)
 				|| checkPassword(this.passwordSalt3, this.passwordHash3, password)
-				|| checkPassword(password)) {
-			return true;
-		} else {
-			return false;
-		}
+				|| checkPassword(password);
 	}
 
 	private String generateHash(String text) throws CannotHashPasswordException {
@@ -198,6 +192,10 @@ public class Staff implements Renderable {
 		}
 
 		return String.format("%0128x", new BigInteger(1, hash));
+	}
+
+	public int getDaysRemainingToPasswordChange() {
+		return 90 - Days.daysBetween(getPasswordChangeDate().toLocalDate(), new LocalDate()).getDays();
 	}
 
 	/* PERMISSIONS */
@@ -234,108 +232,98 @@ public class Staff implements Renderable {
 
     /* AVAILABILITIES */
 
-    public List<StaffAvailability> getStaffAvailability() {
-        ArrayList<StaffAvailability> output = new ArrayList<>();
-        CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
-        try {
-            StaffAvailability sa;
-            while (iterator.hasNext()) {
-                sa = iterator.next();
-                if (sa != null) output.add(sa);
-            }
-        } finally {
-            iterator.closeQuietly();
-        }
-        return output;
-    }
+	public List<StaffAvailability> getStaffAvailability() {
+		ArrayList<StaffAvailability> output = new ArrayList<>();
+		CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
+		try {
+			StaffAvailability sa;
+			while (iterator.hasNext()) {
+				sa = iterator.next();
+				if (sa != null) output.add(sa);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
+	}
 
-    public String getStaffAvailabilityIdString() {
-        List<StaffAvailability> staffAvailability = getStaffAvailability();
-        if (staffAvailability.isEmpty()) return "0";
-        StringBuilder sb = new StringBuilder();
-        for (StaffAvailability sa : staffAvailability) {
-            sb.append(sa.getId()).append(",");
-        }
-        return sb.substring(0, sb.length() - 1);
-    }
+	public String getStaffAvailabilityIdString() {
+		List<StaffAvailability> staffAvailability = getStaffAvailability();
+		if (staffAvailability.isEmpty()) return "0";
+		StringBuilder sb = new StringBuilder();
+		for (StaffAvailability sa : staffAvailability) {
+			sb.append(sa.getId()).append(",");
+		}
+		return sb.substring(0, sb.length() - 1);
+	}
 
-    public void clearStaffAvailability() {
-        CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
-        try {
-            while (iterator.hasNext()) {
-                AbstractEntityUtils.deleteEntity(StaffAvailability.class, iterator.next());
-            }
-        } finally {
-            iterator.closeQuietly();
-        }
-    }
+	public void clearStaffAvailability() {
+		CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
+		try {
+			while (iterator.hasNext()) {
+				AbstractEntityUtils.deleteEntity(StaffAvailability.class, iterator.next());
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+	}
 
-    public void addStaffAvailability(StaffAvailability sa) {
-        sa.setStaff(this);
-        AbstractEntityUtils.createEntity(StaffAvailability.class, sa);
-    }
+	public void addStaffAvailability(StaffAvailability sa) {
+		sa.setStaff(this);
+		AbstractEntityUtils.createEntity(StaffAvailability.class, sa);
+	}
 
     /* ABSENCES */
 
-    public List<StaffAbsence> getStaffAbsences() {
-        ArrayList<StaffAbsence> output = new ArrayList<>();
-        CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
-        try {
-            StaffAbsence sa;
-            while (iterator.hasNext()) {
-                sa = iterator.next();
-                if (sa != null) output.add(sa);
-            }
-        } finally {
-            iterator.closeQuietly();
-        }
-        return output;
-    }
+	public List<StaffAbsence> getStaffAbsences() {
+		ArrayList<StaffAbsence> output = new ArrayList<>();
+		CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
+		try {
+			StaffAbsence sa;
+			while (iterator.hasNext()) {
+				sa = iterator.next();
+				if (sa != null) output.add(sa);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
+	}
 
-    public String getStaffAbsencesIdString() {
-        List<StaffAbsence> staffAbsence = getStaffAbsences();
-        if (staffAbsence.isEmpty()) return "0";
-        StringBuilder sb = new StringBuilder();
-        for (StaffAbsence sa : staffAbsence) {
-            sb.append(sa.getId()).append(",");
-        }
-        return sb.substring(0, sb.length() - 1);
-    }
+	public String getStaffAbsencesIdString() {
+		List<StaffAbsence> staffAbsence = getStaffAbsences();
+		if (staffAbsence.isEmpty()) return "0";
+		StringBuilder sb = new StringBuilder();
+		for (StaffAbsence sa : staffAbsence) {
+			sb.append(sa.getId()).append(",");
+		}
+		return sb.substring(0, sb.length() - 1);
+	}
 
-    public void clearStaffAbsences() {
-        CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
-        try {
-            while (iterator.hasNext()) {
-                AbstractEntityUtils.deleteEntity(StaffAbsence.class, iterator.next());
-            }
-        } finally {
-            iterator.closeQuietly();
-        }
-    }
+	public void clearStaffAbsences() {
+		CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
+		try {
+			while (iterator.hasNext()) {
+				AbstractEntityUtils.deleteEntity(StaffAbsence.class, iterator.next());
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+	}
 
-    public void addStaffAbsences(StaffAbsence sa) {
-        sa.setStaff(this);
-        AbstractEntityUtils.createEntity(StaffAbsence.class, sa);
-    }
+	public void addStaffAbsences(StaffAbsence sa) {
+		sa.setStaff(this);
+		AbstractEntityUtils.createEntity(StaffAbsence.class, sa);
+	}
 
 	@Override
 	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>() {
-			{
-				put("id", ((Integer) getId()).toString());
-				put("name", getName());
-				put("username", getUsername());
-				put("role-id", getRole() == null ? "0" : getRole().getId().toString());
-				put("role-label", getRole() == null ? "-" : getRole().getLabel());
-                // TODO: password-reminder field?
-                put("pass-days-remaining", String.valueOf(new Duration(getPasswordChangeDate(), new DateTime()).getStandardDays()));
-			}
-		};
+		return new HashMap<String, String>() {{
+			put("id", ((Integer) getId()).toString());
+			put("name", getName());
+			put("username", getUsername());
+			put("role-id", getRole() == null ? "0" : getRole().getId().toString());
+			put("role-label", getRole() == null ? "-" : getRole().getLabel());
+		}};
 	}
-
-    public String getDaysRemainingToPasswordChangePrompt() {
-        Duration duration = new Duration(getPasswordChangeDate(), new DateTime());
-
-        return new Long(90 - (new Duration(getPasswordChangeDate(), new DateTime()).getStandardDays())).toString();
-    }
 }

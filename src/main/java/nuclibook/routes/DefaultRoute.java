@@ -30,7 +30,6 @@ public abstract class DefaultRoute implements Route {
 
 		// set up login field
 		if (SecurityUtils.checkLoggedIn()) {
-
 			renderer.setField("logged-in", "yes");
 
 			Staff currentUser = SecurityUtils.getCurrentUser();
@@ -39,15 +38,12 @@ public abstract class DefaultRoute implements Route {
 			renderer.setField("current-user-name", currentUser.getName());
 			renderer.setField("current-user-role", currentUser.getRole().getLabel());
 			renderer.setField("current-user-permissions-summary", currentUser.getRole().getPermissionSummary());
-            renderer.setField("days-since-password-changed", currentUser.getDaysRemainingToPasswordChangePrompt());
-            if(Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) >= 1
-                    && Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) <= 9) {
-                System.out.println("PASSWORD CHANGE SOON! DAYS REMAINING: " + currentUser.getDaysRemainingToPasswordChangePrompt());
-                renderer.setField("show-password-reminder", "yes");
-            } else if (Integer.parseInt(currentUser.getDaysRemainingToPasswordChangePrompt()) < 1) {
-                System.out.println("FORCE PASSWORD CHANGE, REDIRECT DEM SWAGGERS");
-                renderer.setField("force-password-change", "yes");
-            }
+			renderer.setField("current-user-days-until-password-change", currentUser.getDaysRemainingToPasswordChange());
+			if (currentUser.getDaysRemainingToPasswordChange() >= 1 && currentUser.getDaysRemainingToPasswordChange() <= 9) {
+				renderer.setField("show-password-reminder", "yes");
+			} else if (currentUser.getDaysRemainingToPasswordChange() < 1) {
+				// TODO: force redirect to change password page
+			}
 		} else {
 			renderer.setField("logged-in", "no");
 		}
