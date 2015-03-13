@@ -19,7 +19,8 @@ html, body {
 /* fix sidebar highlights */
 
 .side-nav {
-	height: calc(100% - 51px) !important;
+	top: 50px !important;
+	height: calc(100% - 50px) !important;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
