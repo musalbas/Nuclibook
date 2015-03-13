@@ -12,7 +12,7 @@ import spark.Response;
 
 import java.util.List;
 
-public class NewBookingRoute extends DefaultRoute {
+public class NewBookingRouteStage1 extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -24,7 +24,7 @@ public class NewBookingRoute extends DefaultRoute {
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("new-booking.html");
+		renderer.setTemplateFile("new-booking-stage-1.html");
 
 		// get patients and add to renderer
 		List<Patient> allPatients = PatientUtils.getAllPatients(true);

@@ -114,7 +114,7 @@ public class LocalServer {
         Spark.get("/staff-availabilities/:staffid:", new StaffAvailabilitiesRoute());
 
         // bookings
-        Spark.get("/new-booking", new NewBookingRoute());
+        Spark.get("/new-booking-1", new NewBookingRouteStage1());
         Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
         Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 

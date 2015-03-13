@@ -23,7 +23,7 @@
 		<link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
 		#[/if]
 		#[if: current-page = new-booking]
-		<link href="/css/new-booking.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/new-booking-stage-1.css" rel="stylesheet" type="text/css"/>
 		#[/if]
 
 		<!-- data-tables CSS -->
@@ -110,7 +110,7 @@
 						#[ifperm: EDIT_APPOINTMENTS]
 						<li
 						#[if: current-page = new-booking] class="active"#[/if]>
-						<a href="/new-booking"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
+						<a href="/new-booking-1"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
 						</li>
 						#[/ifperm]
 						#[ifperm: VIEW_APPOINTMENTS]
