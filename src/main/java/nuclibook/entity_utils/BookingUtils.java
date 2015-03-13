@@ -33,14 +33,14 @@ public class BookingUtils extends AbstractEntityUtils {
 		}
 	}
 
-    public static List<Booking> getBookingsByStaffId(int staffId) {
+	public static List<Booking> getBookingsByStaffId(int staffId) {
 		List<BookingStaff> bookingStaff = getEntitiesByField(BookingStaff.class, "staff_id", staffId);
 		HashSet<Booking> bookings = new HashSet<>();
 		for (BookingStaff bs : bookingStaff) {
 			bookings.add(bs.getBooking());
 		}
-        return new ArrayList<>(bookings);
-    }
+		return new ArrayList<>(bookings);
+	}
 
 	public static List<Booking> getBookingsByPatientId(String patientId) {
 		try {

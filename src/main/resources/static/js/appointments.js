@@ -35,14 +35,22 @@ $(document).ready(function () {
         $('#page-three').slideUp(500);
     });
 
+    var currentDateDay = (new Date).getDate();
+    var currentDateMonth = (new Date).getMonth();
+    var currentDateYear = (new Date).getFullYear();
+    var updateCalendarWeek = function () {
 
+    }
+
+    var appointmentsArray = [];
+    var calendar = $('.calendar');
     $('#view-available-appointments').click(function () {
         // hide buttons
         $(this).slideUp(300);
         $('#go-back-to-select-therapy').hide();
 
         // show calendar
-        var calendar =
+        calendar =
             $('.calendar').show().fullCalendar({
                 header: {
 
@@ -53,10 +61,17 @@ $(document).ready(function () {
                 },
 
                 defaultView: 'agendaWeek',
-                editable: true,
                 selectable: true,
                 selectHelper: true,
+                minTime: "08:00:00",
+                maxTime: "19:00:00",
+                allDaySlot: false,
 
+                viewDisplay: function (e) {
+                    appointmentsArray.length = 0;
+                    callAjax(e.start, e.end);
+
+                },
 
                 select: function (start, end, allDay) {
                     var title = prompt('Event Title:');
@@ -75,34 +90,53 @@ $(document).ready(function () {
                     calendar.fullCalendar('unselect');
                 },
 
-                events: [
-                    {
-                        title: 'My Event',
-
-                        start: '2015-03-10T14:30:00',
-                        end: '2015-03-10T16:30:00',
-                        allDay: false
-                    }
-                    // other events here...
-                ],
-                timeFormat: 'H(:mm)'
+                events: appointmentsArray,
+                timeFormat: 'H(:mm)',
+                weekends: true,
+                slotMinutes: 15
 
             });
+    });
 
-        // ajax for retrieving current booking sections
-        $.get('/calendar?start=' + new Date()
-        ).done(function (result) {
-                console.log(result);
+
+    function callAjax(startDate, endDate) {
+
+       // calendar.fullCalendar('removeEventSource');
+
+        //geting Sunday Saturday Dates to pass to CalendarRoute
+        var sundayString = startDate.getFullYear() + '-' + (startDate.getMonth() < 10 ? '0' : '') + (startDate.getMonth() + 1) + '-' + ((startDate.getDate()) < 10 ? '0' : '') + (startDate.getDate());
+        endDate = new Date(((endDate.getTime()) - 86400000));
+        var saturdayString = endDate.getFullYear() + '-' + (endDate.getMonth() < 10 ? '0' : '') + (endDate.getMonth() + 1) + '-' + ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
+        $.get('/calendar?start=' + sundayString + '&end=' + saturdayString)
+            .done(function (result) {
+                var tryharder = result.toString();
+                var jsonTestForm = JSON.parse(tryharder);
+                for (var i = 0; i < jsonTestForm.bookings.length; ++i) {
+                    //Start
+                    for (var j = 0; j < jsonTestForm.bookings[i].bookingSections.length; ++j) {
+                        var title = "Patient: " + jsonTestForm.bookings[i].patientName + "\nTherapy: " + jsonTestForm.bookings[i].therapyName;
+                        var start = jsonTestForm.bookings[i].bookingSections[j].startTime + ":00";
+                        start = start.replace(" ", "T");
+                        var end = jsonTestForm.bookings[i].bookingSections[j].endTime + ":00";
+                        end = end.replace(" ", "T");
+                        appointmentsArray.push({title: title, start: start, end: end, allDay: false});
+                    }
+                }
+                calendar.fullCalendar('refetchEvents');
+
+                console.log(appointmentsArray);
+
+
             }
         ).fail(function (xhr, textStatus, errorThrown) {
                 console.log(errorThrown);
                 console.log("failed to retrieve bookings");
             }
         );
+    }
 
-    });
-
-    // datatables
+// datatables
     setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
     setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
-});
+})
+;
