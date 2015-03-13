@@ -24,6 +24,8 @@ public class LocalServer {
 		Spark.staticFileLocation("/static");
 
 		// page security
+		SecurityUtils.attemptLogin("06111993", "newpass3");
+
 		Spark.before((request, response) -> {
 			// get path
 			String path = request.pathInfo();

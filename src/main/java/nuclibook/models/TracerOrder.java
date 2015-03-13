@@ -24,8 +24,11 @@ public class TracerOrder implements Renderable {
 	@DatabaseField(foreign = true, columnName = "booking_id", foreignAutoRefresh = true)
 	private Booking booking;
 
-	@DatabaseField
+	@DatabaseField(columnName = "date_required")
 	private long dateRequired;
+
+	@DatabaseField(columnName = "order_by")
+	private long orderBy;
 
 	@DatabaseField(width = 16)
 	private String status;
@@ -67,6 +70,14 @@ public class TracerOrder implements Renderable {
 
 	public void setDateRequired(DateTime dateRequired) {
 		this.dateRequired = dateRequired.getMillis();
+	}
+
+	public DateTime getOrderBy() {
+		return new DateTime(orderBy);
+	}
+
+	public void setOrderBy(DateTime orderBy) {
+		this.orderBy = orderBy.getMillis();
 	}
 
 	public String getStatus() {

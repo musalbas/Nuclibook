@@ -39,9 +39,9 @@ public class DashboardRoute extends DefaultRoute {
 
 		// date objects for day summary searches
 		DateTime today = new DateTime();
+		DateTime tomorrow = today.plusDays(1);
 		DateTime todayStart = today.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
 		DateTime todayEnd = today.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
-		DateTime tomorrow = today.plusDays(1);
 		DateTime tomorrowStart = tomorrow.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
 		DateTime tomorrowEnd = tomorrow.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 
@@ -75,6 +75,36 @@ public class DashboardRoute extends DefaultRoute {
 		dsiBookingsTomorrow.setIcon("fa-clock-o");
 		daySummaryItems.add(dsiBookingsTomorrow);
 
+		// day summary: tracer orders today
+		List<TracerOrder> tracerOrdersRequiredToday = TracerOrderUtils.getTracerOrdersRequiredByDay(today);
+		DaySummaryItem dsiTracerOrdersToday;
+		if (tracerOrdersRequiredToday == null || tracerOrdersRequiredToday.size() == 0) {
+			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>no tracer orders</strong> required today");
+		} else if (tracerOrdersRequiredToday.size() == 1) {
+			dsiTracerOrdersToday = new DaySummaryItem("There is <strong>1 tracer order</strong> required today");
+		} else {
+			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredToday.size() + " tracer orders</strong> required today");
+		}
+		dsiTracerOrdersToday.setLink("/tracer-orders?ordertoday=1");
+		dsiTracerOrdersToday.setBadgeText("click to view");
+		dsiTracerOrdersToday.setIcon("fa-flask");
+		daySummaryItems.add(dsiTracerOrdersToday);
+
+		// day summary: tracer orders tomorrow
+		List<TracerOrder> tracerOrdersRequiredTomorrow = TracerOrderUtils.getTracerOrdersRequiredByDay(tomorrow);
+		DaySummaryItem dsiTracerOrdersTomorrow;
+		if (tracerOrdersRequiredTomorrow == null || tracerOrdersRequiredTomorrow.size() == 0) {
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>no tracer orders</strong> required tomorrow");
+		} else if (tracerOrdersRequiredTomorrow.size() == 1) {
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There is <strong>1 tracer order</strong> required tomorrow");
+		} else {
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredTomorrow.size() + " tracer orders</strong> required tomorrow");
+		}
+		dsiTracerOrdersTomorrow.setLink("/tracer-orders?ordertomorrow=1");
+		dsiTracerOrdersTomorrow.setBadgeText("click to view");
+		dsiTracerOrdersTomorrow.setIcon("fa-flask");
+		daySummaryItems.add(dsiTracerOrdersTomorrow);
+
 		// day summary: absences
 		List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(todayStart, tomorrowEnd);
 		for (StaffAbsence sa : staffAbsences) {
@@ -100,10 +130,12 @@ public class DashboardRoute extends DefaultRoute {
 			} else if (f.isBefore(todayStart) && t.isBefore(todayEnd)) {
 				// started earlier, ends today
 				dsi.setMessage(staffName + " is absent until " + t.toString("HH:mm"));
+			} else {
+				dsi = null;
 			}
 
 			// add to collection
-			daySummaryItems.add(dsi);
+			if (dsi != null) daySummaryItems.add(dsi);
 		}
 
 		// add day summary to renderer
