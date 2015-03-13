@@ -83,7 +83,9 @@ $(document).ready(function () {
                         defaultView: 'agendaWeek',
                         selectable: true,
                         selectHelper: true,
-
+                        minTime : "08:00:00",
+                        maxTime : "19:00:00",
+                        allDaySlot : false,
 
                         select: function (start, end, allDay) {
                             var title = prompt('Event Title:');
