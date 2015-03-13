@@ -20,6 +20,7 @@ public class LocalServer {
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
+
         // static files folder
 		Spark.staticFileLocation("/static");
 
