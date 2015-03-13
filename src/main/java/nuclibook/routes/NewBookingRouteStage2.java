@@ -1,6 +1,12 @@
 package nuclibook.routes;
 
+import nuclibook.constants.P;
+import nuclibook.entity_utils.PatientUtils;
+import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.TherapyUtils;
 import nuclibook.models.BookingSection;
+import nuclibook.models.Patient;
+import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -18,6 +24,11 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
 		prepareToHandle();
+
+		// security check
+		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
 
 		// TODO: get real JSON
 		String rawJson = "{\n" +
@@ -40,12 +51,17 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 				"}";
 
 		// parse JSON
-		int patientId, therapyId;
+		Patient patient;
+		Therapy therapy;
 		List<BookingSection> displayBookingSections = new ArrayList<>();
 		try {
+			// get patient and therapy
 			JSONObject mainJsonObject = new JSONObject(rawJson);
-			patientId = mainJsonObject.getInt("patientId");
-			therapyId = mainJsonObject.getInt("therapyId");
+			patient = PatientUtils.getPatient(mainJsonObject.getInt("patientId"));
+			therapy = TherapyUtils.getTherapy(mainJsonObject.getInt("therapyId"));
+			if (patient == null || therapy == null) throw new NullPointerException();
+
+			// get booking sections
 			JSONArray bookingSectionJsonArray = mainJsonObject.getJSONArray("bookingSections");
 			JSONObject bookingSectionJsonObject;
 			BookingSection tempBookingSection;
@@ -56,7 +72,7 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 				tempBookingSection.setEnd(new DateTime(bookingSectionJsonObject.getString("endTime")));
 				displayBookingSections.add(tempBookingSection);
 			}
-		} catch (JSONException e) {
+		} catch (JSONException | NullPointerException e) {
 			response.redirect("/");
 			return null;
 		}
@@ -65,9 +81,10 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("new-booking-stage-2.html");
 
-		// add test fields
-		renderer.setField("patient-id", patientId);
-		renderer.setField("therapy-id", therapyId);
+		// add booking info
+		renderer.setField("patient-name", patient.getName());
+		renderer.setField("therapy-name", therapy.getName());
+
 		renderer.setCollection("booking-sections", displayBookingSections);
 
 		return renderer.render();

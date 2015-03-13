@@ -4,20 +4,34 @@
 ##_header.html
 
 <div class="row">
-	<div class="col-lg-12">
-		<p>Patient ID: #patient-id</p>
-		<p>Therapy ID: #therapy-id</p>
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Patient:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#patient-name</p>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Therapy:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#therapy-name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Booking Schedule:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
 		#[collection: booking-sections]
 
 		#[pre]#[/pre]
 
 		#[each]
-		<p><strong>#start-date</strong> @ #start-time - #end-time</p>
+		<p>#start-date @ #start-time - #end-time</p>
 		#[/each]
 
 		#[post]#[/post]
