@@ -1,5 +1,6 @@
 package nuclibook.routes;
 
+import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Staff;
@@ -32,6 +33,9 @@ public abstract class DefaultRoute implements Route {
 		if (SecurityUtils.checkLoggedIn()) {
 			renderer.setField("logged-in", "yes");
 
+			// automatic logout timer
+			renderer.setField("automatic-timeout", C.AUTOMATIC_TIMEOUT);
+
 			// add staff details
 			Staff currentUser = SecurityUtils.getCurrentUser();
 			renderer.setField("current-user-id", currentUser.getId());
@@ -47,6 +51,9 @@ public abstract class DefaultRoute implements Route {
 			}
 		} else {
 			renderer.setField("logged-in", "no");
+
+			// automatic logout timer
+			renderer.setField("automatic-timeout", 0);
 		}
 	}
 

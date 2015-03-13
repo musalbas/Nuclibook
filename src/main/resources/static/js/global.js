@@ -18,6 +18,7 @@ $(document).ready(function () {
 		subMenuToggle($(this).parent());
 	});
 
+	// button classes
 	$(".edit-button").hover(function () {
 		$(this).addClass('btn-warning')
 	}, function () {
@@ -41,6 +42,23 @@ $(document).ready(function () {
 	}, function () {
 		$(this).removeClass('btn-success')
 	});
+
+	// automatic session timeout
+	if (AUTOMATIC_TIMEOUT > 0) {
+		setTimeout(function () {
+			$('.timeout-modal').removeClass('hide').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+			setTimeout(function () {
+				location.href = "/logout";
+			}, 30 * 1000);
+		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
+		$('.timeout-link').click(function (e) {
+			e.preventDefault();
+			location.reload();
+		});
+	}
 });
 
 // function to toggle a menu

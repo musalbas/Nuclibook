@@ -11,11 +11,15 @@ public class C {
 	public static String MYSQL_USERNAME;
 	public static String MYSQL_PASSWORD;
 
+	// security
+	public static int AUTOMATIC_TIMEOUT;
+
 	public static void initConstants() throws ConfigurationException {
 		PropertiesConfiguration config = new PropertiesConfiguration("database.properties");
 		MYSQL_URI = config.getString("database.URI");
 		MYSQL_USERNAME = config.getString("database.user.name");
 		MYSQL_PASSWORD = decryptPassword(config.getString("database.user.password"));
+		AUTOMATIC_TIMEOUT = config.getInt("security.automatictimeout");
 	}
 
 	private static String decryptPassword(String encryptedString) {
