@@ -42,20 +42,72 @@ $(document).ready(function () {
 
     }
 
+    //geting Sunday Saturday Dates to pass to CalendarRoute
+    var currDate = (new Date().getDate());
+    var currDay = (new Date().getDay());
+    var currMonth = (new Date().getMonth()) + 1;
+    var currYear = (new Date().getFullYear());
+
+    var sundayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - currDay) < 10 ? '0' : '') + (currDate - currDay);
+    var todayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - currDay) < 10 ? '0' : '') + currDate;
+    var saturdayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - (6-currDay)) < 10 ? '0' : '') +(currDate + (6 - currDay));
+    console.log("Current day : " + currDay + " Monday: " + sundayString + " Today : " + todayString + " Friday: " + saturdayString);
+
     $('#view-available-appointments').click(function () {
         // hide buttons
         $(this).slideUp(300);
         $('#go-back-to-select-therapy').hide();
 
+
+        // show calendar
+        var appointmentsArray;
+        var calendar =
+            $('.calendar').show().fullCalendar({
+                header: {
+
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'agendaWeek'
+
+                },
+
+                defaultView: 'agendaWeek',
+                selectable: true,
+                selectHelper: true,
+                minTime: "08:00:00",
+                maxTime: "19:00:00",
+                allDaySlot: false,
+
+                select: function (start, end, allDay) {
+                    var title = prompt('Event Title:');
+
+                    if (title) {
+                        calendar.fullCalendar('renderEvent',
+                            {
+                                title: title,
+                                start: start,
+                                end: end,
+                                allDay: allDay
+                            },
+                            true // make the event "stick"
+                        );
+                    }
+                    calendar.fullCalendar('unselect');
+                },
+
+                events: appointmentsArray,
+                timeFormat: 'H(:mm)',
+                weekends: true,
+                slotMinutes: 15
+
+            });
+
         // ajax for retrieving current booking sections
-        $.get('/calendar?start=' + new Date())
+        //start=2014-03-13&end=...
+
+        $.get('/calendar?start=' + sundayString + '&end=' + saturdayString)
             .done(function (result) {
-                console.log("Day: " + currentDateDay + " Month: " + (currentDateMonth + 1) + " Year: " + currentDateYear);
-
                 var tryharder = result.toString();
-                var tryjson = JSON.parse(tryharder);
-
-                var jsonTestString = '{"week" :[ { "day": "2015-03-10", "bookings": [ { "patientId": "0000000", "therapyName": "therapy A", "bookingSections": [ { "startTime": "09:30", "endTime": "11:50" }, { "startTime": "14:00", "endTime": "16:55" } ]}, { "patientId": "8888888", "therapyName": "therapy B", "bookingSections": [ { "startTime": "17:30", "endTime": "19:30" }, { "startTime": "20:00", "endTime": "21:00" }, { "startTime": "21:00", "endTime": "21:30" } ]} ]}, { "day": "2015-03-13", "bookings": [ { "patientId": "0000000", "therapyName": "therapy A", "bookingSections": [ { "startTime": "09:30", "endTime": "11:00" }, { "startTime": "12:00", "endTime": "12:30" } ]}, { "patientId": "8888888", "therapyName": "therapy B", "bookingSections": [ { "startTime": "13:30", "endTime": "17:40" }, { "startTime": "17:50", "endTime": "18:50" }, { "startTime": "19:00", "endTime": "21:20" } ]} ]} ]}';
                 var jsonTestForm = JSON.parse(tryharder);
 
                 var appointmentsArray = [];
@@ -69,48 +121,6 @@ $(document).ready(function () {
                         }
                     }
                 }
-                // show calendar
-
-                var calendar =
-                    $('.calendar').show().fullCalendar({
-                        header: {
-
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'agendaWeek'
-
-                        },
-
-                        defaultView: 'agendaWeek',
-                        selectable: true,
-                        selectHelper: true,
-
-
-                        select: function (start, end, allDay) {
-                            var title = prompt('Event Title:');
-
-                            if (title) {
-                                calendar.fullCalendar('renderEvent',
-                                    {
-                                        title: title,
-                                        start: start,
-                                        end: end,
-                                        allDay: allDay
-                                    },
-                                    true // make the event "stick"
-                                );
-                            }
-                            calendar.fullCalendar('unselect');
-                        },
-
-                        events: appointmentsArray,
-                        timeFormat: 'H(:mm)',
-                        weekends: false,
-                        slotMinutes: 15
-
-                    });
-
-
             }
         ).fail(function (xhr, textStatus, errorThrown) {
                 console.log(errorThrown);
