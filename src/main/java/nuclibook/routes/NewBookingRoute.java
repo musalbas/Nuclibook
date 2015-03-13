@@ -12,7 +12,7 @@ import spark.Response;
 
 import java.util.List;
 
-public class AppointmentsRoute extends DefaultRoute {
+public class NewBookingRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -24,7 +24,7 @@ public class AppointmentsRoute extends DefaultRoute {
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("appointments.html");
+		renderer.setTemplateFile("new-booking.html");
 
 		// get patients and add to renderer
 		List<Patient> allPatients = PatientUtils.getAllPatients(true);
@@ -33,7 +33,7 @@ public class AppointmentsRoute extends DefaultRoute {
 		// get therapies and add to renderer
 		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
 		renderer.setCollection("therapies", allTherapies);
-		
+
 		return renderer.render();
 	}
 }
