@@ -15,6 +15,14 @@ public class ProfileRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("profile.html");
 
+        if (request.queryParams("changepw") != null && request.queryParams("changepw").equals("1")) {
+            renderer.setField("open-password-modal", "yes");
+        }
+
+        if (request.queryParams("force") != null && request.queryParams("force").equals("1")) {
+            renderer.setField("force-password-change", "yes");
+        }
+
 		return renderer.render();
 	}
 }

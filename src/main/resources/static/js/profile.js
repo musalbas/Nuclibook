@@ -15,3 +15,7 @@ var validateCreateForm = function (formObject) {
 
     return !error;
 };
+
+var openPasswordModal = function () {
+    $("#edit-password-button").trigger('click');
+};

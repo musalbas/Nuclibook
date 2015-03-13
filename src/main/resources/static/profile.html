@@ -34,11 +34,20 @@
 
 <div class="row">
 	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Password Change In:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		#current-user-days-until-password-change days
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
 		<p><strong>Password Options:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
 		<p>
-			<button class="btn edit-button btn-primary" data-id="0">Change Password</button>
+			<button id="edit-password-button" class="btn edit-button btn-primary" data-id="0">Change Password</button>
 		</p>
 	</div>
 </div>
@@ -50,8 +59,14 @@
 				<h3>Change Password</h3>
 			</div>
 			<div class="modal-body">
+				#[if: force-password-change = yes]
+				<div class="alert alert-danger" role="alert">
+					<p><strong>Your password has expired.</strong> You will need to change it now before you can continue.</p>
+				</div>
+				#[/if]
 				<form class="form-horizontal edit-form">
 					<input type="hidden" name="entity-type" value="staff-password-change"/>
+					<input type="hidden" class="location-override" value="/profile"/>
 
 					<div class="form-group">
 						<label for="password_old" class="col-sm-3 control-label">Current Password</label>
@@ -85,6 +100,14 @@
 </div>
 
 <script src="/js/profile.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		setTimeout(function () {
+			#[if: open-password-modal = yes]openPasswordModal();#[/if]
+		}, 500);
+	});
+</script>
 
 ##_loading-modal.html
 

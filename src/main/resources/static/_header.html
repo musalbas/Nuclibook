@@ -194,7 +194,13 @@
 			<div id="page-wrapper">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-lg-12">
+                        <div class="col-lg-12">
+                            #[if: show-password-reminder = yes]
+							<div class="alert alert-warning" style="margin-top: 50px" role="alert">
+								<p>You have #current-user-days-until-password-change days remaining before you will be forced to change your password.
+								<a href="/profile?changepw=1">Click to change it now.</a></p>
+							</div>
+                            #[/if]
 							<h1 class="page-header">
 								#title
 							</h1>

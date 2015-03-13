@@ -373,11 +373,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 			}
 		} catch (CannotHashPasswordException e) {
-			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect EXCEPTION");
+			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 		}
 
 		// password strength validation
-		String passwordError = null;
+		String passwordError;
 		try {
 			passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
 		} catch (CannotHashPasswordException e) {
