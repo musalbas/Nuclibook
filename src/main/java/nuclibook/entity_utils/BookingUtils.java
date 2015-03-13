@@ -9,10 +9,7 @@ import nuclibook.models.BookingStaff;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class BookingUtils extends AbstractEntityUtils {
 
@@ -92,12 +89,12 @@ public class BookingUtils extends AbstractEntityUtils {
 		}
 
 		// get all unique bookings from the sections
-		HashSet<Booking> bookings = new HashSet<>();
+		HashMap<Integer, Booking> bookings = new HashMap<>();
 		for (BookingSection bs : bookingSections) {
-			bookings.add(bs.getBooking());
+			bookings.put(bs.getBooking().getId(), bs.getBooking());
 		}
 
-		return new ArrayList<>(bookings);
+		return new ArrayList<>(bookings.values());
 	}
 
 }

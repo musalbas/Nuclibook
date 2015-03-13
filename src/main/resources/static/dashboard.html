@@ -3,6 +3,42 @@
 ##_header.html
 
 <div class="row">
+	<div class="col-lg-12 col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Day Summary</h3>
+			</div>
+			<div class="panel-body">
+				<div class="list-group">
+					#[collection: day-summary]
+
+					#[pre]#[/pre]
+
+					#[each]
+					<a href="#link" class="list-group-item">
+						<i class="fa fa-fw #icon"></i> #HTMLOKAY:message
+						#[if: has-badge = yes]
+						<span class="label label-#badge-type label-as-badge pull-right">#badge-text</span>
+						#[/if]
+					</a>
+					#[/each]
+
+					#[post]#[/post]
+
+					#[empty]
+					<span class="list-group-item">
+						<em>No messages for today</em>
+					</span>
+					#[/empty]
+
+					#[/collection]
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-lg-6 col-md-6">
 		<div class="panel panel-yellow">
 			<div class="panel-heading">
