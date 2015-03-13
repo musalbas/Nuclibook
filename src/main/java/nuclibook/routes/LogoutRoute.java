@@ -11,7 +11,7 @@ public class LogoutRoute extends DefaultRoute {
 		prepareToHandle();
 
 		SecurityUtils.destroyLogin();
-		response.redirect("/login");
+		response.redirect("/login?logged-out=1");
 		return null;
 	}
 

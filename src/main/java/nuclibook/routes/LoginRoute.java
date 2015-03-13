@@ -29,6 +29,13 @@ public class LoginRoute extends DefaultRoute {
 			return null;
 		}
 
+		// logged out
+		if (request.queryParams("logged-out") != null && request.queryParams("logged-out").equals("1")) {
+			rendererFields.put("logged-out", "");
+		} else {
+			rendererFields.put("logged-out", null);
+		}
+
 		// handle with GET or POST
 		if (getRequestType() == RequestType.POST) {
 			return handlePost(request, response);

@@ -7,6 +7,7 @@
 		#[if: error-bad-staff-id]bigger#[/if]
 		#[if: error-bad-password]bigger#[/if]
 		#[if: error-bad-status]bigger#[/if]
+		#[if: logged-out]bigger#[/if]
 		#[if: stage = 2]bigger#[/if]
 		">
 			<div class="panel-heading login-panel-heading">
@@ -31,6 +32,11 @@
 					#[if: error-bad-status]
 					<div class="alert alert-danger login-message">
 						<p><strong>Error:</strong> your account is currently disabled.</p>
+					</div>
+					#[/if]
+					#[if: logged-out]
+					<div class="alert alert-info login-message">
+						<p>You have been logged out!</p>
 					</div>
 					#[/if]
 					<div class="form-group">
