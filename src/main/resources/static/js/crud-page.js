@@ -126,7 +126,12 @@ function openEditModal(objectId) {
 
 					// hide loading and reload
 					disableLoading(function () {
-						location.reload();
+						var locationOverride = form.find('.location-override');
+						if (locationOverride.length == 1) {
+							location.href = locationOverride.val();
+						} else {
+							location.reload();
+						}
 					});
 				} else if (result == 'failed_validation') {
 					disableLoading(function () {
