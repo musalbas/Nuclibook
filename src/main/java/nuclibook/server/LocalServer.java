@@ -118,8 +118,7 @@ public class LocalServer {
         Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
 		// tracer orders
-		Spark.get("/tracer-orders", new TracerOrdersRoute(false));
-		Spark.get("/tracer-orders/all", new TracerOrdersRoute(true));
+		Spark.get("/tracer-orders", new TracerOrdersRoute());
 		Spark.get("/tracer-order-details/:tracerorderid:", new TracerOrderDetailsRoute());
 		Spark.get("/tracer-order-details/:tracerorderid:/:newstatus:", new TracerOrderDetailsRoute());
 
