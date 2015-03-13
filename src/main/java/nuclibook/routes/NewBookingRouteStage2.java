@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.CameraUtils;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TherapyUtils;
@@ -84,8 +85,10 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 		// add booking info
 		renderer.setField("patient-name", patient.getName());
 		renderer.setField("therapy-name", therapy.getName());
-
 		renderer.setCollection("booking-sections", displayBookingSections);
+
+		// add cameras
+		renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
 
 		return renderer.render();
 	}
