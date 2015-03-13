@@ -42,26 +42,15 @@ $(document).ready(function () {
 
     }
 
-    //geting Sunday Saturday Dates to pass to CalendarRoute
-    var currDate = (new Date().getDate());
-    var currDay = (new Date().getDay());
-    var currMonth = (new Date().getMonth()) + 1;
-    var currYear = (new Date().getFullYear());
-
-    var sundayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - currDay) < 10 ? '0' : '') + (currDate - currDay);
-    var todayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - currDay) < 10 ? '0' : '') + currDate;
-    var saturdayString = currYear + '-' + (currMonth < 10 ? '0' : '') + currMonth + '-' + ((currDate - (6-currDay)) < 10 ? '0' : '') +(currDate + (6 - currDay));
-    console.log("Current day : " + currDay + " Monday: " + sundayString + " Today : " + todayString + " Friday: " + saturdayString);
-
+    var appointmentsArray = [];
+    var calendar = $('.calendar');
     $('#view-available-appointments').click(function () {
         // hide buttons
         $(this).slideUp(300);
         $('#go-back-to-select-therapy').hide();
 
-
         // show calendar
-        var appointmentsArray;
-        var calendar =
+        calendar =
             $('.calendar').show().fullCalendar({
                 header: {
 
@@ -77,6 +66,12 @@ $(document).ready(function () {
                 minTime: "08:00:00",
                 maxTime: "19:00:00",
                 allDaySlot: false,
+
+                viewDisplay: function (e) {
+                    appointmentsArray.length = 0;
+                    callAjax(e.start, e.end);
+
+                },
 
                 select: function (start, end, allDay) {
                     var title = prompt('Event Title:');
@@ -101,35 +96,47 @@ $(document).ready(function () {
                 slotMinutes: 15
 
             });
+    });
 
-        // ajax for retrieving current booking sections
-        //start=2014-03-13&end=...
 
+    function callAjax(startDate, endDate) {
+
+       // calendar.fullCalendar('removeEventSource');
+
+        //geting Sunday Saturday Dates to pass to CalendarRoute
+        var sundayString = startDate.getFullYear() + '-' + (startDate.getMonth() < 10 ? '0' : '') + (startDate.getMonth() + 1) + '-' + ((startDate.getDate()) < 10 ? '0' : '') + (startDate.getDate());
+        endDate = new Date(((endDate.getTime()) - 86400000));
+        var saturdayString = endDate.getFullYear() + '-' + (endDate.getMonth() < 10 ? '0' : '') + (endDate.getMonth() + 1) + '-' + ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
         $.get('/calendar?start=' + sundayString + '&end=' + saturdayString)
             .done(function (result) {
                 var tryharder = result.toString();
                 var jsonTestForm = JSON.parse(tryharder);
-
-                var appointmentsArray = [];
-                for (var i = 0; i < jsonTestForm.week.length; ++i) {
-                    for (var j = 0; j < jsonTestForm.week[i].bookings.length; ++j) {
-                        for (var k = 0; k < jsonTestForm.week[i].bookings[j].bookingSections.length; ++k) {
-                            var title = "Patient: " + jsonTestForm.week[i].bookings[j].patientId + " Therapy: " + jsonTestForm.week[i].bookings[j].therapyName;
-                            var start = jsonTestForm.week[i].day + "T" + jsonTestForm.week[i].bookings[j].bookingSections[k].startTime;
-                            var end = jsonTestForm.week[i].day + "T" + jsonTestForm.week[i].bookings[j].bookingSections[k].endTime;
-                            appointmentsArray.push({title: title, start: start, end: end, allDay: false});
-                        }
+                for (var i = 0; i < jsonTestForm.bookings.length; ++i) {
+                    //Start
+                    for (var j = 0; j < jsonTestForm.bookings[i].bookingSections.length; ++j) {
+                        var title = "Patient: " + jsonTestForm.bookings[i].patientName + "\nTherapy: " + jsonTestForm.bookings[i].therapyName;
+                        var start = jsonTestForm.bookings[i].bookingSections[j].startTime + ":00";
+                        start = start.replace(" ", "T");
+                        var end = jsonTestForm.bookings[i].bookingSections[j].endTime + ":00";
+                        end = end.replace(" ", "T");
+                        appointmentsArray.push({title: title, start: start, end: end, allDay: false});
                     }
                 }
+                calendar.fullCalendar('refetchEvents');
+
+                console.log(appointmentsArray);
+
+
             }
         ).fail(function (xhr, textStatus, errorThrown) {
                 console.log(errorThrown);
                 console.log("failed to retrieve bookings");
             }
         );
-    });
+    }
 
-    // datatables
+// datatables
     setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
     setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
-});
+})
+;

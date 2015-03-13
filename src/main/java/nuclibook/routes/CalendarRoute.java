@@ -42,7 +42,7 @@ public class CalendarRoute extends DefaultRoute {
                 jsonOutput.append(", { ");
             }
 
-            jsonOutput.append(" \"patientId\": \"").append(bookings.get(i).getPatient().getId()).append("\",");
+            jsonOutput.append(" \"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
             jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
             jsonOutput.append("\"bookingSections\": [");
 
