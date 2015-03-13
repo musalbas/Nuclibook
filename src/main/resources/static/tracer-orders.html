@@ -4,13 +4,18 @@
 ##_header.html
 
 <div class="row">
-	<div class="col-lg-12">
-		#[if: show-all = yes]
-		<p><strong>Show:</strong> <i class="fa fa-fw fa-check-square-o"></i> <a href="/tracer-orders/all">All Orders</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-square-o"></i> <a href="/tracer-orders">Pending Orders Only</a></p>
-		#[/if]
-		#[!if: show-all = yes]
-		<p><strong>Show:</strong> <i class="fa fa-fw fa-square-o"></i> <a href="/tracer-orders/all">All Orders</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<i class="fa fa-fw fa-check-square-o"></i> <a href="/tracer-orders">Pending Orders Only</a></p>
-		#[/if]
+	<div class="col-lg-12 alert alert-info">
+		<p>
+			<strong>Show:</strong>
+			&nbsp;&nbsp;&nbsp;
+			<i class="fa fa-fw fa-#[if: mode = show-all]check-#[/if]square-o"></i> <a href="/tracer-orders?mode=show-all">All Orders</a>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<i class="fa fa-fw fa-#[if: mode = pending-only]check-#[/if]square-o"></i> <a href="/tracer-orders?mode=pending-only">Pending Orders Only</a>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<i class="fa fa-fw fa-#[if: mode = order-today]check-#[/if]square-o"></i> <a href="/tracer-orders?mode=order-today">Due for Order Today</a>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<i class="fa fa-fw fa-#[if: mode = order-tomorrow]check-#[/if]square-o"></i> <a href="/tracer-orders?mode=order-tomorrow">Due for Order Tomorrow</a>
+		</p>
 	</div>
 </div>
 

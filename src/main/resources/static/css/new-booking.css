@@ -1,0 +1,14 @@
+#overLayDiv {
+    position:fixed;
+    top: 30%;
+    height: 200px;
+}
+
+.booking-options-selector {
+    margin-bottom: 10px;
+}
+
+.col-sm-4 {
+    padding-left: 0px;
+}
+

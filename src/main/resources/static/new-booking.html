@@ -1,10 +1,9 @@
-#[def: title = Booking Appointments]
-#[def: current-page = appointments]
+#[def: title = New Booking]
+#[def: current-page = new-booking]
 #[def: calendar = yes]
 
 ##_header.html
 
-//appointments page
 <div class="row">
 	<div class="col-md-12 col-lg-12" id="page-one">
 		<table class=" table table-bordered table-hover" id="patients-table">
@@ -42,8 +41,13 @@
 	</div>
 
 	<div hidden class="col-md-12 col-lg-12" id="page-two">
-		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span>
-			<a class="small" id="go-back-to-select-patient">[Change]</a></p>
+		<div class="alert alert-info">
+			<p>
+				<strong>Patient Selected:</strong>
+				<span class="patient-selected"></span>
+				<a class="small" id="go-back-to-select-patient">[Change]</a>
+			</p>
+		</div>
 
 		<table class="table table-bordered table-hover" id="therapies-table">
 			<thead>
@@ -84,12 +88,22 @@
 		</table>
 	</div>
 
-	<div hidden class="col-md-12 col-lg-12" id="page-three">
-		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span></p>
-		<p><strong>Therapy Selected:</strong> <span class="therapy-selected"></span>
-			<a class="small" id="go-back-to-select-therapy">[Change]</a></p>
-
-		<button class="btn btn-primary" id="view-available-appointments">View Available Appointments</button>
+	<div hidden class="col-md-12 col-lg-12 alert alert-info" id="page-three">
+		<div>
+			<div class="col-sm-4">
+				<strong>Patient Selected:</strong>
+				<span class="patient-selected"></span>&nbsp;
+			</div>
+			<div class="col-sm-4">
+				<strong>Therapy Selected:</strong>
+				<span class="therapy-selected"></span>
+				<a class="small" id="go-back-to-select-therapy">[Change]</a>
+			</div>
+		</div>
+		<br/>
+		<button style="margin-top: 15px;" class="btn btn-primary" id="view-available-appointments">View Available
+			Appointments
+		</button>
 	</div>
 
 	<div hidden class="col-md-12 col-lg-12 calendar"></div>

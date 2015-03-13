@@ -20,6 +20,7 @@ public class LocalServer {
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
+
         // static files folder
 		Spark.staticFileLocation("/static");
 
@@ -113,13 +114,12 @@ public class LocalServer {
         Spark.get("/staff-availabilities/:staffid:", new StaffAvailabilitiesRoute());
 
         // bookings
-        Spark.get("/appointments", new AppointmentsRoute());
+        Spark.get("/new-booking", new NewBookingRoute());
         Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
         Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
 		// tracer orders
-		Spark.get("/tracer-orders", new TracerOrdersRoute(false));
-		Spark.get("/tracer-orders/all", new TracerOrdersRoute(true));
+		Spark.get("/tracer-orders", new TracerOrdersRoute());
 		Spark.get("/tracer-order-details/:tracerorderid:", new TracerOrderDetailsRoute());
 		Spark.get("/tracer-order-details/:tracerorderid:/:newstatus:", new TracerOrderDetailsRoute());
 
