@@ -89,8 +89,10 @@ $(document).ready(function () {
                 callAjax(e.start, e.end);
             },
 
+
+            //User selecting time slots
             select: function (start, end, allDay) {
-                var title = prompt('Event Title:');
+                $('.time-modal').removeClass('hide').modal('show');
 
                 if (title) {
                     calendar.fullCalendar('renderEvent',
@@ -107,6 +109,7 @@ $(document).ready(function () {
             },
 
             events: appointmentsArray,
+            //Pop-up with details
             eventRender: function (event, element) {
                 element.popover({
                     title: event.title,

@@ -12,7 +12,7 @@ public class Camera implements Renderable {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(columnName = "camera_type_id", canBeNull = false, foreign = true, foreignAutoRefresh = true)
 	private CameraType type;
 
 	@DatabaseField(width = 32, columnName = "room_number")
