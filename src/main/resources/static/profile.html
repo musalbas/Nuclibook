@@ -100,11 +100,13 @@
 
 <script src="/js/profile.js"></script>
 
-#[if: open-password-modal = yes]
 <script type="text/javascript">
-	openPasswordModal();
+	$(document).ready(function () {
+		setTimeout(function () {
+			#[if: open-password-modal = yes]openPasswordModal();#[/if]
+		}, 500);
+	});
 </script>
-#[/if]
 
 ##_loading-modal.html
 
