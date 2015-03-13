@@ -83,10 +83,16 @@
 		</table>
 	</div>
 
-	<div hidden class="col-md-12 col-lg-12" id="page-three">
-		<p><strong>Patient Selected:</strong> <span class="patient-selected"></span></p>
-		<p><strong>Therapy Selected:</strong> <span class="therapy-selected"></span>
-			<a class="small" id="go-back-to-select-therapy">[Change]</a></p>
+	<div hidden class="col-md-12 col-lg-12" id="page-three" >
+		<div class="booking-options-selector">
+            <div class="col-sm-4">
+                <strong>Patient Selected:</strong> <span class="patient-selected"></span>&nbsp;
+            </div>
+            <div class="col-sm-4">
+                <strong>Therapy Selected:</strong><span class="therapy-selected"></span>
+			<a class="small" id="go-back-to-select-therapy">[Change]</a>
+            </div>
+        </div><br>
 
 		<button class="btn btn-primary" id="view-available-appointments">View Available Appointments</button>
 	</div>
@@ -94,6 +100,7 @@
 	<div hidden class="col-md-12 col-lg-12 calendar"></div>
 </div>
 
+<link href="/css/appointment.css" rel="stylesheet">
 <script src="/js/core/jquery-ui.min.js"></script>
 <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="/js/appointments.js"></script>
