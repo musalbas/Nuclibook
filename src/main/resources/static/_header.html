@@ -22,6 +22,9 @@
 		#[if: calendar]
 		<link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
 		#[/if]
+		#[if: current-page = new-booking]
+		<link href="/css/new-booking.css" rel="stylesheet" type="text/css"/>
+		#[/if]
 
 		<!-- data-tables CSS -->
 		<link href="/css/plugins/data-tables/data-tables.bootstrap.css" rel="stylesheet" type="text/css"/>
@@ -104,16 +107,22 @@
 						#[if: current-page = dashboard] class="active"#[/if]>
 						<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
 						</li>
-						#[ifperm: VIEW_PATIENT_LIST]
+						#[ifperm: EDIT_APPOINTMENTS]
 						<li
-						#[if: current-page = patients] class="active"#[/if]>
-						<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
+						#[if: current-page = new-booking] class="active"#[/if]>
+						<a href="/new-booking"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
 						</li>
 						#[/ifperm]
 						#[ifperm: VIEW_APPOINTMENTS]
 						<li
 						#[if: current-page = bookings] class="active"#[/if]>
-						<a href="/appointments"><i class="fa fa-fw fa-lg fa-clock-o"></i> Bookings</a>
+						<a href="/bookings"><i class="fa fa-fw fa-lg fa-clock-o"></i> Bookings</a>
+						</li>
+						#[/ifperm]
+						#[ifperm: VIEW_PATIENT_LIST]
+						<li
+						#[if: current-page = patients] class="active"#[/if]>
+						<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
 						</li>
 						#[/ifperm]
 						<li>
