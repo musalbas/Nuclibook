@@ -16,12 +16,6 @@ var validateCreateForm = function (formObject) {
     return !error;
 };
 
-$(document).ready(function () {
-    setTimeout(function () {
-        openPasswordModal();
-    }, 500);
-});
-
 var openPasswordModal = function () {
     $("#edit-password-button").trigger('click');
 };
