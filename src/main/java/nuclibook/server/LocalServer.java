@@ -46,8 +46,7 @@ public class LocalServer {
 			}
 
 			// check if they are accessing a non-secure page
-			if (path.startsWith("/login")
-					|| path.startsWith("/htmltest")) {
+			if (path.startsWith("/login")) {
 				// nothing more to do - everything is fine
 				return;
 			}
@@ -61,6 +60,18 @@ public class LocalServer {
 
 		// prevent viewing pages after logout
 		Spark.after((request, response) -> {
+			// get path
+			String path = request.pathInfo();
+
+			// don't apply this for resources
+			if (path.startsWith("/css")
+					|| path.startsWith("/images")
+					|| path.startsWith("/js")
+					|| path.startsWith("/font-awesome")) {
+				// nothing more to do - everything is fine
+				return;
+			}
+
 			response.header("Cache-Control", "no-cache, no-store, must-revalidate");
 			response.header("Pragma", "no-cache");
 			response.header("Expires", "0");
@@ -117,9 +128,6 @@ public class LocalServer {
 
 		// patients
 		Spark.get("/patient-details/:patientid:", new PatientDetailsRoute());
-
-		// debugging
-		Spark.get("/htmltest/:file", new HtmlTestRoute());
 	}
 
 }
