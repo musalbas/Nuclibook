@@ -9,10 +9,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.server.Renderable;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @DatabaseTable(tableName = "therapies")
 public class Therapy implements Renderable {
@@ -130,6 +127,41 @@ public class Therapy implements Renderable {
 		return output;
 	}
 
+	public String getCameraTypesSummary() {
+		// get camera types in a simple format
+		List<CameraType> cameraTypes = getCameraTypes();
+
+		// sort cameraTypes
+		Collections.sort(cameraTypes, new Comparator<CameraType>() {
+			@Override
+			public int compare(CameraType o1, CameraType o2) {
+				return o1.getLabel().compareTo(o2.getLabel());
+			}
+		});
+
+		if (cameraTypes.size() == 0) {
+			return "None";
+		}
+
+		if (cameraTypes.size() == 1) {
+			return cameraTypes.get(0).getLabel();
+		}
+
+		if (cameraTypes.size() == 2) {
+			return cameraTypes.get(0).getLabel() + "<br />" + cameraTypes.get(1).getLabel();
+		}
+
+		String output = cameraTypes.get(0).getLabel() + "<br />" + cameraTypes.get(1).getLabel() + "<br />";
+		output += "<div id=\"more-camera-types-" + getId() + "\" style=\"display: none;\">";
+		for (int i = 2; i < cameraTypes.size(); ++i) {
+			output += cameraTypes.get(i).getLabel() + "<br />";
+		}
+		output = output.substring(0, output.length() - 6);
+		output += "</div>";
+		output += "<span>+ " + (cameraTypes.size() - 2) + " more (<a href=\"javascript:;\" class=\"more-camera-types\" data-target=\"more-camera-types-" + getId() + "\">show</a>)</span>";
+		return output;
+	}
+
 	public String getCameraTypesIdString() {
 		List<CameraType> cameraTypeList = getCameraTypes();
 		if (cameraTypeList.isEmpty()) return "0";
@@ -209,6 +241,7 @@ public class Therapy implements Renderable {
 			put("id", getId().toString());
 			put("name", getName());
 			put("camera-type-ids", "IDLIST:" + getCameraTypesIdString());
+			put("camera-type-summary", getCameraTypesSummary());
 			put("CUSTOM:patient-questions", "CUSTOM:" + getPatientQuestionListString());
 			put("CUSTOM:booking-pattern-sections", "CUSTOM:" + getBookingPatternSectionListString());
 			put("tracer-required-id", getTracerRequired().getId().toString());

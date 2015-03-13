@@ -46,6 +46,13 @@ $(document).ready(function () {
 	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
 	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 
+	// "show more" links
+	$('.more-camera-types').click(function (e) {
+		e.preventDefault();
+		$('#' + $(this).attr('data-target')).slideDown();
+		$(this).closest('span').hide();
+	});
+
 	/********************
 	 SECOND STAGE CALENDAR
 	 *********************/
@@ -143,7 +150,12 @@ $(document).ready(function () {
 						bookingEnd = bookingEnd.replace(" ", "T");
 
 						// add event
-						appointmentsArray.push({title: bookingTitle, start: bookingStart, end: bookingEnd, allDay: false});
+						appointmentsArray.push({
+							title: bookingTitle,
+							start: bookingStart,
+							end: bookingEnd,
+							allDay: false
+						});
 					}
 				}
 
