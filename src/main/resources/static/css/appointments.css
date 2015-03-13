@@ -2,5 +2,12 @@
     position:fixed;
     top: 30%;
     height: 200px;
+}
 
+.booking-options-selector {
+    margin-bottom: 10px;
+}
+
+#page-three {
+    margin-bottom: 10px;
 }
