@@ -115,6 +115,8 @@ public class LocalServer {
 
         // bookings
         Spark.get("/new-booking-1", new NewBookingRouteStage1());
+        Spark.post("/new-booking-2", new NewBookingRouteStage2());
+        Spark.get("/new-booking-2", new NewBookingRouteStage2()); // TODO: remove
         Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
         Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
