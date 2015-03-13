@@ -28,14 +28,29 @@ public class LocalServer {
 		SecurityUtils.attemptLogin("06111993", "123456789");
 
 		Spark.before((request, response) -> {
-			// check if they are accessing a non-secure page
+			// get path
 			String path = request.pathInfo();
-			if (path.startsWith("/login")
-					|| path.startsWith("/htmltest")
-					|| path.startsWith("/css")
+
+			// check if they are accessing non-page
+			if (path.startsWith("/css")
 					|| path.startsWith("/images")
 					|| path.startsWith("/js")
 					|| path.startsWith("/font-awesome")) {
+				// nothing more to do - everything is fine
+				return;
+			}
+
+			// check for a password force-change
+			if (SecurityUtils.checkLoggedIn()
+					&& SecurityUtils.getCurrentUser() != null
+					&& SecurityUtils.getCurrentUser().getDaysRemainingToPasswordChange() < 1
+					&& !path.startsWith("/profile")) {
+				response.redirect("/profile?changepw=1&force=1");
+			}
+
+			// check if they are accessing a non-secure page
+			if (path.startsWith("/login")
+					|| path.startsWith("/htmltest")) {
 				// nothing more to do - everything is fine
 				return;
 			}
