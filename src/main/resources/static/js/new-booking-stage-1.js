@@ -156,7 +156,7 @@ $(document).ready(function () {
                 for (var i = 0; i < parsedJson.bookings.length; ++i) {
                     for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
                         // build title
-                        bookingTitle = parsedJson.bookings[i].therapyName + ":\n" + parsedJson.bookings[i].patientName;
+                        bookingTitle = parsedJson.bookings[i].therapyName + ":\n <b>" + parsedJson.bookings[i].patientName + "</b>";
 
                         //build Camera Type
                         bookingCameraType = parsedJson.bookings[i].cameraName;
@@ -170,10 +170,10 @@ $(document).ready(function () {
                         appointmentsArray.push({
                             title: bookingTitle,
                             start: bookingStart,
-                            msg: "Start time : "
+                            msg: "Start time: <b>"
                             + parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16)
-                            + "<br> End time: " + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16)
-                            + "<br>" + bookingCameraType,
+                            + "</b><br> End time: <b>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16)
+                            + "<br>" + bookingCameraType + "</b>",
                             end: bookingEnd,
                             allDay: false
                         });
