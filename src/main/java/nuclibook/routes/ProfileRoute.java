@@ -19,6 +19,10 @@ public class ProfileRoute extends DefaultRoute {
             renderer.setField("open-password-modal", "yes");
         }
 
+        if (request.queryParams("force") != null && request.queryParams("force").equals("1")) {
+            renderer.setField("force-password-change", "yes");
+        }
+
 		return renderer.render();
 	}
 }

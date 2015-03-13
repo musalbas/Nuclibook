@@ -59,6 +59,11 @@
 				<h3>Change Password</h3>
 			</div>
 			<div class="modal-body">
+				#[if: force-password-change = yes]
+				<div class="alert alert-danger" role="alert">
+					<p><strong>Your password has expired.</strong> You will need to change it now before you can continue.</p>
+				</div>
+				#[/if]
 				<form class="form-horizontal edit-form">
 					<input type="hidden" name="entity-type" value="staff-password-change"/>
 
