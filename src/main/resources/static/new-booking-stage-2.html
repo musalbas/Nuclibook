@@ -1,0 +1,31 @@
+#[def: title = New Booking]
+#[def: current-page = new-booking]
+
+##_header.html
+
+<div class="row">
+	<div class="col-lg-12">
+		<p>Patient ID: #patient-id</p>
+		<p>Therapy ID: #therapy-id</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		#[collection: booking-sections]
+
+		#[pre]#[/pre]
+
+		#[each]
+		<p><strong>#start-date</strong> @ #start-time - #end-time</p>
+		#[/each]
+
+		#[post]#[/post]
+
+		#[empty]<p>This booking currently has no schedule.</p>#[/empty]
+
+		#[/collection]
+	</div>
+</div>
+
+##_footer.html
