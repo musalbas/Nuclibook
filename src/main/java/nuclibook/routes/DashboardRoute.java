@@ -1,8 +1,10 @@
 package nuclibook.routes;
 
 import nuclibook.entity_utils.BookingUtils;
+import nuclibook.entity_utils.StaffAbsenceUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
 import nuclibook.models.Booking;
+import nuclibook.models.StaffAbsence;
 import nuclibook.models.TracerOrder;
 import nuclibook.server.HtmlRenderer;
 import nuclibook.server.Renderable;
@@ -35,18 +37,16 @@ public class DashboardRoute extends DefaultRoute {
 		// day summary items
 		List<DaySummaryItem> daySummaryItems = new ArrayList<>();
 
-		// day summary: bookings
+		// date objects for day summary searches
 		DateTime today = new DateTime();
-		List<Booking> bookingsToday = BookingUtils.getBookingsByDateRange(
-				today.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0),
-				today.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59)
-		);
+		DateTime todayStart = today.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
+		DateTime todayEnd = today.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 		DateTime tomorrow = today.plusDays(1);
-		List<Booking> bookingsTomorrow = BookingUtils.getBookingsByDateRange(
-				tomorrow.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0),
-				tomorrow.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59)
-		);
+		DateTime tomorrowStart = tomorrow.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
+		DateTime tomorrowEnd = tomorrow.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 
+		// day summary: bookings today
+		List<Booking> bookingsToday = BookingUtils.getBookingsByDateRange(todayStart, todayEnd);
 		DaySummaryItem dsiBookingsToday;
 		if (bookingsToday == null || bookingsToday.size() == 0) {
 			dsiBookingsToday = new DaySummaryItem("There are <strong>no bookings</strong> today");
@@ -60,6 +60,8 @@ public class DashboardRoute extends DefaultRoute {
 		dsiBookingsToday.setIcon("fa-clock-o");
 		daySummaryItems.add(dsiBookingsToday);
 
+		// day summary: bookings tomorrow
+		List<Booking> bookingsTomorrow = BookingUtils.getBookingsByDateRange(tomorrowStart, tomorrowEnd);
 		DaySummaryItem dsiBookingsTomorrow;
 		if (bookingsTomorrow == null || bookingsTomorrow.size() == 0) {
 			dsiBookingsTomorrow = new DaySummaryItem("There are <strong>no bookings</strong> tomorrow");
@@ -73,6 +75,37 @@ public class DashboardRoute extends DefaultRoute {
 		dsiBookingsTomorrow.setIcon("fa-clock-o");
 		daySummaryItems.add(dsiBookingsTomorrow);
 
+		// day summary: absences
+		List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(todayStart, tomorrowEnd);
+		for (StaffAbsence sa : staffAbsences) {
+			// set up DSI
+			DaySummaryItem dsi = new DaySummaryItem();
+			dsi.setIcon("fa-times-circle");
+
+			// get details needed
+			String staffName = "<strong>" + sa.getStaff().getName() + "</strong>";
+			DateTime f = sa.getFrom();
+			DateTime t = sa.getTo();
+
+			// what type of absence is this?
+			if (f.isAfter(todayStart) && t.isBefore(todayEnd)) {
+				// entirely within today
+				dsi.setMessage(staffName + " is absent from " + f.toString("HH:mm") + " to " + t.toString("HH:mm"));
+			} else if (f.isBefore(todayStart) && t.isAfter(todayEnd)) {
+				// completely overlaps today
+				dsi.setMessage(staffName + " is absent all day");
+			} else if (f.isAfter(todayStart) && t.isAfter(todayEnd)) {
+				// starts today, ends later
+				dsi.setMessage(staffName + " is absent from " + f.toString("HH:mm"));
+			} else if (f.isBefore(todayStart) && t.isBefore(todayEnd)) {
+				// started earlier, ends today
+				dsi.setMessage(staffName + " is absent until " + t.toString("HH:mm"));
+			}
+
+			// add to collection
+			daySummaryItems.add(dsi);
+		}
+
 		// add day summary to renderer
 		renderer.setCollection("day-summary", daySummaryItems);
 
@@ -82,10 +115,13 @@ public class DashboardRoute extends DefaultRoute {
 	private class DaySummaryItem implements Renderable {
 
 		private String message;
-		private String link = "#";
+		private String link = "javascript:;";
 		private String icon = "";
 		private String badgeType = "default";
 		private String badgeText = null;
+
+		public DaySummaryItem() {
+		}
 
 		public DaySummaryItem(String message) {
 			this.message = message;
@@ -98,6 +134,10 @@ public class DashboardRoute extends DefaultRoute {
 
 		public String getMessage() {
 			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
 		}
 
 		public String getLink() {

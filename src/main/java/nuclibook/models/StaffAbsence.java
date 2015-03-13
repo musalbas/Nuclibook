@@ -13,14 +13,14 @@ public class StaffAbsence implements Renderable {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id", foreignAutoRefresh = true)
 	private Staff staff;
 
 	@DatabaseField
-	private String from;
+	private long from;
 
 	@DatabaseField
-	private String to;
+	private long to;
 
 	public StaffAbsence() {
 	}
@@ -46,7 +46,7 @@ public class StaffAbsence implements Renderable {
 	}
 
 	public void setFrom(DateTime from) {
-		this.from = from.toString();
+		this.from = from.getMillis();
 	}
 
 	public DateTime getTo() {
@@ -54,7 +54,7 @@ public class StaffAbsence implements Renderable {
 	}
 
 	public void setTo(DateTime to) {
-		this.to = to.toString();
+		this.to = to.getMillis();
 	}
 
 	@Override
