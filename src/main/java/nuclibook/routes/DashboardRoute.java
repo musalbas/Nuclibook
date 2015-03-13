@@ -52,11 +52,13 @@ public class DashboardRoute extends DefaultRoute {
 			dsiBookingsToday = new DaySummaryItem("There are <strong>no bookings</strong> today");
 		} else if (bookingsToday.size() == 1) {
 			dsiBookingsToday = new DaySummaryItem("There is <strong>1 booking</strong> today");
+			dsiBookingsToday.setLink("/bookings?date=" + today.toString("YYYY-MM-dd"));
+			dsiBookingsToday.setBadgeText("click to view");
 		} else {
 			dsiBookingsToday = new DaySummaryItem("There are <strong>" + daySummaryItems.size() + " bookings</strong> today");
+			dsiBookingsToday.setLink("/bookings?date=" + today.toString("YYYY-MM-dd"));
+			dsiBookingsToday.setBadgeText("click to view");
 		}
-		dsiBookingsToday.setLink("/bookings?date=" + today.toString("YYYY-MM-dd"));
-		dsiBookingsToday.setBadgeText("click to view");
 		dsiBookingsToday.setIcon("fa-clock-o");
 		daySummaryItems.add(dsiBookingsToday);
 
@@ -67,41 +69,45 @@ public class DashboardRoute extends DefaultRoute {
 			dsiBookingsTomorrow = new DaySummaryItem("There are <strong>no bookings</strong> tomorrow");
 		} else if (bookingsTomorrow.size() == 1) {
 			dsiBookingsTomorrow = new DaySummaryItem("There is <strong>1 booking</strong> tomorrow");
+			dsiBookingsTomorrow.setLink("/bookings?date=" + tomorrow.toString("YYYY-MM-dd"));
+			dsiBookingsTomorrow.setBadgeText("click to view");
 		} else {
 			dsiBookingsTomorrow = new DaySummaryItem("There are <strong>" + bookingsTomorrow.size() + " bookings</strong> tomorrow");
+			dsiBookingsTomorrow.setLink("/bookings?date=" + tomorrow.toString("YYYY-MM-dd"));
+			dsiBookingsTomorrow.setBadgeText("click to view");
 		}
-		dsiBookingsTomorrow.setLink("/bookings?date=" + tomorrow.toString("YYYY-MM-dd"));
-		dsiBookingsTomorrow.setBadgeText("click to view");
 		dsiBookingsTomorrow.setIcon("fa-clock-o");
 		daySummaryItems.add(dsiBookingsTomorrow);
 
 		// day summary: tracer orders today
-		List<TracerOrder> tracerOrdersRequiredToday = TracerOrderUtils.getTracerOrdersRequiredByDay(today);
+		List<TracerOrder> tracerOrdersRequiredToday = TracerOrderUtils.getTracerOrdersRequiredByDay(today, true);
 		DaySummaryItem dsiTracerOrdersToday;
 		if (tracerOrdersRequiredToday == null || tracerOrdersRequiredToday.size() == 0) {
-			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>no tracer orders</strong> required today");
+			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>no tracers</strong> to be ordered today");
 		} else if (tracerOrdersRequiredToday.size() == 1) {
-			dsiTracerOrdersToday = new DaySummaryItem("There is <strong>1 tracer order</strong> required today");
+			dsiTracerOrdersToday = new DaySummaryItem("There is <strong>1 tracer</strong> to be ordered today");
+			dsiTracerOrdersToday.setBadgeText("click to view");
 		} else {
-			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredToday.size() + " tracer orders</strong> required today");
+			dsiTracerOrdersToday = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredToday.size() + " tracers</strong> to be ordered today");
+			dsiTracerOrdersToday.setBadgeText("click to view");
 		}
-		dsiTracerOrdersToday.setLink("/tracer-orders?ordertoday=1");
-		dsiTracerOrdersToday.setBadgeText("click to view");
+		dsiTracerOrdersToday.setLink("/tracer-orders?mode=order-today");
 		dsiTracerOrdersToday.setIcon("fa-flask");
 		daySummaryItems.add(dsiTracerOrdersToday);
 
 		// day summary: tracer orders tomorrow
-		List<TracerOrder> tracerOrdersRequiredTomorrow = TracerOrderUtils.getTracerOrdersRequiredByDay(tomorrow);
+		List<TracerOrder> tracerOrdersRequiredTomorrow = TracerOrderUtils.getTracerOrdersRequiredByDay(tomorrow, true);
 		DaySummaryItem dsiTracerOrdersTomorrow;
 		if (tracerOrdersRequiredTomorrow == null || tracerOrdersRequiredTomorrow.size() == 0) {
-			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>no tracer orders</strong> required tomorrow");
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>no tracers</strong> to be ordered tomorrow");
 		} else if (tracerOrdersRequiredTomorrow.size() == 1) {
-			dsiTracerOrdersTomorrow = new DaySummaryItem("There is <strong>1 tracer order</strong> required tomorrow");
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There is <strong>1 tracer</strong> to be ordered tomorrow");
+			dsiTracerOrdersTomorrow.setBadgeText("click to view");
 		} else {
-			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredTomorrow.size() + " tracer orders</strong> required tomorrow");
+			dsiTracerOrdersTomorrow = new DaySummaryItem("There are <strong>" + tracerOrdersRequiredTomorrow.size() + " tracers</strong> to be ordered tomorrow");
+			dsiTracerOrdersTomorrow.setBadgeText("click to view");
 		}
-		dsiTracerOrdersTomorrow.setLink("/tracer-orders?ordertomorrow=1");
-		dsiTracerOrdersTomorrow.setBadgeText("click to view");
+		dsiTracerOrdersTomorrow.setLink("/tracer-orders?mode=order-tomorrow");
 		dsiTracerOrdersTomorrow.setIcon("fa-flask");
 		daySummaryItems.add(dsiTracerOrdersTomorrow);
 

@@ -111,7 +111,7 @@ public class TracerOrder implements Renderable {
 			} else if (daysUntil < 0) {
 				put("days-until", daysUntil + " day" + (daysUntil == -1 ? "" : "s") + " ago");
 			} else {
-				put("days-until", "in " + daysUntil + " day" + (daysUntil == -1 ? "" : "s"));
+				put("days-until", "in " + daysUntil + " day" + (daysUntil == 1 ? "" : "s"));
 			}
 		}};
 	}
