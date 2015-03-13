@@ -18,33 +18,29 @@ $(document).ready(function () {
 		subMenuToggle($(this).parent());
 	});
 
-    $(".edit-button").hover(function(){
-        $(this).addClass('btn-warning')
-    }, function(){
-        $(this).removeClass('btn-warning')
-    });
+	$(".edit-button").hover(function () {
+		$(this).addClass('btn-warning')
+	}, function () {
+		$(this).removeClass('btn-warning')
+	});
 
-    $(".delete-button").hover(function(){
-        $(this).addClass('btn-danger')
-    }, function(){
-        $(this).removeClass('btn-danger')
-    });
+	$(".delete-button").hover(function () {
+		$(this).addClass('btn-danger')
+	}, function () {
+		$(this).removeClass('btn-danger')
+	});
 
-    $(".info-button").hover(function(){
-        $(this).addClass('btn-info')
-    }, function(){
-        $(this).removeClass('btn-info')
-    });
+	$(".info-button").hover(function () {
+		$(this).addClass('btn-info')
+	}, function () {
+		$(this).removeClass('btn-info')
+	});
 
-    $(".confirm-button").hover(function(){
-        $(this).addClass('btn-success')
-    }, function(){
-        $(this).removeClass('btn-success')
-    });
-
-    setTimeout(function () {
-        forcePasswordChange();
-    }, 100);
+	$(".confirm-button").hover(function () {
+		$(this).addClass('btn-success')
+	}, function () {
+		$(this).removeClass('btn-success')
+	});
 });
 
 // function to toggle a menu
@@ -58,8 +54,4 @@ function subMenuToggle(menuWrapper) {
 		menuWrapper.find('a:eq(0)').find('i').removeClass('fa-angle-down').addClass('fa-angle-right');
 		menuWrapper.find('ul.drop-down-menu').hide();
 	}
-}
-
-var forcePasswordChange = function () {
-    window.location.replace("/profile?changepw=1")
 }
