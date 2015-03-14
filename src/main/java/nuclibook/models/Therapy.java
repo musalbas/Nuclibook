@@ -246,7 +246,7 @@ public class Therapy implements Renderable {
 			put("CUSTOM:booking-pattern-sections", "CUSTOM:" + getBookingPatternSectionListString());
 			put("tracer-required-id", getTracerRequired().getId().toString());
 			put("tracer-required-name", getTracerRequired().getName());
-			put("tracer-dose", getTracerDose());
+			put("therapy-tracer-dose", getTracerDose());
 		}};
 	}
 }

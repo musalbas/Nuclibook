@@ -320,7 +320,9 @@ public class Staff implements Renderable {
 	public HashMap<String, String> getHashMap() {
 		return new HashMap<String, String>() {{
 			put("id", ((Integer) getId()).toString());
+			put("staff-id", ((Integer) getId()).toString());
 			put("name", getName());
+			put("staff-name", getName());
 			put("username", getUsername());
 			put("role-id", getRole() == null ? "0" : getRole().getId().toString());
 			put("role-label", getRole() == null ? "-" : getRole().getLabel());
