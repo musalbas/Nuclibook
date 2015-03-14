@@ -118,7 +118,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_PATIENT, "Attempted to view patient");
         put(ATTEMPT_UPDATE_PATIENT, "Attempted to update patient");
         put(ATTEMPT_DELETE_PATIENT, "Attempted to delete patient");
-        
+
         put(CREATE_TRACER, "Created tracer");
         put(VIEW_TRACER, "Viewed tracer ");
         put(UPDATE_TRACER, "Updated tracer");
@@ -127,7 +127,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_TRACER, "Attempted to view tracer ");
         put(ATTEMPT_UPDATE_TRACER, "Attempted to update tracer");
         put(ATTEMPT_DELETE_TRACER, "Attempted to delete tracer");
-        
+
         put(CREATE_CAMERA_TYPE, "Created camera type");
         put(VIEW_CAMERA_TYPE, "Viewed camera type");
         put(UPDATE_CAMERA_TYPE, "Updated camera type");
@@ -136,7 +136,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_CAMERA_TYPE, "Attempted to view camera type");
         put(ATTEMPT_UPDATE_CAMERA_TYPE, "Attempted to update camera type");
         put(ATTEMPT_DELETE_CAMERA_TYPE, "Attempted to delete camera type");
-        
+
         put(CREATE_CAMERA, "Created camera");
         put(VIEW_CAMERA, "Viewed camera");
         put(UPDATE_CAMERA, "Updated camera");
@@ -145,7 +145,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_CAMERA, "Attempted to view camera");
         put(ATTEMPT_UPDATE_CAMERA, "Attempted to update camera");
         put(ATTEMPT_DELETE_CAMERA, "Attempted to delete camera");
-        
+
         put(CREATE_THERAPY, "Created therapy");
         put(VIEW_THERAPY, "Viewed therapy");
         put(UPDATE_THERAPY, "Updated therapy");
@@ -154,7 +154,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_THERAPY, "Attempted to view therapy");
         put(ATTEMPT_UPDATE_THERAPY, "Attempted to update therapy");
         put(ATTEMPT_DELETE_THERAPY, "Attempted to delete therapy");
-        
+
         put(CREATE_STAFF_ROLE, "Created staff role");
         put(VIEW_STAFF_ROLE, "Viewed staff role");
         put(UPDATE_STAFF_ROLE, "Updated staff role");
@@ -163,7 +163,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_STAFF_ROLE, "Attempted to view staff role");
         put(ATTEMPT_UPDATE_STAFF_ROLE, "Attempted to update staff role");
         put(ATTEMPT_DELETE_STAFF_ROLE, "Attempted to delete staff role");
-        
+
         put(CREATE_STAFF, "Created staff member");
         put(VIEW_STAFF, "Viewed staff member");
         put(UPDATE_STAFF, "Updated staff member");
@@ -172,7 +172,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_STAFF, "Attempted to view staff member");
         put(ATTEMPT_UPDATE_STAFF, "Attempted to update staff member");
         put(ATTEMPT_DELETE_STAFF, "Attempted to delete staff member");
-        
+
         put(CREATE_STAFF_ABSENCE, "Created staff absence");
         put(VIEW_STAFF_ABSENCE, "Viewed staff absence");
         put(UPDATE_STAFF_ABSENCE, "Updated staff absence");
@@ -181,7 +181,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_STAFF_ABSENCE, "Attempted to view staff absence");
         put(ATTEMPT_UPDATE_STAFF_ABSENCE, "Attempted to update staff absence");
         put(ATTEMPT_DELETE_STAFF_ABSENCE, "Attempted to delete staff absence");
-        
+
         put(CREATE_STAFF_AVAILABILITY, "Created staff availability");
         put(VIEW_STAFF_AVAILABILITY, "Viewed staff availability");
         put(UPDATE_STAFF_AVAILABILITY, "Updated staff availability");
@@ -190,10 +190,10 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_STAFF_AVAILABILITY, "Attempted to view staff availability");
         put(ATTEMPT_UPDATE_STAFF_AVAILABILITY, "Attempted to update staff availability");
         put(ATTEMPT_DELETE_STAFF_AVAILABILITY, "Attempted to delete staff availability");
-        
+
         put(VIEW_BOOKING_CALENDAR, "Viewed booking calendar");
         put(ATTEMPT_VIEW_BOOKING_CALENDAR, "Attempted to view booking calendar");
-        
+
         put(CREATE_BOOKING, "Created booking");
         put(VIEW_BOOKING, "Viewed booking");
         put(UPDATE_BOOKING, "Updated booking");
@@ -202,7 +202,7 @@ public class ActionLogger {
         put(ATTEMPT_VIEW_BOOKING, "Attempted to view booking");
         put(ATTEMPT_UPDATE_BOOKING, "Attempted to update booking");
         put(ATTEMPT_DELETE_BOOKING, "Attempted to delete booking");
-        
+
         put(LOG_IN, "Logged in");
         put(ATTEMPT_LOG_IN_PASSWORD, "Attempted to log in with wrong password");
         put(ATTEMPT_LOG_IN_STAFF_ID, "Attempted to log in with staff ID that doesn't exist");
@@ -226,10 +226,8 @@ public class ActionLogger {
     public static void logAction(int actionPerformed, int objectID) {
 
         Staff loggedIn = SecurityUtils.getCurrentUser();
-        if (loggedIn != null) {
-            ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
-            AbstractEntityUtils.createEntity(ActionLog.class, entity);
-        }
+        ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
+        AbstractEntityUtils.createEntity(ActionLog.class, entity);
     }
 
     /**
@@ -244,9 +242,7 @@ public class ActionLogger {
     public static void logAction(int actionPerformed, int objectID, String note) {
 
         Staff loggedIn = SecurityUtils.getCurrentUser();
-        if (loggedIn != null) {
-            ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID, note);
-            AbstractEntityUtils.createEntity(ActionLog.class, entity);
-        }
+        ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID, note);
+        AbstractEntityUtils.createEntity(ActionLog.class, entity);
     }
 }
