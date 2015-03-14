@@ -15,7 +15,7 @@ public class Camera implements Renderable {
 	@DatabaseField(columnName = "camera_type_id", canBeNull = false, foreign = true, foreignAutoRefresh = true)
 	private CameraType type;
 
-	@DatabaseField(columnName = "camera_type_id", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(canBeNull = false)
 	private String roomNumber;
 
 	@DatabaseField(defaultValue = "true")
