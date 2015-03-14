@@ -103,7 +103,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         // some entities handle creation internally
         if (entityPair == null) {
-            ActionLogger.logAction(action, entityId);
             return "okay";
         }
 
@@ -486,7 +485,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         // if it's new, we'll save it here so that the permissions can be added properly
         if (createNew) {
-            AbstractEntityUtils.createEntity(StaffRole.class, entity);
+            StaffRole staffRole = AbstractEntityUtils.createEntity(StaffRole.class, entity);
+            ActionLogger.logAction(ActionLogger.CREATE_STAFF_ROLE, staffRole.getId());
         }
 
         // permissions
