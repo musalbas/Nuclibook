@@ -52,6 +52,14 @@ public class ActionLog implements Renderable {
         setWhen(when);
     }
 
+    public ActionLog(Staff staff, DateTime when, Integer action, Integer associatedId, String note) {
+        this.staff = staff;
+        this.action = action;
+        this.associatedId = associatedId;
+        this.note = note;
+        setWhen(when);
+    }
+
     /**
      * Get the ID of the action.
      * @return The ID of the action.
