@@ -164,7 +164,7 @@ public class ActionLog implements Renderable {
             put("staff", getStaff().getName());
             put("when", getWhen().toString("dd-MM-yyyy HH:mm:ss"));
             put("action", ActionLogger.actionDescription.get(getAction()).toString());
-            put("associated-id", getAssociatedId().toString());
+            put("associated-id", (getAssociatedId()) == 0 ? "" : getAssociatedId().toString());
             put("notes", getNote());
         }};
     }
