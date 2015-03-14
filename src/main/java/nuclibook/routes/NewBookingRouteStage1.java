@@ -21,6 +21,8 @@ public class NewBookingRouteStage1 extends DefaultRoute {
 
 		// security check
 		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();

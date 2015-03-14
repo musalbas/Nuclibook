@@ -17,9 +17,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import java.util.Timer;
 
@@ -151,4 +149,15 @@ public class App extends Application {
 		}
 		return titleText;
 	}
+
+    /*private void styleSelectTags(WebEngine webEngine){
+        Document doc = webEngine.getDocument();
+        NodeList bodyTags = doc.getElementsByTagName("Select");
+        if (bodyTags != null && bodyTags.getLength() > 0) {
+            Node body = bodyTags.item(0);
+            Attr newAttr = doc.createAttribute("style");
+            newAttr.setValue("background-color:gray");
+            body.getAttributes().setNamedItem(newAttr);
+        }
+    }*/
 }

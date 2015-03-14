@@ -1,0 +1,188 @@
+#[def: title = New Booking]
+#[def: current-page = new-booking]
+
+##_header.html
+
+<div class="row">
+	<div class="col-md-offset-2 col-lg-offset-2 col-md-7 col-lg-7 alert alert-info">
+		<p>You are creating a booking for the following patient, therapy and schedule:</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Patient:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#patient-name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Therapy:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		<p>#therapy-name</p>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4 col-lg-4 text-right">
+		<p><strong>Booking Schedule:</strong></p>
+	</div>
+	<div class="col-md-8 col-lg-8">
+		#[collection: booking-sections]
+
+		#[pre]#[/pre]
+
+		#[each]
+		<p>#start-date @ #start-time - #end-time</p>
+		#[/each]
+
+		#[post]#[/post]
+
+		#[empty]<p>This booking currently has no schedule.</p>#[/empty]
+
+		#[/collection]
+	</div>
+</div>
+
+<hr/>
+
+<div class="row">
+	<div class="col-md-offset-2 col-lg-offset-2 col-md-7 col-lg-7 alert alert-info">
+		<p><strong>Please confirm</strong> all of the following information:</p>
+	</div>
+</div>
+
+<form class="form-horizontal edit-form">
+
+	<input type="hidden" name="patient" value="#patient-id"/>
+	<input type="hidden" name="therapy" value="#therapy-id"/>
+	<input type="hidden" name="default-tracer" value="#default-tracer-id"/>
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="camera" class="control-label">Camera:</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="camera" id="camera">
+				<option value="0" disabled selected></option>
+				#[collection: cameras]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="tracer" class="control-label">Tracer:</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="tracer" id="tracer">
+				#[collection: tracers]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#tracer-id">#tracer-name (#order-time day to order)</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="tracer-dose" class="control-label">Tracer Dose:</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<input type="text" class="form-control" name="tracer-dose" id="tracer-dose" value="#therapy-tracer-dose"/>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label class="control-label">Tracer Order Due:</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<div class="tracer-order-wrapper">
+				<div class="col-sm-4" style="padding-left: 0;">
+					<select class="form-control" name="date-selector-year" id="date-selector-year">
+						<option value="" disabled selected>Year</option>
+					</select>
+				</div>
+				<div class="col-sm-5">
+					<select class="form-control" name="date-selector-month" id="date-selector-month" disabled>
+						<option value="" disabled selected>Month</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" name="date-selector-day" id="date-selector-day" disabled>
+						<option value="">Day</option>
+					</select>
+				</div>
+				<input type="hidden" name="tracer-order-due" value="#tracer-order-due" id="date-selector-output"/>
+				<br style="clear: both"/>
+			</div>
+			<p class="help-block label-for-no-tracer-order">
+				<input type="checkbox" name="no-tracer-order" value="1" id="no-tracer-order">
+				<label for="no-tracer-order">No tracer order needed</label>
+			</p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="staff" class="control-label">Staff Members:</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="staff" id="staff">
+				<option value="0" disabled selected>Select a staff member and click '+ Add'</option>
+				#[collection: staff]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#staff-id">#staff-name</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+			<p class="help-block"><a href="javascript:;" class="add-staff-member"><span class="fa fa-plus"></span> Add</a></p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-offset-4 col-lg-offset-4 col-md-4 col-lg-4">
+			<button class="btn btn-primary">Confirm Booking</button>
+		</div>
+	</div>
+
+</form>
+
+<script src="/js/date-selector.js"></script>
+<script src="/js/new-booking-stage-2.js"></script>
+
+##_footer.html

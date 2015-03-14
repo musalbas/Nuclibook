@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="permissions">
+        <column>id</column>
+        <column>label</column>
+        <column>description</column>
+        <row>
+            <value>1</value>
+            <value>TestLabel1</value>
+            <value>TestDescription1</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>TestLabel2</value>
+            <value>TestDescription1</value>
+        </row>
+    </table>
+</dataset>

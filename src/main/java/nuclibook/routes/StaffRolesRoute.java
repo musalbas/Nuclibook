@@ -19,7 +19,7 @@ public class StaffRolesRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		//prepareToHandle();
 
 		// security check
 		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ROLES, response)) return null;

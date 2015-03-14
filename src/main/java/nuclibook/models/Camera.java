@@ -12,10 +12,10 @@ public class Camera implements Renderable {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(columnName = "camera_type_id", canBeNull = false, foreign = true, foreignAutoRefresh = true)
 	private CameraType type;
 
-	@DatabaseField(width = 32, columnName = "room_number")
+	@DatabaseField(canBeNull = false, columnName = "room_number")
 	private String roomNumber;
 
 	@DatabaseField(defaultValue = "true")
@@ -60,6 +60,7 @@ public class Camera implements Renderable {
 	public HashMap<String, String> getHashMap() {
 		return new HashMap<String, String>(){{
 			put("id", getId().toString());
+			put("camera-id", getId().toString());
 			put("camera-type-id", getType().getId().toString());
 			put("camera-type-label", getType().getLabel());
 			put("room-number", getRoomNumber());

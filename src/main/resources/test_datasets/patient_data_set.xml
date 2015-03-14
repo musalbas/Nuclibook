@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="patients">
+        <column>id</column>
+        <column>name</column>
+        <column>hospitalNumber</column>
+        <column>dateOfBirth</column>
+        <column>enabled</column>
+        <row>
+            <value>1</value>
+            <value>TestPatient1</value>
+            <value>544</value>
+            <value>1994-11-12</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>TestPatient2</value>
+            <value>300</value>
+            <value>1996-03-10</value>
+            <value>1</value>
+        </row>
+    </table>
+</dataset>

@@ -27,6 +27,7 @@ public class SqlServerConnection {
 				connection = new JdbcConnectionSource(uri);
 				((JdbcConnectionSource) connection).setUsername(username);
 				((JdbcConnectionSource) connection).setPassword(password);
+                System.out.print(uri);
 				initDB(connection);
 			} catch (Exception e) {
 				// TODO deal with exception
