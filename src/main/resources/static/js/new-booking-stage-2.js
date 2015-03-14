@@ -44,7 +44,6 @@ function addAssignedStaff(staffId, staffName) {
 	assignedStaffOutput.html(
 		assignedStaffOutput.html()
 		+ "<span class=\"assigned-staff-" + staffId + "\">"
-		+ (assignedStaff.length == 0 ? "" : "<br />")
 		+ staffName
 		+ " <a class=\"remove-assigned-staff\" data-id=\"" + staffId + "\" href=\"javascript:;\">[remove]</a>"
 		+ "</span>"
