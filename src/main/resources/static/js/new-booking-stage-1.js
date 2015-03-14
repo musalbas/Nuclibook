@@ -67,6 +67,13 @@ $(document).ready(function () {
         $(this).slideUp(300);
         $('#go-back-to-select-therapy').hide();
 
+        //Add button for saving the appointments
+        $('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
+        '<button class="btn btn-primary" id="saveAppointments" disabled>Save appointments</button></div>');
+
+        //Variables for modal
+        var startTimeObject;
+        var endTimeObject;
         // show calendar
         calendar = $('.calendar').show().fullCalendar({
             header: {
@@ -91,21 +98,10 @@ $(document).ready(function () {
 
 
             //User selecting time slots
-            select: function (start, end, allDay) {
+            select: function (start, end, allday) {
+                startTimeObject = start;
+                endTimeObject = end;
                 $('.time-modal').removeClass('hide').modal('show');
-
-                if (title) {
-                    calendar.fullCalendar('renderEvent',
-                        {
-                            title: title,
-                            start: start,
-                            end: end,
-                            allDay: allDay
-                        },
-                        true // make the event "stick"
-                    );
-                }
-                calendar.fullCalendar('unselect');
             },
 
             events: appointmentsArray,
@@ -128,6 +124,62 @@ $(document).ready(function () {
             timeFormat: 'HH:mm',
             weekends: true,
             slotMinutes: 15
+        });
+
+
+        //Creating the list for the hours
+        //TODO be sure client does not select start > end
+        var optionHour = 08;
+        var optionMin = 00;
+        while (optionHour <= 18) {
+            optionMin = 00;
+            while (optionMin <= 45) {
+                $("#booking-start-time").append('<option>' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+                $("#booking-end-time").append('<option>' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+                optionMin += 15;
+            }
+            optionHour += 1;
+        }
+
+        //Creating JSON to send
+        var datesSelectedJSON;
+        datesSelectedJSON = "{\"patiendID\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
+
+        //Click ok to keep appointment;
+        $('.btn-save').click(function () {
+            $('#saveAppointments').removeAttr('disabled');
+            var startTime = startTimeObject.getFullYear() + '-' +
+                (startTimeObject.getMonth() < 10 ? '0' : '') + (startTimeObject.getMonth() + 1) + '-' +
+                (startTimeObject.getDate() < 10 ? '0' : '') + startTimeObject.getDate() + 'T' +
+                $('#booking-start-time').find(":selected").text() + ":00";
+            var endTime = endTimeObject.getFullYear() + '-' +
+                (endTimeObject.getMonth() < 10 ? '0' : '') + (endTimeObject.getMonth() + 1) + '-' +
+                (endTimeObject.getDate() < 10 ? '0' : '') + endTimeObject.getDate() + 'T' +
+                $('#booking-end-time').find(":selected").text() + ":00";
+
+            datesSelectedJSON += "{\"startTime\":\"" + startTime + "\",";
+            datesSelectedJSON += "\"endTime\":\"" + endTime + "\"},";
+
+            calendar.fullCalendar('renderEvent',
+                {
+                    title: $('.therapy-selected').text() + ": " + $('.patient-selected').text(),
+                    start: startTime,
+                    end: endTime,
+                    msg: "Start time: <b>"
+                    + startTime.substring(11,16)
+                    + "</b><br> End time: <b>" + endTime.substring(11,16),
+                    allDay: false
+                },
+                true // make the event "stick"
+            );
+            calendar.fullCalendar('unselect');
+            $('.time-modal').modal('hide');
+        });
+        $('#saveAppointments').click(function() {
+            datesSelectedJSON = datesSelectedJSON.substring(0,datesSelectedJSON.length-1);
+            datesSelectedJSON += "]}";
+
+            console.log(datesSelectedJSON);
         });
     });
 
@@ -159,7 +211,7 @@ $(document).ready(function () {
                 for (var i = 0; i < parsedJson.bookings.length; ++i) {
                     for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
                         // build title
-                        bookingTitle = parsedJson.bookings[i].therapyName + ":\n <b>" + parsedJson.bookings[i].patientName + "</b>";
+                        bookingTitle = parsedJson.bookings[i].therapyName + ":\n" + parsedJson.bookings[i].patientName;
 
                         //build Camera Type
                         bookingCameraType = parsedJson.bookings[i].cameraName;
@@ -182,7 +234,6 @@ $(document).ready(function () {
                         });
                     }
                 }
-
                 calendar.fullCalendar('refetchEvents');
             })
             .fail(function (xhr, textStatus, errorThrown) {
