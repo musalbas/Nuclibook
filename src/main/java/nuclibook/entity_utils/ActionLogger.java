@@ -68,7 +68,6 @@ public class ActionLogger {
 
     public static final int LOGGED_IN = 43;
     public static final int LOGGED_OUT = 44;
-    public static final int UPDATE_STAFF_NAME = 45;
     public static final int UPDATE_STAFF_PASSWORD = 46;
 
     public static Map actionDescription = new HashMap<Integer, String>(){{
@@ -116,7 +115,6 @@ public class ActionLogger {
         put(DELETE_BOOKING, "Deleted booking");
         put(LOGGED_IN, "Logged in");
         put(LOGGED_OUT, "Logged out");
-        put(UPDATE_STAFF_NAME, "Changed staff name");
         put(UPDATE_STAFF_PASSWORD, "Changed staff password");
     }};
 
@@ -133,6 +131,24 @@ public class ActionLogger {
         Staff loggedIn = SecurityUtils.getCurrentUser();
         if (loggedIn != null) {
             ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
+            AbstractEntityUtils.createEntity(ActionLog.class, entity);
+        }
+    }
+
+    /**
+     * A method for recording staff action. Date/Time of the action are generated in the database. Requires
+     * an integer for the type of action performed and an id of the object to which it is applied to.
+     * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
+     *
+     * @param actionPerformed   the type of action performed (e.g. deleted patient)
+     * @param objectID          the objectID on which the action was performed
+     * @param note              the note about the action when it occurred
+     */
+    public static void logAction(int actionPerformed, int objectID, String note) {
+
+        Staff loggedIn = SecurityUtils.getCurrentUser();
+        if (loggedIn != null) {
+            ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID, note);
             AbstractEntityUtils.createEntity(ActionLog.class, entity);
         }
     }
