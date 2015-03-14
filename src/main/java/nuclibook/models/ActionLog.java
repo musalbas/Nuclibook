@@ -20,7 +20,7 @@ public class ActionLog implements Renderable {
     @DatabaseField(canBeNull = false)
     private long when;
 
-    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+    @DatabaseField(foreign = true, columnName = "staff_id")
     private Staff staff;
 
     @DatabaseField
@@ -161,10 +161,10 @@ public class ActionLog implements Renderable {
     public HashMap<String, String> getHashMap() {
         return new HashMap<String, String>() {{
             put("id", getId().toString());
-            put("staff", getStaff().getName());
+            put("staff", (getStaff()) == null ? "N/A" : getStaff().getName());
             put("when", getWhen().toString("dd-MM-yyyy HH:mm:ss"));
             put("action", ActionLogger.actionDescription.get(getAction()).toString());
-            put("associated-id", (getAssociatedId()) == 0 ? "" : getAssociatedId().toString());
+            put("associated-id", (getAssociatedId()) == 0 ? "N/A" : getAssociatedId().toString());
             put("notes", getNote());
         }};
     }
