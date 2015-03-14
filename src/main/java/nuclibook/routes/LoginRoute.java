@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.RequestType;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
@@ -82,6 +83,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-staff-id", "");
 				rendererFields.put("username", username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID, 0, "USERNAME: " + username);
 				return handleGet();
 			}
 
@@ -90,6 +92,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-status", "");
 				rendererFields.put("username", username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID_DISABLED, 0, "USERNAME: " + username);
 				return handleGet();
 			}
 
@@ -109,9 +112,11 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-password", "");
 				rendererFields.put("username", username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_PASSWORD, 0, "USERNAME: " + username);
 				return handleGet();
 			} else {
 				response.redirect("/");
+                ActionLogger.logAction(ActionLogger.LOG_IN, staff.getId());
 				return null;
 			}
 		}
