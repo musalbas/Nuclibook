@@ -14,7 +14,7 @@ public class ActionLog {
 	private Integer id;
 
 	@DatabaseField(canBeNull = false)
-	private String when;
+	private long when;
 
 	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
 	private Staff staff;
@@ -77,7 +77,7 @@ public class ActionLog {
 	 * @param when The date the action was performed.
 	 */
 	public void setWhen(DateTime when) {
-		this.when = when.toString();
+		this.when = when.getMillis();
 	}
 
 	/**
