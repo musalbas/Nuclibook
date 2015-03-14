@@ -58,12 +58,17 @@
 
 <form class="form-horizontal edit-form">
 
+	<input type="hidden" name="patient" value="#patient-id"/>
+	<input type="hidden" name="therapy" value="#therapy-id"/>
+	<input type="hidden" name="default-tracer" value="#default-tracer-id"/>
+
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
-			<label for="camera" class="control-label">Camera</label>
+			<label for="camera" class="control-label">Camera:</label>
 		</div>
 		<div class="col-md-4 col-lg-4">
 			<select class="form-control" name="camera" id="camera">
+				<option value="0" disabled selected></option>
 				#[collection: cameras]
 
 				#[pre]#[/pre]
@@ -83,16 +88,16 @@
 
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
-			<label for="tracer" class="control-label">Tracer</label>
+			<label for="tracer" class="control-label">Tracer:</label>
 		</div>
 		<div class="col-md-4 col-lg-4">
 			<select class="form-control" name="tracer" id="tracer">
-				#[collection: cameras]
+				#[collection: tracers]
 
 				#[pre]#[/pre]
 
 				#[each]
-				<option value="#camera-id">#camera-type-label, #room-number</option>
+				<option value="#tracer-id">#tracer-name (#order-time day to order)</option>
 				#[/each]
 
 				#[post]#[/post]
@@ -106,62 +111,57 @@
 
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
-			<label for="tracer-dose" class="control-label">Tracer Dose</label>
+			<label for="tracer-dose" class="control-label">Tracer Dose:</label>
 		</div>
 		<div class="col-md-4 col-lg-4">
-			<select class="form-control" name="tracer-dose" id="tracer-dose">
-				#[collection: cameras]
-
-				#[pre]#[/pre]
-
-				#[each]
-				<option value="#camera-id">#camera-type-label, #room-number</option>
-				#[/each]
-
-				#[post]#[/post]
-
-				#[empty]#[/empty]
-
-				#[/collection]
-			</select>
+			<input type="text" class="form-control" name="tracer-dose" id="tracer-dose" value="#therapy-tracer-dose"/>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
-			<label for="tracer-order" class="control-label">Tracer Order</label>
+			<label class="control-label">Tracer Order Due:</label>
 		</div>
 		<div class="col-md-4 col-lg-4">
-			<select class="form-control" name="tracer-order" id="tracer-order">
-				#[collection: cameras]
-
-				#[pre]#[/pre]
-
-				#[each]
-				<option value="#camera-id">#camera-type-label, #room-number</option>
-				#[/each]
-
-				#[post]#[/post]
-
-				#[empty]#[/empty]
-
-				#[/collection]
-			</select>
+			<div class="tracer-order-wrapper">
+				<div class="col-sm-4" style="padding-left: 0;">
+					<select class="form-control" name="date-selector-year" id="date-selector-year">
+						<option value="" disabled selected>Year</option>
+					</select>
+				</div>
+				<div class="col-sm-5">
+					<select class="form-control" name="date-selector-month" id="date-selector-month" disabled>
+						<option value="" disabled selected>Month</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" name="date-selector-day" id="date-selector-day" disabled>
+						<option value="">Day</option>
+					</select>
+				</div>
+				<input type="hidden" name="tracer-order-due" value="#tracer-order-due" id="date-selector-output"/>
+				<br style="clear: both"/>
+			</div>
+			<p class="help-block label-for-no-tracer-order">
+				<input type="checkbox" name="no-tracer-order" value="1" id="no-tracer-order">
+				<label for="no-tracer-order">No tracer order needed</label>
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
-			<label for="staff" class="control-label">Staff Members</label>
+			<label for="staff" class="control-label">Staff Members:</label>
 		</div>
 		<div class="col-md-4 col-lg-4">
 			<select class="form-control" name="staff" id="staff">
-				#[collection: cameras]
+				<option value="0" disabled selected>Select a staff member and click '+ Add'</option>
+				#[collection: staff]
 
 				#[pre]#[/pre]
 
 				#[each]
-				<option value="#camera-id">#camera-type-label, #room-number</option>
+				<option value="#staff-id">#staff-name</option>
 				#[/each]
 
 				#[post]#[/post]
@@ -170,6 +170,7 @@
 
 				#[/collection]
 			</select>
+			<p class="help-block"><a href="javascript:;" class="add-staff-member"><span class="fa fa-plus"></span> Add</a></p>
 		</div>
 	</div>
 
@@ -180,5 +181,8 @@
 	</div>
 
 </form>
+
+<script src="/js/date-selector.js"></script>
+<script src="/js/new-booking-stage-2.js"></script>
 
 ##_footer.html

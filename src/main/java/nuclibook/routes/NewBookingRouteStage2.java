@@ -1,12 +1,10 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.CameraUtils;
-import nuclibook.entity_utils.PatientUtils;
-import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.BookingSection;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import org.joda.time.DateTime;
@@ -17,6 +15,8 @@ import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NewBookingRouteStage2 extends DefaultRoute {
@@ -73,6 +73,14 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 				tempBookingSection.setEnd(new DateTime(bookingSectionJsonObject.getString("endTime")));
 				displayBookingSections.add(tempBookingSection);
 			}
+
+			// sort booking sections by date
+			displayBookingSections.sort(new Comparator<BookingSection>() {
+				@Override
+				public int compare(BookingSection o1, BookingSection o2) {
+					return o1.getStart().compareTo(o2.getStart());
+				}
+			});
 		} catch (JSONException | NullPointerException e) {
 			response.redirect("/");
 			return null;
@@ -84,11 +92,33 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 
 		// add booking info
 		renderer.setField("patient-name", patient.getName());
+		renderer.setField("patient-id", patient.getId());
 		renderer.setField("therapy-name", therapy.getName());
+		renderer.setField("therapy-id", therapy.getId());
 		renderer.setCollection("booking-sections", displayBookingSections);
 
 		// add cameras
 		renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
+
+		// add tracers
+		renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
+		renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
+
+		// add tracer dose
+		renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
+
+		// add tracer order date
+		renderer.setField("tracer-order-due", displayBookingSections.isEmpty() ? "" : displayBookingSections.get(0).getStart().minusDays(therapy.getTracerRequired().getOrderTime()).toString("YYYY-MM-dd"));
+
+		// add staff
+		List<Staff> allStaff = StaffUtils.getAllStaff(true);
+		Collections.sort(allStaff, new Comparator<Staff>() {
+			@Override
+			public int compare(Staff o1, Staff o2) {
+				return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+			}
+		});
+		renderer.setCollection("staff", allStaff);
 
 		return renderer.render();
 	}
