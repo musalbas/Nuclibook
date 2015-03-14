@@ -56,119 +56,129 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-4 col-lg-4 text-right">
-		<label for="camera" class="control-label">Camera</label>
+<form class="form-horizontal edit-form">
+
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="camera" class="control-label">Camera</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="camera" id="camera">
+				#[collection: cameras]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
 	</div>
-	<div class="col-md-4 col-lg-4">
-		<select class="form-control" name="camera" id="camera">
-			#[collection: cameras]
 
-			#[pre]#[/pre]
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="tracer" class="control-label">Tracer</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="tracer" id="tracer">
+				#[collection: cameras]
 
-			#[each]
-			<option value="#camera-id">#camera-type-label, #room-number</option>
-			#[/each]
+				#[pre]#[/pre]
 
-			#[post]#[/post]
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
 
-			#[empty]#[/empty]
+				#[post]#[/post]
 
-			#[/collection]
-		</select>
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-4 col-lg-4 text-right">
-		<label for="tracer" class="control-label">Tracer</label>
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="tracer-dose" class="control-label">Tracer Dose</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="tracer-dose" id="tracer-dose">
+				#[collection: cameras]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
 	</div>
-	<div class="col-md-4 col-lg-4">
-		<select class="form-control" name="tracer" id="tracer">
-			#[collection: cameras]
 
-			#[pre]#[/pre]
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="tracer-order" class="control-label">Tracer Order</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="tracer-order" id="tracer-order">
+				#[collection: cameras]
 
-			#[each]
-			<option value="#camera-id">#camera-type-label, #room-number</option>
-			#[/each]
+				#[pre]#[/pre]
 
-			#[post]#[/post]
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
 
-			#[empty]#[/empty]
+				#[post]#[/post]
 
-			#[/collection]
-		</select>
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-4 col-lg-4 text-right">
-		<label for="tracer-dose" class="control-label">Tracer Dose</label>
+	<div class="form-group">
+		<div class="col-md-4 col-lg-4 text-right">
+			<label for="staff" class="control-label">Staff Members</label>
+		</div>
+		<div class="col-md-4 col-lg-4">
+			<select class="form-control" name="staff" id="staff">
+				#[collection: cameras]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<option value="#camera-id">#camera-type-label, #room-number</option>
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</select>
+		</div>
 	</div>
-	<div class="col-md-4 col-lg-4">
-		<select class="form-control" name="tracer-dose" id="tracer-dose">
-			#[collection: cameras]
 
-			#[pre]#[/pre]
-
-			#[each]
-			<option value="#camera-id">#camera-type-label, #room-number</option>
-			#[/each]
-
-			#[post]#[/post]
-
-			#[empty]#[/empty]
-
-			#[/collection]
-		</select>
+	<div class="form-group">
+		<div class="col-md-offset-4 col-lg-offset-4 col-md-4 col-lg-4">
+			<button class="btn btn-primary">Confirm Booking</button>
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-4 col-lg-4 text-right">
-		<label for="tracer-order" class="control-label">Tracer Order</label>
-	</div>
-	<div class="col-md-4 col-lg-4">
-		<select class="form-control" name="tracer-order" id="tracer-order">
-			#[collection: cameras]
-
-			#[pre]#[/pre]
-
-			#[each]
-			<option value="#camera-id">#camera-type-label, #room-number</option>
-			#[/each]
-
-			#[post]#[/post]
-
-			#[empty]#[/empty]
-
-			#[/collection]
-		</select>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-4 col-lg-4 text-right">
-		<label for="staff" class="control-label">Staff Members</label>
-	</div>
-	<div class="col-md-4 col-lg-4">
-		<select class="form-control" name="staff" id="staff">
-			#[collection: cameras]
-
-			#[pre]#[/pre]
-
-			#[each]
-			<option value="#camera-id">#camera-type-label, #room-number</option>
-			#[/each]
-
-			#[post]#[/post]
-
-			#[empty]#[/empty]
-
-			#[/collection]
-		</select>
-	</div>
-</div>
+</form>
 
 ##_footer.html
