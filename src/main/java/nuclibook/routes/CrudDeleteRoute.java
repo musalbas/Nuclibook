@@ -2,6 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.*;
 import spark.Request;
@@ -32,6 +33,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Camera entity = AbstractEntityUtils.getEntityById(Camera.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Camera.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_CAMERA, entity.getId());
 				return "okay";
 			}
 
@@ -44,6 +46,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				CameraType entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(CameraType.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_CAMERA_TYPE, entity.getId());
 				return "okay";
 			}
 
@@ -56,6 +59,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Patient entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Patient.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_PATIENT, entity.getId());
 				return "okay";
 			}
 
@@ -68,6 +72,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Staff entity = AbstractEntityUtils.getEntityById(Staff.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Staff.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_STAFF, entity.getId());
 				return "okay";
 			}
 
@@ -79,6 +84,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 				StaffAbsence entity = AbstractEntityUtils.getEntityById(StaffAbsence.class, entityId);
 				AbstractEntityUtils.deleteEntity(StaffAbsence.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_STAFF_ABSENCE, entity.getId());
 				return "okay";
 			}
 
@@ -90,6 +96,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 
 				StaffAvailability entity = AbstractEntityUtils.getEntityById(StaffAvailability.class, entityId);
 				AbstractEntityUtils.deleteEntity(StaffAvailability.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_STAFF_AVAILABILITY, entity.getId());
 				return "okay";
 			}
 
@@ -102,6 +109,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				StaffRole entity = AbstractEntityUtils.getEntityById(StaffRole.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(StaffRole.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_STAFF_ROLE, entity.getId());
 				return "okay";
 			}
 
@@ -114,6 +122,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Therapy entity = AbstractEntityUtils.getEntityById(Therapy.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Therapy.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_THERAPY, entity.getId());
 				return "okay";
 			}
 
@@ -126,6 +135,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 				Tracer entity = AbstractEntityUtils.getEntityById(Tracer.class, entityId);
 				entity.setEnabled(false);
 				AbstractEntityUtils.updateEntity(Tracer.class, entity);
+                ActionLogger.logAction(ActionLogger.DELETE_TRACER, entity.getId());
 				return "okay";
 			}
 		}

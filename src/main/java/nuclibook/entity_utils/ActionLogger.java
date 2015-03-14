@@ -134,7 +134,6 @@ public class ActionLogger {
         if (loggedIn != null) {
             ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
             AbstractEntityUtils.createEntity(ActionLog.class, entity);
-            System.out.println("Logged action: " +  actionDescription.get(actionPerformed));
         }
     }
 }
