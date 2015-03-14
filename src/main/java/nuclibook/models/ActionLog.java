@@ -13,7 +13,7 @@ public class ActionLog {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false)
+	@DatabaseField
 	private long when;
 
 	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
