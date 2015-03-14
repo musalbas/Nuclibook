@@ -547,7 +547,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         // if it's new, we'll save it here so that foreign collections can be added properly
         if (createNew) {
-            AbstractEntityUtils.createEntity(Therapy.class, entity);
+            Therapy therapy = AbstractEntityUtils.createEntity(Therapy.class, entity);
+            ActionLogger.logAction(ActionLogger.CREATE_THERAPY, therapy.getId());
         }
 
         // clear current booking pattern
