@@ -55,16 +55,21 @@ public class ActionLogger {
     public static final int UPDATE_STAFF_ABSENCE = 32;
     public static final int DELETE_STAFF_ABSENCE = 33;
 
-    public static final int VIEW_BOOKING_CALENDAR = 34;
-    public static final int CREATE_BOOKING = 35;
-    public static final int VIEW_BOOKING = 36;
-    public static final int UPDATE_BOOKING = 37;
-    public static final int DELETE_BOOKING = 38;
+    public static final int CREATE_STAFF_AVAILABILITY = 34;
+    public static final int VIEW_STAFF_AVAILABILITY = 35;
+    public static final int UPDATE_STAFF_AVAILABILITY = 36;
+    public static final int DELETE_STAFF_AVAILABILITY = 37;
 
-    public static final int LOGGED_IN = 39;
-    public static final int LOGGED_OUT = 40;
-    public static final int UPDATE_STAFF_NAME = 41;
-    public static final int UPDATE_STAFF_PASSWORD = 42;
+    public static final int VIEW_BOOKING_CALENDAR = 38;
+    public static final int CREATE_BOOKING = 39;
+    public static final int VIEW_BOOKING = 40;
+    public static final int UPDATE_BOOKING = 41;
+    public static final int DELETE_BOOKING = 42;
+
+    public static final int LOGGED_IN = 43;
+    public static final int LOGGED_OUT = 44;
+    public static final int UPDATE_STAFF_NAME = 45;
+    public static final int UPDATE_STAFF_PASSWORD = 46;
 
     public static Map actionDescription = new HashMap<Integer, String>(){{
         put(VIEW_PATIENT_LIST, "Viewed patient log");
@@ -100,6 +105,10 @@ public class ActionLogger {
         put(VIEW_STAFF_ABSENCE, "Viewed staff absence");
         put(UPDATE_STAFF_ABSENCE, "Updated staff absence");
         put(DELETE_STAFF_ABSENCE, "Deleted staff absence");
+        put(CREATE_STAFF_AVAILABILITY, "Created staff availability");
+        put(VIEW_STAFF_AVAILABILITY, "Viewed staff availability");
+        put(UPDATE_STAFF_AVAILABILITY, "Updated staff availability");
+        put(DELETE_STAFF_AVAILABILITY, "Deleted staff availability");
         put(VIEW_BOOKING_CALENDAR, "Viewed booking calendar");
         put(CREATE_BOOKING, "Created booking");
         put(VIEW_BOOKING, "Viewed booking");
@@ -125,6 +134,7 @@ public class ActionLogger {
         if (loggedIn != null) {
             ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
             AbstractEntityUtils.createEntity(ActionLog.class, entity);
+            System.out.println("Logged action: " +  actionDescription.get(actionPerformed));
         }
     }
 }
