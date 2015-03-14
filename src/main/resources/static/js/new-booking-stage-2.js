@@ -33,25 +33,31 @@ function addAssignedStaff(staffId, staffName) {
 
 	// already in list?
 	for (var i in assignedStaff) {
-		if (assignedStaff[i] == staffId) return;
+		if (assignedStaff[i] == staffId) {
+			toastr.error(staffName + " is already assigned.");
+			return;
+		}
 	}
-	assignedStaff.push(staffId);
 
 	// add to output
 	var assignedStaffOutput = $('.assigned-staff');
 	assignedStaffOutput.html(
 		assignedStaffOutput.html()
 		+ "<span class=\"assigned-staff-" + staffId + "\">"
-		+ (assignedStaffOutput.html == "" ? "" : "<br />")
+		+ (assignedStaff.length == 0 ? "" : "<br />")
 		+ staffName
-		+ " <a class=\"remove-assigned-staff-" + staffId + "\" href=\"javascript:;\">[remove]</a>"
+		+ " <a class=\"remove-assigned-staff\" data-id=\"" + staffId + "\" href=\"javascript:;\">[remove]</a>"
 		+ "</span>"
 	);
 
+	// add to list
+	assignedStaff.push(staffId);
+
 	// set up removal button
-	$('.remove-assigned-staff-' + staffId).click(function (e) {
+	$('.remove-assigned-staff').unbind('click').click(function (e) {
 		e.preventDefault();
-		removeAssignedStaff(staffId);
+		var sId = $(this).attr('data-id');
+		removeAssignedStaff(sId);
 	});
 }
 
