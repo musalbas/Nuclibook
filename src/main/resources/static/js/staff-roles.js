@@ -21,7 +21,16 @@ var validateCreateForm = function (formObject) {
         toastr.error("Role title should not exceed 32 characters.");
         error = true;
     }
-    //TODO Staff_ROLeS when there is no permission selected
+
+    if(!(/^\d+$/.test(roleTitleString))){
+        toastr.error("Role title should only contain any numbers.");
+        error = true;
+    }
+
+    if(!findNumOfSelectedCheckboxes(formObject)){
+        toastr.error("No role selected");
+        error = true;
+    }
 
 	return !error;
 };
@@ -41,9 +50,28 @@ var validateEditForm = function (formObject) {
         error = true;
     }
 
-    //TODO Staff_ROLeS when there is no permission selected
+    if(/^\d+$/.test(roleTitleString)){
+        toastr.error("Role title should not contain any numbers.");
+        error = true;
+    }
+
+    if(!findNumOfSelectedCheckboxes(formObject)){
+        toastr.error("No role selected");
+        error = true;
+    }
 
     return !error;
+};
+
+var findNumOfSelectedCheckboxes = function(formObject) {
+    var matches = 0;
+    var key;
+    for (key in formObject) {
+        if (key.match('^permission-')) {
+            matches++;
+        }
+    }
+    return matches;
 };
 
 $(document).ready(function () {

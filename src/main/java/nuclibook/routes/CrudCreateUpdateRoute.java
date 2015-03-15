@@ -8,8 +8,8 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
 
@@ -410,9 +410,26 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// validation
 		if (request.queryParams("label").length() > 32
-				|| !request.queryParams("label").matches("[a-zA-Z\\-\\.' ]+")) {
+				|| !request.queryParams("label").matches("[/^\\d+$/]")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
+
+        //check if no permissions were sent
+        Set<String> keys = request.params().keySet();
+        Iterator<String> iterator = keys.iterator();
+        int permissionsSent = 0;
+
+        while(iterator.hasNext()){
+            String key = iterator.next();
+            if(key.startsWith("permission-")){
+                permissionsSent++;
+            }
+        }
+
+        if(permissionsSent < 1){
+            return new Pair<>(Status.CUSTOM_ERROR, "No permission entered");
+        }
+
 
 		// create and set ID
 		StaffRole entity;
@@ -625,7 +642,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// validation
 		if (request.queryParams("name").length() > 64
-				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+				|| !request.queryParams("name").matches("[0-9a-zA-Z\\-\\.' ]+")
 				|| !request.queryParams("order-time").matches("[0-9]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
