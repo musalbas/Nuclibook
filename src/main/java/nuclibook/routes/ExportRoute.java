@@ -23,10 +23,13 @@ public class ExportRoute extends DefaultRoute {
                 return null;
             }
 
-            return ExportUtils.exportCSV(Patient.class);
+            if (request.params(":type:").equals("csv")) {
+                return ExportUtils.exportCSV(Patient.class);
+            }
+
+            return null;
         }
 
-        // TODO return error
         return null;
     }
 }

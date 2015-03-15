@@ -132,7 +132,7 @@ public class LocalServer {
 		Spark.get("/patient-details/:patientid:", new PatientDetailsRoute());
 
 		// export
-		Spark.get("/export/:table:", new ExportRoute());
+		Spark.get("/export/:table:/:type:", new ExportRoute());
 	}
 
 }
