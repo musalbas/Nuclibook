@@ -196,7 +196,7 @@ $(document).ready(function () {
                 // Add event to the calendar (Not saving it yet)
                 calendar.fullCalendar('renderEvent',
                     {
-                        title: $('.therapy-selected').text() + ": " + $('.patient-selected').text(),
+                        title: $('.therapy-selected').text() + ":\n" + $('.patient-selected').eq(0).text(),
                         start: startTime,
                         end: endTime,
                         msg: "Start time: <b>"
