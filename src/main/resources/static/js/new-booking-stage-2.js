@@ -82,8 +82,6 @@ function removeAssignedStaff(staffId) {
 function confirmBooking() {
 
 	// collect data
-	var patientId = $('input[name=patient]').val();
-	var therapyId = $('input[name=therapy]').val();
 	var cameraId = $('select[name=camera]').val();
 	var tracerId = $('select[name=tracer]').val();
 	var tracerDose = $('input[name=tracer-dose]').val();
@@ -126,5 +124,11 @@ function confirmBooking() {
 
 	// fail?
 	if (failedValidation) return;
+
+	// fill in necessary parts of form
+	$('input[name=assigned-staff]').val(staffAssigned.join(','));
+
+	// off we go!
+	$('.new-booking-form').submit();
 
 }
