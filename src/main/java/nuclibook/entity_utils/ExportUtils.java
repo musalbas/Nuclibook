@@ -17,7 +17,7 @@ public class ExportUtils {
             output += "\"" + cell + "\",";
         }
 
-        output = output.substring(0, -1);
+        output = output.substring(0, output.length() - 1);
 
         return output;
     }
