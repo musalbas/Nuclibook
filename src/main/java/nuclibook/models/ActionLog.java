@@ -20,7 +20,7 @@ public class ActionLog implements Renderable {
     @DatabaseField(canBeNull = false)
     private long when;
 
-    @DatabaseField(foreign = true, columnName = "staff_id")
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "staff_id")
     private Staff staff;
 
     @DatabaseField
