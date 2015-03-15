@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +39,7 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 		Patient patient;
 		Therapy therapy;
 		List<BookingSection> displayBookingSections = new ArrayList<>();
+		JSONArray bookingSectionJsonArray;
 		try {
 			// get patient and therapy
 			JSONObject mainJsonObject = new JSONObject(rawJson);
@@ -46,7 +48,7 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 			if (patient == null || therapy == null) throw new NullPointerException();
 
 			// get booking sections
-			JSONArray bookingSectionJsonArray = mainJsonObject.getJSONArray("bookingSections");
+			bookingSectionJsonArray = mainJsonObject.getJSONArray("bookingSections");
 			JSONObject bookingSectionJsonObject;
 			BookingSection tempBookingSection;
 			for (int i = 0; i < bookingSectionJsonArray.length(); ++i) {
@@ -79,6 +81,7 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 		renderer.setField("patient-id", patient.getId());
 		renderer.setField("therapy-name", therapy.getName());
 		renderer.setField("therapy-id", therapy.getId());
+		renderer.setField("booking-sections-json", URLEncoder.encode(bookingSectionJsonArray.toString(), "UTF-8"));
 		renderer.setCollection("booking-sections", displayBookingSections);
 
 		// add cameras
