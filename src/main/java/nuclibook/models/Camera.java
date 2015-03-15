@@ -58,7 +58,7 @@ public class Camera implements Renderable {
 
 	@Override
 	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>(){{
+		return new HashMap<String, String>() {{
 			put("id", getId().toString());
 			put("camera-id", getId().toString());
 			put("camera-type-id", getType().getId().toString());

@@ -5,146 +5,146 @@
 ##_header.html
 
 <div class="row">
-    <div class="col-md-12 col-lg-12" id="page-one">
-        <table class=" table table-bordered table-hover" id="patients-table">
-            <thead>
-            <tr>
-                <th class="text-center">Patient Name</th>
-                <th class="text-center">Hospital Number</th>
-                <th class="text-center">Date of birth</th>
-                <th class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            #[collection: patients]
+	<div class="col-md-12 col-lg-12" id="page-one">
+		<table class=" table table-bordered table-hover" id="patients-table">
+			<thead>
+				<tr>
+					<th class="text-center">Patient Name</th>
+					<th class="text-center">Hospital Number</th>
+					<th class="text-center">Date of birth</th>
+					<th class="text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: patients]
 
-            #[pre]#[/pre]
+				#[pre]#[/pre]
 
-            #[each]
-            <tr>
-                <td>#name</td>
-                <td>#hospital-number</td>
-                <td>#date-of-birth</td>
-                <td>
-                    <button class="btn select-patient" data-id="#id" data-name="#name">Select #name</button>
-                </td>
-            </tr>
-            #[/each]
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#hospital-number</td>
+					<td>#date-of-birth</td>
+					<td>
+						<button class="btn select-patient" data-id="#id" data-name="#name">Select #name</button>
+					</td>
+				</tr>
+				#[/each]
 
-            #[post]#[/post]
+				#[post]#[/post]
 
-            #[empty]#[/empty]
+				#[empty]#[/empty]
 
-            #[/collection]
-            </tbody>
-        </table>
-    </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12" id="page-two">
-        <div class="alert alert-info">
-            <p>
-                <strong>Patient Selected:</strong>
-                <span class="patient-selected"></span>
-                <a class="small" id="go-back-to-select-patient">[Change]</a>
-            </p>
-        </div>
+	<div hidden class="col-md-12 col-lg-12" id="page-two">
+		<div class="alert alert-info">
+			<p>
+				<strong>Patient Selected:</strong>
+				<span class="patient-selected"></span>
+				<a class="small" id="go-back-to-select-patient">[Change]</a>
+			</p>
+		</div>
 
-        <table class="table table-bordered table-hover" id="therapies-table">
-            <thead>
-            <tr>
-                <th class="text-center">Name</th>
-                <th class="text-center">Tracer Required</th>
-                <th class="text-center">Tracer Dose</th>
-                <th class="text-center">Cameras Types</th>
-                <th class="text-center">Actions</th>
-            </tr>
-            </thead>
+		<table class="table table-bordered table-hover" id="therapies-table">
+			<thead>
+				<tr>
+					<th class="text-center">Name</th>
+					<th class="text-center">Tracer Required</th>
+					<th class="text-center">Tracer Dose</th>
+					<th class="text-center">Cameras Types</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
 
-            <tbody>
-            #[collection: therapies]
+			<tbody>
+				#[collection: therapies]
 
-            #[pre]#[/pre]
+				#[pre]#[/pre]
 
-            #[each]
-            <tr>
-                <td>#name</td>
-                <td>#tracer-required-name</td>
-                <td>#tracer-dose</td>
-                <td>#HTMLOKAY:camera-type-summary</td>
-                <td>
-                    <button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
-                </td>
-            </tr>
-            #[/each]
+				#[each]
+				<tr>
+					<td>#name</td>
+					<td>#tracer-required-name</td>
+					<td>#tracer-dose</td>
+					<td>#HTMLOKAY:camera-type-summary</td>
+					<td>
+						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
+					</td>
+				</tr>
+				#[/each]
 
-            #[post]#[/post]
+				#[post]#[/post]
 
-            #[empty]#[/empty]
+				#[empty]#[/empty]
 
-            #[/collection]
-            </tbody>
-        </table>
-    </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12 alert alert-info" id="page-three">
-        <div id="page-three-sub-div">
-            <div class="col-sm-4">
-                <strong>Patient Selected:</strong>
-                <span class="patient-selected"></span>&nbsp;
-            </div>
-            <div class="col-sm-4">
-                <strong>Therapy Selected:</strong>
-                <span class="therapy-selected"></span>
-                <a class="small" id="go-back-to-select-therapy">[Change]</a>
-            </div>
-        </div>
-        <br/>
-        <button style="margin-top: 15px;" class="btn btn-primary" id="view-available-appointments">View Available
-            Appointments
-        </button>
-    </div>
+	<div hidden class="col-md-12 col-lg-12 alert alert-info" id="page-three">
+		<div id="page-three-sub-div">
+			<div class="col-sm-4">
+				<strong>Patient Selected:</strong>
+				<span class="patient-selected"></span>&nbsp;
+			</div>
+			<div class="col-sm-4">
+				<strong>Therapy Selected:</strong>
+				<span class="therapy-selected"></span>
+				<a class="small" id="go-back-to-select-therapy">[Change]</a>
+			</div>
+		</div>
+		<br/>
+		<button style="margin-top: 15px;" class="btn btn-primary" id="view-available-appointments">View Available
+			Appointments
+		</button>
+	</div>
 
-    <div hidden class="col-md-12 col-lg-12 calendar"></div>
+	<div hidden class="col-md-12 col-lg-12 calendar"></div>
 </div>
 
 <div class="modal hide fade time-modal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="create-mode">Select times</h3>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal edit-form">
-                    <div class="form-group">
-                        <label for="booking-start-time" class="col-sm-3 control-label">Starts at :</label>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="create-mode">Select times</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<div class="form-group">
+						<label for="booking-start-time" class="col-sm-3 control-label">Starts at :</label>
 
-                        <div class="col-sm-4">
-                            <select class="form-control" name="booking-start-time" id="booking-start-time">
-                            </select>
-                            <p class="help-block">Booking hour to start.</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-end-time" class="col-sm-3 control-label">Ends at :</label>
+						<div class="col-sm-4">
+							<select class="form-control" name="booking-start-time" id="booking-start-time">
+							</select>
+							<p class="help-block">Booking hour to start.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="booking-end-time" class="col-sm-3 control-label">Ends at :</label>
 
-                        <div class="col-sm-4">
-                            <select class="form-control" name="booking-end-time" id="booking-end-time">
-                            </select>
+						<div class="col-sm-4">
+							<select class="form-control" name="booking-end-time" id="booking-end-time">
+							</select>
 
-                            <p class="help-block">Booking hour to end.</p>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary btn-save">Ok</button>
-            </div>
-        </div>
-    </div>
+							<p class="help-block">Booking hour to end.</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
 </div>
 <div hidden>
-    <p id="JSONtoSend"></p>
+	<p id="JSONtoSend"></p>
 </div>
 <script src="/js/core/jquery-ui.min.js"></script>
 <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
