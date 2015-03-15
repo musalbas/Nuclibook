@@ -295,7 +295,7 @@ public class Booking implements Renderable {
 				if (daysUntil == 0) {
 					put("days-until", "today");
 				} else if (daysUntil < 0) {
-					put("days-until", daysUntil + " day" + (daysUntil == -1 ? "" : "s") + " ago");
+					put("days-until", (daysUntil * -1) + " day" + (daysUntil == -1 ? "" : "s") + " ago");
 				} else {
 					put("days-until", "in " + daysUntil + " day" + (daysUntil == -1 ? "" : "s"));
 				}
