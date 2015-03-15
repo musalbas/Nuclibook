@@ -123,6 +123,7 @@ public class ActionLogger {
     public static final int ATTEMPT_UPDATE_STAFF_PASSWORD = 108;
     public static final int VIEW_ACTION_LOG = 109;
     public static final int ATTEMPT_VIEW_ACTION_LOG = 110;
+    public static final int VIEW_DASHBOARD = 110;
 
     public static Map actionDescription = new HashMap<Integer, String>() {{
         put(VIEW_PATIENTS, "Viewed all patients");
@@ -249,6 +250,8 @@ public class ActionLogger {
 
         put(VIEW_ACTION_LOG, "Viewed action log");
         put(ATTEMPT_VIEW_ACTION_LOG, "Attempted to view action log");
+
+        put(VIEW_DASHBOARD, "Viewed dashboard");
     }};
 
     /**
