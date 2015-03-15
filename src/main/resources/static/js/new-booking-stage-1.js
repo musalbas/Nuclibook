@@ -101,7 +101,38 @@ $(document).ready(function () {
             select: function (start, end, allday) {
                 startTimeObject = start;
                 endTimeObject = end;
+                //Open Modal
                 $('.time-modal').removeClass('hide').modal('show');
+
+                //Set options to the Hours the User initially selected
+                var timeSelectedToStart = (startTimeObject.getHours() < 10 ? '0' : '')
+                    + startTimeObject.getHours()
+                    + ":"
+                    + (startTimeObject.getMinutes() < 10 ? '0' : '')
+                    + startTimeObject.getMinutes();
+                var timeSelectedToEnd = (endTimeObject.getHours() < 10 ? '0' : '')
+                    + endTimeObject.getHours()
+                    + ":"
+                    + (endTimeObject.getMinutes() < 10 ? '0' : '')
+                    + endTimeObject.getMinutes();
+
+                //Creating the list for the hours
+                var optionHour = 08;
+                var optionMin = 00;
+                while (optionHour <= 18) {
+                    optionMin = 00;
+                    while (optionMin <= 45) {
+                        var timeString = (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin;
+                        $("#booking-start-time").append('<option value="' + timeString + '">' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+                        $("#booking-end-time").append('<option value="' + timeString + '">' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+                        optionMin += 15;
+                    }
+                    optionHour += 1;
+                }
+                // Make options selected by the user
+                $('#booking-start-time').val(timeSelectedToStart).attr('selected', true);
+                $('#booking-end-time').val(timeSelectedToEnd).attr('selected', true);
+
             },
 
             events: appointmentsArray,
@@ -126,59 +157,65 @@ $(document).ready(function () {
             slotMinutes: 15
         });
 
-
-        //Creating the list for the hours
-        //TODO be sure client does not select start > end
-        var optionHour = 08;
-        var optionMin = 00;
-        while (optionHour <= 18) {
-            optionMin = 00;
-            while (optionMin <= 45) {
-                $("#booking-start-time").append('<option>' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
-                $("#booking-end-time").append('<option>' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
-                optionMin += 15;
-            }
-            optionHour += 1;
-        }
-
         //Creating JSON to send
         var datesSelectedJSON;
         datesSelectedJSON = "{\"patiendID\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
 
         //Click ok to keep appointment;
         $('.btn-save').click(function () {
-            $('#saveAppointments').removeAttr('disabled');
-            var startTime = startTimeObject.getFullYear() + '-' +
-                (startTimeObject.getMonth() < 10 ? '0' : '') + (startTimeObject.getMonth() + 1) + '-' +
-                (startTimeObject.getDate() < 10 ? '0' : '') + startTimeObject.getDate() + 'T' +
-                $('#booking-start-time').find(":selected").text() + ":00";
-            var endTime = endTimeObject.getFullYear() + '-' +
-                (endTimeObject.getMonth() < 10 ? '0' : '') + (endTimeObject.getMonth() + 1) + '-' +
-                (endTimeObject.getDate() < 10 ? '0' : '') + endTimeObject.getDate() + 'T' +
-                $('#booking-end-time').find(":selected").text() + ":00";
+            //Getting minutes for the selected hours to check END is not before START
+            var timeSelectedToStart = $('#booking-start-time').find(":selected").text();
+            timeSelectedToStart = timeSelectedToStart.substring(0, 2) * 60 + timeSelectedToStart.substring(3, 5) * 1;
+            var timeSelectedToEnd = $('#booking-end-time').find(":selected").text();
+            timeSelectedToEnd = timeSelectedToEnd.substring(0, 2) * 60 + timeSelectedToEnd.substring(3, 5) * 1;
 
-            datesSelectedJSON += "{\"startTime\":\"" + startTime + "\",";
-            datesSelectedJSON += "\"endTime\":\"" + endTime + "\"},";
+            //Inform the user that the hours selected are not correct;
+            if (timeSelectedToStart >= timeSelectedToEnd) {
+                //TODO toastr to work
+                alert("wrong hours. Start : " + timeSelectedToStart + "End : " + timeSelectedToEnd);
+                //toastr.error("Your selected end time is wrong.");
+            } else {
+                // after an appointment is saved, button "Save Appointments" to be enabled
+                $('#saveAppointments').removeAttr('disabled');
 
-            calendar.fullCalendar('renderEvent',
-                {
-                    title: $('.therapy-selected').text() + ": " + $('.patient-selected').text(),
-                    start: startTime,
-                    end: endTime,
-                    msg: "Start time: <b>"
-                    + startTime.substring(11,16)
-                    + "</b><br> End time: <b>" + endTime.substring(11,16),
-                    allDay: false
-                },
-                true // make the event "stick"
-            );
-            calendar.fullCalendar('unselect');
-            $('.time-modal').modal('hide');
+                //Parsing data for the JSON
+                var startTime = startTimeObject.getFullYear() + '-' +
+                    (startTimeObject.getMonth() < 10 ? '0' : '') + (startTimeObject.getMonth() + 1) + '-' +
+                    (startTimeObject.getDate() < 10 ? '0' : '') + startTimeObject.getDate() + 'T' +
+                    $('#booking-start-time').find(":selected").text() + ":00";
+                var endTime = endTimeObject.getFullYear() + '-' +
+                    (endTimeObject.getMonth() < 10 ? '0' : '') + (endTimeObject.getMonth() + 1) + '-' +
+                    (endTimeObject.getDate() < 10 ? '0' : '') + endTimeObject.getDate() + 'T' +
+                    $('#booking-end-time').find(":selected").text() + ":00";
+
+                datesSelectedJSON += "{\"startTime\":\"" + startTime + "\",";
+                datesSelectedJSON += "\"endTime\":\"" + endTime + "\"},";
+
+                //Add event to the calendar (Not saving it yet)
+                calendar.fullCalendar('renderEvent',
+                    {
+                        title: $('.therapy-selected').text() + ": " + $('.patient-selected').text(),
+                        start: startTime,
+                        end: endTime,
+                        msg: "Start time: <b>"
+                        + startTime.substring(11, 16)
+                        + "</b><br> End time: <b>" + endTime.substring(11, 16),
+                        allDay: false
+                    },
+                    true // make the event "stick"
+                );
+                calendar.fullCalendar('unselect');
+                //Close modal
+                $('.time-modal').modal('hide');
+            }
         });
-        $('#saveAppointments').click(function() {
-            datesSelectedJSON = datesSelectedJSON.substring(0,datesSelectedJSON.length-1);
-            datesSelectedJSON += "]}";
 
+        //Function to send the user to the next page.
+        //Finishing the JSON String
+        $('#saveAppointments').click(function () {
+            datesSelectedJSON = datesSelectedJSON.substring(0, datesSelectedJSON.length - 1);
+            datesSelectedJSON += "]}";
+            $('#JSONtoSend').text(datesSelectedJSON);
             console.log(datesSelectedJSON);
         });
     });
