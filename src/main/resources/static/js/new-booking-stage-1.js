@@ -58,18 +58,17 @@ $(document).ready(function () {
      *********************/
 
     // initial set up
-    var appointmentsArray = [];
+    var bookingsArray = [];
     var calendar = $('.calendar');
 
-    // when the "show appointments" button is clicked...
-    $('#view-available-appointments').click(function () {
+    // when the "show bookings" button is clicked...
+    $('#view-available-bookings').click(function () {
         // hide buttons
         $(this).slideUp(300);
         $('#go-back-to-select-therapy').hide();
 
-        //Add button for saving the appointments
-        $('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
-        '<button class="btn btn-primary" id="saveAppointments" disabled>Save appointments</button></div>');
+        //Add button for saving the bookings
+        $('#page-three-sub-div').append('<div class = "col-sm-4 text-right"><button class="btn btn-primary" id="saveAppointments" disabled>Select Time Slot(s) Below...</button></div>');
 
         //Variables for modal
         var startTimeObject;
@@ -90,8 +89,8 @@ $(document).ready(function () {
             allDaySlot: false,
 
             viewDisplay: function (e) {
-                // clear appointments
-                appointmentsArray.length = 0;
+                // clear bookings
+                bookingsArray.length = 0;
                 // reload for new date range
                 callAjax(e.start, e.end);
             },
@@ -137,7 +136,7 @@ $(document).ready(function () {
                 $('#booking-end-minutes').val(minutesSelectedToEnd).attr('selected', true);
             },
 
-            events: appointmentsArray,
+            events: bookingsArray,
             //Pop-up with details
             eventRender: function (event, element) {
                 element.popover({
@@ -176,7 +175,7 @@ $(document).ready(function () {
                 toastr.error("Please select a valid time period.");
             } else {
                 // after an appointment is saved, button "Save Appointments" to be enabled
-                $('#saveAppointments').removeAttr('disabled');
+                $('#saveAppointments').removeAttr('disabled').html("Save Booking");
 
                 //Parsing data for the JSON
                 var startTime = startTimeObject.getFullYear() + '-'
@@ -260,7 +259,7 @@ $(document).ready(function () {
                         bookingEnd = bookingEnd.replace(" ", "T");
 
                         // add event
-                        appointmentsArray.push({
+                        bookingsArray.push({
                             title: bookingTitle,
                             start: bookingStart,
                             msg: "Start time: <b>"
