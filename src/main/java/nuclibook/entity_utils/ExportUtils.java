@@ -25,19 +25,20 @@ public class ExportUtils {
     public static <E> String exportCSV(Class dbClass) {
         List<E> allEntities = AbstractEntityUtils.getAllEntities(dbClass);
 
-        String output = null;
+        String output = "";
 
         HashMap<String, String> entityHashMap;
         for (E entity : allEntities) {
             entityHashMap = ((Exportable) entity).getExportableHashMap();
 
-            if (output == null) {
+            if (output.equals("")) {
                 List<String> header = new ArrayList<String>();
                 for (Map.Entry<String, String> entityEntry : entityHashMap.entrySet()) {
                     String key = entityEntry.getKey();
                     header.add(key);
-                    output += rowAsCSV(header);
                 }
+
+                output += rowAsCSV(header) + "\n";
             }
         }
 
