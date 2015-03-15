@@ -69,7 +69,7 @@
 				<tr>
 					<td>#name</td>
 					<td>#tracer-required-name</td>
-					<td>#therapy-tracer-dose</td>
+					<td>#tracer-dose</td>
 					<td>#HTMLOKAY:camera-type-summary</td>
 					<td>
 						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
@@ -87,7 +87,7 @@
 	</div>
 
 	<div hidden class="col-md-12 col-lg-12 alert alert-info" id="page-three">
-		<div>
+		<div id="page-three-sub-div">
 			<div class="col-sm-4">
 				<strong>Patient Selected:</strong>
 				<span class="patient-selected"></span>&nbsp;
@@ -107,6 +107,45 @@
 	<div hidden class="col-md-12 col-lg-12 calendar"></div>
 </div>
 
+<div class="modal hide fade time-modal" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="create-mode">Select times</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<div class="form-group">
+						<label for="booking-start-time" class="col-sm-3 control-label">Starts at :</label>
+
+						<div class="col-sm-4">
+							<select class="form-control" name="booking-start-time" id="booking-start-time">
+							</select>
+							<p class="help-block">Booking hour to start.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="booking-end-time" class="col-sm-3 control-label">Ends at :</label>
+
+						<div class="col-sm-4">
+							<select class="form-control" name="booking-end-time" id="booking-end-time">
+							</select>
+
+							<p class="help-block">Booking hour to end.</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div hidden>
+	<p id="JSONtoSend"></p>
+</div>
 <script src="/js/core/jquery-ui.min.js"></script>
 <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
 <script src="/js/new-booking-stage-1.js"></script>
