@@ -2,3 +2,11 @@
 	font-weight: normal !important;
 	margin-bottom: 0 !important;
 }
+
+p.assigned-staff {
+	line-height: 180% !important;
+}
+
+p.assigned-staff span {
+	display: block;
+}

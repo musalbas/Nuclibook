@@ -33,6 +33,8 @@ function prepareDateSelector() {
 
 	// year click handler
 	yearField.change(function (e) {
+		outputField.val("");
+
 		var selectedYear = $(this).find('option:selected').text();
 		if ($.isNumeric(selectedYear)) {
 			monthField.removeAttr('disabled');
@@ -46,6 +48,8 @@ function prepareDateSelector() {
 
 	// month click
 	monthField.change(function (e) {
+		outputField.val("");
+
 		// Starting to open days checking what month and year is
 		var selectedYear = parseInt(yearField.find('option:selected').text(), 10);
 		var selectedMonth = monthField.find('option:selected').text();
