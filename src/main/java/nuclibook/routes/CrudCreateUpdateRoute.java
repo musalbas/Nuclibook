@@ -552,6 +552,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 
+            if(valueB.contains("-")){
+                String [] times = valueB.split("-");
+                if(Integer.parseInt(times[1]) < Integer.parseInt(times[0])){
+                    return new Pair<>(Status.FAILED_VALIDATION, null);
+                }
+            }
+
 			// add booking pattern sections to the entity
 			bps = new BookingPatternSection();
 			bps.setTherapy(entity);
