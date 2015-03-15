@@ -27,6 +27,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "camera": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_CAMERA, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -40,7 +41,8 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "camera-type": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
-					return "no_permission";
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_CAMERA_TYPE, entityId, "Failed as user does not have permissions for this action");
+                    return "no_permission";
 				}
 
 				CameraType entity = AbstractEntityUtils.getEntityById(CameraType.class, entityId);
@@ -53,6 +55,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "patient": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_PATIENT, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -66,6 +69,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "staff": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_STAFF, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -79,6 +83,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "staff-absence": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ABSENCES)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_STAFF_ABSENCE, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -91,6 +96,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "staff-availability": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_AVAILABILITIES)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_STAFF_AVAILABILITY, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -103,6 +109,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "staff-role": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_STAFF_ROLE, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -116,6 +123,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "therapy": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_THERAPY, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
@@ -129,6 +137,7 @@ public class CrudDeleteRoute extends DefaultRoute {
 			case "tracer": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
+                    ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_TRACER, entityId, "Failed as user does not have permissions for this action");
 					return "no_permission";
 				}
 
