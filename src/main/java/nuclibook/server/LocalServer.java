@@ -21,8 +21,6 @@ public class LocalServer {
             e.printStackTrace();
         }
 
-		SecurityUtils.attemptLogin("06111993", "newpass3");
-
         // static files folder
 		Spark.staticFileLocation("/static");
 
