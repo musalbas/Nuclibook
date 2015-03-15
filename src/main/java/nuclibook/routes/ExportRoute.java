@@ -18,12 +18,16 @@ public class ExportRoute extends DefaultRoute {
         // necessary prelim routine
         prepareToHandle();
 
-        if (request.params(":table:").equals("patients")) {
+        String[] fileSplit = request.params(":file:").split("\\.", 2);
+        String table = fileSplit[0];
+        String type = fileSplit[1];
+
+        if (table.equals("patients")) {
             if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
                 return null;
             }
 
-            if (request.params(":type:").equals("csv")) {
+            if (type.equals("csv")) {
                 return ExportUtils.exportCSV(Patient.class);
             }
 
