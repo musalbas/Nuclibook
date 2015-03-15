@@ -25,6 +25,13 @@ $(document).ready(function () {
 		var staffName = selectedOption.text();
 		addAssignedStaff(staffId, staffName);
 	});
+
+	// set up listener for submission
+	$('.confirm-booking-button').click(function (e) {
+		e.preventDefault();
+
+		confirmBooking();
+	});
 });
 
 function addAssignedStaff(staffId, staffName) {
@@ -70,4 +77,54 @@ function removeAssignedStaff(staffId) {
 		if (assignedStaff[i] != staffId) newAssignedStaff.push(assignedStaff[i]);
 	}
 	assignedStaff = newAssignedStaff;
+}
+
+function confirmBooking() {
+
+	// collect data
+	var patientId = $('input[name=patient]').val();
+	var therapyId = $('input[name=therapy]').val();
+	var cameraId = $('select[name=camera]').val();
+	var tracerId = $('select[name=tracer]').val();
+	var tracerDose = $('input[name=tracer-dose]').val();
+	var tracerOrderDate = $('input[name=tracer-order-due]').val();
+	var tracerOrderNeeded = !$('input[name=no-tracer-order]').is(':checked');
+	var staffAssigned = assignedStaff;
+
+	// start validation
+	var failedValidation = false;
+
+	// validate camera ID
+	if (!$.isNumeric(cameraId)) {
+		toastr.error("Please select a camera.");
+		failedValidation = true;
+	}
+
+	// validate tracer ID
+	if (!$.isNumeric(tracerId)) {
+		toastr.error("Please select a tracer.");
+		failedValidation = true;
+	}
+
+	// validate tracer dose
+	if (tracerDose.length == 0) {
+		toastr.error("Please enter a tracer dose.");
+		failedValidation = true;
+	}
+
+	// validate tracer order date
+	if (tracerOrderNeeded && !tracerOrderDate.match(/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)) {
+		toastr.error("Please select a tracer order date.");
+		failedValidation = true;
+	}
+
+	// validate staff
+	if (staffAssigned.length == 0) {
+		toastr.error("Please assign at least one member of staff.");
+		failedValidation = true;
+	}
+
+	// fail?
+	if (failedValidation) return;
+
 }
