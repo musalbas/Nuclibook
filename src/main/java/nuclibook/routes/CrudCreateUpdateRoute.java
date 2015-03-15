@@ -146,16 +146,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
                             StaffAvailability staffAvailability = (StaffAvailability) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
                             ActionLogger.logAction(action, staffAvailability.getId());
                             break;
-
-                        case "staff-role":
-                            StaffRole staffRole = (StaffRole) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-                            ActionLogger.logAction(action, staffRole.getId());
-                            break;
-
-                        case "therapy":
-                            Therapy therapy = (Therapy) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-                            ActionLogger.logAction(action, therapy.getId());
-                            break;
                     }
                 } else {
                     AbstractEntityUtils.updateEntity(dbClass, entityPair.getValue());
@@ -574,8 +564,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         entity.setTracerDose(request.queryParams("tracer-dose"));
 
         // if it's new, we'll save it here so that foreign collections can be added properly
-        Therapy therapy = null;
+        Therapy therapy = null; //save for action logging later after all validation has passed
         if (createNew) {
+            //TODO wouldn't a record still be created in the database if it fails validation later?
             therapy = AbstractEntityUtils.createEntity(Therapy.class, entity);
         }
 
@@ -701,7 +692,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
         }
 
-        //all validation has passed
+        //all validation has passed, we can now log the action
         ActionLogger.logAction(ActionLogger.CREATE_THERAPY, therapy.getId());
 
         // don't let it be created again if it's new
