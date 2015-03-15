@@ -13,7 +13,7 @@ public class ExportUtils {
         String output = "";
 
         for (String cell : row) {
-            // TODO deal with cases where cell contains " as CSV would become invalid
+            cell = cell.replace("\"", "\"\"");
             output += "\"" + cell + "\",";
         }
 
