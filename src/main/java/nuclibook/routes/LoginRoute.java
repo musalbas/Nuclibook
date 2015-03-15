@@ -59,17 +59,8 @@ public class LoginRoute extends DefaultRoute {
 
 	public Object handlePost(Request request, Response response) throws Exception {
 		// get staff id and password from POST
-		String username;
-		String password;
-		try {
-			username = request.queryParams("username");
-			password = request.queryParams("password");
-		} catch (NumberFormatException e) {
-			// force failure
-			rendererFields.clear();
-			rendererFields.put("error-bad-staff-id", "");
-			return handleGet();
-		}
+		String username = request.queryParams("username");
+		String password = request.queryParams("password");
 
 		// is this stage 1 or stage 2?
 		if (password == null) {
@@ -83,7 +74,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-staff-id", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID, 0, "USERNAME: " + username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID, 0, "Attempted username: " + username);
 				return handleGet();
 			}
 
@@ -92,7 +83,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-status", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID_DISABLED, 0, "USERNAME: " + username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID_DISABLED, 0, "Attempted username: " + username);
 				return handleGet();
 			}
 
@@ -112,7 +103,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-password", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_PASSWORD, 0, "USERNAME: " + username);
+                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_PASSWORD, 0, "Attempted username: " + username);
 				return handleGet();
 			} else {
 				response.redirect("/");
