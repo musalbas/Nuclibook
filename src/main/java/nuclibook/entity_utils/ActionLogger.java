@@ -104,9 +104,8 @@ public class ActionLogger {
     public static final int ATTEMPT_LOG_IN_STAFF_ID = 88;
     public static final int ATTEMPT_LOG_IN_STAFF_ID_DISABLED = 89;
     public static final int LOG_OUT = 90;
-    public static final int ATTEMPT_LOG_OUT = 91;
-    public static final int UPDATE_STAFF_PASSWORD = 92;
-    public static final int ATTEMPT_UPDATE_STAFF_PASSWORD = 93;
+    public static final int UPDATE_STAFF_PASSWORD = 91;
+    public static final int ATTEMPT_UPDATE_STAFF_PASSWORD = 92;
 
     public static Map actionDescription = new HashMap<Integer, String>() {{
         put(VIEW_PATIENT_LIST, "Viewed patient log");
@@ -211,7 +210,6 @@ public class ActionLogger {
         put(ATTEMPT_LOG_IN_STAFF_ID_DISABLED, "Attempted to log in with a disabled staff ID");
 
         put(LOG_OUT, "Logged out");
-        put(ATTEMPT_LOG_OUT, "Attempted to log out");
 
         put(UPDATE_STAFF_PASSWORD, "Changed staff password");
         put(ATTEMPT_UPDATE_STAFF_PASSWORD, "Attempted to change staff password");
