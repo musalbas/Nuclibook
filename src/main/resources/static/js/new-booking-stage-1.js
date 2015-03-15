@@ -129,10 +129,10 @@ $(document).ready(function () {
                     }
                     optionHour += 1;
                 }
+
                 // Make options selected by the user
                 $('#booking-start-time').val(timeSelectedToStart).attr('selected', true);
                 $('#booking-end-time').val(timeSelectedToEnd).attr('selected', true);
-
             },
 
             events: appointmentsArray,
@@ -159,7 +159,7 @@ $(document).ready(function () {
 
         //Creating JSON to send
         var datesSelectedJSON;
-        datesSelectedJSON = "{\"patiendID\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
+        datesSelectedJSON = "{\"patientId\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
 
         //Click ok to keep appointment;
         $('.btn-save').click(function () {
@@ -171,9 +171,7 @@ $(document).ready(function () {
 
             //Inform the user that the hours selected are not correct;
             if (timeSelectedToStart >= timeSelectedToEnd) {
-                //TODO toastr to work
-                alert("wrong hours. Start : " + timeSelectedToStart + "End : " + timeSelectedToEnd);
-                //toastr.error("Your selected end time is wrong.");
+                toastr.error("Please select a valid time period.");
             } else {
                 // after an appointment is saved, button "Save Appointments" to be enabled
                 $('#saveAppointments').removeAttr('disabled');
@@ -215,8 +213,8 @@ $(document).ready(function () {
         $('#saveAppointments').click(function () {
             datesSelectedJSON = datesSelectedJSON.substring(0, datesSelectedJSON.length - 1);
             datesSelectedJSON += "]}";
-            $('#JSONtoSend').text(datesSelectedJSON);
-            console.log(datesSelectedJSON);
+            $('#jsonToSend').val(datesSelectedJSON);
+			$('form.submission-form').submit();
         });
     });
 

@@ -31,25 +31,8 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
 		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
 
-		// TODO: get real JSON
-		String rawJson = "{\n" +
-				"    \"patientId\": 5,\n" +
-				"    \"therapyId\": 1,\n" +
-				"    \"bookingSections\": [\n" +
-				"        {\n" +
-				"            \"startTime\": \"2015-03-13T14:00:00.000\",\n" +
-				"            \"endTime\": \"2015-03-13T14:20:00.000\"\n" +
-				"        },\n" +
-				"        {\n" +
-				"            \"startTime\": \"2015-03-13T15:00:00.000\",\n" +
-				"            \"endTime\": \"2015-03-13T16:00:00.000\"\n" +
-				"        },\n" +
-				"        {\n" +
-				"            \"startTime\": \"2015-03-13T17:00:00.000\",\n" +
-				"            \"endTime\": \"2015-03-13T17:30:00.000\"\n" +
-				"        }\n" +
-				"    ]\n" +
-				"}";
+		// get JSON from submission
+		String rawJson = request.queryParams("jsonFromStage1");
 
 		// parse JSON
 		Patient patient;
@@ -82,6 +65,7 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 				}
 			});
 		} catch (JSONException | NullPointerException e) {
+			e.printStackTrace();
 			response.redirect("/");
 			return null;
 		}
