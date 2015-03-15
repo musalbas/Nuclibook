@@ -32,7 +32,7 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 		// get tracer order date
 		DateTime tracerOrderDate = null;
 		if (request.queryParams("no-tracer-order") == null || !request.queryParams("no-tracer-order").equals("1")) {
-			tracerOrderDate = new DateTime("tracer-order-due");
+			tracerOrderDate = new DateTime(request.queryParams("tracer-order-due"));
 		}
 
 		// get assigned staff
@@ -68,6 +68,42 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 			return null;
 		}
 
-		return "no fail";
+		// save booking in DB
+		Booking booking = new Booking();
+		booking.setPatient(patient);
+		booking.setTherapy(therapy);
+		booking.setCamera(camera);
+		booking.setTracer(tracer);
+		booking.setTracerDose(tracerDose);
+		booking.setStatus("unconfirmed");
+		AbstractEntityUtils.createEntity(Booking.class, booking);
+
+		// add booking sections
+		for (BookingSection bs : bookingSections) {
+			bs.setBooking(booking);
+			AbstractEntityUtils.createEntity(BookingSection.class, bs);
+		}
+
+		// add staff
+		for (Staff s : assignedStaff) {
+			BookingStaff bs = new BookingStaff(booking, s);
+			AbstractEntityUtils.createEntity(BookingStaff.class, bs);
+		}
+
+		// create tracer order
+		if (tracerOrderDate != null) {
+			TracerOrder tracerOrder = new TracerOrder();
+			tracerOrder.setTracer(tracer);
+			tracerOrder.setTracerDose(tracerDose);
+			tracerOrder.setBooking(booking);
+			tracerOrder.setOrderBy(tracerOrderDate);
+			tracerOrder.setDateRequired(bookingSections.get(0).getStart());
+			tracerOrder.setStatus("pending");
+			AbstractEntityUtils.createEntity(TracerOrder.class, tracerOrder);
+		}
+
+		// forward to booking details
+		response.redirect("/booking-details/" + booking.getId());
+		return null;
 	}
 }
