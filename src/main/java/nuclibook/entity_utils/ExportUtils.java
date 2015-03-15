@@ -40,6 +40,15 @@ public class ExportUtils {
 
                 output += rowAsCSV(header) + "\n";
             }
+
+
+            List<String> row = new ArrayList<String>();
+            for (Map.Entry<String, String> entityEntry : entityHashMap.entrySet()) {
+                String value = entityEntry.getValue();
+                row.add(value);
+            }
+
+            output += rowAsCSV(row) + "\n";
         }
 
         return output;
