@@ -410,12 +410,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// validation
 		if (request.queryParams("label").length() > 32
-				|| !request.queryParams("label").matches("[/^\\d+$/]")) {
+				|| !request.queryParams("label").matches("[a-zA-Z0-9\\-\\.' ]+")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
         //check if no permissions were sent
-        Set<String> keys = request.params().keySet();
+        Set<String> keys = request.queryMap().toMap().keySet();
         Iterator<String> iterator = keys.iterator();
         int permissionsSent = 0;
 
@@ -423,6 +423,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             String key = iterator.next();
             if(key.startsWith("permission-")){
                 permissionsSent++;
+                System.out.print(permissionsSent);
             }
         }
 

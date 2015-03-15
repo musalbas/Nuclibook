@@ -22,13 +22,13 @@ var validateCreateForm = function (formObject) {
         error = true;
     }
 
-    if(!(/^\d+$/.test(roleTitleString))){
-        toastr.error("Role title should only contain any numbers.");
+    if(!(/^[A-Za-z\d\s]+$/.test(roleTitleString))){
+        toastr.error("Role title should only contain numbers, alphabets and spaces");
         error = true;
     }
 
     if(!findNumOfSelectedCheckboxes(formObject)){
-        toastr.error("No role selected");
+        toastr.error("Please select a checkbox");
         error = true;
     }
 
@@ -50,13 +50,13 @@ var validateEditForm = function (formObject) {
         error = true;
     }
 
-    if(/^\d+$/.test(roleTitleString)){
-        toastr.error("Role title should not contain any numbers.");
+    if(!(/^[A-Za-z\d\s]+$/.test(roleTitleString))){
+        toastr.error("Role title should only contain numbers, alphabets and spaces");
         error = true;
     }
 
     if(!findNumOfSelectedCheckboxes(formObject)){
-        toastr.error("No role selected");
+        toastr.error("Please select a checkbox");
         error = true;
     }
 

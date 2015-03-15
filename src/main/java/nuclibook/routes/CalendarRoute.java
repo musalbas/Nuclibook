@@ -43,7 +43,20 @@ public class CalendarRoute extends DefaultRoute {
 
 			jsonOutput.append(" \"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
 			jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
-			jsonOutput.append("\"bookingSections\": [");
+            jsonOutput.append("\"cameraName\": \"")
+                    .append(bookings
+                            .get(i)
+                            .getCamera()
+                            .getType()
+                            .getLabel()
+                    ).append(", ")
+                    .append(bookings
+                            .get(i)
+                            .getCamera()
+                            .getRoomNumber()
+                            .replace("\"", "\\\""))
+                    .append("\",");
+            jsonOutput.append("\"bookingSections\": [");
 
 			List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
 			for (int j = 0; j < bookingSections.size(); j++) {

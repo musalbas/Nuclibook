@@ -67,6 +67,13 @@ $(document).ready(function () {
 		$(this).slideUp(300);
 		$('#go-back-to-select-therapy').hide();
 
+		//Add button for saving the appointments
+		$('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
+		'<button class="btn btn-primary" id="saveAppointments" disabled>Save appointments</button></div>');
+
+		//Variables for modal
+		var startTimeObject;
+		var endTimeObject;
 		// show calendar
 		calendar = $('.calendar').show().fullCalendar({
 			header: {
@@ -89,30 +96,127 @@ $(document).ready(function () {
 				callAjax(e.start, e.end);
 			},
 
-			select: function (start, end, allDay) {
-				var title = prompt('Event Title:');
 
-				if (title) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
+			//User selecting time slots
+			select: function (start, end, allday) {
+				startTimeObject = start;
+				endTimeObject = end;
+				//Open Modal
+				$('.time-modal').removeClass('hide').modal('show');
+
+				//Set options to the Hours the User initially selected
+				var timeSelectedToStart = (startTimeObject.getHours() < 10 ? '0' : '')
+					+ startTimeObject.getHours()
+					+ ":"
+					+ (startTimeObject.getMinutes() < 10 ? '0' : '')
+					+ startTimeObject.getMinutes();
+				var timeSelectedToEnd = (endTimeObject.getHours() < 10 ? '0' : '')
+					+ endTimeObject.getHours()
+					+ ":"
+					+ (endTimeObject.getMinutes() < 10 ? '0' : '')
+					+ endTimeObject.getMinutes();
+
+				//Creating the list for the hours
+				var optionHour = 08;
+				var optionMin = 00;
+				while (optionHour <= 18) {
+					optionMin = 00;
+					while (optionMin <= 45) {
+						var timeString = (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin;
+						$("#booking-start-time").append('<option value="' + timeString + '">' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+						$("#booking-end-time").append('<option value="' + timeString + '">' + (optionHour < 10 ? '0' : '') + optionHour + ':' + (optionMin < 10 ? '0' : '') + optionMin + '</option>');
+						optionMin += 15;
+					}
+					optionHour += 1;
 				}
-				calendar.fullCalendar('unselect');
+
+				// Make options selected by the user
+				$('#booking-start-time').val(timeSelectedToStart).attr('selected', true);
+				$('#booking-end-time').val(timeSelectedToEnd).attr('selected', true);
 			},
 
 			events: appointmentsArray,
-			timeFormat: 'H(:mm)',
+			//Pop-up with details
+			eventRender: function (event, element) {
+				element.popover({
+					title: event.title,
+					placement: 'auto',
+					html: true,
+					trigger: 'hover',
+					animation: 'true',
+					content: event.msg,
+					container: 'body'
+				});
+				$('body').on('click', function (e) {
+					if (!element.is(e.target) && element.has(e.target).length === 0 && $('.popover').has(e.target).length === 0)
+						element.popover('hide');
+				});
+			},
+			timeFormat: 'HH:mm',
 			weekends: true,
 			slotMinutes: 15
 		});
-	});
 
+		// Creating JSON to send
+		var datesSelectedJSON;
+		datesSelectedJSON = "{\"patientId\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
+
+		//Click ok to keep appointment;
+		$('.btn-save').click(function () {
+			// Getting minutes for the selected hours to check END is not before START
+			var timeSelectedToStart = $('#booking-start-time').find(":selected").text();
+			timeSelectedToStart = timeSelectedToStart.substring(0, 2) * 60 + timeSelectedToStart.substring(3, 5) * 1;
+			var timeSelectedToEnd = $('#booking-end-time').find(":selected").text();
+			timeSelectedToEnd = timeSelectedToEnd.substring(0, 2) * 60 + timeSelectedToEnd.substring(3, 5) * 1;
+
+			//Inform the user that the hours selected are not correct;
+			if (timeSelectedToStart >= timeSelectedToEnd) {
+				toastr.error("Please select a valid time period.");
+			} else {
+				// after an appointment is saved, button "Save Appointments" to be enabled
+				$('#saveAppointments').removeAttr('disabled');
+
+				//Parsing data for the JSON
+				var startTime = startTimeObject.getFullYear() + '-' +
+					(startTimeObject.getMonth() < 10 ? '0' : '') + (startTimeObject.getMonth() + 1) + '-' +
+					(startTimeObject.getDate() < 10 ? '0' : '') + startTimeObject.getDate() + 'T' +
+					$('#booking-start-time').find(":selected").text() + ":00";
+				var endTime = endTimeObject.getFullYear() + '-' +
+					(endTimeObject.getMonth() < 10 ? '0' : '') + (endTimeObject.getMonth() + 1) + '-' +
+					(endTimeObject.getDate() < 10 ? '0' : '') + endTimeObject.getDate() + 'T' +
+					$('#booking-end-time').find(":selected").text() + ":00";
+
+				datesSelectedJSON += "{\"startTime\":\"" + startTime + "\",";
+				datesSelectedJSON += "\"endTime\":\"" + endTime + "\"},";
+
+				// Add event to the calendar (Not saving it yet)
+				calendar.fullCalendar('renderEvent',
+					{
+						title: $('.therapy-selected').text() + ": " + $('.patient-selected').text(),
+						start: startTime,
+						end: endTime,
+						msg: "Start time: <b>"
+						+ startTime.substring(11, 16)
+						+ "</b><br> End time: <b>" + endTime.substring(11, 16),
+						allDay: false
+					},
+					true // make the event "stick"
+				);
+				calendar.fullCalendar('unselect');
+				//Close modal
+				$('.time-modal').modal('hide');
+			}
+		});
+
+		// Function to send the user to the next page.
+		$('#saveAppointments').click(function () {
+			// finish the JSON
+			datesSelectedJSON = datesSelectedJSON.substring(0, datesSelectedJSON.length - 1);
+			datesSelectedJSON += "]}";
+			$('#jsonToSend').val(datesSelectedJSON);
+			$('form.submission-form').submit();
+		});
+	});
 
 	function callAjax(startDate, endDate) {
 		// adjust end date backwards by one
@@ -137,12 +241,14 @@ $(document).ready(function () {
 				var parsedJson = JSON.parse(rawJson);
 
 				// loop through bookings
-				var bookingTitle, bookingStart, bookingEnd;
+				var bookingTitle, bookingCameraType, bookingStart, bookingEnd;
 				for (var i = 0; i < parsedJson.bookings.length; ++i) {
 					for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
 						// build title
-						bookingTitle = parsedJson.bookings[i].therapyName + "\n" + parsedJson.bookings[i].patientName;
+						bookingTitle = parsedJson.bookings[i].therapyName + ":\n" + parsedJson.bookings[i].patientName;
 
+						//build Camera Type
+						bookingCameraType = parsedJson.bookings[i].cameraName;
 						// start and end time
 						bookingStart = parsedJson.bookings[i].bookingSections[j].startTime + ":00";
 						bookingStart = bookingStart.replace(" ", "T");
@@ -153,17 +259,19 @@ $(document).ready(function () {
 						appointmentsArray.push({
 							title: bookingTitle,
 							start: bookingStart,
+							msg: "Start time: <b>"
+							+ parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16)
+							+ "</b><br> End time: <b>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16)
+							+ "<br>" + bookingCameraType + "</b>",
 							end: bookingEnd,
 							allDay: false
 						});
 					}
 				}
-
 				calendar.fullCalendar('refetchEvents');
 			})
 			.fail(function (xhr, textStatus, errorThrown) {
-				console.log(errorThrown);
-				console.log("failed to retrieve bookings");
+				toastr.error("Failed to load calendar data.")
 			}
 		);
 	}
