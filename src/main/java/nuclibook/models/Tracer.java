@@ -60,7 +60,9 @@ public class Tracer implements Renderable {
 	public HashMap<String, String> getHashMap() {
 		return new HashMap<String, String>(){{
 			put("id", getId().toString());
+			put("tracer-id", getId().toString());
 			put("name", getName());
+			put("tracer-name", getName());
 			put("order-time", ((Integer) getOrderTime()).toString());
 		}};
 	}
