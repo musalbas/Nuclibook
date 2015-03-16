@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.BookingUtils;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
@@ -21,7 +22,12 @@ public class PatientDetailsRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_DETAILS, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_DETAILS, response)) {
+            //check which patient was being viewed
+            String patientId = (request.params(":patientid:")) == null ? 0 + "" : request.params(":patientid:");
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_PATIENT, Integer.parseInt(patientId) ,"Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -31,6 +37,8 @@ public class PatientDetailsRoute extends DefaultRoute {
 		Patient patient = PatientUtils.getPatient(request.params(":patientid:"));
 		if (patient == null) {
 			renderer.setField("no-patient", "yes");
+            //TODO is this the right action to log?
+            ActionLogger.logAction(ActionLogger.VIEW_PATIENT, 0);
 			return renderer.render();
 		}
 
@@ -45,6 +53,8 @@ public class PatientDetailsRoute extends DefaultRoute {
 		// add patient bookings
 		List<Booking> bookings = BookingUtils.getBookingsByPatientId(patient.getId());
 		renderer.setCollection("bookings", bookings);
+
+        ActionLogger.logAction(ActionLogger.VIEW_PATIENT, patient.getId());
 
 		return renderer.render();
 	}

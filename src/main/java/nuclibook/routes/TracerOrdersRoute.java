@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
 import nuclibook.models.TracerOrder;
@@ -20,7 +21,11 @@ public class TracerOrdersRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) return null;
+        //TODO add a different Permission variable for viewing tracer orders?
+		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACER_ORDERS, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// mode?
 		String mode = request.queryParams("mode");
@@ -62,6 +67,8 @@ public class TracerOrdersRoute extends DefaultRoute {
 
 		// mode field
 		renderer.setField("mode", mode);
+
+        ActionLogger.logAction(ActionLogger.VIEW_TRACER_ORDERS, 0);
 
 		return renderer.render();
 	}

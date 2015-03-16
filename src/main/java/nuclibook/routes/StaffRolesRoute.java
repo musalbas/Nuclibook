@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.PermissionUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
@@ -22,7 +23,10 @@ public class StaffRolesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ROLES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ROLES, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_STAFF_ROLES, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -41,6 +45,8 @@ public class StaffRolesRoute extends DefaultRoute {
 			}
 		});
 		renderer.setCollection("permissions", allPermissions);
+
+        ActionLogger.logAction(ActionLogger.VIEW_STAFF_ROLES, 0);
 
 		return renderer.render();
 	}

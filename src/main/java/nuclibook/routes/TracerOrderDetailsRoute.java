@@ -2,6 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
 import nuclibook.models.TracerOrder;
@@ -17,7 +18,10 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACERS, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -30,16 +34,21 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
 			tracerOrder.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(TracerOrder.class, tracerOrder);
+            ActionLogger.logAction(ActionLogger.UPDATE_TRACER, tracerOrder.getId());
 		}
 
 		// add tracer order to renderer
 		if (tracerOrder == null) {
 			renderer.setField("no-tracer-order", "yes");
-			return renderer.render();
+            //TODO is this the right action to log?
+            ActionLogger.logAction(ActionLogger.VIEW_BOOKING, 0);
+            return renderer.render();
 		}
 
 		renderer.setField("no-tracer-order", "no");
 		renderer.setBulkFields(tracerOrder.getHashMap());
+
+        ActionLogger.logAction(ActionLogger.VIEW_TRACERS, 0);
 
 		return renderer.render();
 	}

@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffAbsenceUtils;
 import nuclibook.entity_utils.StaffUtils;
@@ -20,7 +21,11 @@ public class StaffAbsencesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ABSENCES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ABSENCES, response)) {
+            String staffId = (request.params(":staffid:")) == null ? 0 + "" : request.params(":staffid:");
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_STAFF_ABSENCE, Integer.parseInt(staffId), "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// get staff member
 		Staff currentStaff = StaffUtils.getStaff(request.params(":staffid:"));
@@ -40,6 +45,8 @@ public class StaffAbsencesRoute extends DefaultRoute {
 		// add absences
 		List<StaffAbsence> allAbsences = StaffAbsenceUtils.getStaffAbsencesByStaffId(currentStaff.getId());
 		renderer.setCollection("staff-absences", allAbsences);
+
+        ActionLogger.logAction(ActionLogger.VIEW_STAFF_ABSENCE, currentStaff.getId());
 
 		return renderer.render();
 	}
