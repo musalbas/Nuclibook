@@ -27,7 +27,7 @@ var validateCreateForm = function (formObject) {
             if(bookingSection.indexOf('-')){
                 var times = bookingSection.split('-');
                 if(times[1] < times[0]){
-                    toastr.error("Second number should be greater than first in booking range");
+                    toastr.error("The second number should be greater than the first number in a booking section range.");
                     error = true;
                 }
             }
@@ -91,7 +91,7 @@ var validateEditForm = function (formObject) {
             if(bookingSection.indexOf('-')) {
                 var times = bookingSection.split('-');
                 if (times[1] < times[0]) {
-                    toastr.error("Second number should be greater than first in booking range");
+                    toastr.error("The second number should be greater than the first number in a booking section range.");
                     error = true;
                 }
             }

@@ -23,12 +23,12 @@ var validateCreateForm = function (formObject) {
     }
 
     if(!(/^[A-Za-z\d\s]+$/.test(roleTitleString))){
-        toastr.error("Role title should only contain numbers, alphabets and spaces");
+        toastr.error("Role title should only contain numbers, letters and spaces");
         error = true;
     }
 
     if(!findNumOfSelectedCheckboxes(formObject)){
-        toastr.error("Please select a checkbox");
+        toastr.error("Please select at least one permission");
         error = true;
     }
 
@@ -51,12 +51,12 @@ var validateEditForm = function (formObject) {
     }
 
     if(!(/^[A-Za-z\d\s]+$/.test(roleTitleString))){
-        toastr.error("Role title should only contain numbers, alphabets and spaces");
+        toastr.error("Role title should only contain numbers, letters and spaces");
         error = true;
     }
 
     if(!findNumOfSelectedCheckboxes(formObject)){
-        toastr.error("Please select a checkbox");
+        toastr.error("Please select at least one permission");
         error = true;
     }
 

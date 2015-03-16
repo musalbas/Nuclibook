@@ -428,7 +428,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         if(permissionsSent < 1){
-            return new Pair<>(Status.CUSTOM_ERROR, "No permission entered");
+            return new Pair<>(Status.CUSTOM_ERROR, "Please select at least one permission");
         }
 
 
