@@ -39,15 +39,15 @@ $(document).ready(function () {
 	// button click listeners
 	$('button').click(function (e) {
 		e.preventDefault();
-		$('button').attr('disabled', 'disabled');
-		$('input').attr('disabled', 'disabled');
 		$('#login-form').submit();
+		$('button').attr('disabled', 'disabled');
+		$('input').attr('readonly', 'readonly');
 	});
 
 	// submit listener
 	$('#login-form').submit(function (e) {
 		$('button').attr('disabled', 'disabled');
-		$('input').attr('disabled', 'disabled');
+		$('input').attr('readonly', 'readonly');
 	});
 });
 
