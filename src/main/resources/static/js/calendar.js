@@ -33,6 +33,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 			// resize
 			var v = this;
+			e.setHeight($(window).height() - $(v).position().top - 60);
 			setTimeout(function () {
 				e.setHeight($(window).height() - $(v).position().top - 60);
 			}, 500);
