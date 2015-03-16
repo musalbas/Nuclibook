@@ -71,9 +71,16 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Permissions</label>
+                        <label class="col-sm-3 control-label">Permissions</label>
 						<div class="col-sm-9 container">
-							#[collection: permissions]
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="selectall">Select All</label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="deselctall">Deselect All</label>
+                            </div>
+                            <br>
+                            #[collection: permissions]
 
 							#[pre]#[/pre]
 
