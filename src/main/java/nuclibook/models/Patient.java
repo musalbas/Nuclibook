@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import java.util.HashMap;
 
 @DatabaseTable(tableName = "patients")
-public class Patient implements Renderable {
+public class Patient implements Renderable, Exportable {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -76,5 +76,9 @@ public class Patient implements Renderable {
 			put("hospital-number", getHospitalNumber());
 			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
 		}};
+	}
+
+	public HashMap<String, String> getExportableHashMap() {
+		return getHashMap();
 	}
 }
