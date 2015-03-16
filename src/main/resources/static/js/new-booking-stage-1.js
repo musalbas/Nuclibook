@@ -238,7 +238,7 @@ $(document).ready(function () {
             + ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
 
         // send AJAX call
-        $.get('/calendar?start=' + startDateString + '&end=' + endDateString)
+        $.get('/calendar-data?start=' + startDateString + '&end=' + endDateString + '&bookings=1')
             .done(function (result) {
                 var rawJson = result.toString();
                 var parsedJson = JSON.parse(rawJson);
