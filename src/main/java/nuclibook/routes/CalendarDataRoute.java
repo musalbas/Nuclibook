@@ -31,9 +31,6 @@ public class CalendarDataRoute extends DefaultRoute {
 		DateTime startDate = new DateTime(start + "T00:00:00.000");
 		DateTime endDate = new DateTime(end + "T23:59:59.999");
 
-		// get bookings between start/end dates
-		List<Booking> bookings = BookingUtils.getBookingsByDateRange(startDate, endDate);
-
 		// start json
 		StringBuilder jsonOutput = new StringBuilder();
 		jsonOutput.append("{");
@@ -41,16 +38,21 @@ public class CalendarDataRoute extends DefaultRoute {
 		/*
 		BOOKINGS SECTION
 		 */
+
 		if (request.queryParams("bookings") != null && request.queryParams("bookings").equals("1")) {
+			// get bookings between start/end dates
+			List<Booking> bookings = BookingUtils.getBookingsByDateRange(startDate, endDate);
+
+			// open section
 			jsonOutput.append("\"bookings\": [");
 
+			// loop bookings
 			for (int i = 0; i < bookings.size(); i++) {
-				if (i == 0) {
-					jsonOutput.append("{");
-				} else {
-					jsonOutput.append(", { ");
-				}
+				// open booking object
+				if (i != 0) jsonOutput.append(",");
+				jsonOutput.append("{");
 
+				// append basic info
 				jsonOutput.append(" \"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
 				jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
 				jsonOutput.append("\"cameraName\": \"")
@@ -66,26 +68,37 @@ public class CalendarDataRoute extends DefaultRoute {
 								.getRoomNumber()
 								.replace("\"", "\\\""))
 						.append("\",");
+
+				// open booking section array
 				jsonOutput.append("\"bookingSections\": [");
 
+				// get and loop booking sections
 				List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
 				for (int j = 0; j < bookingSections.size(); j++) {
-					if (j == 0) {
-						jsonOutput.append("{");
-					} else {
-						jsonOutput.append(", { ");
-					}
+					// open object
+					if (j != 0) jsonOutput.append(",");
+					jsonOutput.append("{");
 
+					// append times
 					jsonOutput.append("\"startTime\": \"").append(bookingSections.get(j).getStart().toString("YYYY-MM-dd HH:mm")).append("\",");
 					jsonOutput.append("\"endTime\": \"").append(bookingSections.get(j).getEnd().toString("YYYY-MM-dd HH:mm")).append("\"");
+
+					// close object
 					jsonOutput.append("}");
 				}
 
-				jsonOutput.append("]}");
+				// close booking section array
+				jsonOutput.append("]");
+
+				// close booking object
+				jsonOutput.append("}");
 			}
+
+			// close booking array
 			jsonOutput.append("],");
 		}
 
+		// We did a thing!
 		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
 		return jsonOutput.substring(0, jsonOutput.length() - 1) + "}";
