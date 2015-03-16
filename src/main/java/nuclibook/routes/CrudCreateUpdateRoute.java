@@ -570,7 +570,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         // if it's new, we'll save it here so that foreign collections can be added properly
         Therapy therapy = null; //save for action logging later after all validation has passed
         if (createNew) {
-            //TODO wouldn't a record still be created in the database if it fails validation later?
             therapy = AbstractEntityUtils.createEntity(Therapy.class, entity);
         }
 
@@ -612,9 +611,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
             // validation
             if (!valueA.equals("busy") && !valueA.equals("wait")) {
+                AbstractEntityUtils.deleteEntity(Therapy.class, therapy);
                 return new Pair<>(Status.FAILED_VALIDATION, null);
             }
             if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {
+                AbstractEntityUtils.deleteEntity(Therapy.class, therapy);
                 return new Pair<>(Status.FAILED_VALIDATION, null);
             }
 

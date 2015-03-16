@@ -37,8 +37,6 @@ public class PatientDetailsRoute extends DefaultRoute {
 		Patient patient = PatientUtils.getPatient(request.params(":patientid:"));
 		if (patient == null) {
 			renderer.setField("no-patient", "yes");
-            //TODO is this the right action to log?
-            ActionLogger.logAction(ActionLogger.VIEW_PATIENT, 0);
 			return renderer.render();
 		}
 

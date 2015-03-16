@@ -183,23 +183,23 @@ public class ActionLogger {
 
         put(CREATE_STAFF_ABSENCE, "Created staff absence");
         put(VIEW_STAFF_ABSENCE, "Viewed staff absence");
-        put(VIEW_STAFF_ABSENCES, "Viewed all staff absences"); //TODO more sensible message - this is for select staff route
+        put(VIEW_STAFF_ABSENCES, "Viewed staff list en route to absences");
         put(UPDATE_STAFF_ABSENCE, "Updated staff absence");
         put(DELETE_STAFF_ABSENCE, "Deleted staff absence");
         put(ATTEMPT_CREATE_STAFF_ABSENCE, "Attempted to create staff absence");
         put(ATTEMPT_VIEW_STAFF_ABSENCE, "Attempted to view staff absence");
-        put(ATTEMPT_VIEW_STAFF_ABSENCES, "Attempted to view all staff absences"); //TODO more sensible message - this is for select staff route
+        put(ATTEMPT_VIEW_STAFF_ABSENCES, "Attempted to view staff list en route to absences");
         put(ATTEMPT_UPDATE_STAFF_ABSENCE, "Attempted to update staff absence");
         put(ATTEMPT_DELETE_STAFF_ABSENCE, "Attempted to delete staff absence");
 
         put(CREATE_STAFF_AVAILABILITY, "Created staff availability");
         put(VIEW_STAFF_AVAILABILITY, "Viewed staff availability");
-        put(VIEW_STAFF_AVAILABILITIES, "Viewed all staff availabilities"); //TODO more sensible message - this is for select staff route
+        put(VIEW_STAFF_AVAILABILITIES, "Viewed staff list en route to availabilities");
         put(UPDATE_STAFF_AVAILABILITY, "Updated staff availability");
         put(DELETE_STAFF_AVAILABILITY, "Deleted staff availability");
         put(ATTEMPT_CREATE_STAFF_AVAILABILITY, "Attempted to create staff availability");
         put(ATTEMPT_VIEW_STAFF_AVAILABILITY, "Attempted to view staff availability");
-        put(ATTEMPT_VIEW_STAFF_AVAILABILITIES, "Attempted to view all staff availabilities"); //TODO more sensible message - this is for select staff route
+        put(ATTEMPT_VIEW_STAFF_AVAILABILITIES, "Attempted to view staff list en route to availabilities");
         put(ATTEMPT_UPDATE_STAFF_AVAILABILITY, "Attempted to update staff availability");
         put(ATTEMPT_DELETE_STAFF_AVAILABILITY, "Attempted to delete staff availability");
 
