@@ -83,10 +83,25 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+							<input type="hidden" name="from-time" class="time-selector-output" data-sequence="1"/>
+						</div>
+					</div>
+
+					<div class="form-group">
 						<label class="col-sm-3 control-label">To</label>
 						<div class="col-sm-9">
 							<div class="date-selector" style="margin:0; padding:0;" data-sequence="2"></div>
 							<input type="hidden" name="to-date" class="date-selector-output" data-sequence="2"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+							<input type="hidden" name="to-time" class="time-selector-output" data-sequence="2"/>
 						</div>
 					</div>
 				</form>
@@ -101,6 +116,7 @@
 </div>
 
 <script src="/js/plugins/date-time-selector/date-selector.js"></script>
+<script src="/js/plugins/date-time-selector/time-selector.js"></script>
 <script src="/js/staff-absences.js"></script>
 
 #[def: entity-name-title = Staff Absence]

@@ -42,6 +42,7 @@ var validateEditForm = function (formObject) {
 
 var onFormLoadSetup = function () {
 	prepareDateSelector();
+	prepareTimeSelector();
 };
 
 $(document).ready(function () {
