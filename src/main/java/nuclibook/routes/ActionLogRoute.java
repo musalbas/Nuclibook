@@ -15,7 +15,7 @@ public class ActionLogRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		//prepareToHandle();
+		prepareToHandle();
 
 		// security check
 		if (!SecurityUtils.requirePermission(P.VIEW_ACTION_LOG, response)) return null;
