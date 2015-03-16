@@ -118,7 +118,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 						"Start time: <strong>" + parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16) + "</strong>"
 						+ "<br/>" +
 						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
-						+ "<br>" + +bookingCameraType,
+						+ "<br>" + bookingCameraType,
 						allDay: false
 					});
 				}
