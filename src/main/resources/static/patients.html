@@ -34,7 +34,6 @@
 					<td>
 						#[ifperm: EDIT_PATIENTS]
 						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
-						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
 						#[/ifperm]
 						#[ifperm: VIEW_PATIENT_DETAILS]
 						<button class="btn info-button link-button" data-target="/patient-details/#id"><i class="fa fa-list-alt"></i> View Details</button>
@@ -59,11 +58,6 @@
 <script src="/js/patients.js"></script>
 <script src="/js/plugins/date-time-selector/date-selector.js"></script>
 
-#[def: entity-name-title = Patient]
-#[def: entity-name-body = patient]
-#[def: entity-type = patient]
-
-##_delete-modal.html
 ##_loading-modal.html
 
 #[collectionmap: objectMap: patients]

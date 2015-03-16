@@ -52,20 +52,6 @@ public class CrudDeleteRoute extends DefaultRoute {
 				return "okay";
 			}
 
-			case "patient": {
-				// permission
-				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
-					ActionLogger.logAction(ActionLogger.ATTEMPT_DELETE_PATIENT, entityId, "Failed as user does not have permissions for this action");
-					return "no_permission";
-				}
-
-				Patient entity = AbstractEntityUtils.getEntityById(Patient.class, entityId);
-				entity.setEnabled(false);
-				AbstractEntityUtils.updateEntity(Patient.class, entity);
-				ActionLogger.logAction(ActionLogger.DELETE_PATIENT, entity.getId());
-				return "okay";
-			}
-
 			case "staff": {
 				// permission
 				if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
