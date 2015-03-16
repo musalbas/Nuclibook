@@ -175,7 +175,8 @@ public class ActionLog implements Renderable {
 			put("id", getId().toString());
 			put("staff", (getStaff()) == null ? "N/A" : getStaff().getName());
 			put("when", getWhen().toString("YYYY-MM-dd HH:mm:ss"));
-			put("action", ActionLogger.actionDescription.get(getAction()).toString());
+			Object desc = ActionLogger.actionDescription.get(getAction());
+			put("action", desc == null ? "Unknown" : desc.toString());
 			put("associated-id", (getAssociatedId()) == 0 ? "N/A" : getAssociatedId().toString());
 			put("notes", getNote());
 		}};
