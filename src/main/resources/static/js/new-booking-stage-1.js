@@ -104,7 +104,7 @@ $(document).ready(function () {
 
 		// show calendar
 		calendar = setupCalendar($('.calendar'), onSelectFunction, {
-			bookings: 1
+			bookings: true
 		});
 
 		// start building JSON to send

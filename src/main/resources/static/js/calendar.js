@@ -53,6 +53,13 @@ function setupCalendar(selector, onSelect, viewOptions) {
 					&& $('.popover').has(e.target).length === 0)
 					element.popover('hide');
 			});
+		},
+
+		eventClick: function (calEvent, jsEvent, view) {
+			if (calEvent.url && viewOptions['linkEvents']) {
+				window.location.href = calEvent.url;
+			}
+			return false;
 		}
 	});
 
@@ -84,7 +91,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 	// build URL
 	var url = '/calendar-data?start=' + startDateString + '&end=' + endDateString;
 	for (var key in options) {
-		url += '&' + key + '=' + options[key];
+		url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
 	}
 
 	// send AJAX call
@@ -119,7 +126,8 @@ function updateCalendar(selector, startDate, endDate, options) {
 						+ "<br/>" +
 						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
 						+ "<br>" + bookingCameraType,
-						allDay: false
+						allDay: false,
+						url: '/booking-details/' +  parsedJson.bookings[i].id
 					});
 				}
 			}

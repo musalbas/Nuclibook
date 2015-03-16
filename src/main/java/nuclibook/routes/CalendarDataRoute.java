@@ -54,7 +54,8 @@ public class CalendarDataRoute extends DefaultRoute {
 				jsonOutput.append("{");
 
 				// append basic info
-				jsonOutput.append(" \"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
+				jsonOutput.append("\"id\": \"").append(bookings.get(i).getId()).append("\",");
+				jsonOutput.append("\"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
 				jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
 				jsonOutput.append("\"cameraName\": \"")
 						.append(CameraTypeUtils
