@@ -86,7 +86,9 @@
 						<label class="col-sm-3 control-label"></label>
 						<div class="col-sm-9">
 							<div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
-							<input type="hidden" name="from-time" class="time-selector-output" data-sequence="1"/>
+							<input type="hidden" name="from-time" class="time-selector-output" data-sequence="1" data-default="00:00"/>
+							<br style="clear: both"/>
+							<p class="help-block">Leave time blank for 'all day'.</p>
 						</div>
 					</div>
 
@@ -101,7 +103,9 @@
 						<label class="col-sm-3 control-label"></label>
 						<div class="col-sm-9">
 							<div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
-							<input type="hidden" name="to-time" class="time-selector-output" data-sequence="2"/>
+							<input type="hidden" name="to-time" class="time-selector-output" data-sequence="2" data-default="23:59"/>
+							<br style="clear: both"/>
+							<p class="help-block">Leave time blank for 'all day'.</p>
 						</div>
 					</div>
 				</form>

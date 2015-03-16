@@ -17,6 +17,25 @@ function prepareTimeSelector() {
 		return $(e).attr('data-sequence');
 	};
 
+	// update output
+	var updateOutput = function (seq) {
+		// get values
+		var hour = getHourSelect(seq).val();
+		var min = getMinSelect(seq).val();
+
+		// update output
+		var out = getOutput(seq);
+		if (hour == 'x' || min == 'x') {
+			if (out.attr('data-default') != null) {
+				out.val(out.attr('data-default'));
+			} else {
+				out.val('');
+			}
+		} else {
+			out.val((hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min);
+		}
+	};
+
 	// create fields
 	var timeSelectors = $('div.time-selector');
 	var ts, sequence;
@@ -29,8 +48,8 @@ function prepareTimeSelector() {
 	// get fields and clear
 	var hourFields = $('.time-selector-hour');
 	var minFields = $('.time-selector-min');
-	hourFields.empty().unbind('change').append('<option value="x" disabled selected>HH</option>');
-	minFields.empty().unbind('change').append('<option value="x" disabled selected>MM</option>');
+	hourFields.empty().unbind('change').append('<option value="x" selected>HH</option>');
+	minFields.empty().unbind('change').append('<option value="x" selected>MM</option>');
 
 	// add hours
 	for (var i = 0; i < 24; ++i) {
@@ -44,36 +63,12 @@ function prepareTimeSelector() {
 
 	// hour change listener
 	hourFields.change(function () {
-		// get sequence
-		var seq = getSequence(this);
-
-		// get values
-		var hour = $(this).val();
-		var min = getMinSelect(seq).val();
-
-		// update output
-		if (hour == 'x' || min == 'x') {
-			getOutput(seq).val('');
-		} else {
-			getOutput(seq).val((hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min);
-		}
+		updateOutput(getSequence(this));
 	});
 
 	// min change listener
 	minFields.change(function () {
-		// get sequence
-		var seq = getSequence(this);
-
-		// get values
-		var hour = getHourSelect().val();
-		var min = $(this).val();
-
-		// update output
-		if (hour == 'x' || min == 'x') {
-			getOutput(seq).val('');
-		} else {
-			getOutput(seq).val((hour < 10 ? '0' : '') + hour + ':' + (min < 10 ? '0' : '') + min);
-		}
+		updateOutput(getSequence(this));
 	});
 
 	// attempt pre-fill
