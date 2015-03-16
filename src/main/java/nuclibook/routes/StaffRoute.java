@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.entity_utils.StaffUtils;
@@ -20,7 +21,10 @@ public class StaffRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_STAFF, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_STAFF, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -33,6 +37,8 @@ public class StaffRoute extends DefaultRoute {
 		// get staff roles and add to renderer
 		List<StaffRole> allStaffRoles = StaffRoleUtils.getAllStaffRoles(true);
 		renderer.setCollection("staff-roles", allStaffRoles);
+
+        ActionLogger.logAction(ActionLogger.VIEW_STAFF, 0);
 
 		return renderer.render();
 	}

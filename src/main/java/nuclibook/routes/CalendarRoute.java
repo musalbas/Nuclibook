@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.BookingUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Booking;
@@ -19,7 +20,10 @@ public class CalendarRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) return "no_permission";
+		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_BOOKING_CALENDAR, 0, "Failed as user does not have permissions for this action");
+            return "no_permission";
+        }
 
 		// get start/end date
 		String start = request.queryParams("start");
@@ -61,6 +65,8 @@ public class CalendarRoute extends DefaultRoute {
 			jsonOutput.append("]}");
 		}
 		jsonOutput.append("]}");
+
+        ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
 		return jsonOutput;
 	}

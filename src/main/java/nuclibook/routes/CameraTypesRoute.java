@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.CameraType;
@@ -18,7 +19,10 @@ public class CameraTypesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_CAMERAS, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_CAMERAS, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_CAMERA_TYPES, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -27,6 +31,8 @@ public class CameraTypesRoute extends DefaultRoute {
 		// get camera types and add to renderer
 		List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
 		renderer.setCollection("camera-types", allCameraTypes);
+
+        ActionLogger.logAction(ActionLogger.VIEW_CAMERA_TYPES, 0);
 
 		return renderer.render();
 	}

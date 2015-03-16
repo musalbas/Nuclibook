@@ -1,10 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.CameraTypeUtils;
-import nuclibook.entity_utils.TracerUtils;
-import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.CameraType;
 import nuclibook.models.Tracer;
 import nuclibook.models.Therapy;
@@ -22,7 +19,10 @@ public class TherapiesRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_THERAPIES, 0, "Failed as user does not have permissions for this action");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
@@ -39,6 +39,8 @@ public class TherapiesRoute extends DefaultRoute {
 		// get tracers and add to renderer
 		List<Tracer> allTracers = TracerUtils.getAllTracers(true);
 		renderer.setCollection("tracers", allTracers);
+
+        ActionLogger.logAction(ActionLogger.VIEW_THERAPIES, 0);
 
 		return renderer.render();
 	}
