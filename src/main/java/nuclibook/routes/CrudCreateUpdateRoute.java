@@ -256,7 +256,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (request.queryParams("name").length() > 64
 				|| request.queryParams("hospital-number").length() > 64
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
 				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
