@@ -256,6 +256,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		if (request.queryParams("name").length() > 64
 				|| request.queryParams("hospital-number").length() > 64
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
+				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
 				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -357,10 +358,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		DateTime to;
 		try {
 			// attempt to parse the dates
-			from = new DateTime(request.queryParams("from-date") + "T" + request.queryParams("from-time") + ":00");
-			to = new DateTime(request.queryParams("to-date") + "T" + request.queryParams("to-time") + ":00");
-			if (from.isAfter(to) || from.isEqual(to)) {
-				return new Pair<>(Status.FAILED_VALIDATION, null);
+			from = new DateTime(request.queryParams("from").replace(" ", "T") + ":00");
+			to = new DateTime(request.queryParams("to").replace(" ", "T") + ":00");
+			if (from.isAfter(to)) {
+				throw new IllegalArgumentException();
 			}
 		} catch (IllegalArgumentException e) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
@@ -405,9 +406,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 3600) + (Integer.parseInt(startTime.split(":")[1]) * 60);
 			endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 3600) + (Integer.parseInt(endTime.split(":")[1]) * 60);
 		} catch (NumberFormatException e) {
-			return new Pair<>(Status.FAILED_VALIDATION, null);
-		}
-		if (startTimeSecondsPastMidnight >= endTimeSecondsPastMidnight) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
@@ -572,7 +570,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// if it's new, we'll save it here so that foreign collections can be added properly
 		Therapy therapy = null; //save for action logging later after all validation has passed
 		if (createNew) {
-			//TODO wouldn't a record still be created in the database if it fails validation later?
 			therapy = AbstractEntityUtils.createEntity(Therapy.class, entity);
 		}
 
@@ -614,9 +611,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 			// validation
 			if (!valueA.equals("busy") && !valueA.equals("wait")) {
+				AbstractEntityUtils.deleteEntity(Therapy.class, therapy);
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 			if (!valueB.matches("[0-9]+(\\-[0-9]+)?")) {
+				AbstractEntityUtils.deleteEntity(Therapy.class, therapy);
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 

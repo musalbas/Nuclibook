@@ -21,7 +21,6 @@ public class TracerOrdersRoute extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-        //TODO add a different Permission variable for viewing tracer orders?
 		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
             ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACER_ORDERS, 0, "Failed as user does not have permissions for this action");
             return null;

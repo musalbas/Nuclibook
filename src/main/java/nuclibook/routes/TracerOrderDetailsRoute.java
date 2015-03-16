@@ -40,8 +40,6 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		// add tracer order to renderer
 		if (tracerOrder == null) {
 			renderer.setField("no-tracer-order", "yes");
-            //TODO is this the right action to log?
-            ActionLogger.logAction(ActionLogger.VIEW_BOOKING, 0);
             return renderer.render();
 		}
 

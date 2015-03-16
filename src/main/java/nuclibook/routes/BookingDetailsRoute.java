@@ -44,8 +44,6 @@ public class BookingDetailsRoute extends DefaultRoute {
 		// add booking to renderer
 		if (booking == null) {
 			renderer.setField("no-booking", "yes");
-            //TODO is this the right action to log?
-            ActionLogger.logAction(ActionLogger.VIEW_BOOKING, 0);
             return renderer.render();
 		}
 

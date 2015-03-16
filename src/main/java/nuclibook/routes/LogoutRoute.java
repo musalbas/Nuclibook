@@ -13,10 +13,10 @@ public class LogoutRoute extends DefaultRoute {
 		prepareToHandle();
 
         //accquire id for action logging
-        Integer loggedInId = SecurityUtils.getCurrentUser().getId();
+        Integer loggedIn = SecurityUtils.getCurrentUser() == null ? 0 : SecurityUtils.getCurrentUser().getId() ;
 
 		SecurityUtils.destroyLogin();
-        ActionLogger.logAction(ActionLogger.LOG_OUT, (loggedInId) == null ? 0 : loggedInId);
+        ActionLogger.logAction(ActionLogger.LOG_OUT, loggedIn);
         response.redirect("/login?logged-out=1");
 		return null;
 	}
