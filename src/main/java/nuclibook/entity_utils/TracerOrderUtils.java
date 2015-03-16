@@ -54,16 +54,14 @@ public class TracerOrderUtils extends AbstractEntityUtils {
 			Where<TracerOrder, Integer> where = query.where();
 			if (pendingOnly) {
 				where.and(
-						where.between("order_by",
-								date.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).getMillis(),
-								date.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).getMillis()
-						),
+						where.ge("order_by", date.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).getMillis()),
+						where.le("order_by", date.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).getMillis()),
 						where.eq("status", "pending")
 				);
 			} else {
-				where.between("order_by",
-						date.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).getMillis(),
-						date.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).getMillis()
+				where.and(
+						where.ge("order_by", date.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).getMillis()),
+						where.le("order_by", date.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).getMillis())
 				);
 			}
 			PreparedQuery<TracerOrder> preparedQuery = query.prepare();
