@@ -18,13 +18,8 @@ public class C {
 		PropertiesConfiguration config = new PropertiesConfiguration("database.properties");
 		MYSQL_URI = config.getString("database.URI");
 		MYSQL_USERNAME = config.getString("database.user.name");
-		MYSQL_PASSWORD = decryptPassword(config.getString("database.user.password"));
+		MYSQL_PASSWORD = config.getString("database.user.password");
 		AUTOMATIC_TIMEOUT = config.getInt("security.automatictimeout");
 	}
 
-	private static String decryptPassword(String encryptedString) {
-		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-		encryptor.setPassword("jasypt");
-		return encryptor.decrypt(encryptedString);
-	}
 }
