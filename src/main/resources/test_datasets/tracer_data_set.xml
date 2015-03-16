@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="tracers">
+        <column>id</column>
+        <column>name</column>
+        <column>order_time</column>
+        <column>enabled</column>
+        <row>
+            <value>1</value>
+            <value>TestTracer1</value>
+            <value>1</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>TestTracer2</value>
+            <value>2</value>
+            <value>1</value>
+        </row>
+    </table>
+</dataset>

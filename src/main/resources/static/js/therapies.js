@@ -23,6 +23,14 @@ var validateCreateForm = function (formObject) {
 				toastr.error("Please enter a valid booking section length ('00' or '00-00').");
 				error = true;
 			}
+
+            if(bookingSection.indexOf('-')){
+                var times = bookingSection.split('-');
+                if(times[1] < times[0]){
+                    toastr.error("The second number should be greater than the first number in a booking section range.");
+                    error = true;
+                }
+            }
 		}
 	}
 
@@ -79,6 +87,14 @@ var validateEditForm = function (formObject) {
 				toastr.error("Please enter a valid booking section length ('00' or '00-00').");
 				error = true;
 			}
+
+            if(bookingSection.indexOf('-')) {
+                var times = bookingSection.split('-');
+                if (times[1] < times[0]) {
+                    toastr.error("The second number should be greater than the first number in a booking section range.");
+                    error = true;
+                }
+            }
 		}
 	}
 
