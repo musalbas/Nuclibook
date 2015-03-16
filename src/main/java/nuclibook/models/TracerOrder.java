@@ -105,7 +105,7 @@ public class TracerOrder implements Renderable {
 			put("status-with-label", "<span class=\"label label-as-badge label-" + statusLabel + "\">" + getStatus() + "</span>");
 
 			// put days until string
-			int daysUntil = Days.daysBetween(new LocalDate(), getDateRequired().toLocalDate()).getDays();
+			int daysUntil = Days.daysBetween(new LocalDate(), getOrderBy().toLocalDate()).getDays();
 			if (daysUntil == 0) {
 				put("days-until", "today");
 			} else if (daysUntil < 0) {
