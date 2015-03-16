@@ -30,6 +30,12 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 			// reload for new date range
 			updateCalendar(selector, e.start, e.end, viewOptions);
+
+			// resize
+			var v = this;
+			setTimeout(function () {
+				e.setHeight($(window).height() - $(v).position().top - 60);
+			}, 500);
 		},
 
 		// on-select function
@@ -60,6 +66,10 @@ function setupCalendar(selector, onSelect, viewOptions) {
 				window.location.href = calEvent.url;
 			}
 			return false;
+		},
+
+		windowResize: function (calView) {
+			calView.setHeight($(window).height() - $(this).position().top - 60);
 		}
 	});
 
@@ -127,7 +137,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
 						+ "<br>" + bookingCameraType,
 						allDay: false,
-						url: '/booking-details/' +  parsedJson.bookings[i].id
+						url: '/booking-details/' + parsedJson.bookings[i].id
 					});
 				}
 			}
