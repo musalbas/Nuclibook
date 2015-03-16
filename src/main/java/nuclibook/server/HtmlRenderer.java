@@ -392,7 +392,7 @@ public class HtmlRenderer {
 				} else if (e.getValue().startsWith("CUSTOM:")) {
 					output.append("'").append(e.getKey()).append("': ").append(e.getValue().substring(7)).append(",");
 				} else {
-					output.append("'").append(e.getKey()).append("': '").append(e.getValue()).append("',");
+					output.append("'").append(e.getKey()).append("': '").append(e.getValue().replace("\'", "\\\\\'")).append("',");
 				}
 			}
 

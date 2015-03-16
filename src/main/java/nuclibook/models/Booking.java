@@ -277,6 +277,7 @@ public class Booking implements Renderable {
 			String statusLabel = "default";
 			if (getStatus().equals("unconfirmed")) statusLabel = "warning";
 			if (getStatus().equals("confirmed")) statusLabel = "success";
+			if (getStatus().equals("rebooked")) statusLabel = "info";
 			put("status-with-label", "<span class=\"label label-as-badge label-" + statusLabel + "\">" + getStatus() + "</span>");
 
 			// get date

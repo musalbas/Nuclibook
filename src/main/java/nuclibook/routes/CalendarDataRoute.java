@@ -44,11 +44,19 @@ public class CalendarDataRoute extends DefaultRoute {
 			// get bookings between start/end dates
 			List<Booking> bookings = BookingUtils.getBookingsByDateRange(startDate, endDate);
 
+			// include cancelled?
+			boolean includeCancelledBookings = request.queryParams("cancelledBookings") != null && request.queryParams("cancelledBookings").equals("1");
+
 			// open section
 			jsonOutput.append("\"bookings\": [");
 
 			// loop bookings
 			for (int i = 0; i < bookings.size(); i++) {
+				// include cancelled?
+				if (!includeCancelledBookings && bookings.get(i).getStatus().equals("cancelled")) {
+					continue;
+				}
+
 				// open booking object
 				if (i != 0) jsonOutput.append(",");
 				jsonOutput.append("{");
