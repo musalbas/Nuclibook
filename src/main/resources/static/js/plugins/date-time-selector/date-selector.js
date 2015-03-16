@@ -16,6 +16,9 @@ function prepareDateSelector() {
 	var getOutput = function (seq) {
 		return getGeneric(seq, 'output');
 	};
+	var getData = function (seq, key) {
+		return $('.date-selector').filterByData('sequence', seq).attr('data-' + key);
+	};
 	var getSequence = function (e) {
 		return $(e).attr('data-sequence');
 	};
@@ -37,11 +40,18 @@ function prepareDateSelector() {
 	monthFields.empty().unbind('change').append('<option value="0" disabled selected>Month</option>');
 	dateFields.empty().unbind('change').append('<option value="0" disabled selected>Date</option>');
 
-	// add the last 100 years
+	// add the years
 	var curYear = (new Date).getFullYear();
-	var startYear = curYear - 100;
-	for (var i = curYear; i > startYear; --i) {
-		yearFields.append('<option value="' + i + '">' + i + '</option>');
+	for (var i = 0; i < yearFields.length; ++i) {
+		if (getData(getSequence(yearFields.eq(i)), 'mode') == 'future') {
+			for (i = curYear; i < (curYear + 20); ++i) {
+				yearFields.append('<option value="' + i + '">' + i + '</option>');
+			}
+		} else {
+			for (i = curYear; i > (curYear - 100); --i) {
+				yearFields.append('<option value="' + i + '">' + i + '</option>');
+			}
+		}
 	}
 
 	// add months
