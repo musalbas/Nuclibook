@@ -360,7 +360,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			// attempt to parse the dates
 			from = new DateTime(request.queryParams("from-date") + "T" + request.queryParams("from-time") + ":00");
 			to = new DateTime(request.queryParams("to-date") + "T" + request.queryParams("to-time") + ":00");
-			if (from.isAfter(to)) {
+			if (from.isAfter(to) || from.isEqual(to)) {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 		} catch (IllegalArgumentException e) {
@@ -406,6 +406,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			startTimeSecondsPastMidnight = (Integer.parseInt(startTime.split(":")[0]) * 3600) + (Integer.parseInt(startTime.split(":")[1]) * 60);
 			endTimeSecondsPastMidnight = (Integer.parseInt(endTime.split(":")[0]) * 3600) + (Integer.parseInt(endTime.split(":")[1]) * 60);
 		} catch (NumberFormatException e) {
+			return new Pair<>(Status.FAILED_VALIDATION, null);
+		}
+		if (startTimeSecondsPastMidnight >= endTimeSecondsPastMidnight) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
