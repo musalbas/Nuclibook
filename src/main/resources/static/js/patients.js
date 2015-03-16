@@ -20,22 +20,11 @@ var validateEditForm = function (formObject) {
         toastr.error("Hospital Number should not exceed 64 characters");
         error = true;
     }
-    //Check for correct DOB
-    console.log(formObject["date-selector-year"]);
-    if (formObject["date-selector-year"] == "Year" || formObject["date-selector-year"] == undefined) {
-        toastr.error("Please select a year for the patient birth.");
-        error = true;
-    }
-
-    if (formObject["date-selector-month"] == "Month" || formObject["date-selector-month"] == undefined) {
-        toastr.error("Please select a month for the patient birth.");
-        error = true;
-    }
-
-    if (formObject["date-selector-day"] == "Day" || formObject["date-selector-day"] == undefined) {
-        toastr.error("Please select a day for the patient birth.");
-        error = true;
-    }
+	// Check for correct DOB
+	if (!formObject["date-of-birth"].match(/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)) {
+		toastr.error("Please enter a valid date of birth.");
+		error = true;
+	}
     return !error;
 };
 
@@ -61,20 +50,9 @@ var validateCreateForm = function (formObject) {
         toastr.error("Hospital Number should not exceed 64 characters");
         error = true;
     }
-    //Check for correct DOB
-    console.log(formObject["date-selector-year"]);
-    if (formObject["date-selector-year"] == "Year" || formObject["date-selector-year"] == undefined) {
-        toastr.error("Please select a year for the patient birth.");
-        error = true;
-    }
-
-    if (formObject["date-selector-month"] == "Month" || formObject["date-selector-month"] == undefined) {
-        toastr.error("Please select a month for the patient birth.");
-        error = true;
-    }
-
-    if (formObject["date-selector-day"] == "Day" || formObject["date-selector-day"] == undefined) {
-        toastr.error("Please select a day for the patient birth.");
+    // Check for correct DOB
+    if (!formObject["date-of-birth"].match(/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)) {
+        toastr.error("Please enter a valid date of birth.");
         error = true;
     }
     return !error;

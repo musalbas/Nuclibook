@@ -13,12 +13,12 @@
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
-        #[ifperm: EDIT_STAFF_ABSENCES]
+		#[ifperm: EDIT_STAFF_ABSENCES]
 		<div class="text-right">
 			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Absence
 			</button>
 		</div>
-        #[/ifperm]
+		#[/ifperm]
 		<table class="table table-bordered table-hover" id="staff-absences">
 			<thead>
 				<tr>
@@ -37,13 +37,14 @@
 					<td>#from</td>
 					<td>#to</td>
 					<td>
-                        #[ifperm: EDIT_STAFF_ABSENCES]
+						#[ifperm: EDIT_STAFF_ABSENCES]
 						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
-						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
-                        #[/ifperm]
-                        #[!ifperm: EDIT_STAFF_ABSENCES]
-                        -
-                        #[/!ifperm]
+						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete
+						</button>
+						#[/ifperm]
+						#[!ifperm: EDIT_STAFF_ABSENCES]
+						-
+						#[/!ifperm]
 					</td>
 				</tr>
 
@@ -75,17 +76,17 @@
 					<input type="hidden" name="staff-id" value="#staff-id"/>
 
 					<div class="form-group">
-						<label for="from" class="col-sm-3 control-label">From</label>
+						<label class="col-sm-3 control-label">From</label>
 						<div class="col-sm-9">
-							<input class="form-control" type="text" name="from" id="from"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<div class="date-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+							<input type="hidden" name="from-date" class="date-selector-output" data-sequence="1"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="to" class="col-sm-3 control-label">To</label>
+						<label class="col-sm-3 control-label">To</label>
 						<div class="col-sm-9">
-							<input class="form-control" type="text" name="to" id="to"/>
-							<p class="help-block">Example block-level help text here.</p>
+							<div class="date-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+							<input type="hidden" name="to-date" class="date-selector-output" data-sequence="2"/>
 						</div>
 					</div>
 				</form>
@@ -99,6 +100,7 @@
 	</div>
 </div>
 
+<script src="/js/plugins/date-time-selector/date-selector.js"></script>
 <script src="/js/staff-absences.js"></script>
 
 #[def: entity-name-title = Staff Absence]

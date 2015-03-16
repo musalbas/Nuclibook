@@ -40,6 +40,10 @@ var validateEditForm = function (formObject) {
 	return !error;
 };
 
+var onFormLoadSetup = function () {
+	prepareDateSelector();
+};
+
 $(document).ready(function () {
 	setUpDataTable('#staff-absences', 0, [[1, 1], [1, 1], [0, 0]]);
 });
