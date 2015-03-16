@@ -149,7 +149,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
                     }
                 } else {
                     AbstractEntityUtils.updateEntity(dbClass, entityPair.getValue());
-                    ActionLogger.logAction(action, entityId);
+                    if (entityType.equals("staff-password-change")) {
+                        ActionLogger.logAction(action, SecurityUtils.getCurrentUser().getId());
+                    } else {
+                        ActionLogger.logAction(action, entityId);
+                    }
                 }
             }
 
