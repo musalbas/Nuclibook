@@ -3,6 +3,7 @@ package nuclibook.routes;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.BookingUtils;
+import nuclibook.entity_utils.CameraTypeUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
@@ -56,12 +57,17 @@ public class CalendarDataRoute extends DefaultRoute {
 				jsonOutput.append(" \"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
 				jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
 				jsonOutput.append("\"cameraName\": \"")
-						.append(bookings
-										.get(i)
-										.getCamera()
-										.getType()
-										.getLabel()
-						).append(", ")
+						.append(CameraTypeUtils
+										.getCameraType(
+												bookings
+														.get(i)
+														.getCamera()
+														.getType()
+														.getId()
+										).getLabel()
+										.replace("\"", "\\\"")
+						)
+						.append(", ")
 						.append(bookings
 								.get(i)
 								.getCamera()
