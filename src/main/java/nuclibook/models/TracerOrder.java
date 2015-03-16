@@ -105,11 +105,11 @@ public class TracerOrder implements Renderable {
 			put("status-with-label", "<span class=\"label label-as-badge label-" + statusLabel + "\">" + getStatus() + "</span>");
 
 			// put days until string
-			int daysUntil = Days.daysBetween(new LocalDate(), getDateRequired().toLocalDate()).getDays();
+			int daysUntil = Days.daysBetween(new LocalDate(), getOrderBy().toLocalDate()).getDays();
 			if (daysUntil == 0) {
 				put("days-until", "today");
 			} else if (daysUntil < 0) {
-				put("days-until", daysUntil + " day" + (daysUntil == -1 ? "" : "s") + " ago");
+				put("days-until", (daysUntil * -1) + " day" + (daysUntil == -1 ? "" : "s") + " ago");
 			} else {
 				put("days-until", "in " + daysUntil + " day" + (daysUntil == 1 ? "" : "s"));
 			}

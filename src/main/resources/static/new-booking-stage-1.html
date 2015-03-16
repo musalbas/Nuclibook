@@ -69,7 +69,7 @@
 				<tr>
 					<td>#name</td>
 					<td>#tracer-required-name</td>
-					<td>#therapy-tracer-dose</td>
+					<td>#tracer-dose</td>
 					<td>#HTMLOKAY:camera-type-summary</td>
 					<td>
 						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
@@ -87,7 +87,7 @@
 	</div>
 
 	<div hidden class="col-md-12 col-lg-12 alert alert-info" id="page-three">
-		<div>
+		<div id="page-three-sub-div">
 			<div class="col-sm-4">
 				<strong>Patient Selected:</strong>
 				<span class="patient-selected"></span>&nbsp;
@@ -99,16 +99,52 @@
 			</div>
 		</div>
 		<br/>
-		<button style="margin-top: 15px;" class="btn btn-primary" id="view-available-appointments">View Available
-			Appointments
+		<button style="margin-top: 15px;" class="btn btn-primary" id="view-available-bookings">
+			View Available Bookings Slots
 		</button>
 	</div>
 
 	<div hidden class="col-md-12 col-lg-12 calendar"></div>
 </div>
 
+<div class="modal hide fade time-modal" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="create-mode">Select times</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Starts:</label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+							<input type="hidden" name="start-time" class="time-selector-output" data-sequence="1"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Ends:</label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+							<input type="hidden" name="end-time" class="time-selector-output" data-sequence="2"/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+<form action="/new-booking-2" method="post" class="submission-form">
+	<input type="hidden" id="jsonToSend" name="jsonFromStage1"/>
+</form>
 <script src="/js/core/jquery-ui.min.js"></script>
 <script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script src="/js/plugins/date-time-selector/time-selector.js"></script>
+<script src="/js/calendar.js"></script>
 <script src="/js/new-booking-stage-1.js"></script>
 
 ##_footer.html

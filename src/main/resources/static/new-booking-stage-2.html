@@ -56,17 +56,19 @@
 	</div>
 </div>
 
-<form class="form-horizontal edit-form">
+<form class="form-horizontal edit-form new-booking-form" action="/new-booking-3" method="post">
 
 	<input type="hidden" name="patient" value="#patient-id"/>
 	<input type="hidden" name="therapy" value="#therapy-id"/>
+	<input type="hidden" name="booking-sections" value="#HTMLOKAY:booking-sections-json"/>
 	<input type="hidden" name="default-tracer" value="#default-tracer-id"/>
+	<input type="hidden" name="assigned-staff" value="0"/>
 
 	<div class="form-group">
 		<div class="col-md-4 col-lg-4 text-right">
 			<label for="camera" class="control-label">Camera:</label>
 		</div>
-		<div class="col-md-4 col-lg-4">
+		<div class="col-md-5 col-lg-5">
 			<select class="form-control" name="camera" id="camera">
 				<option value="0" disabled selected></option>
 				#[collection: cameras]
@@ -90,7 +92,7 @@
 		<div class="col-md-4 col-lg-4 text-right">
 			<label for="tracer" class="control-label">Tracer:</label>
 		</div>
-		<div class="col-md-4 col-lg-4">
+		<div class="col-md-5 col-lg-5">
 			<select class="form-control" name="tracer" id="tracer">
 				#[collection: tracers]
 
@@ -113,7 +115,7 @@
 		<div class="col-md-4 col-lg-4 text-right">
 			<label for="tracer-dose" class="control-label">Tracer Dose:</label>
 		</div>
-		<div class="col-md-4 col-lg-4">
+		<div class="col-md-5 col-lg-5">
 			<input type="text" class="form-control" name="tracer-dose" id="tracer-dose" value="#therapy-tracer-dose"/>
 		</div>
 	</div>
@@ -122,24 +124,10 @@
 		<div class="col-md-4 col-lg-4 text-right">
 			<label class="control-label">Tracer Order Due:</label>
 		</div>
-		<div class="col-md-4 col-lg-4">
+		<div class="col-md-5 col-lg-5">
 			<div class="tracer-order-wrapper">
-				<div class="col-sm-4" style="padding-left: 0;">
-					<select class="form-control" name="date-selector-year" id="date-selector-year">
-						<option value="" disabled selected>Year</option>
-					</select>
-				</div>
-				<div class="col-sm-5">
-					<select class="form-control" name="date-selector-month" id="date-selector-month" disabled>
-						<option value="" disabled selected>Month</option>
-					</select>
-				</div>
-				<div class="col-sm-3">
-					<select class="form-control" name="date-selector-day" id="date-selector-day" disabled>
-						<option value="">Day</option>
-					</select>
-				</div>
-				<input type="hidden" name="tracer-order-due" value="#tracer-order-due" id="date-selector-output"/>
+				<div class="date-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+				<input type="hidden" name="tracer-order-due" class="date-selector-output" value="#tracer-order-due" data-sequence="1"/>
 				<br style="clear: both"/>
 			</div>
 			<p class="help-block label-for-no-tracer-order">
@@ -153,7 +141,7 @@
 		<div class="col-md-4 col-lg-4 text-right">
 			<label for="staff" class="control-label">Staff Members:</label>
 		</div>
-		<div class="col-md-4 col-lg-4">
+		<div class="col-md-5 col-lg-5">
 			<select class="form-control" name="staff" id="staff">
 				<option value="0" disabled selected>Select a staff member and click '+ Add'</option>
 				#[collection: staff]
@@ -170,19 +158,21 @@
 
 				#[/collection]
 			</select>
-			<p class="help-block"><a href="javascript:;" class="add-staff-member"><span class="fa fa-plus"></span> Add</a></p>
+			<p class="help-block">
+				<a href="javascript:;" class="add-staff-member"><span class="fa fa-plus"></span> Add</a></p>
+			<p class="help-block assigned-staff"></p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="col-md-offset-4 col-lg-offset-4 col-md-4 col-lg-4">
-			<button class="btn btn-primary">Confirm Booking</button>
+			<button class="btn btn-primary confirm-booking-button">Confirm Booking</button>
 		</div>
 	</div>
 
 </form>
 
-<script src="/js/date-selector.js"></script>
+<script src="/js/plugins/date-time-selector/date-selector.js"></script>
 <script src="/js/new-booking-stage-2.js"></script>
 
 ##_footer.html

@@ -1,13 +1,15 @@
 var validateCreateForm = function (formObject) {
 	var error = false;
 
-	var format = new RegExp('\\d{2}:\\d{2}');
-	if (!format.test(formObject['start-time'])) {
-		toastr.error("You did not enter the start time in HH:MM format.");
+	if (!formObject['start-time'].match(/[0-9]{2}:[0-9]{2}/)) {
+		toastr.error("Please enter a valid start time.");
+		alert(formObject['to-time']);
 		error = true;
 	}
-	if (!format.test(formObject['end-time'])) {
-		toastr.error("You did not enter the end time in HH:MM format.");
+
+	if (!formObject['end-time'].match(/[0-9]{2}:[0-9]{2}/)) {
+		toastr.error("Please enter a valid end time.");
+		alert(formObject['to-time']);
 		error = true;
 	}
 
@@ -22,13 +24,15 @@ var validateCreateForm = function (formObject) {
 var validateEditForm = function (formObject) {
 	var error = false;
 
-	var format = new RegExp('\\d{2}:\\d{2}');
-	if (!format.test(formObject['start-time'])) {
-		toastr.error("You did not enter the start time in HH:MM format.");
+	if (!formObject['start-time'].match(/[0-9]{2}:[0-9]{2}/)) {
+		toastr.error("Please enter a valid start time.");
+		alert(formObject['to-time']);
 		error = true;
 	}
-	if (!format.test(formObject['end-time'])) {
-		toastr.error("You did not enter the end time in HH:MM format.");
+
+	if (!formObject['end-time'].match(/[0-9]{2}:[0-9]{2}/)) {
+		toastr.error("Please enter a valid end time.");
+		alert(formObject['to-time']);
 		error = true;
 	}
 
@@ -38,6 +42,10 @@ var validateEditForm = function (formObject) {
 	}
 
 	return !error;
+};
+
+var onFormLoadSetup = function () {
+	prepareTimeSelector();
 };
 
 $(document).ready(function () {

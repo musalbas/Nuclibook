@@ -25,6 +25,11 @@ public class BookingSection implements Renderable {
 	public BookingSection() {
 	}
 
+	public BookingSection(DateTime start, DateTime end) {
+		setStart(start);
+		setEnd(end);
+	}
+
 	public Integer getId() {
 		return id;
 	}

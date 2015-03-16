@@ -58,113 +58,120 @@ $(document).ready(function () {
 	 *********************/
 
 	// initial set up
-	var appointmentsArray = [];
 	var calendar = $('.calendar');
 
-	// when the "show appointments" button is clicked...
-	$('#view-available-appointments').click(function () {
+	// when the "show bookings" button is clicked...
+	$('#view-available-bookings').click(function () {
 		// hide buttons
 		$(this).slideUp(300);
 		$('#go-back-to-select-therapy').hide();
 
+		// add button for saving the bookings
+		$('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
+		'<button class="btn btn-primary" id="saveAppointments" disabled>' +
+		'Select Time Slot(s) Below...' +
+		'</button>' +
+		'</div>');
+
+		// variables for modal
+		var startTimeObject;
+		var endTimeObject;
+
+		// modal inputs
+		var startTimeInput = $('input[name=start-time]');
+		var endTimeInput = $('input[name=end-time]');
+
+		// function to be ran when a slot is selected
+		var onSelectFunction = function (start, end, allday) {
+			// assign outer items
+			startTimeObject = start;
+			endTimeObject = end;
+
+			// get options to pre-fill modal
+			var startHours = (start.getHours() < 10 ? '0' : '') + start.getHours();
+			var startMins = (start.getMinutes() < 10 ? '0' : '') + start.getMinutes();
+			var endHours = (end.getHours() < 10 ? '0' : '') + end.getHours();
+			var endMins = (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+
+			// pre-fill modal
+			startTimeInput.val(startHours + ':' + startMins);
+			endTimeInput.val(endHours + ':' + endMins);
+			prepareTimeSelector();
+
+			// open Modal
+			$('.time-modal').removeClass('hide').modal('show');
+		};
+
 		// show calendar
-		calendar = $('.calendar').show().fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'agendaWeek'
-			},
+		calendar = setupCalendar($('.calendar'), onSelectFunction, {
+			bookings: true
+		});
 
-			defaultView: 'agendaWeek',
-			selectable: true,
-			selectHelper: true,
-			minTime: "08:00:00",
-			maxTime: "19:00:00",
-			allDaySlot: false,
+		// start building JSON to send
+		var datesSelectedJSON;
+		datesSelectedJSON = "{\"patientId\":" + patientId + "," + "\"therapyId\":" + therapyId + "," + "\"bookingSections\":[";
 
-			viewDisplay: function (e) {
-				// clear appointments
-				appointmentsArray.length = 0;
-				// reload for new date range
-				callAjax(e.start, e.end);
-			},
+		// click ok to keep appointment;
+		$('.btn-save').click(function () {
+			// get start/end time
+			var startTime = startTimeInput.val();
+			var endTime = endTimeInput.val();
 
-			select: function (start, end, allDay) {
-				var title = prompt('Event Title:');
+			// check valid times were entered
+			if (!startTime.match(/[0-9]{2}:[0-9]{2}/) || !endTime.match(/[0-9]{2}:[0-9]{2}/)) {
+				toastr.error("Please select valid start and end times.");
+				return;
+			}
 
-				if (title) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
-				}
-				calendar.fullCalendar('unselect');
-			},
+			// check start < end
+			if (new Date('2000-01-01 ' + startTime) >= new Date('2000-01-01 ' + endTime)) {
+				toastr.error("Please ensure the start time is before the end time.");
+				return;
+			}
 
-			events: appointmentsArray,
-			timeFormat: 'H(:mm)',
-			weekends: true,
-			slotMinutes: 15
+			// enable button
+			$('#saveAppointments').removeAttr('disabled').html("Save Booking");
+
+			// add to json
+			var fullStartTime = startTimeObject.getFullYear() + '-'
+				+ (startTimeObject.getMonth() < 10 ? '0' : '') + (startTimeObject.getMonth() + 1) + '-'
+				+ (startTimeObject.getDate() < 10 ? '0' : '') + startTimeObject.getDate() + 'T'
+				+ startTime + ":00";
+			var fullEndTime = endTimeObject.getFullYear() + '-'
+				+ (endTimeObject.getMonth() < 10 ? '0' : '') + (endTimeObject.getMonth() + 1) + '-'
+				+ (endTimeObject.getDate() < 10 ? '0' : '') + endTimeObject.getDate() + 'T'
+				+ endTime + ":00";
+			datesSelectedJSON += "{\"startTime\":\"" + fullStartTime + "\",";
+			datesSelectedJSON += "\"endTime\":\"" + fullEndTime + "\"},";
+
+			// add to calendar
+			calendar.fullCalendar('renderEvent',
+				{
+					title: $('.therapy-selected').text() + ":\n" + $('.patient-selected').eq(0).text(),
+					start: fullStartTime,
+					end: fullEndTime,
+					msg: "Start time: <strong>" + startTime + "</strong>" +
+					"<br/>End time: <strong>" + endTime + "</strong>",
+					allDay: false
+				},
+				true
+			);
+			calendar.fullCalendar('unselect');
+
+			// close modal
+			$('.time-modal').modal('hide');
+		});
+
+		// Function to send the user to the next page.
+		$('#saveAppointments').click(function () {
+			// finish the JSON
+			datesSelectedJSON = datesSelectedJSON.substring(0, datesSelectedJSON.length - 1);
+			datesSelectedJSON += "]}";
+
+			// send!
+			$('#jsonToSend').val(datesSelectedJSON);
+			$('form.submission-form').submit();
 		});
 	});
 
-
-	function callAjax(startDate, endDate) {
-		// adjust end date backwards by one
-		endDate = new Date(((endDate.getTime()) - 86400000));
-
-		// get start/end strings to pass to calendar data route
-		var startDateString = startDate.getFullYear()
-			+ '-'
-			+ (startDate.getMonth() < 10 ? '0' : '') + (startDate.getMonth() + 1)
-			+ '-'
-			+ ((startDate.getDate()) < 10 ? '0' : '') + (startDate.getDate());
-		var endDateString = endDate.getFullYear()
-			+ '-'
-			+ (endDate.getMonth() < 10 ? '0' : '') + (endDate.getMonth() + 1)
-			+ '-'
-			+ ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
-
-		// send AJAX call
-		$.get('/calendar?start=' + startDateString + '&end=' + endDateString)
-			.done(function (result) {
-				var rawJson = result.toString();
-				var parsedJson = JSON.parse(rawJson);
-
-				// loop through bookings
-				var bookingTitle, bookingStart, bookingEnd;
-				for (var i = 0; i < parsedJson.bookings.length; ++i) {
-					for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
-						// build title
-						bookingTitle = parsedJson.bookings[i].therapyName + "\n" + parsedJson.bookings[i].patientName;
-
-						// start and end time
-						bookingStart = parsedJson.bookings[i].bookingSections[j].startTime + ":00";
-						bookingStart = bookingStart.replace(" ", "T");
-						bookingEnd = parsedJson.bookings[i].bookingSections[j].endTime + ":00";
-						bookingEnd = bookingEnd.replace(" ", "T");
-
-						// add event
-						appointmentsArray.push({
-							title: bookingTitle,
-							start: bookingStart,
-							end: bookingEnd,
-							allDay: false
-						});
-					}
-				}
-
-				calendar.fullCalendar('refetchEvents');
-			})
-			.fail(function (xhr, textStatus, errorThrown) {
-				console.log(errorThrown);
-				console.log("failed to retrieve bookings");
-			}
-		);
-	}
 });
