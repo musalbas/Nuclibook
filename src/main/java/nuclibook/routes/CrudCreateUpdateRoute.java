@@ -358,10 +358,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		DateTime to;
 		try {
 			// attempt to parse the dates
-			from = new DateTime(request.queryParams("from").replace(" ", "T") + ":00");
-			to = new DateTime(request.queryParams("to").replace(" ", "T") + ":00");
+			from = new DateTime(request.queryParams("from-date") + "T" + request.queryParams("from-time") + ":00");
+			to = new DateTime(request.queryParams("to-date") + "T" + request.queryParams("to-time") + ":00");
 			if (from.isAfter(to)) {
-				throw new IllegalArgumentException();
+				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 		} catch (IllegalArgumentException e) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
