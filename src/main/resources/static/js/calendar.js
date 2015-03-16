@@ -1,7 +1,7 @@
 var calendarEvents = [];
 
 function setupCalendar(selector, onSelect, viewOptions) {
-	return selector.show().fullCalendar({
+	var cal = selector.show().fullCalendar({
 		// basic appearance
 		header: {
 			left: 'prev,next today',
@@ -55,9 +55,17 @@ function setupCalendar(selector, onSelect, viewOptions) {
 			});
 		}
 	});
+
+	// add loading icon
+	cal.find('.fc-header-right').html('<span class="calendar-loading-msg"><img src="/images/loading.gif"/>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Loading...</strong>&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+
+	return cal;
 }
 
 function updateCalendar(selector, startDate, endDate, options) {
+	// show loading message
+	$('.calendar-loading-msg').show();
+
 	// adjust end date backwards by one
 	endDate = new Date(((endDate.getTime()) - 86400000));
 
@@ -110,16 +118,19 @@ function updateCalendar(selector, startDate, endDate, options) {
 						"Start time: <strong>" + parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16) + "</strong>"
 						+ "<br/>" +
 						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
-						+ "<br>" +
-						+ bookingCameraType,
+						+ "<br>" + +bookingCameraType,
 						allDay: false
 					});
 				}
 			}
 			selector.fullCalendar('refetchEvents');
+
+			// hide loading message
+			$('.calendar-loading-msg').hide();
 		})
 		.fail(function (xhr, textStatus, errorThrown) {
 			toastr.error("Failed to load calendar data.")
+			$('.calendar-loading-msg').hide();
 		}
 	);
 }
