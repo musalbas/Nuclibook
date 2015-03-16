@@ -84,6 +84,10 @@ function prepareTimeSelector() {
 			// set values
 			getHourSelect(seq).val(parseInt(parts[0])).trigger('change');
 			getMinSelect(seq).val(parseInt(parts[1])).trigger('change');
+		} else {
+			if ($(e).attr('data-default') != null) {
+				$(e).val($(e).attr('data-default'));
+			}
 		}
 	});
 }
