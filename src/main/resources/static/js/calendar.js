@@ -44,6 +44,8 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 		// pop-up with details
 		eventRender: function (event, element) {
+			element.addClass(event.type);
+
 			element.popover({
 				title: event.title,
 				placement: 'auto',
@@ -138,7 +140,8 @@ function updateCalendar(selector, startDate, endDate, options) {
 						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
 						+ "<br>" + bookingCameraType,
 						allDay: false,
-						url: '/booking-details/' + parsedJson.bookings[i].id
+						url: '/booking-details/' + parsedJson.bookings[i].id,
+						type: 'booking'
 					});
 				}
 			}
