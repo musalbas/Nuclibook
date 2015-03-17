@@ -87,6 +87,7 @@ public class LocalServer {
 
         // day summary
         Spark.get("/day-summary", new DaySummaryRoute());
+        Spark.get("/printable-day-summary", new PrintableDaySummaryRoute());
 
 		// security
 		Spark.get("/access-denied", new AccessDeniedRoute());
