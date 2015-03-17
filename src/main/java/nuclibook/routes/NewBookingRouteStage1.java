@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TherapyUtils;
@@ -20,9 +21,18 @@ public class NewBookingRouteStage1 extends DefaultRoute {
 		prepareToHandle();
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) return null;
-		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
-		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
+		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all patients");
+            return null;
+        }
+		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all therapies");
+            return null;
+        }
+		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) {
+            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to edit or create bookings");
+            return null;
+        }
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
