@@ -9,10 +9,10 @@ public class BookingStaff {
 	@DatabaseField(generatedId = true)
 	private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id")
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "booking_id", foreignAutoRefresh = true)
 	private Booking booking;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id")
+	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id", foreignAutoRefresh = true)
 	private Staff staff;
 
 	public BookingStaff(Booking booking, Staff staff) {
