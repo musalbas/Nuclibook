@@ -302,6 +302,22 @@ public class Booking implements Renderable {
 				}
 			}
 
+			// get staff
+			String staff = "";
+			if (getStaff().isEmpty()) {
+				staff = "<em>None</em>";
+			} else {
+				List<Staff> assignedStaff = getStaff();
+				System.out.println(assignedStaff.size());
+				for (Staff s : assignedStaff) {
+					System.out.println(s.getName());
+					staff += s.getName() + ", ";
+				}
+
+				staff = staff.substring(0, staff.length() - 2);
+			}
+			put("staff", staff);
+
 			// get notes
 			String notes = getNotes();
 			if (notes == null || notes.length() == 0) {
