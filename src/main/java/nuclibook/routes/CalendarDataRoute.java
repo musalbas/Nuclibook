@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarDataRoute extends DefaultRoute {
@@ -46,6 +47,21 @@ public class CalendarDataRoute extends DefaultRoute {
 			// include cancelled?
 			boolean includeCancelledBookings = request.queryParams("cancelledBookings") != null && request.queryParams("cancelledBookings").equals("1");
 
+			// filtering by camera?
+			boolean filterCameras = false;
+			ArrayList<Integer> allowedCameras = new ArrayList<>();
+			if (request.queryParams("cameras") != null && !request.queryParams("cameras").equals("all")) {
+				filterCameras = true;
+				String[] rawAllowedCameras = request.queryParams("cameras").split(",");
+				for (String rac : rawAllowedCameras) {
+					try {
+						allowedCameras.add(Integer.parseInt(rac));
+					} catch (NumberFormatException nfe) {
+						// meh.
+					}
+				}
+			}
+
 			// open section
 			jsonOutput.append("\"bookings\": [");
 
@@ -54,6 +70,11 @@ public class CalendarDataRoute extends DefaultRoute {
 			for (Booking booking : bookings) {
 				// include cancelled?
 				if (!includeCancelledBookings && booking.getStatus().equals("cancelled")) {
+					continue;
+				}
+
+				// filter by camera?
+				if (filterCameras && !allowedCameras.contains(booking.getCamera().getId())) {
 					continue;
 				}
 
