@@ -114,37 +114,69 @@ function updateCalendar(selector, startDate, endDate, options) {
 			var parsedJson = JSON.parse(rawJson);
 
 			// loop through bookings
-			var bookingTitle, bookingCameraType, bookingStart, bookingEnd;
-			for (var i = 0; i < parsedJson.bookings.length; ++i) {
-				for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
-					// build title
-					bookingTitle = parsedJson.bookings[i].therapyName + ":\n" + parsedJson.bookings[i].patientName;
+			if (options['bookings']) {
+				var bookingTitle, bookingCameraType, bookingStart, bookingEnd;
+				for (var i = 0; i < parsedJson.bookings.length; ++i) {
+					for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
+						// build title
+						bookingTitle = parsedJson.bookings[i].therapyName + ":\n" + parsedJson.bookings[i].patientName;
 
-					// build camera type
-					bookingCameraType = parsedJson.bookings[i].cameraName;
+						// build camera type
+						bookingCameraType = parsedJson.bookings[i].cameraName;
+
+						// start and end time
+						bookingStart = parsedJson.bookings[i].bookingSections[j].startTime + ":00";
+						bookingStart = bookingStart.replace(" ", "T");
+						bookingEnd = parsedJson.bookings[i].bookingSections[j].endTime + ":00";
+						bookingEnd = bookingEnd.replace(" ", "T");
+
+						// add event
+						calendarEvents.push({
+							title: bookingTitle,
+							start: bookingStart,
+							end: bookingEnd,
+							msg: "" +
+							"Start time: <strong>" + parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16) + "</strong>"
+							+ "<br/>" +
+							"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
+							+ "<br>" + bookingCameraType,
+							allDay: false,
+							url: '/booking-details/' + parsedJson.bookings[i].id,
+							type: 'booking'
+						});
+					}
+				}
+			}
+
+			// loop through absences
+			if (options['staffAbsences']) {
+				var absenceTitle, absenceStart, absenceEnd;
+				for (i = 0; i < parsedJson.staffAbsences.length; ++i) {
+					// build title
+					absenceTitle = "Absent: " + parsedJson.staffAbsences[i].staffName;
 
 					// start and end time
-					bookingStart = parsedJson.bookings[i].bookingSections[j].startTime + ":00";
-					bookingStart = bookingStart.replace(" ", "T");
-					bookingEnd = parsedJson.bookings[i].bookingSections[j].endTime + ":00";
-					bookingEnd = bookingEnd.replace(" ", "T");
+					absenceStart = parsedJson.staffAbsences[i].from + ":00";
+					absenceStart = absenceStart.replace(" ", "T");
+					absenceEnd = parsedJson.staffAbsences[i].to + ":00";
+					absenceEnd = absenceEnd.replace(" ", "T");
 
 					// add event
 					calendarEvents.push({
-						title: bookingTitle,
-						start: bookingStart,
-						end: bookingEnd,
+						title: absenceTitle,
+						start: absenceStart,
+						end: absenceEnd,
 						msg: "" +
-						"Start time: <strong>" + parsedJson.bookings[i].bookingSections[j].startTime.substring(10, 16) + "</strong>"
-						+ "<br/>" +
-						"End time: <strong>" + parsedJson.bookings[i].bookingSections[j].endTime.substring(10, 16) + "</strong>"
-						+ "<br>" + bookingCameraType,
+						"Start time: <strong>" + parsedJson.staffAbsences[i].from.substring(10, 16) + "</strong>" +
+						"<br/>" +
+						"End time: <strong>" + parsedJson.staffAbsences[i].to.substring(10, 16) + "</strong>",
 						allDay: false,
-						url: '/booking-details/' + parsedJson.bookings[i].id,
-						type: 'booking'
+						type: 'absence'
 					});
 				}
 			}
+
+			// update events
 			selector.fullCalendar('refetchEvents');
 
 			// hide loading message
