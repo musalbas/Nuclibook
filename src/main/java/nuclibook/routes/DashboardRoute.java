@@ -55,7 +55,7 @@ public class DashboardRoute extends DefaultRoute {
 			dsiBookingsToday.setLink("/bookings?date=" + today.toString("YYYY-MM-dd"));
 			dsiBookingsToday.setBadgeText("click to view");
 		} else {
-			dsiBookingsToday = new DaySummaryItem("There are <strong>" + daySummaryItems.size() + " bookings</strong> today");
+			dsiBookingsToday = new DaySummaryItem("There are <strong>" + bookingsToday.size() + " bookings</strong> today");
 			dsiBookingsToday.setLink("/bookings?date=" + today.toString("YYYY-MM-dd"));
 			dsiBookingsToday.setBadgeText("click to view");
 		}
