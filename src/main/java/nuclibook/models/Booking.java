@@ -9,9 +9,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.server.Renderable;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
