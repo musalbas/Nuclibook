@@ -16,11 +16,17 @@ public class Patient implements Renderable, Exportable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField(width = 64)
+	@DatabaseField(width = 64, columnName = "hospital_number")
 	private String hospitalNumber;
 
-	@DatabaseField
-	private String dateOfBirth;
+	@DatabaseField(width = 64, columnName = "nhs_number")
+	private String nhsNumber;
+
+	@DatabaseField(columnName = "date_of_birth")
+	private long dateOfBirth;
+
+	@DatabaseField(width = 6)
+	private String sex;
 
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
@@ -52,12 +58,28 @@ public class Patient implements Renderable, Exportable {
 		this.hospitalNumber = hospitalNumber;
 	}
 
+	public String getNhsNumber() {
+		return nhsNumber;
+	}
+
+	public void setNhsNumber(String nhsNumber) {
+		this.nhsNumber = nhsNumber;
+	}
+
 	public DateTime getDateOfBirth() {
 		return new DateTime(dateOfBirth);
 	}
 
 	public void setDateOfBirth(DateTime dateOfBirth) {
-		this.dateOfBirth = dateOfBirth.toString();
+		this.dateOfBirth = dateOfBirth.getMillis();
+	}
+
+	public Sex getSex() {
+		return sex.equals("MALE") ? Sex.MALE : Sex.FEMALE;
+	}
+
+	public void setSex(Sex sex) {
+		this.sex = sex.toString();
 	}
 
 	public Boolean getEnabled() {
@@ -74,11 +96,17 @@ public class Patient implements Renderable, Exportable {
 			put("id", getId().toString());
 			put("name", getName());
 			put("hospital-number", getHospitalNumber());
+			put("nhs-number", getNhsNumber());
 			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
+			put("sex", getSex() == Sex.MALE ? "Male" : "Female");
 		}};
 	}
 
 	public HashMap<String, String> getExportableHashMap() {
 		return getHashMap();
+	}
+
+	public enum Sex {
+		MALE, FEMALE
 	}
 }

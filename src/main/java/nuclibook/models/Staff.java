@@ -36,32 +36,32 @@ public class Staff implements Renderable {
 	@DatabaseField(columnName = "role", foreign = true, foreignAutoRefresh = true)
 	private StaffRole role;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_hash_0")
 	private String passwordHash;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_salt_0")
 	private String passwordSalt;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_hash_1")
 	private String passwordHash1;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_salt_1")
 	private String passwordSalt1;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_hash_2")
 	private String passwordHash2;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_salt_2")
 	private String passwordSalt2;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_hash_3")
 	private String passwordHash3;
 
-	@DatabaseField
+	@DatabaseField(columnName = "password_salt_3")
 	private String passwordSalt3;
 
-	@DatabaseField
-	private String passwordChangeDate;
+	@DatabaseField(columnName = "password_change_date")
+	private long passwordChangeDate;
 
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<StaffAvailability> availabilities;
@@ -124,7 +124,7 @@ public class Staff implements Renderable {
 	}
 
 	private void updatePasswordChangeDate() {
-		this.passwordChangeDate = new DateTime().toString();
+		this.passwordChangeDate = new DateTime().getMillis();
 	}
 
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
