@@ -1,28 +1,16 @@
 package nuclibooktest.test_utils;
 
-import com.j256.ormlite.jdbc.JdbcDatabaseConnection;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.models.Patient;
-import nuclibook.server.SqlServerConnection;
-import org.dbunit.DatabaseUnitException;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.ext.h2.H2Connection;
-import org.dbunit.operation.DatabaseOperation;
 import org.joda.time.DateTime;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runners.Parameterized;
-import sun.jvm.hotspot.utilities.Assert;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestAbstractEntityUtils extends AbstractUtilTest{
 
