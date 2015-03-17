@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,10 +31,11 @@ public class DaySummaryRoute extends DefaultRoute {
         // get bookings happening today
         //TODO: Change this to read selected day rather than today
 		List<Booking> bookings = BookingUtils.getBookingsByDateRange(todayStart, todayEnd);
-        List<Booking> confirmedBookings = bookings;
+        ArrayList<Booking> confirmedBookings = new ArrayList<Booking>();
         for (Booking b : bookings) {
-            if (b.getStatus() != "confirmed") {
-                confirmedBookings.remove(b);
+
+            if (b.getStatus().equals("confirmed")) {
+                confirmedBookings.add(b);
             }
         }
 
