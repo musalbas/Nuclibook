@@ -76,7 +76,7 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 		booking.setTracer(tracer);
 		booking.setTracerDose(tracerDose);
 		booking.setStatus("unconfirmed");
-		AbstractEntityUtils.createEntity(Booking.class, booking);
+		Booking entity = AbstractEntityUtils.createEntity(Booking.class, booking);
 
 		// add booking sections
 		for (BookingSection bs : bookingSections) {
@@ -101,6 +101,8 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 			tracerOrder.setStatus("pending");
 			AbstractEntityUtils.createEntity(TracerOrder.class, tracerOrder);
 		}
+
+        ActionLogger.logAction(ActionLogger.CREATE_BOOKING, entity.getId());
 
 		// forward to booking details
 		response.redirect("/booking-details/" + booking.getId());
