@@ -22,6 +22,9 @@ public class Patient implements Renderable, Exportable {
 	@DatabaseField
 	private String dateOfBirth;
 
+	@DatabaseField(width = 6)
+	private String sex;
+
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
@@ -60,6 +63,14 @@ public class Patient implements Renderable, Exportable {
 		this.dateOfBirth = dateOfBirth.toString();
 	}
 
+	public Sex getSex() {
+		return sex.equals("MALE") ? Sex.MALE : Sex.FEMALE;
+	}
+
+	public void setSex(Sex sex) {
+		this.sex = sex.toString();
+	}
+
 	public Boolean getEnabled() {
 		return enabled;
 	}
@@ -75,10 +86,15 @@ public class Patient implements Renderable, Exportable {
 			put("name", getName());
 			put("hospital-number", getHospitalNumber());
 			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
+			put("sex", getSex() == Sex.MALE ? "Male" : "Female");
 		}};
 	}
 
 	public HashMap<String, String> getExportableHashMap() {
 		return getHashMap();
+	}
+
+	public enum Sex {
+		MALE, FEMALE
 	}
 }
