@@ -35,6 +35,7 @@ public class CalendarDataRoute extends DefaultRoute {
 		// start json
 		StringBuilder jsonOutput = new StringBuilder();
 		jsonOutput.append("{");
+		boolean commaNeeded;
 
 		/*
 		BOOKINGS SECTION
@@ -51,25 +52,28 @@ public class CalendarDataRoute extends DefaultRoute {
 			jsonOutput.append("\"bookings\": [");
 
 			// loop bookings
-			for (int i = 0; i < bookings.size(); i++) {
+			commaNeeded = false;
+			for (Booking booking : bookings) {
 				// include cancelled?
-				if (!includeCancelledBookings && bookings.get(i).getStatus().equals("cancelled")) {
+				if (!includeCancelledBookings && booking.getStatus().equals("cancelled")) {
 					continue;
 				}
 
 				// open booking object
-				if (i != 0) jsonOutput.append(",");
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
 				jsonOutput.append("{");
 
 				// append basic info
-				jsonOutput.append("\"id\": \"").append(bookings.get(i).getId()).append("\",");
-				jsonOutput.append("\"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
-				jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"id\": \"").append(booking.getId()).append("\",");
+				jsonOutput.append("\"patientName\": \"").append(booking.getPatient().getName()).append("\",");
+				jsonOutput.append("\"therapyName\": \"").append(booking.getTherapy().getName().replace("\"", "\\\"")).append("\",");
 				jsonOutput.append("\"cameraName\": \"")
 						.append(CameraTypeUtils
 										.getCameraType(
-												bookings
-														.get(i)
+												booking
 														.getCamera()
 														.getType()
 														.getId()
@@ -77,18 +81,18 @@ public class CalendarDataRoute extends DefaultRoute {
 										.replace("\"", "\\\"")
 						)
 						.append(", ")
-						.append(bookings
-								.get(i)
+						.append(booking
 								.getCamera()
 								.getRoomNumber()
 								.replace("\"", "\\\""))
 						.append("\",");
+				jsonOutput.append("\"status\": \"").append(booking.getStatus()).append("\",");
 
 				// open booking section array
 				jsonOutput.append("\"bookingSections\": [");
 
 				// get and loop booking sections
-				List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
+				List<BookingSection> bookingSections = booking.getBookingSections();
 				for (int j = 0; j < bookingSections.size(); j++) {
 					// open object
 					if (j != 0) jsonOutput.append(",");
@@ -116,6 +120,6 @@ public class CalendarDataRoute extends DefaultRoute {
 		// We did a thing!
 		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
-		return jsonOutput.substring(0, jsonOutput.length() - 1) + "}";
+		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
 	}
 }
