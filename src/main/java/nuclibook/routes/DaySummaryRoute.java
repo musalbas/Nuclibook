@@ -12,10 +12,15 @@ import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class DaySummaryRoute extends DefaultRoute {
+
+    private boolean printMode;
+
+    public DaySummaryRoute(boolean printMode) {
+        this.printMode = printMode;
+    }
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -90,7 +95,14 @@ public class DaySummaryRoute extends DefaultRoute {
                 // add to collection
                 renderer.setField("absences-as-string", absencesAsString);
             }
+
+            if (printMode) {
+                renderer.setField("print-mode", "yes");
+            } else {
+                renderer.setField("print-mode", "no");
+            }
         }
+
 
 		return renderer.render();
 
