@@ -92,9 +92,9 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'&nbsp;&nbsp;&nbsp;&nbsp;' +
 	'</span>' +
 	'<span class="calendar-channel-filters hide">' +
-	'<button class="btn btn-primary calendar-channel-toggle" data-target="staffAbsences">Absences</button>' +
+	'<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
 	'&nbsp;&nbsp;' +
-	'<button class="btn btn-primary calendar-channel-toggle" data-target="bookings">Bookings</button>' +
+	'<button class="btn btn-default calendar-channel-toggle" data-target="bookings"><i class="fa fa-fw fa-check-square-o"></i> Bookings</button>' +
 	'</span>');
 
 	// perform action for toggle buttons
@@ -106,9 +106,9 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 		// switch button classes
 		if (calendarChannelOptions[target]) {
-			$(this).removeClass('btn-primary').addClass('btn-default');
+			$(this).find('i').removeClass('fa-check-square-o').addClass('fa-square-o');
 		} else {
-			$(this).removeClass('btn-default').addClass('btn-primary');
+			$(this).find('i').removeClass('fa-square-o').addClass('fa-check-square-o');
 		}
 
 		// change option
