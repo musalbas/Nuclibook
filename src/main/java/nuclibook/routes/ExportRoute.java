@@ -22,18 +22,20 @@ public class ExportRoute extends DefaultRoute {
         String table = fileSplit[0];
         String type = fileSplit[1];
 
+        String exportData = null;
+
         if (table.equals("patients")) {
-            if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-                return null;
+            if (SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
+                if (type.equals("csv")) {
+                    return ExportUtils.exportCSV(Patient.class);
+                }
             }
-
-            if (type.equals("csv")) {
-                return ExportUtils.exportCSV(Patient.class);
-            }
-
-            return null;
         }
 
-        return null;
+        if (exportData != null) {
+            response.header("Content-Disposition", "attachment");
+        }
+
+        return exportData;
     }
 }
