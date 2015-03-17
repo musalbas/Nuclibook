@@ -8,15 +8,9 @@
         <column>to</column>
         <row>
             <value>1</value>
-            <value>1</value>
-            <value>1426507200000</value>
-            <value>1426521600000</value>
-        </row>
-        <row>
             <value>2</value>
-            <value>1</value>
-            <value>1426517200000</value>
-            <value>1426531600000</value>
+            <value>12345678</value>
+            <value>12345679</value>
         </row>
     </table>
 </dataset>

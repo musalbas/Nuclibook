@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="tracer_orders">
+        <column>id</column>
+        <column>tracer_id</column>
+        <column>tracer_dose</column>
+        <column>booking_id</column>
+        <column>date_required</column>
+        <column>order_by</column>
+        <column>status</column>
+        <row>
+            <value>1</value>
+            <value>1</value>
+            <value>20</value>
+            <value>1</value>
+            <value>2015-4-12</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>1</value>
+            <value>40</value>
+            <value>2</value>
+            <value>2015-4-12</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+    </table>
+</dataset>

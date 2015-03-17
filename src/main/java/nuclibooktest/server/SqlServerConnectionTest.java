@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class SqlServerConnectionTest {
 
-	@Test
+	/*@Test
 	public void acquireConnectionTest() throws SQLException {
 		ConnectionSource connection = TestSqlServerConnection.acquireConnection();
 		assertTrue("SQL connection was not created", connection instanceof ConnectionSource);
@@ -26,6 +26,6 @@ public class SqlServerConnectionTest {
 	@AfterClass
 	public static void tearDownClass() {
 		TestSqlServerConnection.dropAllTables();
-	}
+	}*/
 
 }

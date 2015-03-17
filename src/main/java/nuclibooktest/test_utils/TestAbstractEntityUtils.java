@@ -12,6 +12,7 @@ import org.dbunit.ext.h2.H2Connection;
 import org.dbunit.operation.DatabaseOperation;
 import org.joda.time.DateTime;
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import sun.jvm.hotspot.utilities.Assert;
 
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(value = Parameterized.class)
 public class TestAbstractEntityUtils extends AbstractUtilTest{
 
     public TestAbstractEntityUtils(String datasetPath, Class<?> tableClass) {
@@ -44,7 +46,7 @@ public class TestAbstractEntityUtils extends AbstractUtilTest{
         assertTrue(retrievedPatient.getId() == 1);
         assertEquals(retrievedPatient.getName(), "TestPatient1");
         assertEquals(retrievedPatient.getHospitalNumber(), "544");
-        assertEquals(retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), 1994-11-12);
+        assertEquals(retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), "1994-11-12");
         assertEquals(retrievedPatient.getEnabled(), false);
     }
     @Test

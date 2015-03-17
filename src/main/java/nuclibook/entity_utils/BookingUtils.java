@@ -55,22 +55,22 @@ public class BookingUtils extends AbstractEntityUtils {
 	}
 
 	public static List<Booking> getBookingsByStatus(String status) {
-		List<Booking> bookings = getEntitiesByField(Booking.class, "status", status);
-		if (bookings == null) return null;
+            List<Booking> bookings = getEntitiesByField(Booking.class, "status", status);
+            if (bookings == null) return null;
 
-		// sort bookings
-		bookings.sort(new Comparator<Booking>() {
-			@Override
-			public int compare(Booking o1, Booking o2) {
-				BookingSection bs1 = o1.getBookingSections().isEmpty() ? null : o1.getBookingSections().get(0);
-				BookingSection bs2 = o2.getBookingSections().isEmpty() ? null : o2.getBookingSections().get(0);
-				if (bs1 == null) return 1;
-				if (bs2 == null) return -1;
-				return bs1.getStart().compareTo(bs2.getStart());
-			}
-		});
+            // sort bookings
+            bookings.sort(new Comparator<Booking>() {
+                @Override
+                public int compare(Booking o1, Booking o2) {
+                    BookingSection bs1 = o1.getBookingSections().isEmpty() ? null : o1.getBookingSections().get(0);
+                    BookingSection bs2 = o2.getBookingSections().isEmpty() ? null : o2.getBookingSections().get(0);
+                    if (bs1 == null) return 1;
+                    if (bs2 == null) return -1;
+                    return bs1.getStart().compareTo(bs2.getStart());
+                }
+            });
 
-		return bookings;
+            return bookings;
 	}
 
 	public static List<Booking> getBookingsByDateRange(DateTime startDate, DateTime endDate) {

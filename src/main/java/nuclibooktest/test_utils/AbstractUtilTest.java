@@ -22,9 +22,9 @@ import java.sql.SQLException;
 
 
 public class AbstractUtilTest {
-    private static ConnectionSource connectionSource;
-    private static H2Connection dbunitConnection;
-    private String datasetPath;
+    protected static ConnectionSource connectionSource;
+    protected static H2Connection dbunitConnection;
+    protected String datasetPath;
     private Class<?> tableClass;
 
     public AbstractUtilTest(String datasetPath, Class<?> tableClass){
@@ -32,12 +32,12 @@ public class AbstractUtilTest {
         setTableClass(tableClass);
     }
 
-    protected IDataSet getDataSet(String name) throws Exception {
-        InputStream inputStream = getClass().getResourceAsStream(name);
-        //assertNotNull("file"+name+" not found in classpath", inputStream);
+    protected void insertDataset(String path) throws Exception {
+        InputStream inputStream = getClass().getResourceAsStream(path);
         Reader reader = new InputStreamReader(inputStream);
         XmlDataSet dataset = new XmlDataSet(reader);
-        return dataset;
+        DatabaseOperation.CLEAN_INSERT.execute(dbunitConnection,
+                dataset);
     }
 
     @BeforeClass
@@ -53,9 +53,7 @@ public class AbstractUtilTest {
     }
     @Before
     public void initTable() throws Exception {
-        IDataSet setupDataSet = getDataSet(datasetPath);
-        DatabaseOperation.CLEAN_INSERT.execute(dbunitConnection,
-                setupDataSet);
+        insertDataset(datasetPath);
     }
 
     @After
@@ -84,4 +82,5 @@ public class AbstractUtilTest {
     public void setTableClass(Class<?> tableClass) {
         this.tableClass = tableClass;
     }
+
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="bookings">
+        <column>id</column>
+        <column>patient_id</column>
+        <column>therapy_id</column>
+        <column>camera_id</column>
+        <column>tracer_id</column>
+        <column>tracer_dose</column>
+        <column>status</column>
+        <column>notes</column>
+        <row>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>20</value>
+            <value>TestStatus1</value>
+            <value>None</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>1</value>
+            <value>2</value>
+            <value>2</value>
+            <value>2</value>
+            <value>20</value>
+            <value>TestStatus1</value>
+            <value>None</value>
+        </row>
+    </table>
+</dataset>

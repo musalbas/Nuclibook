@@ -51,6 +51,4 @@ public class TestPatientUtils extends AbstractUtilTest{
         assertTrue(retrievedPatient.getId() == 2);
         assertNull(PatientUtils.getPatient(30));
     }
-
-
 }
