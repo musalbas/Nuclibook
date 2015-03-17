@@ -7,6 +7,17 @@ $(document).ready(function () {
 	})
 });
 
+var onFormLoadSetup = function() {
+    $('.select-all').click(function() {
+        if($(this).prop('checked')) {
+            $('.crud-list-prefill-permission-ids').prop( "checked", true );
+        }
+        else {
+            $('.crud-list-prefill-permission-ids').prop( "checked", false );
+        }
+    });
+};
+
 var validateCreateForm = function (formObject) {
 	var error = false;
 

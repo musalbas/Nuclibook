@@ -75,11 +75,14 @@
                             <p class="help-block">Insert the name of the role.</p>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Permissions</label>
-                        <br>
-                        <label><input type="checkbox" name="selectall">Select All</label>
-                        <div class="col-sm-9 container">
+                        <div class="col-sm-9 container" style = "margin-top: 8px;">
+                            <div style = "margin-bottom: 12px;">
+                                <input type="checkbox" class="select-all" id="select-all"/>
+                                <label id="select-all-label" for="select-all">Select All</label><br/>
+                            </div>
                             #[collection: permissions]
 
                             #[pre]#[/pre]
