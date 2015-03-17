@@ -49,7 +49,7 @@ public class DaySummaryRoute extends DefaultRoute {
 
 		renderer.setCollection("bookings", confirmedBookings);
 
-		// get unordered tracers that are required in the next three days
+		// get unordered tracers that are required in the next two days
 		List<TracerOrder> unorderedTracers = TracerOrderUtils.getTracerOrdersRequiredByDay(today, true);
         unorderedTracers.addAll(TracerOrderUtils.getTracerOrdersRequiredByDay(today.plusDays(1), true));
         if (!unorderedTracers.isEmpty()) {

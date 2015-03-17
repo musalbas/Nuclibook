@@ -288,8 +288,8 @@ public class Booking implements Renderable {
 			}
 
             // set up booking sections as string for day summary
+            String bookingSectionsAsString = "";
             if (!bookingSections.isEmpty()) {
-                String bookingSectionsAsString = "";
 
                 for (BookingSection b : bookingSections) {
                     bookingSectionsAsString += "<li class=\"list-group-item\">\n";
@@ -298,9 +298,10 @@ public class Booking implements Renderable {
                     bookingSectionsAsString += (startTime + " to " + endTime + " \n");
                     bookingSectionsAsString += "</li>";
                 }
-
-                put("booking-sections-as-string", bookingSectionsAsString);
+            } else {
+                bookingSectionsAsString = "<em>None</em>\n";
             }
+            put("booking-sections-as-string", bookingSectionsAsString);
 
 			// get days until
 			if (bookingSections.isEmpty()) {
