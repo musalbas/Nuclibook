@@ -102,7 +102,8 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 			AbstractEntityUtils.createEntity(TracerOrder.class, tracerOrder);
 		}
 
-        ActionLogger.logAction(ActionLogger.CREATE_BOOKING, entity.getId());
+		// log creation
+        	ActionLogger.logAction(ActionLogger.CREATE_BOOKING, entity.getId());
 
 		// forward to booking details
 		response.redirect("/booking-details/" + booking.getId());
