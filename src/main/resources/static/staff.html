@@ -104,18 +104,17 @@
 							<p class="help-block">Select the role for the staff member.</p>
 						</div>
 					</div>
-					<div class="form-group create-mode">
+					<div class="form-group #[!ifperm: EDIT_STAFF_PASSWORD]create-mode#[/!ifperm]">
 						<label for="password" class="col-sm-3 control-label">Password</label>
 						<div class="col-sm-9">
 							<input class="form-control" type="password" name="password" id="password" data-toggle="tooltip" data-trigger="manual" data-title="Caps Lock is on" onkeypress="checkCapsLockStatus()"/>
 							<p class="help-block">Password must contain at least 6 characters.</p>
 						</div>
 					</div>
-					<div class="form-group create-mode">
+					<div class="form-group #[!ifperm: EDIT_STAFF_PASSWORD]create-mode#[/!ifperm]">
 						<label for="password_check" class="col-sm-3 control-label">Repeat Password</label>
 						<div class="col-sm-9">
 							<input class="form-control" type="password" name="password_check" id="password_check" data-toggle="tooltip" data-trigger="manual" data-title="Caps Lock is on" onkeypress="checkCapsLockStatus()"/>
-							<p class="help-block">Note: you can only edit your own password, by checking <a href="/profile">Account Settings</a>.</p>
 						</div>
 					</div>
 				</form>
