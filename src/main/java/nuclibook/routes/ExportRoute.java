@@ -33,7 +33,7 @@ public class ExportRoute extends DefaultRoute {
         if (table.equals("patients")) {
             if (SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
                 if (type.equals("csv")) {
-                    return ExportUtils.exportCSV(Patient.class);
+                    exportData = ExportUtils.exportCSV(Patient.class);
                 }
             }
         }
