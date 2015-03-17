@@ -19,3 +19,7 @@ Created by Fares Alaboud on 03/03/2015
     margin-bottom: 0 !important;
     margin-right: 0 !important;
 }
+
+tr.error td {
+    color: red !important;
+}

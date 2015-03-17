@@ -263,4 +263,20 @@ public class ActionLogger {
         ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID, note);
         AbstractEntityUtils.createEntity(ActionLog.class, entity);
     }
+
+    public static boolean isErrorAction(int numberOfAction) {
+        int[] errorsList = {6, 7, 8, 9, 10, 15, 16, 17, 18, 23, 24, 25, 26, 31, 32, 33, 34, 39, 40, 41, 42,
+                47, 48, 49, 50, 55, 56, 57, 58, 59, 65, 66, 67, 68, 69, 75, 76, 77, 78, 79, 85, 86, 87, 88,
+                89, 91, 92, 93, 96, 98, 100};
+        boolean error = false;
+        for (int i = 0; i < errorsList.length; ++i) {
+            if (errorsList[i] == numberOfAction) {
+                error = true;
+                break;
+            }
+        }
+        return error;
+    }
+
+
 }

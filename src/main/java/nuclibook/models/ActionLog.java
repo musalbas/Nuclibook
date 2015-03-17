@@ -179,6 +179,7 @@ public class ActionLog implements Renderable {
 			put("action", desc == null ? "Unknown" : desc.toString());
 			put("associated-id", (getAssociatedId()) == 0 ? "N/A" : getAssociatedId().toString());
 			put("notes", getNote());
+            put("error", ActionLogger.isErrorAction(getAction()) ? "error" : "");
 		}};
 	}
 }
