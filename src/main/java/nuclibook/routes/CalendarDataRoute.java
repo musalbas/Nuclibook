@@ -1,12 +1,10 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.BookingUtils;
-import nuclibook.entity_utils.CameraTypeUtils;
-import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
+import nuclibook.models.StaffAbsence;
 import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
@@ -116,6 +114,50 @@ public class CalendarDataRoute extends DefaultRoute {
 			// close booking array
 			jsonOutput.append("],");
 		}
+
+		/*
+		END BOOKINGS SECTION
+		 */
+
+		/*
+		STAFF ABSENCES SECTION
+		 */
+
+		if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1")) {
+			// get bookings between start/end dates
+			List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(startDate, endDate);
+
+			// open section
+			jsonOutput.append("\"staffAbsences\": [");
+
+			// loop bookings
+			commaNeeded = false;
+			for (StaffAbsence staffAbsence : staffAbsences) {
+				// open staff absence object
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
+				jsonOutput.append("{");
+
+				// append info
+				jsonOutput.append("\"id\": \"").append(staffAbsence.getId()).append("\",");
+				jsonOutput.append("\"staffId\": \"").append(staffAbsence.getStaff().getId()).append("\",");
+				jsonOutput.append("\"staffName\": \"").append(staffAbsence.getStaff().getName()).append("\",");
+				jsonOutput.append("\"from\": \"").append(staffAbsence.getFrom().toString("YYYY-MM-dd HH:mm")).append("\",");
+				jsonOutput.append("\"to\": \"").append(staffAbsence.getTo().toString("YYYY-MM-dd HH:mm")).append("\"");
+
+				// close absence object
+				jsonOutput.append("}");
+			}
+
+			// close absences array
+			jsonOutput.append("],");
+		}
+
+		/*
+		END STAFF ABSENCES SECTION
+		 */
 
 		// We did a thing!
 		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
