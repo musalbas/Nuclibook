@@ -8,8 +8,10 @@ import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CrudCreateUpdateRoute extends DefaultRoute {
 
@@ -254,9 +256,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// validation
 		if (request.queryParams("name").length() > 64
-				|| request.queryParams("hospital-number").length() > 64
 				|| !request.queryParams("name").matches("[a-zA-Z\\-\\.' ]+")
-				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]+")
+				|| !request.queryParams("hospital-number").matches("[a-zA-Z0-9\\-]{1,64}")
+				|| !request.queryParams("nhs-number").matches("[a-zA-Z0-9\\-]{1,64}")
 				|| !request.queryParams("date-of-birth").matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")) {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
@@ -274,6 +276,16 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		// hospital number
 		entity.setHospitalNumber(request.queryParams("hospital-number"));
+
+		// nhs number
+		entity.setNhsNumber(request.queryParams("nhs-number"));
+
+		// sex
+		if (request.queryParams("sex").equals("Male")) {
+			entity.setSex(Patient.Sex.MALE);
+		} else {
+			entity.setSex(Patient.Sex.FEMALE);
+		}
 
 		// dob
 		entity.setDateOfBirth(new DateTime(request.queryParams("date-of-birth")));
@@ -492,23 +504,22 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 
-        //check if no permissions were sent
-        Set<String> keys = request.queryMap().toMap().keySet();
-        Iterator<String> iterator = keys.iterator();
-        int permissionsSent = 0;
+		//check if no permissions were sent
+		Set<String> keys = request.queryMap().toMap().keySet();
+		Iterator<String> iterator = keys.iterator();
+		int permissionsSent = 0;
 
-        while(iterator.hasNext()){
-            String key = iterator.next();
-            if(key.startsWith("permission-")){
-                permissionsSent++;
-                System.out.print(permissionsSent);
-            }
-        }
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if (key.startsWith("permission-")) {
+				permissionsSent++;
+				System.out.print(permissionsSent);
+			}
+		}
 
-        if(permissionsSent < 1){
-            return new Pair<>(Status.CUSTOM_ERROR, "Please select at least one permission");
-        }
-
+		if (permissionsSent < 1) {
+			return new Pair<>(Status.CUSTOM_ERROR, "Please select at least one permission");
+		}
 
 		// create and set ID
 		StaffRole entity;
@@ -637,12 +648,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				return new Pair<>(Status.FAILED_VALIDATION, null);
 			}
 
-            if(valueB.contains("-")){
-                String [] times = valueB.split("-");
-                if(Integer.parseInt(times[1]) < Integer.parseInt(times[0])){
-                    return new Pair<>(Status.FAILED_VALIDATION, null);
-                }
-            }
+			if (valueB.contains("-")) {
+				String[] times = valueB.split("-");
+				if (Integer.parseInt(times[1]) < Integer.parseInt(times[0])) {
+					return new Pair<>(Status.FAILED_VALIDATION, null);
+				}
+			}
 
 			// add booking pattern sections to the entity
 			bps = new BookingPatternSection();
