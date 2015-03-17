@@ -62,7 +62,6 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 				|| tracer == null
 				|| tracerDose == null
 				|| tracerDose.length() == 0
-				|| assignedStaff.size() == 0
 				|| bookingSections.size() == 0) {
 			response.redirect("/");
 			return null;
