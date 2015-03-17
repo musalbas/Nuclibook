@@ -110,3 +110,9 @@ html, body {
 .label-as-badge {
 	border-radius: 1em;
 }
+
+/* day-summary tweaks */
+
+.day-summary-list {
+    margin-bottom: 15px;
+}

@@ -9,6 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.server.Renderable;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -287,6 +289,21 @@ public class Booking implements Renderable {
 			} else {
 				put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
 			}
+
+            // set up booking sections as string for day summary
+            if (!bookingSections.isEmpty()) {
+                String bookingSectionsAsString = "";
+
+                for (BookingSection b : bookingSections) {
+                    bookingSectionsAsString += "<li class=\"list-group-item\">\n";
+                    String startTime = b.getStart().toString("HH:mm");
+                    String endTime = b.getEnd().toString("HH:mm");
+                    bookingSectionsAsString += (startTime + " to " + endTime + " \n");
+                    bookingSectionsAsString += "</li>";
+                }
+
+                put("booking-sections-as-string", bookingSectionsAsString);
+            }
 
 			// get days until
 			if (bookingSections.isEmpty()) {

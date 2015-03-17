@@ -30,7 +30,14 @@ public class DaySummaryRoute extends DefaultRoute {
         // get bookings happening today
         //TODO: Change this to read selected day rather than today
 		List<Booking> bookings = BookingUtils.getBookingsByDateRange(todayStart, todayEnd);
-		renderer.setCollection("bookings", bookings);
+        List<Booking> confirmedBookings = bookings;
+        for (Booking b : bookings) {
+            if (b.getStatus() != "confirmed") {
+                confirmedBookings.remove(b);
+            }
+        }
+
+		renderer.setCollection("bookings", confirmedBookings);
 
 		// get unordered tracers that are required in the next three days
 		List<TracerOrder> unorderedTracers = TracerOrderUtils.getTracerOrdersRequiredByDay(today.plusDays(3), true);
@@ -38,16 +45,5 @@ public class DaySummaryRoute extends DefaultRoute {
 
 		return renderer.render();
 
-//        @Override
-//        public HashMap<String, String> getHashMap() {
-//            return new HashMap<String, String>() {{
-//                put("message", getMessage());
-//                put("link", getLink());
-//                put("icon", getIcon());
-//                put("badge-type", getBadgeType());
-//                put("badge-text", getBadgeText());
-//                put("has-badge", getBadgeText() == null ? "no" : "yes");
-//            }};
-//        }
     }
 }
