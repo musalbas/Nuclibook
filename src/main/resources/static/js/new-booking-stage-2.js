@@ -116,12 +116,6 @@ function confirmBooking() {
 		failedValidation = true;
 	}
 
-	// validate staff
-	if (staffAssigned.length == 0) {
-		toastr.error("Please assign at least one member of staff.");
-		failedValidation = true;
-	}
-
 	// fail?
 	if (failedValidation) return;
 
