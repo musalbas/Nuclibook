@@ -16,11 +16,11 @@ public class Patient implements Renderable, Exportable {
 	@DatabaseField(width = 64)
 	private String name;
 
-	@DatabaseField(width = 64)
+	@DatabaseField(width = 64, columnName = "hospital_number")
 	private String hospitalNumber;
 
-	@DatabaseField
-	private String dateOfBirth;
+	@DatabaseField(columnName = "date_of_birth")
+	private long dateOfBirth;
 
 	@DatabaseField(width = 6)
 	private String sex;
@@ -60,7 +60,7 @@ public class Patient implements Renderable, Exportable {
 	}
 
 	public void setDateOfBirth(DateTime dateOfBirth) {
-		this.dateOfBirth = dateOfBirth.toString();
+		this.dateOfBirth = dateOfBirth.getMillis();
 	}
 
 	public Sex getSex() {
