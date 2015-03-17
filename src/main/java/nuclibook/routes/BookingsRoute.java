@@ -2,10 +2,14 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
+import nuclibook.entity_utils.CameraUtils;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.models.Camera;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
+
+import java.util.List;
 
 public class BookingsRoute extends DefaultRoute {
 
@@ -20,11 +24,16 @@ public class BookingsRoute extends DefaultRoute {
             return null;
         }
 
+		// log view
+        ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
+
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("bookings.html");
 
-        ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
+		// get cameras
+		List<Camera> cameras = CameraUtils.getAllCameras(true);
+		renderer.setCollection("cameras", cameras);
 
 		return renderer.render();
 	}

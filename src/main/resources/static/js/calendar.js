@@ -2,6 +2,8 @@ var calendarEvents = [];
 
 var currentOptions = {};
 
+var selectedCameras = [];
+
 var calendarChannelOptions = {
 	bookings: true,
 	staffAbsences: true
@@ -94,7 +96,9 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'<span class="calendar-channel-filters hide">' +
 	'<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
 	'&nbsp;&nbsp;' +
-	'<button class="btn btn-default calendar-channel-toggle" data-target="bookings"><i class="fa fa-fw fa-check-square-o"></i> Bookings</button>' +
+	'<button class="btn btn-default calendar-channel-toggle" data-target="genericEvents"><i class="fa fa-fw fa-check-square-o"></i> Events</button>' +
+	'&nbsp;&nbsp;' +
+	'<button class="btn btn-default calendar-channel-cameras"><i class="fa fa-fw fa-edit"></i> Bookings</button>' +
 	'</span>');
 
 	// perform action for toggle buttons
@@ -125,6 +129,12 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 		// drop focus
 		$(this).blur();
+	});
+
+	// perform action for camera selection buttons
+	$('.calendar-channel-cameras').click(function (e) {
+		e.preventDefault();
+		openCameraSelectModal();
 	});
 
 	return cal;
@@ -160,6 +170,12 @@ function updateCalendar(selector, startDate, endDate, options) {
 	var url = '/calendar-data?start=' + startDateString + '&end=' + endDateString;
 	for (var key in options) url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
 	for (key in calendarChannelOptions) url += '&' + key + '=' + (calendarChannelOptions[key] === true ? '1' : calendarChannelOptions[key]);
+	url += '&cameras';
+	if (selectedCameras.length == 0) {
+		url += 'all';
+	} else {
+		url += selectedCameras.join(',');
+	}
 
 	// send AJAX call
 	$.get(url)
@@ -242,4 +258,36 @@ function updateCalendar(selector, startDate, endDate, options) {
 			$('.calendar-loading-msg').hide();
 		}
 	);
+}
+
+function openCameraSelectModal() {
+	var modal = $('.camera-select-modal');
+
+	modal.removeClass('hide').modal({
+		backdrop: 'static',
+		keyboard: false
+	});
+
+	$('.btn-update').unbind('click').click(function (e) {
+		// get selected
+		selectedCameras = $('.selected-cameras:checked').map(function () {
+			return this.value;
+		}).get();
+
+		// redraw
+		calendarEvents.length = 0;
+		updateCalendar(
+			currentOptions['selector'],
+			currentOptions['startDate'],
+			currentOptions['endDate'],
+			currentOptions['options']
+		);
+
+		// close modal
+		modal.modal('hide');
+	});
+
+	$('.btn-cancel').unbind('click').click(function (e) {
+		modal.modal('hide');
+	});
 }
