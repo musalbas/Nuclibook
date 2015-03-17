@@ -98,7 +98,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'&nbsp;&nbsp;' +
 	'<button class="btn btn-default calendar-channel-toggle" data-target="genericEvents"><i class="fa fa-fw fa-check-square-o"></i> Events</button>' +
 	'&nbsp;&nbsp;' +
-	'<button class="btn btn-default calendar-channel-cameras"><i class="fa fa-fw fa-edit"></i> Bookings</button>' +
+	'<button class="btn btn-default calendar-channel-cameras"><i class="fa fa-fw fa-camera"></i> Camera Use</button>' +
 	'</span>');
 
 	// perform action for toggle buttons
