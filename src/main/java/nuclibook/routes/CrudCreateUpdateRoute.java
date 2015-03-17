@@ -603,7 +603,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setTracerDose(request.queryParams("tracer-dose"));
 
 		// if it's new, we'll save it here so that foreign collections can be added properly
-		Therapy therapy = null; //save for action logging later after all validation has passed
+		Therapy therapy = null; // save for action logging later after all validation has passed
 		if (createNew) {
 			therapy = AbstractEntityUtils.createEntity(Therapy.class, entity);
 		}
@@ -739,8 +739,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			AbstractEntityUtils.createEntity(PatientQuestion.class, pq);
 		}
 
-		//all validation has passed, we can now log the action
-		ActionLogger.logAction(ActionLogger.CREATE_THERAPY, therapy.getId());
+		// all validation has passed, we can now log the action
+		ActionLogger.logAction(ActionLogger.CREATE_THERAPY, entity.getId());
 
 		// don't let it be created again if it's new
 		return createNew ? null : new Pair<>(Status.OK, entity);
