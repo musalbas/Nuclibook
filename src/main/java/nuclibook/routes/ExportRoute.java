@@ -20,7 +20,12 @@ public class ExportRoute extends DefaultRoute {
 
         String[] fileSplit = request.params(":file:").split("\\.", 2);
         String table = fileSplit[0];
-        String type = fileSplit[1];
+
+        try {
+            String type = fileSplit[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
 
         String exportData = null;
 
