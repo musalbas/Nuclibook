@@ -213,7 +213,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 							+ "<br>" + bookingCameraType,
 							allDay: false,
 							url: '/booking-details/' + parsedJson.bookings[i].id,
-							type: 'booking'
+							type: 'booking booking-' + parsedJson.bookings[i].colourNumber
 						});
 					}
 				}
