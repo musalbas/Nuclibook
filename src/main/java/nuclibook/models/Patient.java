@@ -75,7 +75,7 @@ public class Patient implements Renderable, Exportable {
 	}
 
 	public Sex getSex() {
-		return sex.equals("MALE") ? Sex.MALE : Sex.FEMALE;
+		return (sex != null && sex.equals("MALE")) ? Sex.MALE : Sex.FEMALE;
 	}
 
 	public void setSex(Sex sex) {
@@ -99,6 +99,7 @@ public class Patient implements Renderable, Exportable {
 			put("nhs-number", getNhsNumber());
 			put("date-of-birth", getDateOfBirth().toString("YYYY-MM-dd"));
 			put("sex", getSex() == Sex.MALE ? "Male" : "Female");
+			put("sex-code", getSex() == Sex.MALE ? "M" : "F");
 		}};
 	}
 
