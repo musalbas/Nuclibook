@@ -90,8 +90,6 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'<span class="calendar-loading-msg">' +
 	'<img src="/images/loading.gif"/>' +
 	'&nbsp;&nbsp;&nbsp;&nbsp;' +
-	'<strong>Loading...</strong>' +
-	'&nbsp;&nbsp;&nbsp;&nbsp;' +
 	'</span>' +
 	'<span class="calendar-channel-filters hide">' +
 	'<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
@@ -149,7 +147,6 @@ function updateCalendar(selector, startDate, endDate, options) {
 
 	// show loading message
 	$('.calendar-loading-msg').show();
-	$('.calendar-channel-filters').hide();
 
 	// adjust end date backwards by one
 	endDate = new Date(((endDate.getTime()) - 86400000));
