@@ -46,6 +46,7 @@ public class PatientUtils extends AbstractEntityUtils {
 		String nhsNumber;
 		DateTime dateOfBirth;
 		Patient.Sex sex;
+
 		Patient patient;
 
 		for (CSVRecord record : parser) {
