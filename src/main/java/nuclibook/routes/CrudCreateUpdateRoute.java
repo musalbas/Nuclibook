@@ -310,10 +310,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// check if staff username is taken and the request is not updating a user
-		if (StaffUtils.usernameExists(request.queryParams("username")) && createNew) {
-			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF : ActionLogger.ATTEMPT_UPDATE_STAFF;
-			ActionLogger.logAction(action, entityId, "Failed as the chosen username already exists");
-			return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
+		if (createNew || !request.queryParams("username").equals(SecurityUtils.getCurrentUser().getUsername())) {
+            if (StaffUtils.usernameExists(request.queryParams("username"))) {
+                ActionLogger.logAction( ActionLogger.ATTEMPT_UPDATE_STAFF, entityId, "Failed as the chosen username already exists");
+                return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
+            }
 		}
 
 		// create and set ID
@@ -331,7 +332,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// password
 		if (request.queryParams("password") != null && request.queryParams("password").length() > 0) {
 			// password strength validation
-			String passwordError = null;
+            if(!createNew && (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_PASSWORD))) {
+                ActionLogger.logAction(ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entityId, "Failed as the user does not have permissions to edit other users' passwords");
+                return new Pair<>(Status.NO_PERMISSION, null);
+            }
+
+			String passwordError;
 			try {
 				passwordError = SecurityUtils.validateNewPassword(entity, request.queryParams("password"));
 			} catch (CannotHashPasswordException e) {
@@ -370,8 +376,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		DateTime to;
 		try {
 			// attempt to parse the dates
-			from = new DateTime(request.queryParams("from").replace(" ", "T") + ":00");
-			to = new DateTime(request.queryParams("to").replace(" ", "T") + ":00");
+			from = new DateTime(request.queryParams("from-date") + "T" + request.queryParams("from-time") + ":00");
+			to = new DateTime(request.queryParams("to-date") + "T" + request.queryParams("to-time") + ":00");
 			if (from.isAfter(to)) {
 				throw new IllegalArgumentException();
 			}
