@@ -197,16 +197,22 @@ function openDeleteModal(objectId) {
 				} else if (result == 'no_permission') {
 					disableLoading(function () {
 						toastr.error('You do not have permission to delete this item');
+                        // hide modal
+                        deleteModal.modal('hide');
 					});
 				} else {
 					disableLoading(function () {
 						toastr.error('Something went wrong; please try again');
+                        // hide modal
+                        deleteModal.modal('hide');
 					});
 				}
 			}
 		).fail(function () {
 				disableLoading(function () {
 					toastr.error('Something went wrong; please try again');
+                    // hide modal
+                    deleteModal.modal('hide');
 				});
 			}
 		);
