@@ -16,13 +16,40 @@
 
 /* bookings */
 
-.fc-event-skin.booking {
+.fc-event-skin.booking-1 {
 	background-color: #bfd4f2;
 }
 
-.fc-event-skin.booking .fc-event-head {
+.fc-event-skin.booking-1 .fc-event-head {
 	background-color: #0052cc;
 	color: #ffffff;
+}
+
+.fc-event-skin.booking-2 {
+	background-color: #bfe5bf;
+}
+
+.fc-event-skin.booking-2 .fc-event-head {
+	background-color: #009800;
+	color: #ffffff;
+}
+
+.fc-event-skin.booking-3 {
+	background-color: #dabaf8;
+}
+
+.fc-event-skin.booking-3 .fc-event-head {
+	background-color: #8518e7;
+	color: #ffffff;
+}
+
+.fc-event-skin.booking-4 {
+	background-color: #fef2c0;
+}
+
+.fc-event-skin.booking-4 .fc-event-head {
+	background-color: #fbca04;
+	color: #000000;
 }
 
 /* absences */

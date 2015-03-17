@@ -10,9 +10,12 @@ import spark.Request;
 import spark.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CalendarDataRoute extends DefaultRoute {
+
+	private HashMap<Integer, Integer> cameraIdColours = new HashMap<>();
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -89,6 +92,7 @@ public class CalendarDataRoute extends DefaultRoute {
 				jsonOutput.append("\"id\": \"").append(booking.getId()).append("\",");
 				jsonOutput.append("\"patientName\": \"").append(booking.getPatient().getName()).append("\",");
 				jsonOutput.append("\"therapyName\": \"").append(booking.getTherapy().getName().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"colourNumber\": ").append(colourNumber(booking.getCamera().getId())).append(",");
 				jsonOutput.append("\"cameraName\": \"")
 						.append(CameraTypeUtils
 										.getCameraType(
@@ -184,5 +188,16 @@ public class CalendarDataRoute extends DefaultRoute {
 		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
 		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
+	}
+
+	private int colourNumber(int cameraId) {
+		int limit = 4;
+		if (cameraIdColours.containsKey(cameraId)) {
+			return cameraIdColours.get(cameraId);
+		} else {
+			int thisColour = (cameraIdColours.size() % limit) + 1;
+			cameraIdColours.put(cameraId, thisColour);
+			return thisColour;
+		}
 	}
 }
