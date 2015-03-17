@@ -20,20 +20,28 @@ public class ExportRoute extends DefaultRoute {
 
         String[] fileSplit = request.params(":file:").split("\\.", 2);
         String table = fileSplit[0];
-        String type = fileSplit[1];
 
-        if (table.equals("patients")) {
-            if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-                return null;
-            }
-
-            if (type.equals("csv")) {
-                return ExportUtils.exportCSV(Patient.class);
-            }
-
+        String type = "";
+        try {
+            type = fileSplit[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
 
-        return null;
+        String exportData = null;
+
+        if (table.equals("patients")) {
+            if (SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
+                if (type.equals("csv")) {
+                    exportData = ExportUtils.exportCSV(Patient.class);
+                }
+            }
+        }
+
+        if (exportData != null) {
+            response.header("Content-Disposition", "attachment");
+        }
+
+        return exportData;
     }
 }

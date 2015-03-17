@@ -43,6 +43,10 @@ html, body {
 	margin-bottom: 15px;
 }
 
+.top-button {
+	margin-bottom: 15px;
+}
+
 /* modal forms height limit */
 
 .edit-modal.modal {
