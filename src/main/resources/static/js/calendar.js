@@ -1,5 +1,12 @@
 var calendarEvents = [];
 
+var currentOptions = {};
+
+var calendarChannelOptions = {
+	bookings: true,
+	staffAbsences: true
+};
+
 function setupCalendar(selector, onSelect, viewOptions) {
 	var cal = selector.show().fullCalendar({
 		// basic appearance
@@ -76,15 +83,63 @@ function setupCalendar(selector, onSelect, viewOptions) {
 		}
 	});
 
-	// add loading icon
-	cal.find('.fc-header-right').html('<span class="calendar-loading-msg"><img src="/images/loading.gif"/>&nbsp;&nbsp;&nbsp;&nbsp;<strong>Loading...</strong>&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+	// add loading icon and toggle buttons
+	cal.find('.fc-header-right').html('' +
+	'<span class="calendar-loading-msg">' +
+	'<img src="/images/loading.gif"/>' +
+	'&nbsp;&nbsp;&nbsp;&nbsp;' +
+	'<strong>Loading...</strong>' +
+	'&nbsp;&nbsp;&nbsp;&nbsp;' +
+	'</span>' +
+	'<span class="calendar-channel-filters hide">' +
+	'<button class="btn btn-primary calendar-channel-toggle" data-target="staffAbsences">Absences</button>' +
+	'&nbsp;&nbsp;' +
+	'<button class="btn btn-primary calendar-channel-toggle" data-target="bookings">Bookings</button>' +
+	'</span>');
+
+	// perform action for toggle buttons
+	$('.calendar-channel-toggle').click(function (e) {
+		e.preventDefault();
+
+		// get target
+		var target = $(this).data('target');
+
+		// switch button classes
+		if (calendarChannelOptions[target]) {
+			$(this).removeClass('btn-primary').addClass('btn-default');
+		} else {
+			$(this).removeClass('btn-default').addClass('btn-primary');
+		}
+
+		// change option
+		calendarChannelOptions[target] = !calendarChannelOptions[target];
+
+		// redraw
+		calendarEvents.length = 0;
+		updateCalendar(
+			currentOptions['selector'],
+			currentOptions['startDate'],
+			currentOptions['endDate'],
+			currentOptions['options']
+		);
+
+		// drop focus
+		$(this).blur();
+	});
 
 	return cal;
 }
 
 function updateCalendar(selector, startDate, endDate, options) {
+	// store current options
+	currentOptions['selector'] = selector;
+	currentOptions['startDate'] = startDate;
+	currentOptions['endDate'] = endDate;
+	currentOptions['options'] = options;
+
 	// show loading message
 	$('.calendar-loading-msg').show();
+	$('.calendar-channel-filters').hide();
 
 	// adjust end date backwards by one
 	endDate = new Date(((endDate.getTime()) - 86400000));
@@ -103,9 +158,8 @@ function updateCalendar(selector, startDate, endDate, options) {
 
 	// build URL
 	var url = '/calendar-data?start=' + startDateString + '&end=' + endDateString;
-	for (var key in options) {
-		url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
-	}
+	for (var key in options) url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
+	for (key in calendarChannelOptions) url += '&' + key + '=' + (calendarChannelOptions[key] === true ? '1' : calendarChannelOptions[key]);
 
 	// send AJAX call
 	$.get(url)
@@ -114,7 +168,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 			var parsedJson = JSON.parse(rawJson);
 
 			// loop through bookings
-			if (options['bookings']) {
+			if (calendarChannelOptions['bookings'] && typeof(parsedJson.bookings) != "undefined") {
 				var bookingTitle, bookingCameraType, bookingStart, bookingEnd;
 				for (var i = 0; i < parsedJson.bookings.length; ++i) {
 					for (var j = 0; j < parsedJson.bookings[i].bookingSections.length; ++j) {
@@ -149,7 +203,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 			}
 
 			// loop through absences
-			if (options['staffAbsences']) {
+			if (calendarChannelOptions['staffAbsences'] && typeof(parsedJson.staffAbsences) != "undefined") {
 				var absenceTitle, absenceStart, absenceEnd;
 				for (i = 0; i < parsedJson.staffAbsences.length; ++i) {
 					// build title
@@ -181,6 +235,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 
 			// hide loading message
 			$('.calendar-loading-msg').hide();
+			$('.calendar-channel-filters').removeClass('hide').show();
 		})
 		.fail(function (xhr, textStatus, errorThrown) {
 			toastr.error("Failed to load calendar data.")

@@ -1,8 +1,7 @@
 $(document).ready(function () {
 
 	// show calendar
-	var calendar = setupCalendar($('.calendar'), null, {
-		bookings: true,
+	setupCalendar($('.calendar'), null, {
 		linkEvents: true
 	});
 
