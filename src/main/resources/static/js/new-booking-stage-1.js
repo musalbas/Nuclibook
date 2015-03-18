@@ -67,11 +67,7 @@ $(document).ready(function () {
 		$('#go-back-to-select-therapy').hide();
 
 		// add button for saving the bookings
-		$('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
-		'<button class="btn btn-primary" id="saveAppointments" disabled>' +
-		'Select Time Slot(s) Below...' +
-		'</button>' +
-		'</div>');
+		$('#page-three-sub-div').find('div.col-sm-4').eq(2).html('<button class="btn btn-primary" id="saveAppointments" disabled>Select Time Slot(s) Below...</button>');
 
 		// variables for modal
 		var startTimeObject;
