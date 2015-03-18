@@ -92,13 +92,23 @@ $(document).ready(function () {
 			var endHours = (end.getHours() < 10 ? '0' : '') + end.getHours();
 			var endMins = (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
 
+			if (start.getDate() < (new Date()).getDate()) {
+				toastr.error("You cannot make a booking in the past");
+				calendar.fullCalendar('unselect');
+				return;
+			}
+
 			// pre-fill modal
 			startTimeInput.val(startHours + ':' + startMins);
 			endTimeInput.val(endHours + ':' + endMins);
 			prepareTimeSelector();
 
 			// open Modal
-			$('.time-modal').removeClass('hide').modal('show');
+			var timeModal = $('.time-modal');
+			timeModal.removeClass('hide').modal('show');
+			setTimeout(function () {
+				timeModal.find('select').eq(0).focus().select();
+			}, 200);
 		};
 
 		// show calendar
