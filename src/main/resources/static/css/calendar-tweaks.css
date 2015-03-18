@@ -3,6 +3,9 @@
 .fc-event-skin.booking, .fc-event.booking .fc-event-inner, .fc-event.booking .fc-event-head,
 .fc-event.booking .fc-event-content, .fc-event.booking .fc-event-bg,
 
+.fc-event-skin.generic-event, .fc-event.generic-event .fc-event-inner, .fc-event.generic-event .fc-event-head,
+.fc-event.generic-event .fc-event-content, .fc-event.generic-event .fc-event-bg,
+
 .fc-event-skin.absence, .fc-event.absence .fc-event-inner, .fc-event.absence .fc-event-head,
 .fc-event.absence .fc-event-content, .fc-event.absence .fc-event-bg {
 	background-color: transparent;
@@ -60,5 +63,16 @@
 
 .fc-event-skin.absence .fc-event-head {
 	background-color: #eb6420;
+	color: #ffffff;
+}
+
+/* absences */
+
+.fc-event-skin.generic-event {
+	background-color: #f7c6c7;
+}
+
+.fc-event-skin.generic-event .fc-event-head {
+	background-color: #e11d21;
 	color: #ffffff;
 }
