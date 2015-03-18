@@ -4,6 +4,7 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
+import nuclibook.models.GenericEvent;
 import nuclibook.models.StaffAbsence;
 import org.joda.time.DateTime;
 import spark.Request;
@@ -149,7 +150,7 @@ public class CalendarDataRoute extends DefaultRoute {
 		 */
 
 		if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1")) {
-			// get bookings between start/end dates
+			// get absences between start/end dates
 			List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(startDate, endDate);
 
 			// open section
@@ -182,6 +183,46 @@ public class CalendarDataRoute extends DefaultRoute {
 
 		/*
 		END STAFF ABSENCES SECTION
+		 */
+
+		/*
+		GENERIC EVENTS SECTION
+		 */
+
+		if (request.queryParams("genericEvents") != null && request.queryParams("genericEvents").equals("1")) {
+			// get events between start/end dates
+			List<GenericEvent> genericEvents = GenericEventUtils.getGenericEventsByDateRange(startDate, endDate);
+
+			// open section
+			jsonOutput.append("\"genericEvents\": [");
+
+			// loop bookings
+			commaNeeded = false;
+			for (GenericEvent genericEvent : genericEvents) {
+				// open event object
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
+				jsonOutput.append("{");
+
+				// append info
+				jsonOutput.append("\"id\": \"").append(genericEvent.getId()).append("\",");
+				jsonOutput.append("\"title\": \"").append(genericEvent.getTitle().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"description\": \"").append(genericEvent.getDescription().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"from\": \"").append(genericEvent.getFrom().toString("YYYY-MM-dd HH:mm")).append("\",");
+				jsonOutput.append("\"to\": \"").append(genericEvent.getTo().toString("YYYY-MM-dd HH:mm")).append("\"");
+
+				// close absence object
+				jsonOutput.append("}");
+			}
+
+			// close absences array
+			jsonOutput.append("],");
+		}
+
+		/*
+		END GENERIC EVENTS SECTION
 		 */
 
 		// We did a thing!

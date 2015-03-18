@@ -6,7 +6,8 @@ var selectedCameras = null;
 
 var calendarChannelOptions = {
 	bookings: true,
-	staffAbsences: true
+	staffAbsences: true,
+	genericEvents: true
 };
 
 function setupCalendar(selector, onSelect, viewOptions) {
