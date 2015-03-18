@@ -265,9 +265,9 @@ function updateCalendar(selector, startDate, endDate, options) {
 						start: eventStart,
 						end: eventEnd,
 						msg: "" +
-						"Start time: <strong>" + parsedJson.staffAbsences[i].from.substring(10, 16) + "</strong>" +
+						"Start time: <strong>" + parsedJson.genericEvents[i].from.substring(10, 16) + "</strong>" +
 						"<br/>" +
-						"End time: <strong>" + parsedJson.staffAbsences[i].to.substring(10, 16) + "</strong>" +
+						"End time: <strong>" + parsedJson.genericEvents[i].to.substring(10, 16) + "</strong>" +
 						"<br />" + eventDesc,
 						allDay: false,
 						type: 'generic-event'
