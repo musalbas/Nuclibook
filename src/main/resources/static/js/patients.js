@@ -107,9 +107,11 @@ $(document).ready(function () {
    			'/import',
    			$('.import-form').serialize()
    		).done(function (result) {
-   				if (result == 'okay') {
+   				if (result.substr(0, 5) == 'OKAY:') {
    					// hide modal
    					$('.import-modal').modal('hide');
+
+   					alert(result.substr(5));
 
    					// hide loading and reload
    					disableLoading(function () {

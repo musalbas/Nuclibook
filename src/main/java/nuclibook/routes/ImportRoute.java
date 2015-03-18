@@ -35,7 +35,7 @@ public class ImportRoute extends DefaultRoute {
 				return "failed_validation";
 			}
 
-			return "okay";
+			return "OKAY:" + importResult[0].toString() + " rows successfully imported; " + importResult[1].toString() + " failed to import.";
 		}
 
 		// fail safe
