@@ -24,7 +24,8 @@ public class ImportRoute extends DefaultRoute {
 		String csvData = request.queryParams("csv-data");
 
 		if (table.equals("patients")) {
-			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.IMPORT_PATIENTS)) {
+				ActionLogger.logAction(ActionLogger.ATTEMPT_IMPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
 				return "no_permission";
 			}
 
@@ -34,6 +35,8 @@ public class ImportRoute extends DefaultRoute {
 			} catch (Exception e) {
 				return "failed_validation";
 			}
+
+			ActionLogger.logAction(ActionLogger.IMPORT_PATIENTS, 0);
 
 			return "OKAY:" + importResult[0].toString() + " rows successfully imported; " + importResult[1].toString() + " failed to import.";
 		}
