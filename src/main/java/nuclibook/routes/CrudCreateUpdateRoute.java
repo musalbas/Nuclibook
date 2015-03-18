@@ -519,7 +519,6 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			String key = iterator.next();
 			if (key.startsWith("permission-")) {
 				permissionsSent++;
-				System.out.print(permissionsSent);
 			}
 		}
 
