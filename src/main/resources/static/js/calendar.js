@@ -296,7 +296,11 @@ function openCameraSelectModal() {
 		keyboard: false
 	});
 
-	modal.find("input:checkbox").each(function(i, e) {
+	modal.find("input:checkbox").each(function (i, e) {
+		if (selectedCameras == null) {
+			$(e).prop('checked', true);
+			return;
+		}
 		var id = $(e).attr('id');
 		for (i in selectedCameras) {
 			if (id == "camera-" + selectedCameras[i]) {
