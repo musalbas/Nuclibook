@@ -1,6 +1,7 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.ExportUtils;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
@@ -31,10 +32,13 @@ public class ExportRoute extends DefaultRoute {
         String exportData = null;
 
         if (table.equals("patients")) {
-            if (SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
+            if (SecurityUtils.requirePermission(P.EXPORT_PATIENTS, response)) {
                 if (type.equals("csv")) {
                     exportData = ExportUtils.exportCSV(Patient.class);
                 }
+                ActionLogger.logAction(ActionLogger.EXPORT_PATIENTS, 0);
+            } else {
+                ActionLogger.logAction(ActionLogger.ATTEMPT_EXPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
             }
         }
 
