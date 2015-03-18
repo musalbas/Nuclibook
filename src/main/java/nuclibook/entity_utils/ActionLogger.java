@@ -113,6 +113,10 @@ public class ActionLogger {
     public static final int ATTEMPT_VIEW_ACTION_LOG = 98;
     public static final int VIEW_TRACER_ORDERS = 99;
     public static final int ATTEMPT_VIEW_TRACER_ORDERS = 100;
+    public static final int IMPORT_PATIENTS = 101;
+    public static final int ATTEMPT_IMPORT_PATIENTS = 102;
+    public static final int EXPORT_PATIENTS = 103;
+    public static final int ATTEMPT_EXPORT_PATIENTS = 104;
 
     public static Map actionDescription = new HashMap<Integer, String>() {{
         put(VIEW_PATIENTS, "Viewed all patients");
@@ -230,6 +234,12 @@ public class ActionLogger {
 
         put(ATTEMPT_VIEW_TRACER_ORDERS, "Attempted to view tracer orders");
         put(VIEW_TRACER_ORDERS, "Viewed tracer orders");
+
+        put(IMPORT_PATIENTS, "Imported patients");
+        put(ATTEMPT_IMPORT_PATIENTS, "Attempted to import patients");
+
+        put(EXPORT_PATIENTS, "Exported patients");
+        put(ATTEMPT_EXPORT_PATIENTS, "Attempted to export patients");
 
     }};
 

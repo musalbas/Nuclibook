@@ -137,6 +137,9 @@ public class LocalServer {
 
 		// export
 		Spark.get("/export/:file:", new ExportRoute());
+
+		// import
+		Spark.post("/import", new ImportRoute());
 	}
 
 }
