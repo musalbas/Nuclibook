@@ -111,7 +111,7 @@ $(document).ready(function () {
    					// hide modal
    					$('.import-modal').modal('hide');
 
-   					alert(result.substr(5));
+   					toastr.info(result.substr(5));
 
    					// hide loading and reload
    					disableLoading(function () {
