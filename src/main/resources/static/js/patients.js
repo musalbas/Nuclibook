@@ -100,6 +100,7 @@ $(document).ready(function () {
 
 	$('.result-modal').find('.btn-okay').unbind('click').click(function (e) {
 		$('.result-modal').modal('hide');
+		location.reload();
 	});
 
 	$('.import-modal').find('.btn-save').unbind('click').click(function (e) {
