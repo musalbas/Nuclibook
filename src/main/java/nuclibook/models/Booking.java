@@ -323,9 +323,7 @@ public class Booking implements Renderable {
 				staff = "<em>None</em>";
 			} else {
 				List<Staff> assignedStaff = getStaff();
-				System.out.println(assignedStaff.size());
 				for (Staff s : assignedStaff) {
-					System.out.println(s.getName());
 					staff += s.getName() + ", ";
 				}
 

@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-md-12 col-lg-12 calendar"></div>
+</div>
+<div class="modal hide fade camera-select-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="create-mode">Select Cameras to View</h3>
+			</div>
+			<div class="modal-body">
+				<p>The calendar will show bookings for the following cameras:</p>
+				<form class="form-horizontal edit-form">
+					<div class="form-group">
+						<div class="col-sm-12">
+							#[collection: cameras]
+
+							#[pre]#[/pre]
+
+							#[empty]<p><em>You have no cameras!</em></p>#[/empty]
+
+							#[each]
+							<div class="checkbox"><label><input type="checkbox" class="selected-cameras" value="#id" checked/> #camera-type-label, #room-number</label></div>
+							#[/each]
+
+							#[post]#[/post]
+
+							#[/collection]
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary btn-update">Update</button>
+			</div>
+		</div>
+	</div>
+</div>

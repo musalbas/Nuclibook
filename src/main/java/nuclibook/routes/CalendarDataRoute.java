@@ -1,19 +1,22 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.BookingUtils;
-import nuclibook.entity_utils.CameraTypeUtils;
-import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
+import nuclibook.models.GenericEvent;
+import nuclibook.models.StaffAbsence;
 import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CalendarDataRoute extends DefaultRoute {
+
+	private HashMap<Integer, Integer> cameraIdColours = new HashMap<>();
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
@@ -35,6 +38,7 @@ public class CalendarDataRoute extends DefaultRoute {
 		// start json
 		StringBuilder jsonOutput = new StringBuilder();
 		jsonOutput.append("{");
+		boolean commaNeeded;
 
 		/*
 		BOOKINGS SECTION
@@ -47,29 +51,53 @@ public class CalendarDataRoute extends DefaultRoute {
 			// include cancelled?
 			boolean includeCancelledBookings = request.queryParams("cancelledBookings") != null && request.queryParams("cancelledBookings").equals("1");
 
+			// filtering by camera?
+			boolean filterCameras = false;
+			ArrayList<Integer> allowedCameras = new ArrayList<>();
+			if (request.queryParams("cameras") != null && !request.queryParams("cameras").equals("all")) {
+				filterCameras = true;
+				String[] rawAllowedCameras = request.queryParams("cameras").split(",");
+				for (String rac : rawAllowedCameras) {
+					try {
+						allowedCameras.add(Integer.parseInt(rac));
+					} catch (NumberFormatException nfe) {
+						// meh.
+					}
+				}
+			}
+
 			// open section
 			jsonOutput.append("\"bookings\": [");
 
 			// loop bookings
-			for (int i = 0; i < bookings.size(); i++) {
+			commaNeeded = false;
+			for (Booking booking : bookings) {
 				// include cancelled?
-				if (!includeCancelledBookings && bookings.get(i).getStatus().equals("cancelled")) {
+				if (!includeCancelledBookings && booking.getStatus().equals("cancelled")) {
+					continue;
+				}
+
+				// filter by camera?
+				if (filterCameras && !allowedCameras.contains(booking.getCamera().getId())) {
 					continue;
 				}
 
 				// open booking object
-				if (i != 0) jsonOutput.append(",");
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
 				jsonOutput.append("{");
 
 				// append basic info
-				jsonOutput.append("\"id\": \"").append(bookings.get(i).getId()).append("\",");
-				jsonOutput.append("\"patientName\": \"").append(bookings.get(i).getPatient().getName()).append("\",");
-				jsonOutput.append("\"therapyName\": \"").append(bookings.get(i).getTherapy().getName().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"id\": \"").append(booking.getId()).append("\",");
+				jsonOutput.append("\"patientName\": \"").append(booking.getPatient().getName()).append("\",");
+				jsonOutput.append("\"therapyName\": \"").append(booking.getTherapy().getName().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"colourNumber\": ").append(colourNumber(booking.getCamera().getId())).append(",");
 				jsonOutput.append("\"cameraName\": \"")
 						.append(CameraTypeUtils
 										.getCameraType(
-												bookings
-														.get(i)
+												booking
 														.getCamera()
 														.getType()
 														.getId()
@@ -77,18 +105,18 @@ public class CalendarDataRoute extends DefaultRoute {
 										.replace("\"", "\\\"")
 						)
 						.append(", ")
-						.append(bookings
-								.get(i)
+						.append(booking
 								.getCamera()
 								.getRoomNumber()
 								.replace("\"", "\\\""))
 						.append("\",");
+				jsonOutput.append("\"status\": \"").append(booking.getStatus()).append("\",");
 
 				// open booking section array
 				jsonOutput.append("\"bookingSections\": [");
 
 				// get and loop booking sections
-				List<BookingSection> bookingSections = bookings.get(i).getBookingSections();
+				List<BookingSection> bookingSections = booking.getBookingSections();
 				for (int j = 0; j < bookingSections.size(); j++) {
 					// open object
 					if (j != 0) jsonOutput.append(",");
@@ -113,9 +141,104 @@ public class CalendarDataRoute extends DefaultRoute {
 			jsonOutput.append("],");
 		}
 
+		/*
+		END BOOKINGS SECTION
+		 */
+
+		/*
+		STAFF ABSENCES SECTION
+		 */
+
+		if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1")) {
+			// get absences between start/end dates
+			List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(startDate, endDate);
+
+			// open section
+			jsonOutput.append("\"staffAbsences\": [");
+
+			// loop bookings
+			commaNeeded = false;
+			for (StaffAbsence staffAbsence : staffAbsences) {
+				// open staff absence object
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
+				jsonOutput.append("{");
+
+				// append info
+				jsonOutput.append("\"id\": \"").append(staffAbsence.getId()).append("\",");
+				jsonOutput.append("\"staffId\": \"").append(staffAbsence.getStaff().getId()).append("\",");
+				jsonOutput.append("\"staffName\": \"").append(staffAbsence.getStaff().getName()).append("\",");
+				jsonOutput.append("\"from\": \"").append(staffAbsence.getFrom().toString("YYYY-MM-dd HH:mm")).append("\",");
+				jsonOutput.append("\"to\": \"").append(staffAbsence.getTo().toString("YYYY-MM-dd HH:mm")).append("\"");
+
+				// close absence object
+				jsonOutput.append("}");
+			}
+
+			// close absences array
+			jsonOutput.append("],");
+		}
+
+		/*
+		END STAFF ABSENCES SECTION
+		 */
+
+		/*
+		GENERIC EVENTS SECTION
+		 */
+
+		if (request.queryParams("genericEvents") != null && request.queryParams("genericEvents").equals("1")) {
+			// get events between start/end dates
+			List<GenericEvent> genericEvents = GenericEventUtils.getGenericEventsByDateRange(startDate, endDate);
+
+			// open section
+			jsonOutput.append("\"genericEvents\": [");
+
+			// loop bookings
+			commaNeeded = false;
+			for (GenericEvent genericEvent : genericEvents) {
+				// open event object
+				if (commaNeeded) {
+					jsonOutput.append(",");
+				}
+				commaNeeded = true;
+				jsonOutput.append("{");
+
+				// append info
+				jsonOutput.append("\"id\": \"").append(genericEvent.getId()).append("\",");
+				jsonOutput.append("\"title\": \"").append(genericEvent.getTitle().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"description\": \"").append(genericEvent.getDescription().replace("\"", "\\\"")).append("\",");
+				jsonOutput.append("\"from\": \"").append(genericEvent.getFrom().toString("YYYY-MM-dd HH:mm")).append("\",");
+				jsonOutput.append("\"to\": \"").append(genericEvent.getTo().toString("YYYY-MM-dd HH:mm")).append("\"");
+
+				// close absence object
+				jsonOutput.append("}");
+			}
+
+			// close absences array
+			jsonOutput.append("],");
+		}
+
+		/*
+		END GENERIC EVENTS SECTION
+		 */
+
 		// We did a thing!
 		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
-		return jsonOutput.substring(0, jsonOutput.length() - 1) + "}";
+		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
+	}
+
+	private int colourNumber(int cameraId) {
+		int limit = 4;
+		if (cameraIdColours.containsKey(cameraId)) {
+			return cameraIdColours.get(cameraId);
+		} else {
+			int thisColour = (cameraIdColours.size() % limit) + 1;
+			cameraIdColours.put(cameraId, thisColour);
+			return thisColour;
+		}
 	}
 }

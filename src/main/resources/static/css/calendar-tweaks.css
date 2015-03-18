@@ -1,0 +1,78 @@
+/* reset events */
+
+.fc-event-skin.booking, .fc-event.booking .fc-event-inner, .fc-event.booking .fc-event-head,
+.fc-event.booking .fc-event-content, .fc-event.booking .fc-event-bg,
+
+.fc-event-skin.generic-event, .fc-event.generic-event .fc-event-inner, .fc-event.generic-event .fc-event-head,
+.fc-event.generic-event .fc-event-content, .fc-event.generic-event .fc-event-bg,
+
+.fc-event-skin.absence, .fc-event.absence .fc-event-inner, .fc-event.absence .fc-event-head,
+.fc-event.absence .fc-event-content, .fc-event.absence .fc-event-bg {
+	background-color: transparent;
+	border: none;
+	color: #000000;
+}
+
+.fc-event.booking .fc-event-inner {
+	border-left: 1px solid #ffffff;
+}
+
+/* bookings */
+
+.fc-event-skin.booking-1 {
+	background-color: #bfd4f2;
+}
+
+.fc-event-skin.booking-1 .fc-event-head {
+	background-color: #0052cc;
+	color: #ffffff;
+}
+
+.fc-event-skin.booking-2 {
+	background-color: #bfe5bf;
+}
+
+.fc-event-skin.booking-2 .fc-event-head {
+	background-color: #009800;
+	color: #ffffff;
+}
+
+.fc-event-skin.booking-3 {
+	background-color: #dabaf8;
+}
+
+.fc-event-skin.booking-3 .fc-event-head {
+	background-color: #8518e7;
+	color: #ffffff;
+}
+
+.fc-event-skin.booking-4 {
+	background-color: #fef2c0;
+}
+
+.fc-event-skin.booking-4 .fc-event-head {
+	background-color: #fbca04;
+	color: #000000;
+}
+
+/* absences */
+
+.fc-event-skin.absence {
+	background-color: #fad8c7;
+}
+
+.fc-event-skin.absence .fc-event-head {
+	background-color: #eb6420;
+	color: #ffffff;
+}
+
+/* absences */
+
+.fc-event-skin.generic-event {
+	background-color: #f7c6c7;
+}
+
+.fc-event-skin.generic-event .fc-event-head {
+	background-color: #e11d21;
+	color: #ffffff;
+}
