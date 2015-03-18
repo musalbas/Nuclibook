@@ -250,7 +250,7 @@ public class Therapy implements Renderable {
 			put("therapy-tracer-dose", getTracerDose());
 
 			// advice note
-			String advice = "This therapy requires " + getTracerRequired().getName() + " (" + getTracerRequired().getOrderTime() + " day order).\n\nThe recommended booking pattern is ";
+			String advice = "This therapy requires " + getTracerRequired().getName() + " (" + getTracerRequired().getOrderTime() + " day order).//The recommended booking pattern is ";
 			boolean adviceComma = false;
 			List<BookingPatternSection> bookingPatternSections = getBookingPatternSections();
 			for (BookingPatternSection bps : bookingPatternSections) {

@@ -26,10 +26,20 @@ $(document).ready(function () {
 	$('.select-therapy').click(function () {
 		// get id and name
 		therapyId = $(this).attr('data-id');
-		$('.therapy-selected').html($(this).attr('data-name') + '&nbsp;<i class="fa fa-fw fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + $(this).attr('data-advice') + '"></i>');
+		$('.therapy-selected').html($(this).attr('data-name') + '&nbsp;<i class="fa fa-fw fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + $(this).attr('data-advice').replace("//", "\n\n") + '"></i>');
 
 		// reload tooltips
 		$("body").tooltip({selector: '[data-toggle=tooltip]'});
+
+		// set specified cameras
+		var rawCameras = ($(this).attr('data-cameras').split(":"))[1].split(",");
+		var cameras = [];
+		for (var c in rawCameras) {
+			if (rawCameras[c] != "") cameras.push(rawCameras[c]);
+		}
+		if (cameras.length > 0) {
+			selectedCameras = cameras;
+		}
 
 		// open next page
 		$('#page-two').slideUp(500);
