@@ -56,9 +56,9 @@ public class PatientUtils extends AbstractEntityUtils {
 				nhsNumber = record.get(2);
 				dateOfBirth = new DateTime(record.get(3));
 
-				if (record.get(4).toLowerCase() == "m" || record.get(4).toLowerCase() == "male") {
+				if (record.get(4).toLowerCase().equals("m") || record.get(4).toLowerCase().equals("male")) {
 					sex = Patient.Sex.MALE;
-				} else if (record.get(4).toLowerCase() == "f" || record.get(4).toLowerCase() == "female") {
+				} else if (record.get(4).toLowerCase().equals("f") || record.get(4).toLowerCase().equals("female")) {
 					sex = Patient.Sex.FEMALE;
 				} else {
 					throw new IOException("sex is not in appropriate format");

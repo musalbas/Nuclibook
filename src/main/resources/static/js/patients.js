@@ -105,7 +105,7 @@ $(document).ready(function () {
    		// ajax!
    		$.post(
    			'/import',
-   			form.serialize()
+   			$('.import-form').serialize()
    		).done(function (result) {
    				if (result == 'okay') {
    					// hide modal
