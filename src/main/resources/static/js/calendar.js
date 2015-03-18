@@ -323,10 +323,12 @@ function openCameraSelectModal() {
 function setLoading(loading, calendar) {
 	if (loading) {
 		$('.calendar-loading-msg').show();
+		$('.calendar-channel-filters').find('button').prop('disabled', true);
 		calendar.fadeTo(300, 0.4);
 	} else {
 		$('.calendar-loading-msg').hide();
 		$('.calendar-channel-filters').removeClass('hide').show();
+		$('.calendar-channel-filters').find('button').prop('disabled', false);
 		calendar.fadeTo(300, 1.0);
 	}
 }
