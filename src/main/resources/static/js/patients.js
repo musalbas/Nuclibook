@@ -93,4 +93,7 @@ $(document).ready(function () {
     		keyboard: false
     	});
 	});
+	$('.import-modal').find('.btn-cancel').unbind('click').click(function (e) {
+		$('.import-modal').modal('hide');
+	});
 });
