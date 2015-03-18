@@ -9,4 +9,5 @@ $(document).ready(function() {
     filterSearchBox.children('input').eq(0).removeClass("input-small input-inline");
     filterSearchBox.unwrap();
 
+    $("#search-data-tables").parent().parent().css("text-align", "right");
 });
