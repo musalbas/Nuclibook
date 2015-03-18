@@ -5,110 +5,112 @@
 ##_header.html
 
 <div class="row">
-    <div class="col-lg-12 col-md-12">
-        #[ifperm: EDIT_STAFF_ROLES]
-        <div class="text-right">
-            <button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Staff Role
-            </button>
-        </div>
-        #[/ifperm]
-        <table class="table table-bordered table-hover" id="staff-roles-table">
-            <thead>
-            <tr>
-                <th class="text-center">Role Title</th>
-                <th class="text-center">Permissions</th>
-                <th class="text-center">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            #[collection: staff-roles]
+	<div class="col-lg-12 col-md-12">
+		#[ifperm: EDIT_STAFF_ROLES]
+		<div class="text-right">
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Staff Role
+			</button>
+		</div>
+		#[/ifperm]
+		<table class="table table-bordered table-hover" id="staff-roles-table">
+			<thead>
+				<tr>
+					<th class="text-center">Role Title</th>
+					<th class="text-center">Permissions</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: staff-roles]
 
-            #[pre]#[/pre]
+				#[pre]#[/pre]
 
-            #[each]
-            <tr>
-                <td>#label</td>
-                <td>#HTMLOKAY:permission-summary</td>
-                <td>
-                    #[ifperm: EDIT_STAFF_ROLES]
-                    <button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
-                    <button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete</button>
-                    #[/ifperm]
-                    #[!ifperm: EDIT_STAFF_ROLES]
-                    -
-                    #[/!ifperm]
-                </td>
-            </tr>
-            #[/each]
+				#[each]
+				<tr>
+					<td>#label</td>
+					<td>#HTMLOKAY:permission-summary</td>
+					<td>
+						#[ifperm: EDIT_STAFF_ROLES]
+						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
+						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete
+						</button>
+						#[/ifperm]
+						#[!ifperm: EDIT_STAFF_ROLES]
+						-
+						#[/!ifperm]
+					</td>
+				</tr>
+				#[/each]
 
-            #[post]#[/post]
+				#[post]#[/post]
 
-            #[empty]#[/empty]
+				#[empty]#[/empty]
 
-            #[/collection]
-            </tbody>
-        </table>
-    </div>
+				#[/collection]
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <div class="modal hide fade edit-modal">
-    <div class="modal-dialog staff-role-modal">
+	<div class="modal-dialog staff-role-modal">
 
-        <div class="modal-content">
-            <div class="modal-header">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="edit-mode">Edit Staff Role</h3>
+				<h3 class="create-mode">Create Staff Role</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="staff-role"/>
+					<input type="hidden" name="entity-id" value="0"/>
 
-                <h3 class="edit-mode">Edit Staff Role</h3>
+					<div class="form-group">
+						<label for="label" class="col-sm-3 control-label">Role Title</label>
+						<div class="col-sm-9">
+							<input class="form-control" type="text" name="label" id="label"/>
+							<p class="help-block">Insert the name of the role.</p>
+						</div>
+					</div>
 
-                <h3 class="create-mode">Create Staff Role</h3>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal edit-form">
-                    <input type="hidden" name="entity-type" value="staff-role"/>
-                    <input type="hidden" name="entity-id" value="0"/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Permissions</label>
+						<div class="col-sm-9 container" style="margin-top: 8px;">
+							<div class="checkbox" style="margin-bottom: 12px;">
+								<label id="select-all-label" for="select-all">
+									<input type="checkbox" class="select-all" id="select-all"/>
+									Select/Deselect All
+								</label>
+							</div>
+							#[collection: permissions]
 
-                    <div class="form-group">
-                        <label for="label" class="col-sm-3 control-label">Role Title</label>
+							#[pre]#[/pre]
 
-                        <div class="col-sm-9">
-                            <input class="form-control" type="text" name="label" id="label"/>
+							#[each]
+							<div class="checkbox">
+								<label for="permission-#id">
+									<input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id" id="permission-#id" value="#id"/>
+									#description
+								</label>
+							</div>
+							#[/each]
 
-                            <p class="help-block">Insert the name of the role.</p>
-                        </div>
-                    </div>
+							#[post]#[/post]
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Permissions</label>
-                        <div class="col-sm-9 container" style = "margin-top: 8px;">
-                            <div style = "margin-bottom: 12px;">
-                                <input type="checkbox" class="select-all" id="select-all"/>
-                                <label id="select-all-label" for="select-all">Select/Deselect All</label><br/>
-                            </div>
-                            #[collection: permissions]
+							#[empty]#[/empty]
 
-                            #[pre]#[/pre]
+							#[/collection]
+						</div>
+					</div>
+				</form>
 
-                            #[each]
-                            <input type="checkbox" class="crud-list-prefill-permission-ids" name="permission-#id"
-                                   id="permission-#id" value="#id"/>
-                            <label for="permission-#id">#description</label><br/>
-                            #[/each]
-
-                            #[post]#[/post]
-
-                            #[empty]#[/empty]
-
-                            #[/collection]
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-cancel">Cancel</button>
-                <button type="button" class="btn btn-primary btn-save">Ok</button>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="/js/staff-roles.js"></script>
