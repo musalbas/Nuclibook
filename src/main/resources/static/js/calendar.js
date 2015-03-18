@@ -296,6 +296,21 @@ function openCameraSelectModal() {
 		keyboard: false
 	});
 
+	modal.find("input:checkbox").each(function (i, e) {
+		if (selectedCameras == null) {
+			$(e).prop('checked', true);
+			return;
+		}
+		var id = $(e).attr('id');
+		for (i in selectedCameras) {
+			if (id == "camera-" + selectedCameras[i]) {
+				$(e).prop('checked', true);
+				return;
+			}
+		}
+		$(e).prop('checked', false);
+	});
+
 	$('.btn-update').unbind('click').click(function (e) {
 		// get selected
 		selectedCameras = $('.selected-cameras:checked').map(function () {

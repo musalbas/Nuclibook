@@ -11,6 +11,8 @@
 				<tr>
 					<th class="text-center">Patient Name</th>
 					<th class="text-center">Hospital Number</th>
+					<th class="text-center">NHS Number</th>
+					<th class="text-center">Sex</th>
 					<th class="text-center">Date of birth</th>
 					<th class="text-center">Action</th>
 				</tr>
@@ -24,9 +26,11 @@
 				<tr>
 					<td>#name</td>
 					<td>#hospital-number</td>
+					<td>#nhs-number</td>
+					<td>#sex</td>
 					<td>#date-of-birth</td>
 					<td>
-						<button class="btn select-patient" data-id="#id" data-name="#name">Select #name</button>
+						<button class="btn select-patient confirm-button" data-id="#id" data-name="#name"><i class="fa fa-fw fa-arrow-circle-right"></i> Select</button>
 					</td>
 				</tr>
 				#[/each]
@@ -72,7 +76,7 @@
 					<td>#tracer-dose</td>
 					<td>#HTMLOKAY:camera-type-summary</td>
 					<td>
-						<button class="btn select-therapy" data-id="#id" data-name="#name">Select</button>
+						<button class="btn select-therapy confirm-button" data-id="#id" data-name="#name" data-advice="#advice" data-cameras="#camera-type-ids"><i class="fa fa-fw fa-arrow-circle-right"></i> Select</button>
 					</td>
 				</tr>
 				#[/each]
@@ -97,11 +101,12 @@
 				<span class="therapy-selected"></span>
 				<a class="small" id="go-back-to-select-therapy">[Change]</a>
 			</div>
+			<div class="col-sm-4 text-right">
+				<button class="btn btn-primary" id="view-available-bookings">
+					View Available Bookings Slots
+				</button>
+			</div>
 		</div>
-		<br/>
-		<button style="margin-top: 15px;" class="btn btn-primary" id="view-available-bookings">
-			View Available Bookings Slots
-		</button>
 	</div>
 
 	##calendar.html

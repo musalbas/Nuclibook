@@ -248,6 +248,29 @@ public class Therapy implements Renderable {
 			put("tracer-required-name", getTracerRequired().getName());
 			put("tracer-dose", getTracerDose());
 			put("therapy-tracer-dose", getTracerDose());
+
+			// advice note
+			String advice = "This therapy requires " + getTracerRequired().getName() + " (" + getTracerRequired().getOrderTime() + " day order).//The recommended booking pattern is ";
+			boolean adviceComma = false;
+			List<BookingPatternSection> bookingPatternSections = getBookingPatternSections();
+			if (bookingPatternSections.isEmpty()) {
+				advice += "unknown.";
+			} else {
+				for (BookingPatternSection bps : bookingPatternSections) {
+					advice += adviceComma ? ", " : "";
+					adviceComma = true;
+					if (bps.getMinLength() == bps.getMaxLength()) {
+						advice += bps.getMinLength();
+					} else {
+						advice += bps.getMinLength() + "-" + bps.getMaxLength();
+					}
+					advice += " mins ";
+					advice += bps.isBusy() ? "booking" : "wait";
+				}
+				advice += ".";
+			}
+
+			put("advice", advice);
 		}};
 	}
 }

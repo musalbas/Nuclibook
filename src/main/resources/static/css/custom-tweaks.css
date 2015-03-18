@@ -4,6 +4,7 @@ html, body {
 	display: block !important;
 	height: 100% !important;
 	margin: 0 !important;
+	overflow-x: hidden !important;
 }
 
 #wrapper {
@@ -114,5 +115,11 @@ html, body {
 /* day-summary tweaks */
 
 .day-summary-list {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+/* tooltips */
+
+.tooltip-inner {
+	white-space: pre-wrap;
 }

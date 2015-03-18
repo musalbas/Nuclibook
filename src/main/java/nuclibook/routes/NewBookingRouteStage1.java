@@ -1,10 +1,8 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.PatientUtils;
-import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
+import nuclibook.entity_utils.*;
+import nuclibook.models.Camera;
 import nuclibook.models.Patient;
 import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
@@ -45,6 +43,10 @@ public class NewBookingRouteStage1 extends DefaultRoute {
 		// get therapies and add to renderer
 		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
 		renderer.setCollection("therapies", allTherapies);
+
+		// get cameras
+		List<Camera> cameras = CameraUtils.getAllCameras(true);
+		renderer.setCollection("cameras", cameras);
 
 		return renderer.render();
 	}
