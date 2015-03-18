@@ -67,7 +67,7 @@ public class PatientUtils extends AbstractEntityUtils {
 				patient = new Patient();
 				patient.setName(name);
 				patient.setHospitalNumber(hospitalNumber);
-				patient.setName(nhsNumber);
+				patient.setNhsNumber(nhsNumber);
 				patient.setDateOfBirth(dateOfBirth);
 				patient.setSex(sex);
 
