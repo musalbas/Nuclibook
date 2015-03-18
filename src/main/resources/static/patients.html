@@ -13,6 +13,10 @@
 			#[/!ifperm]
 			<button class="btn btn-default top-button link-button" data-target="/export/patients.csv"><i class="fa fa-download"></i>&nbsp;&nbsp;Export Patients
 			</button>
+			#[ifperm: EDIT_PATIENTS]
+			<button class="btn btn-default top-button import-button"><i class="fa fa-database"></i>&nbsp;&nbsp;Import Patients
+			</button>
+			#[/!ifperm]
 		</div>
 		<table class=" table table-bordered table-hover" id="patients-table">
 			<thead>
@@ -60,6 +64,32 @@
 </div>
 
 ##patient-edit-modal.html
+
+<div class="modal hide fade import-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Import Patients</h3>
+			</div>
+			<div class="modal-body">
+				<form class="import-form">
+					<input type="hidden" name="table" value="patients">
+					<div class="form-group">
+						<p>Paste a CSV document of the following format:</p>
+						<pre>"name","hospital-number","nhs-number","date-of-birth","sex"</pre>
+						<p>For example:</p>
+						<pre>"Sarah Walker","BUYM0R3","N3RDH3RD","1982-07-30","Female"</pre>
+						<textarea class="form-control" type="text" name="csv-data" rows="10"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Import</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script src="/js/patients.js"></script>
 <script src="/js/plugins/date-time-selector/date-selector.js"></script>

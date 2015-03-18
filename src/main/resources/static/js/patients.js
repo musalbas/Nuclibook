@@ -86,4 +86,65 @@ var onFormLoadSetup = function () {
 
 $(document).ready(function () {
 	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+
+	$('.import-button').click(function () {
+		$('.import-modal').removeClass('hide').modal({
+    		backdrop: 'static',
+    		keyboard: false
+    	});
+	});
+
+	$('.import-modal').find('.btn-cancel').unbind('click').click(function (e) {
+		$('.import-modal').modal('hide');
+	});
+
+	$('.import-modal').find('.btn-save').unbind('click').click(function (e) {
+   		// show loading modal
+   		enableLoading();
+
+   		// ajax!
+   		$.post(
+   			'/import',
+   			$('.import-form').serialize()
+   		).done(function (result) {
+   				if (result.substr(0, 5) == 'OKAY:') {
+   					// hide modal
+   					$('.import-modal').modal('hide');
+
+   					toastr.info(result.substr(5));
+
+   					// hide loading and reload
+   					disableLoading(function () {
+   						var locationOverride = form.find('.location-override');
+   						if (locationOverride.length == 1) {
+   							location.href = locationOverride.val();
+   						} else {
+   							location.reload();
+   						}
+   					});
+   				} else if (result == 'failed_validation') {
+   					disableLoading(function () {
+   						toastr.error('The data you entered was invalid; please check again');
+   					});
+   				} else if (result == 'no_permission') {
+   					disableLoading(function () {
+   						toastr.error('You do not have permission to edit or create this item');
+   					});
+   				} else if (result.substr(0, 7) == 'CUSTOM:') {
+   					disableLoading(function () {
+   						toastr.error(result.substr(7));
+   					});
+   				} else {
+   					disableLoading(function () {
+   						toastr.error('Something went wrong; please try again');
+   					});
+   				}
+   			}
+   		).fail(function () {
+   				disableLoading(function () {
+   					toastr.error('Something went wrong; please try again');
+   				});
+   			}
+   		);
+   	});
 });
