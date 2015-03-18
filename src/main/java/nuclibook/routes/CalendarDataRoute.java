@@ -4,7 +4,10 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
+<<<<<<< HEAD
 import nuclibook.models.GenericEvent;
+=======
+>>>>>>> f44908a8bf49bc2cc4ca31f8f0e31ba13c6fc0ce
 import nuclibook.models.StaffAbsence;
 import org.joda.time.DateTime;
 import spark.Request;
@@ -150,7 +153,11 @@ public class CalendarDataRoute extends DefaultRoute {
 		 */
 
 		if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1")) {
+<<<<<<< HEAD
 			// get absences between start/end dates
+=======
+			// get bookings between start/end dates
+>>>>>>> f44908a8bf49bc2cc4ca31f8f0e31ba13c6fc0ce
 			List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(startDate, endDate);
 
 			// open section
