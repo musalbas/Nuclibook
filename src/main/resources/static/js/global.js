@@ -44,21 +44,7 @@ $(document).ready(function () {
 	});
 
 	// automatic session timeout
-	if (AUTOMATIC_TIMEOUT > 0) {
-		setTimeout(function () {
-			$('.timeout-modal').removeClass('hide').modal({
-				backdrop: 'static',
-				keyboard: false
-			});
-			setTimeout(function () {
-				location.href = "/logout";
-			}, 30 * 1000);
-		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
-		$('.timeout-link').click(function (e) {
-			e.preventDefault();
-			location.reload();
-		});
-	}
+	setAutomaticTimeout();
 });
 
 // function to toggle a menu
@@ -71,6 +57,28 @@ function subMenuToggle(menuWrapper) {
 		menuWrapper.attr('data-status', 'closed');
 		menuWrapper.find('a:eq(0)').find('i').removeClass('fa-angle-down').addClass('fa-angle-right');
 		menuWrapper.find('ul.drop-down-menu').hide();
+	}
+}
+
+// function to start the automatic timeout
+var AUTOMATIC_TIMEOUT_TIMER;
+function setAutomaticTimeout() {
+	if (AUTOMATIC_TIMEOUT > 0) {
+		AUTOMATIC_TIMEOUT_TIMER = setTimeout(function () {
+			$('.timeout-modal').removeClass('hide').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+			setTimeout(function () {
+				location.href = "/logout";
+			}, 30 * 1000);
+		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
+		$('.timeout-link').click(function (e) {
+			e.preventDefault();
+			$('.timeout-modal').modal('hide');
+			clearTimeout(AUTOMATIC_TIMEOUT_TIMER);
+			setAutomaticTimeout();
+		});
 	}
 }
 
