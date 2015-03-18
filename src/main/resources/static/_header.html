@@ -107,7 +107,12 @@
 						#[if: current-page = dashboard] class="active"#[/if]>
 						<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
 						</li>
-						#[ifperm: EDIT_APPOINTMENTS]
+                        <li
+                        #[if: current-page = day-summary] class="active"#[/if]>
+                        <a href="/day-summary"><i class="fa fa-fw fa-lg fa-calendar"></i> Daily Summary</a>
+                        </li>
+
+                        #[ifperm: EDIT_APPOINTMENTS]
 						<li
 						#[if: current-page = new-booking] class="active"#[/if]>
 						<a href="/new-booking-1"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
