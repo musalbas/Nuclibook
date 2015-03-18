@@ -115,7 +115,7 @@ $(document).ready(function () {
 
    					// hide loading and reload
    					disableLoading(function () {
-   						var locationOverride = form.find('.location-override');
+   						var locationOverride = $('.import-form').find('.location-override');
    						if (locationOverride.length == 1) {
    							location.href = locationOverride.val();
    						} else {
