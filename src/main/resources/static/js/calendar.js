@@ -19,7 +19,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 			right: ''
 		},
 		defaultView: 'agendaWeek',
-		selectable: true,
+		selectable: viewOptions['selectable'],
 		selectHelper: true,
 		allDaySlot: false,
 		timeFormat: 'HH:mm',
