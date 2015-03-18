@@ -245,6 +245,36 @@ function updateCalendar(selector, startDate, endDate, options) {
 				}
 			}
 
+			// loop through events
+			if (calendarChannelOptions['genericEvents'] && typeof(parsedJson.genericEvents) != "undefined") {
+				var eventTitle, eventDesc, eventStart, eventEnd;
+				for (i = 0; i < parsedJson.genericEvents.length; ++i) {
+					// build title and desc
+					eventTitle = parsedJson.genericEvents[i].title;
+					eventDesc = parsedJson.genericEvents[i].description;
+
+					// start and end time
+					eventStart = parsedJson.genericEvents[i].from + ":00";
+					eventStart = eventStart.replace(" ", "T");
+					eventEnd = parsedJson.genericEvents[i].to + ":00";
+					eventEnd = eventEnd.replace(" ", "T");
+
+					// add event
+					calendarEvents.push({
+						title: eventTitle,
+						start: eventStart,
+						end: eventEnd,
+						msg: "" +
+						"Start time: <strong>" + parsedJson.staffAbsences[i].from.substring(10, 16) + "</strong>" +
+						"<br/>" +
+						"End time: <strong>" + parsedJson.staffAbsences[i].to.substring(10, 16) + "</strong>" +
+						"<br />" + eventDesc,
+						allDay: false,
+						type: 'generic-event'
+					});
+				}
+			}
+
 			// update events
 			selector.fullCalendar('refetchEvents');
 
