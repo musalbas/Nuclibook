@@ -26,7 +26,10 @@ $(document).ready(function () {
 	$('.select-therapy').click(function () {
 		// get id and name
 		therapyId = $(this).attr('data-id');
-		$('.therapy-selected').html($(this).attr('data-name'));
+		$('.therapy-selected').html($(this).attr('data-name') + '&nbsp;<i class="fa fa-fw fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + $(this).attr('data-advice') + '"></i>');
+
+		// reload tooltips
+		$("body").tooltip({selector: '[data-toggle=tooltip]'});
 
 		// open next page
 		$('#page-two').slideUp(500);
@@ -43,7 +46,7 @@ $(document).ready(function () {
 	 FIRST STAGE DATA TABLES
 	 ***********************/
 
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
 
 	// "show more" links

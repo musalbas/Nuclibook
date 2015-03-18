@@ -21,6 +21,8 @@ public class LocalServer {
 			e.printStackTrace();
 		}
 
+		SecurityUtils.attemptLogin("06111993", "nuclibook");
+
 		// static files folder
 		Spark.staticFileLocation("/static");
 

@@ -115,5 +115,11 @@ html, body {
 /* day-summary tweaks */
 
 .day-summary-list {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+/* tooltips */
+
+.tooltip-inner {
+	white-space: pre-wrap;
 }
