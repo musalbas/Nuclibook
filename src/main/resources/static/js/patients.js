@@ -98,6 +98,10 @@ $(document).ready(function () {
 		$('.import-modal').modal('hide');
 	});
 
+	$('.result-modal').find('.btn-okay').unbind('click').click(function (e) {
+		$('.result-modal').modal('hide');
+	});
+
 	$('.import-modal').find('.btn-save').unbind('click').click(function (e) {
    		// show loading modal
    		enableLoading();
@@ -111,17 +115,12 @@ $(document).ready(function () {
    					// hide modal
    					$('.import-modal').modal('hide');
 
-   					toastr.info(result.substr(5));
-
-   					// hide loading and reload
-   					disableLoading(function () {
-   						var locationOverride = $('.import-form').find('.location-override');
-   						if (locationOverride.length == 1) {
-   							location.href = locationOverride.val();
-   						} else {
-   							location.reload();
-   						}
-   					});
+   					disableLoading(function () {});
+   					$('.result-modal').removeClass('hide').modal({
+                        backdrop: 'static',
+                   		keyboard: false
+                    });
+                    $('#result-text').text(result.substr(5));
    				} else if (result == 'failed_validation') {
    					disableLoading(function () {
    						toastr.error('The data you entered was invalid; please check again');
