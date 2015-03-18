@@ -146,7 +146,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 	currentOptions['options'] = options;
 
 	// show loading message
-	$('.calendar-loading-msg').show();
+	setLoading(true, selector);
 
 	// adjust end date backwards by one
 	endDate = new Date(((endDate.getTime()) - 86400000));
@@ -248,11 +248,10 @@ function updateCalendar(selector, startDate, endDate, options) {
 			selector.fullCalendar('refetchEvents');
 
 			// hide loading message
-			$('.calendar-loading-msg').hide();
-			$('.calendar-channel-filters').removeClass('hide').show();
+			setLoading(false, selector);
 		})
 		.fail(function (xhr, textStatus, errorThrown) {
-			toastr.error("Failed to load calendar data.")
+			toastr.error("Failed to load calendar data.");
 			$('.calendar-loading-msg').hide();
 		}
 	);
@@ -288,4 +287,15 @@ function openCameraSelectModal() {
 	$('.btn-cancel').unbind('click').click(function (e) {
 		modal.modal('hide');
 	});
+}
+
+function setLoading(loading, calendar) {
+	if (loading) {
+		$('.calendar-loading-msg').show();
+		calendar.fadeTo(300, 0.4);
+	} else {
+		$('.calendar-loading-msg').hide();
+		$('.calendar-channel-filters').removeClass('hide').show();
+		calendar.fadeTo(300, 1.0);
+	}
 }
