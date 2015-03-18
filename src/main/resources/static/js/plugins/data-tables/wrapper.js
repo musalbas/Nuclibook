@@ -1,9 +1,9 @@
-function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
+function mergeObject(ob1, ob2) {
+	for (var p in ob2) ob1[p] = ob2[p];
+	return ob1;
+}
 
-	// ordering override
-	if (typeof orderingOverride == 'undefined') {
-		orderingOverride = 'asc';
-	}
+function setUpDataTable(tableId, colDefs, extraConfig) {
 
 	// make column defs
 	var columnDefs = [];
@@ -26,7 +26,7 @@ function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
 	})();
 
 	// do the magic
-	$(tableId).DataTable({
+	$(tableId).DataTable(mergeObject({
 		"language": {
 			"aria": {
 				"sortAscending": ": activate to sort column ascending",
@@ -53,10 +53,7 @@ function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
 			[20, 50, "All"]
 		],
 		"pageLength": 20,
-		"pagingType": "bootstrap_full_number",
-		"order": [
-			[orderBy, orderingOverride]
-		]
-	});
+		"pagingType": "bootstrap_full_number"
+	}, extraConfig));
 
 }
