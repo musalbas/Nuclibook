@@ -31,7 +31,7 @@ public class ImportRoute extends DefaultRoute {
 			Integer[] importResult = new Integer[]{0, 0};
 			try {
 				 importResult = PatientUtils.importPatientsCSV(csvData);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				return "failed_validation";
 			}
 
