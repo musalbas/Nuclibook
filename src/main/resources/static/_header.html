@@ -34,10 +34,6 @@
 		<script src="/js/plugins/data-tables/data-tables.bootstrap.js"></script>
 		<script src="/js/plugins/data-tables/wrapper.js"></script>
 
-		<!--
-		<script src="/js/plugins/pass-indicator/pass-indicator.js"></script>
-		-->
-
 		<!--[if lt IE 9]>
 		<script src="/js/core/html5shiv.js"></script>
 		<script src="/js/core/respond.min.js"></script>
@@ -55,34 +51,6 @@
 				#[if: logged-in = yes]
 				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
-							<b class="caret"></b></a>
-						<ul class="dropdown-menu alert-dropdown">
-							<li>
-								<a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-							</li>
-							<li>
-								<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="#">View All</a>
-							</li>
-						</ul>
-					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
 							#current-user-name
@@ -215,6 +183,13 @@
                             #[/if]
 							<h1 class="page-header">
 								#title
+								#[if: print-button = yes]
+								<span class="pull-right">
+									<a onclick="window.print()">
+										<button class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+									</a>
+								</span>
+								#[/if]
 							</h1>
 						</div>
 					</div>

@@ -1,77 +1,67 @@
 #[def: title = Day Summary]
 #[def: current-page = day-summary]
+#[def: print-button = yes]
 
 ##_header.html
 
 <div class="col-lg-12">
-    <h2 class="page-header">
-        <span style="float:right">
-            <a onclick="window.print()"><button class="btn btn-default"><i class="fa fa-print"></i> Printer-Friendly</button></a>
-        </span>
-        Bookings
-    </h2>
+	<h2 class="page-header">
+		Bookings
+	</h2>
+	#[collection: bookings]
 
-    #[collection: bookings]
+	#[pre]#[/pre]
 
-    #[pre]#[/pre]
+	#[each]
+	<ul class="list-group day-summary-list">
+		<strong>#patient-name</strong> is booked for <strong>#therapy-name</strong>
+		#HTMLOKAY:booking-sections-as-string
+	</ul>
+	#[/each]
 
-    #[each]
+	#[post]#[/post]
 
-    <ul class="list-group day-summary-list">
-        <b>#patient-name</b> is booked for <b>#therapy-name</b>
-        #HTMLOKAY:booking-sections-as-string
-    </ul>
+	#[empty]
+	<p>There are no bookings today.</p>
+	#[/empty]
 
-    #[/each]
-
-    #[post]#[/post]
-
-    #[empty]#[/empty]
-
-    #[/collection]
+	#[/collection]
 </div>
 
 <div class="col-lg-12">
-    <h2 class="page-header">
-        Tracers
-    </h2>
+	<h2 class="page-header">
+		Tracers
+	</h2>
+	#[collection: unordered-tracers]
 
-    #[collection: unordered-tracers]
+	#[pre]#[/pre]
 
-    #[pre]#[/pre]
+	#[each]
+	<ul class="list-group day-summary-list">
+		<strong>#tracer-name (#tracer-dose)</strong> is required <strong>#days-until</strong>
+	</ul>
+	#[/each]
 
-    #[each]
+	#[post]#[/post]
 
-    <ul class="list-group day-summary-list">
-        <b>#tracer-name (#tracer-dose)</b> is required in <b>#days-until</b>
-    </ul>
+	#[empty]
+	<p>There are no tracers to be ordered today or tomorrow.</p>
+	#[/empty]
 
-    #[/each]
-
-    #[post]#[/post]
-
-    #[empty]#[/empty]
-
-    #[/collection]
-
-    #[!if: unordered-tracers]
-    <p>There are no tracers to be ordered today or tomorrow.</p>
-    #[/!if]
-
+	#[/collection]
 </div>
+
 <div class="col-lg-12">
-    <h2 class="page-header">
-        Absences
-    </h2>
+	<h2 class="page-header">
+		Absences
+	</h2>
 
-    <ul class="list-group day-summary-list">
-        #HTMLOKAY:absences-as-string
-    </ul>
-    #[!if: absences-as-string]
-    <p>There are no staff absences registered for today or tomorrow.</p>
-    #[/!if]
+	<ul class="list-group day-summary-list">
+		#HTMLOKAY:absences-as-string
+	</ul>
+	#[!if: absences-as-string]
+	<p>There are no staff absences registered for today or tomorrow.</p>
+	#[/!if]
 </div>
 
-
-</body>
-</html>
+##_footer.html
