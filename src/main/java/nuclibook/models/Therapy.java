@@ -253,18 +253,22 @@ public class Therapy implements Renderable {
 			String advice = "This therapy requires " + getTracerRequired().getName() + " (" + getTracerRequired().getOrderTime() + " day order).//The recommended booking pattern is ";
 			boolean adviceComma = false;
 			List<BookingPatternSection> bookingPatternSections = getBookingPatternSections();
-			for (BookingPatternSection bps : bookingPatternSections) {
-				advice += adviceComma ? ", " : "";
-				adviceComma = true;
-				if (bps.getMinLength() == bps.getMaxLength()) {
-					advice += bps.getMinLength();
-				} else {
-					advice += bps.getMinLength() + "-" + bps.getMaxLength();
+			if (bookingPatternSections.isEmpty()) {
+				advice += "unknown.";
+			} else {
+				for (BookingPatternSection bps : bookingPatternSections) {
+					advice += adviceComma ? ", " : "";
+					adviceComma = true;
+					if (bps.getMinLength() == bps.getMaxLength()) {
+						advice += bps.getMinLength();
+					} else {
+						advice += bps.getMinLength() + "-" + bps.getMaxLength();
+					}
+					advice += " mins ";
+					advice += bps.isBusy() ? "booking" : "wait";
 				}
-				advice += " mins ";
-				advice += bps.isBusy() ? "booking" : "wait";
+				advice += ".";
 			}
-			advice += ".";
 
 			put("advice", advice);
 		}};
