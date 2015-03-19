@@ -38,13 +38,13 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		String orderDir = request.queryParams("order[0][dir]");
 
 		// prepare query string
-		String whereQuery = "LOWER(`name`) LIKE ? OR LOWER(`hospital_number`) LIKE ? OR LOWER(`nhs_number`) LIKE ? OR LOWER(`sex`) LIKE ? OR LOWER(`date_of_birth`) LIKE ?";
+		String whereQuery = "LOWER(`name`) LIKE ? OR LOWER(`hospital_number`) LIKE ? OR LOWER(`nhs_number`) LIKE ? OR LOWER(`sex`) LIKE ? OR FROM_UNIXTIME(ROUND(`date_of_birth` / 1000), '%Y-%m-%d') LIKE ?";
 
 		// get patient DAO
 		Dao<Patient, Integer> dao = AbstractEntityUtils.acquireDao(Patient.class);
 
 		// query to get ALL results
-		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
+		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery + " LIMIT", search, search, search, search, search);
 		List<String[]> results = rawResults.getResults();
 		int totalRecords = Integer.parseInt((results.get(0))[0]);
 
