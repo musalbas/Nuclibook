@@ -1,10 +1,5 @@
 $(document).ready(function () {
 
-	// link buttons
-	$('button.link-button').click(function (e) {
-		window.location.href = $(this).attr('data-target');
-	});
-
 	// hide expanding menus if not on a sub-page, hide empty sections, then set up clicks
 	$('.drop-down-menu').each(function (i) {
 		if ($(this).find('li').length == 0) {
@@ -91,5 +86,10 @@ var globalOnTableReloadFinished = function() {
 		$(this).addClass('btn-success')
 	}, function () {
 		$(this).removeClass('btn-success')
+	});
+
+	// link buttons
+	$('button.link-button').click(function (e) {
+		window.location.href = $(this).attr('data-target');
 	});
 };
