@@ -6,7 +6,9 @@ import com.j256.ormlite.table.TableUtils;
 import nuclibook.models.Patient;
 import nuclibook.server.SqlServerConnection;
 import org.dbunit.DatabaseUnitException;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.datatype.DefaultDataTypeFactory;
 import org.dbunit.dataset.xml.XmlDataSet;
 import org.dbunit.ext.h2.H2Connection;
 import org.dbunit.operation.DatabaseOperation;
@@ -18,13 +20,14 @@ import org.junit.BeforeClass;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
 
 public class AbstractUtilTest {
-    private static ConnectionSource connectionSource;
-    private static H2Connection dbunitConnection;
-    private String datasetPath;
+    protected static ConnectionSource connectionSource;
+    protected static H2Connection dbunitConnection;
+    protected String datasetPath;
     private Class<?> tableClass;
 
     public AbstractUtilTest(String datasetPath, Class<?> tableClass){
@@ -32,32 +35,39 @@ public class AbstractUtilTest {
         setTableClass(tableClass);
     }
 
-    protected IDataSet getDataSet(String name) throws Exception {
-        InputStream inputStream = getClass().getResourceAsStream(name);
-        //assertNotNull("file"+name+" not found in classpath", inputStream);
+    //method to read and insert xml dataset into in in-memory database
+    protected void insertDataset(String path) throws Exception {
+        InputStream inputStream = getClass().getResourceAsStream(path);
         Reader reader = new InputStreamReader(inputStream);
         XmlDataSet dataset = new XmlDataSet(reader);
-        return dataset;
+        DatabaseOperation.CLEAN_INSERT.execute(dbunitConnection,
+                dataset);
     }
 
+    //create in memory-database
     @BeforeClass
     public static void initTest() throws SQLException, DatabaseUnitException {
         //create in-memory database
-        String databaseUrl = "jdbc:h2:mem:test";
+        String databaseUrl = "jdbc:h2:mem:test;INIT=CREATE SCHEMA IF NOT EXISTS TEST\\;" +
+                "SET SCHEMA TEST";;
         connectionSource = SqlServerConnection.acquireConnection(databaseUrl, "", "");
 
         //get internal connection from connectionSource
         JdbcDatabaseConnection jdbcDatabaseConnection = (JdbcDatabaseConnection)connectionSource.getReadOnlyConnection();
-        dbunitConnection = new H2Connection(jdbcDatabaseConnection.getInternalConnection(),"");
+        //DatabaseMetaData metaData = jdbcDatabaseConnection.getInternalConnection().getMetaData();
+        dbunitConnection = new H2Connection(jdbcDatabaseConnection.getInternalConnection(), "TEST");
+        DatabaseConfig config = dbunitConnection.getConfig();
+        config.setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN, "`?`");
 
     }
+
+    //insert dataset into the in-memory database before each test
     @Before
     public void initTable() throws Exception {
-        IDataSet setupDataSet = getDataSet(datasetPath);
-        DatabaseOperation.CLEAN_INSERT.execute(dbunitConnection,
-                setupDataSet);
+        insertDataset(datasetPath);
     }
 
+    //clear out the table
     @After
     public void resetTable() throws SQLException {
         TableUtils.clearTable(connectionSource, tableClass);
@@ -84,4 +94,5 @@ public class AbstractUtilTest {
     public void setTableClass(Class<?> tableClass) {
         this.tableClass = tableClass;
     }
+
 }
