@@ -56,8 +56,8 @@ public class SecurityUtils {
 		return getUser(session);
 	}
 
-	public static boolean requirePermission(Session session, P p, Response response) {
-		if (getUser(session) == null || !getUser(session).hasPermission(p)) {
+	public static boolean requirePermission(Staff user, P p, Response response) {
+		if (user == null || !user.hasPermission(p)) {
 			try {
 				response.redirect("/access-denied");
 			} catch (IllegalStateException e) {
@@ -68,10 +68,10 @@ public class SecurityUtils {
 		return true;
 	}
 
-	public static String validateNewPassword(Staff staff, String password) throws CannotHashPasswordException {
+	public static String validateNewPassword(Staff user, String password) throws CannotHashPasswordException {
 		if (password.length() < 6) {
 			return "Password must be at least 6 characters long.";
-		} else if (staff.isInLastPasswords(password)) {
+		} else if (user.isInLastPasswords(password)) {
 			return "Password must not be the same as the last few passwords.";
 		}
 
