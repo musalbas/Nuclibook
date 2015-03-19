@@ -57,10 +57,9 @@ public class TestStaffAbsenceUtils extends AbstractUtilTest{
 
     @Test
     public void testGetStaffAbsencesByDateRange() throws SQLException {
-        DateTime from = new DateTime(12345678l);
-        DateTime to = new DateTime(12345679l);
+        DateTime from = new DateTime(53100l);
+        DateTime to = new DateTime(53900l);
         List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(from, to);
-        assertTrue("Size of retrieved list is not equal to number of staff absences in the date range",
-                staffAbsences.size() == 1);
+        assertTrue(staffAbsences.size() == 2);
     }
 }
