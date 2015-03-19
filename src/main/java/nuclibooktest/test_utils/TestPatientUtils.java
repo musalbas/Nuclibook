@@ -41,16 +41,16 @@ public class TestPatientUtils extends AbstractUtilTest{
     }
     @Test
     public void testGetAllPatients() throws Exception {
-        assertTrue(PatientUtils.getAllPatients(false).size() == 2);
-        assertTrue(PatientUtils.getAllPatients(true).size() == 1);
+        assertTrue("Size of retrieved list is not equal to number of rows in table",
+                PatientUtils.getAllPatients(false).size() == 2);
+        assertTrue("Size of retrieved list is not equal to number of enabled patients in table",
+                PatientUtils.getAllPatients(true).size() == 1);
     }
 
     @Test
     public void testGetPatient() throws Exception {
         Patient retrievedPatient = PatientUtils.getPatient(2);
-        assertTrue(retrievedPatient.getId() == 2);
-        assertNull(PatientUtils.getPatient(30));
+        assertTrue("Patient which exists which was not found", retrievedPatient.getId() == 2);
+        assertNull("Patient which does not exist found", PatientUtils.getPatient(30));
     }
-
-
 }

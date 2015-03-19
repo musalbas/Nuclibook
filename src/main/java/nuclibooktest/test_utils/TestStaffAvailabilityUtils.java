@@ -29,18 +29,21 @@ public class TestStaffAvailabilityUtils extends AbstractUtilTest{
     @Test
     public void testGetStaffAvailability(){
         StaffAvailability staffAvailability = StaffAvailabilityUtils.getAvailabilityById(1);
-        assertTrue(staffAvailability.getId() == 1);
-        assertNull(StaffAvailabilityUtils.getAvailabilityById(20));
+        assertTrue("Staff availability which exists which was not found",
+                staffAvailability.getId() == 1);
+        assertNull("Staff availability which does not exist found", StaffAvailabilityUtils.getAvailabilityById(20));
     }
 
     @Test
     public void testGetAllStaffAvailabilities() throws Exception {
-        assertTrue(StaffAvailabilityUtils.getAllStaffAvailabilities().size() == 2);
+        assertTrue("Size of retrieved list is not equal to number of rows in table",
+                StaffAvailabilityUtils.getAllStaffAvailabilities().size() == 2);
     }
 
     @Test
     public void testGetAvailabilitiesByStaffId(){
         List<StaffAvailability> staffAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(1);
-        assertTrue(StaffAvailabilityUtils.getAllStaffAvailabilities().size() == 2);
+        assertTrue("Size of retrieved list is not equal to number of availabilities of staff with id 1 in table",
+                staffAvailabilities.size() == 2);
     }
 }
