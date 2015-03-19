@@ -41,5 +41,7 @@ var validateEditForm = function (formObject) {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#staff-absences', 0, [[1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#staff-absences', [[1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 });

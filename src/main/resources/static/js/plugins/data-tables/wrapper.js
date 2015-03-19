@@ -1,9 +1,9 @@
-function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
+function mergeObject(ob1, ob2) {
+	for (var p in ob2) ob1[p] = ob2[p];
+	return ob1;
+}
 
-	// ordering override
-	if (typeof orderingOverride == 'undefined') {
-		orderingOverride = 'asc';
-	}
+function setUpDataTable(tableId, colDefs, extraConfig) {
 
 	// make column defs
 	var columnDefs = [];
@@ -19,44 +19,57 @@ function setUpDataTable(tableId, orderBy, colDefs, orderingOverride) {
 		var nativeAlert = window.alert;
 		return function (message) {
 			window.alert = nativeAlert;
-			message.indexOf("DataTables warning") === 0 ?
+			typeof(message) == 'string' && message.indexOf("DataTables warning") === 0 ?
 				console.warn(message) :
 				nativeAlert(message);
 		}
 	})();
 
 	// do the magic
-	$(tableId).DataTable({
-		"language": {
-			"aria": {
-				"sortAscending": ": activate to sort column ascending",
-				"sortDescending": ": activate to sort column descending"
+	$(tableId)
+		.DataTable(mergeObject({
+			"language": {
+				"aria": {
+					"sortAscending": ": activate to sort column ascending",
+					"sortDescending": ": activate to sort column descending"
+				},
+				"emptyTable": "<em>There is no data to display in this table.</em>",
+				"info": "Showing _START_ of _END_ (_TOTAL_ results found)",
+				"infoEmpty": "No entries found",
+				"infoFiltered": "from _MAX_ entries",
+				"lengthMenu": "Display _MENU_ rows",
+				"search": "",
+				"zeroRecords": "<em>We couldn't find what you were searching for. Please check your spelling or try searching manually.</em>",
+				"paginate": {
+					"previous": "Prev",
+					"next": "Next",
+					"last": "Last",
+					"first": "First"
+				}
 			},
-			"emptyTable": "<i>There is no data to display in this table.</i>",
-			"info": "Showing _START_ of _END_ (_TOTAL_ results found)",
-			"infoEmpty": "No entries found",
-			"infoFiltered": "from _MAX_ entries",
-			"lengthMenu": "Display _MENU_ rows",
-			"search": "",
-			"zeroRecords": "<i>We couldn't find what you were searching for. Please check your spelling or try searching manually.</i>",
-			"paginate": {
-				"previous": "Prev",
-				"next": "Next",
-				"last": "Last",
-				"first": "First"
+			"bStateSave": false,
+			"columns": columnDefs,
+			"lengthMenu": [
+				[20, 50, -1],
+				[20, 50, "All"]
+			],
+			"pageLength": 20,
+			"pagingType": "bootstrap_full_number"
+		}, extraConfig))
+		.on('preXhr.dt', function (e, s, j) {
+			$(this).fadeTo(0, 0.4);
+		})
+		.on('xhr.dt', function (e, s, j) {
+			$(this).fadeTo(0, 1.0);
+		})
+		.on('draw.dt', function () {
+			globalOnTableReloadFinished();
+			if (typeof(onTableReloadFinished) == 'function') {
+				onTableReloadFinished();
 			}
-		},
-		"bStateSave": false,
-		"columns": columnDefs,
-		"lengthMenu": [
-			[20, 50, -1],
-			[20, 50, "All"]
-		],
-		"pageLength": 20,
-		"pagingType": "bootstrap_full_number",
-		"order": [
-			[orderBy, orderingOverride]
-		]
-	});
+		});
+
+	// kill processing message
+	$('.dataTables_processing').remove();
 
 }

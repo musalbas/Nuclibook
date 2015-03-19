@@ -7,15 +7,7 @@ $(document).ready(function () {
 	 FIRST STAGE NAVIGATION
 	 **********************/
 
-	$('.select-patient').click(function () {
-		// get id and name
-		patientId = $(this).attr('data-id');
-		$('.patient-selected').html($(this).attr('data-name'));
-
-		// open next page
-		$('#page-one').slideUp(500);
-		$('#page-two').slideDown(500);
-	});
+	// select patient handled in onTableReloadFinished()
 
 	$('#go-back-to-select-patient').click(function () {
 		// open prev page
@@ -56,8 +48,15 @@ $(document).ready(function () {
 	 FIRST STAGE DATA TABLES
 	 ***********************/
 
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
-	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#patients-table', [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc'],
+		processing: true,
+		serverSide: true,
+		ajax: '/ajax/patient-data/1'
+	});
+	setUpDataTable('#therapies-table', [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 
 	// "show more" links
 	$('.more-camera-types').click(function (e) {
@@ -195,3 +194,16 @@ $(document).ready(function () {
 	});
 
 });
+
+// for lazy-loaded tables
+var onTableReloadFinished = function () {
+	$('.select-patient').click(function () {
+		// get id and name
+		patientId = $(this).attr('data-id');
+		$('.patient-selected').html($(this).attr('data-name'));
+
+		// open next page
+		$('#page-one').slideUp(500);
+		$('#page-two').slideDown(500);
+	});
+}

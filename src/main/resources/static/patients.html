@@ -31,35 +31,6 @@
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				#[collection: patients]
-
-				#[pre]#[/pre]
-
-				#[each]
-				<tr>
-					<td>#name</td>
-					<td>#hospital-number</td>
-					<td>#nhs-number</td>
-					<td>#sex-code</td>
-					<td>#date-of-birth</td>
-					<td>
-						#[ifperm: EDIT_PATIENTS]
-						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
-						#[/ifperm]
-						#[ifperm: VIEW_PATIENT_DETAILS]
-						<button class="btn info-button link-button" data-target="/patient-details/#id"><i class="fa fa-list-alt"></i> View Details</button>
-						#[/ifperm]
-					</td>
-				</tr>
-				#[/each]
-
-				#[post]#[/post]
-
-				#[empty]#[/empty]
-
-				#[/collection]
-			</tbody>
 		</table>
 
 	</div>
@@ -113,7 +84,5 @@
 <script src="/js/plugins/date-time-selector/date-selector.js"></script>
 
 ##_loading-modal.html
-
-#[collectionmap: objectMap: patients]
 
 ##_footer.html

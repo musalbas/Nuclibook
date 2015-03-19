@@ -2,17 +2,13 @@ package nuclibook.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.server.Renderable;
 import org.joda.time.DateTime;
-
-import java.util.HashMap;
 
 /**
  * Model to represent an entry in the action log.
  */
 @DatabaseTable(tableName = "action_log")
-public class ActionLog implements Renderable {
+public class ActionLog {
 
 	@DatabaseField(generatedId = true)
 	private Integer id;
@@ -23,8 +19,8 @@ public class ActionLog implements Renderable {
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "staff_id")
 	private Staff staff;
 
-	@DatabaseField
-	private Integer action;
+	@DatabaseField(columnName = "action_id")
+	private Integer actionId;
 
 	@DatabaseField(canBeNull = true, columnName = "associated_id")
 	private Integer associatedId;
@@ -43,19 +39,19 @@ public class ActionLog implements Renderable {
 	 *
 	 * @param staff        Staff who performed the action.
 	 * @param when         Date the action was performed.
-	 * @param action       The action (constant from entity_utils.ActionLogger).
+	 * @param actionId     The action (constant from entity_utils.ActionLogger).
 	 * @param associatedId The ID of the object that the action was performed on.
 	 */
-	public ActionLog(Staff staff, DateTime when, Integer action, Integer associatedId) {
+	public ActionLog(Staff staff, DateTime when, Integer actionId, Integer associatedId) {
 		this.staff = staff;
-		this.action = action;
+		this.actionId = actionId;
 		this.associatedId = associatedId;
 		setWhen(when);
 	}
 
-	public ActionLog(Staff staff, DateTime when, Integer action, Integer associatedId, String note) {
+	public ActionLog(Staff staff, DateTime when, Integer actionId, Integer associatedId, String note) {
 		this.staff = staff;
-		this.action = action;
+		this.actionId = actionId;
 		this.associatedId = associatedId;
 		this.note = note;
 		setWhen(when);
@@ -109,7 +105,7 @@ public class ActionLog implements Renderable {
 	/**
 	 * Set the member of staff who performed the action.
 	 *
-	 * @return The member of staff who performed the action.
+	 * @param staff The member of staff who performed the action.
 	 */
 	public void setStaff(Staff staff) {
 		this.staff = staff;
@@ -120,17 +116,17 @@ public class ActionLog implements Renderable {
 	 *
 	 * @return The action that was performed.
 	 */
-	public Integer getAction() {
-		return action;
+	public Integer getActionId() {
+		return actionId;
 	}
 
 	/**
 	 * Set the action that was performed.
 	 *
-	 * @return The action that was performed.
+	 * @param action The action that was performed.
 	 */
-	public void setAction(Integer action) {
-		this.action = action;
+	public void setActionId(Integer action) {
+		this.actionId = action;
 	}
 
 	/**
@@ -145,7 +141,7 @@ public class ActionLog implements Renderable {
 	/**
 	 * Set the ID of the object that the action was performed on.
 	 *
-	 * @return The ID of the object that the action was performed on.
+	 * @param associatedId The ID of the object that the action was performed on.
 	 */
 	public void setAssociatedId(Integer associatedId) {
 		this.associatedId = associatedId;
@@ -163,23 +159,10 @@ public class ActionLog implements Renderable {
 	/**
 	 * Set the note associated with the action.
 	 *
-	 * @return The note associated with the action.
+	 * @param note The note associated with the action.
 	 */
 	public void setNote(String note) {
 		this.note = note;
 	}
 
-	@Override
-	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>() {{
-			put("id", getId().toString());
-			put("staff", (getStaff()) == null ? "N/A" : getStaff().getName());
-			put("when", getWhen().toString("YYYY-MM-dd HH:mm:ss"));
-			Object desc = ActionLogger.actionDescription.get(getAction());
-			put("action", desc == null ? "Unknown" : desc.toString());
-			put("associated-id", (getAssociatedId()) == 0 ? "N/A" : getAssociatedId().toString());
-			put("notes", getNote());
-            put("error", ActionLogger.isErrorAction(getAction()) ? "error" : "");
-		}};
-	}
 }

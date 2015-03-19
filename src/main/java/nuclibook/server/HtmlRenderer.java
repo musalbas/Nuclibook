@@ -368,6 +368,17 @@ public class HtmlRenderer {
 			return "";
 		}
 		Collection<Renderable> collection = collections.get(key);
+		return getCollectionMapHtml(collection, varName);
+	}
+
+	public static <E> String getCollectionMapHtml(Collection<E> collection, String varName) {
+		ArrayList<Renderable> renderableCollection = new ArrayList<>(collection.size());
+		try {
+			renderableCollection.addAll(collection.stream().map(o -> (Renderable) o).collect(Collectors.toList()));
+		} catch (ClassCastException e) {
+			System.out.println("ERROR: Cannot cast to Renderable");
+			return "";
+		}
 
 		// start output basics
 		StringBuilder output = new StringBuilder();
@@ -376,7 +387,7 @@ public class HtmlRenderer {
 
 		// put in objects
 		HashMap<String, String> fields;
-		for (Renderable r : collection) {
+		for (Renderable r : renderableCollection) {
 			fields = r.getHashMap();
 			output.append("'").append(fields.get("id")).append("': {");
 
@@ -579,6 +590,7 @@ public class HtmlRenderer {
 		temp.putAll(b);
 		return temp;
 	}
+
 	/**
 	 * RENDERER
 	 */

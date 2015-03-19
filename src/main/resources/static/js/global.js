@@ -1,10 +1,5 @@
 $(document).ready(function () {
 
-	// link buttons
-	$('button.link-button').click(function (e) {
-		window.location.href = $(this).attr('data-target');
-	});
-
 	// hide expanding menus if not on a sub-page, hide empty sections, then set up clicks
 	$('.drop-down-menu').each(function (i) {
 		if ($(this).find('li').length == 0) {
@@ -18,30 +13,7 @@ $(document).ready(function () {
 		subMenuToggle($(this).parent());
 	});
 
-	// button classes
-	$(".edit-button").hover(function () {
-		$(this).addClass('btn-warning')
-	}, function () {
-		$(this).removeClass('btn-warning')
-	});
-
-	$(".delete-button").hover(function () {
-		$(this).addClass('btn-danger')
-	}, function () {
-		$(this).removeClass('btn-danger')
-	});
-
-	$(".info-button").hover(function () {
-		$(this).addClass('btn-info')
-	}, function () {
-		$(this).removeClass('btn-info')
-	});
-
-	$(".confirm-button").hover(function () {
-		$(this).addClass('btn-success')
-	}, function () {
-		$(this).removeClass('btn-success')
-	});
+	globalOnTableReloadFinished();
 
 	// automatic session timeout
 	setAutomaticTimeout();
@@ -88,4 +60,36 @@ $.fn.filterByData = function (prop, val) {
 			return $(this).data(prop) == val;
 		}
 	);
+};
+
+var globalOnTableReloadFinished = function() {
+	// button classes
+	$(".edit-button").hover(function () {
+		$(this).addClass('btn-warning')
+	}, function () {
+		$(this).removeClass('btn-warning')
+	});
+
+	$(".delete-button").hover(function () {
+		$(this).addClass('btn-danger')
+	}, function () {
+		$(this).removeClass('btn-danger')
+	});
+
+	$(".info-button").hover(function () {
+		$(this).addClass('btn-info')
+	}, function () {
+		$(this).removeClass('btn-info')
+	});
+
+	$(".confirm-button").hover(function () {
+		$(this).addClass('btn-success')
+	}, function () {
+		$(this).removeClass('btn-success')
+	});
+
+	// link buttons
+	$('button.link-button').click(function (e) {
+		window.location.href = $(this).attr('data-target');
+	});
 };
