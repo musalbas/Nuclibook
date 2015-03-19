@@ -56,8 +56,12 @@ $(document).ready(function () {
 	 FIRST STAGE DATA TABLES
 	 ***********************/
 
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
-	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#patients-table', [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
+	setUpDataTable('#therapies-table', [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 
 	// "show more" links
 	$('.more-camera-types').click(function (e) {
