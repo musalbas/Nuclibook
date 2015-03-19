@@ -18,30 +18,7 @@ $(document).ready(function () {
 		subMenuToggle($(this).parent());
 	});
 
-	// button classes
-	$(".edit-button").hover(function () {
-		$(this).addClass('btn-warning')
-	}, function () {
-		$(this).removeClass('btn-warning')
-	});
-
-	$(".delete-button").hover(function () {
-		$(this).addClass('btn-danger')
-	}, function () {
-		$(this).removeClass('btn-danger')
-	});
-
-	$(".info-button").hover(function () {
-		$(this).addClass('btn-info')
-	}, function () {
-		$(this).removeClass('btn-info')
-	});
-
-	$(".confirm-button").hover(function () {
-		$(this).addClass('btn-success')
-	}, function () {
-		$(this).removeClass('btn-success')
-	});
+	globalOnTableReloadFinished();
 
 	// automatic session timeout
 	setAutomaticTimeout();
@@ -88,4 +65,31 @@ $.fn.filterByData = function (prop, val) {
 			return $(this).data(prop) == val;
 		}
 	);
+};
+
+var globalOnTableReloadFinished = function() {
+	// button classes
+	$(".edit-button").hover(function () {
+		$(this).addClass('btn-warning')
+	}, function () {
+		$(this).removeClass('btn-warning')
+	});
+
+	$(".delete-button").hover(function () {
+		$(this).addClass('btn-danger')
+	}, function () {
+		$(this).removeClass('btn-danger')
+	});
+
+	$(".info-button").hover(function () {
+		$(this).addClass('btn-info')
+	}, function () {
+		$(this).removeClass('btn-info')
+	});
+
+	$(".confirm-button").hover(function () {
+		$(this).addClass('btn-success')
+	}, function () {
+		$(this).removeClass('btn-success')
+	});
 };

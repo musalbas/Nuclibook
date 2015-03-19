@@ -19,7 +19,7 @@ function setUpDataTable(tableId, colDefs, extraConfig) {
 		var nativeAlert = window.alert;
 		return function (message) {
 			window.alert = nativeAlert;
-			message != null && message.indexOf("DataTables warning") === 0 ?
+			typeof(message) == 'string' && message.indexOf("DataTables warning") === 0 ?
 				console.warn(message) :
 				nativeAlert(message);
 		}
@@ -59,8 +59,14 @@ function setUpDataTable(tableId, colDefs, extraConfig) {
 		.on('preXhr.dt', function (e, s, j) {
 			$(this).fadeTo(0, 0.4);
 		})
-		.on('xhr.dt', function(e, s, j) {
+		.on('xhr.dt', function (e, s, j) {
 			$(this).fadeTo(0, 1.0);
+		})
+		.on('draw.dt', function () {
+			globalOnTableReloadFinished();
+			if (typeof(onTableReloadFinished) == 'function') {
+				onTableReloadFinished();
+			}
 		});
 
 	// kill processing message

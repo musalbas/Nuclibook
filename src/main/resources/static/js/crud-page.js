@@ -238,3 +238,18 @@ function disableLoading(onComplete) {
 		if (typeof(onComplete) == 'function') onComplete();
 	}, 1000);
 }
+
+// for lazy-loaded tables
+var onTableReloadFinished = function() {
+	// link up clickable items
+	alert($('.edit-button').length);
+	$('.create-button').unbind('click').click(function (e) {
+		openEditModal(0);
+	});
+	$('.edit-button').unbind('click').click(function (e) {
+		openEditModal($(this).attr('data-id'));
+	});
+	$('.delete-button').unbind('click').click(function (e) {
+		openDeleteModal($(this).attr('data-id'));
+	});
+};
