@@ -3,10 +3,7 @@ package nuclibook.routes;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import nuclibook.constants.P;
-import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.entity_utils.ActionLogUtils;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.*;
 import nuclibook.models.ActionLog;
 import spark.Request;
 import spark.Response;
@@ -79,12 +76,12 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 							"Unknown" :
 							a.getStaff().getName(),
 					a.getWhen().toString("YYYY-MM-dd HH:mm:ss"),
-					ActionLogger.actionDescription.get(a.getAction()) == null ?
+					ActionLogEventUtils.getActionLogEvent(a.getActionId()) == null ?
 							"Unknown" :
-							ActionLogger.actionDescription.get(a.getAction()).toString(),
+							ActionLogEventUtils.getActionLogEvent(a.getActionId()).getLabel(),
 					a.getAssociatedId().toString(),
 					a.getNote() == null ?
-							"" :
+							"-" :
 							a.getNote()
 			});
 		}

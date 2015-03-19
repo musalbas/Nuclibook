@@ -87,8 +87,8 @@ public class LocalServer {
 		// basic pages
 		Spark.get("/", new DashboardRoute());
 
-        // day summary
-        Spark.get("/day-summary", new DaySummaryRoute());
+		// day summary
+		Spark.get("/day-summary", new DaySummaryRoute());
 
 		// security
 		Spark.get("/access-denied", new AccessDeniedRoute());
