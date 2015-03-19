@@ -97,10 +97,10 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		// build button string (do this just once for efficiency)
 		String buttonString = "";
 		if (mode == 0) {
-			if (SecurityUtils.getCurrentUser(request.session()).hasPermission(P.EDIT_PATIENTS)) {
+			if (user.hasPermission(P.EDIT_PATIENTS)) {
 				buttonString += "<button class=\"btn edit-button\" data-id=\"#id\"><i class=\"fa fa-edit\"></i> Edit</button>";
 			}
-			if (SecurityUtils.getCurrentUser(request.session()).hasPermission(P.VIEW_PATIENT_DETAILS)) {
+			if (user.hasPermission(P.VIEW_PATIENT_DETAILS)) {
 				buttonString += (buttonString.length() == 0 ? "" : "&nbsp;") + "<button class=\"btn info-button link-button\" data-target=\"/patient-details/#id\"><i class=\"fa fa-list-alt\"></i> View Details</button>";
 			}
 		} else {
