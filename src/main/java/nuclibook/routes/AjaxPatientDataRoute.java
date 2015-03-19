@@ -79,9 +79,14 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		Dao<Patient, Integer> dao = AbstractEntityUtils.acquireDao(Patient.class);
 
 		// query to get ALL results
-		GenericRawResults<String[]> rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
+		GenericRawResults<String[]> rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `patients`");
 		List<String[]> totalResults = rawTotalResults.getResults();
 		int totalRecords = Integer.parseInt((totalResults.get(0))[0]);
+
+		// query to get ALL filtered results
+		rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
+		totalResults = rawTotalResults.getResults();
+		int totalFilteredRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query for matched rows
 		ArrayList<String[]> records = new ArrayList<>();
@@ -118,7 +123,7 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 
 		// output
 		StringBuilder output = new StringBuilder();
-		output.append("{\"recordsTotal\":").append(totalRecords).append(",\"recordsFiltered\":").append(records.size()).append(",\"data\":[");
+		output.append("{\"recordsTotal\":").append(totalRecords).append(",\"recordsFiltered\":").append(totalFilteredRecords).append(",\"data\":[");
 		boolean commaNeeded = false, innerCommaNeeded;
 		for (String[] r : records) {
 			if (commaNeeded) output.append(",");
