@@ -33,7 +33,7 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 		String orderDir = request.queryParams("order[0][dir]");
 
 		// prepare query string
-		String whereQuery = "LOWER(`staff`.`name`) LIKE ? OR FROM_UNIXTIME(ROUND(`when` / 1000), '%Y-%m-%d') LIKE ? OR `associated_id` LIKE ? OR (" + (search.equals("") ? "`note` IS NULL OR " : "") + "LOWER(`note`) LIKE ?)";
+		String whereQuery = "LOWER(`staff`.`name`) LIKE ? OR (" + (search.equals("") ? "`action_log_events`.`label` IS NULL OR " : "") + "LOWER(`action_log_events`.`label`) LIKE ?) OR FROM_UNIXTIME(ROUND(`when` / 1000), '%Y-%m-%d') LIKE ? OR `associated_id` LIKE ? OR (" + (search.equals("") ? "`note` IS NULL OR " : "") + "LOWER(`note`) LIKE ?)";
 
 		// prepare order string
 		String orderQuery = "ORDER BY ";
@@ -59,13 +59,13 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 		int totalRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query to get ALL filtered results
-		rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id` WHERE " + whereQuery, search, search, search, search);
+		rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM (`action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id`) LEFT OUTER JOIN `action_log_events` ON `action_log`.`action_id` = `action_log_events`.`id` WHERE " + whereQuery, search, search, search, search, search);
 		totalResults = rawTotalResults.getResults();
 		int totalFilteredRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query for matched rows
 		ArrayList<String[]> records = new ArrayList<>();
-		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT * FROM `action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, search, search, search, search);
+		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT * FROM (`action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id`) LEFT OUTER JOIN `action_log_events` ON `action_log`.`action_id` = `action_log_events`.`id` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, search, search, search, search, search);
 		List<String[]> results = rawResults.getResults();
 
 		// create rows
@@ -82,7 +82,9 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 					e == null ?
 							"Unknown" :
 							e.getLabel(),
-					a.getAssociatedId().toString(),
+					(a.getAssociatedId() == 0 ?
+							"-" :
+							a.getAssociatedId().toString()),
 					(a.getNote() == null ?
 							"-" :
 							a.getNote()) +
