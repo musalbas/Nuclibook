@@ -6,3 +6,14 @@ $(document).ready(function () {
 		ajax: '/ajax/action-log-data'
 	});
 });
+
+var onTableReloadFinished = function() {
+	$('tr').each(function(i, o) {
+		o = $(o);
+		if (o.find('.is-error').length > 0) {
+			o.addClass('error');
+		} else {
+			o.removeClass('error');
+		}
+	});
+};

@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.GenericRawResults;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
 import nuclibook.models.ActionLog;
+import nuclibook.models.ActionLogEvent;
 import spark.Request;
 import spark.Response;
 
@@ -69,20 +70,25 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 
 		// create rows
 		ActionLog a;
+		ActionLogEvent e;
 		for (String[] row : results) {
 			a = ActionLogUtils.getActionLog(row[0]);
+			e = ActionLogEventUtils.getActionLogEvent(a.getActionId());
 			records.add(new String[]{
 					a.getStaff() == null ?
 							"Unknown" :
 							a.getStaff().getName(),
 					a.getWhen().toString("YYYY-MM-dd HH:mm:ss"),
-					ActionLogEventUtils.getActionLogEvent(a.getActionId()) == null ?
+					e == null ?
 							"Unknown" :
-							ActionLogEventUtils.getActionLogEvent(a.getActionId()).getLabel(),
+							e.getLabel(),
 					a.getAssociatedId().toString(),
-					a.getNote() == null ?
+					(a.getNote() == null ?
 							"-" :
-							a.getNote()
+							a.getNote()) +
+							(e != null && e.isError() ?
+									"<span class=\"is-error\"></span>" :
+									"")
 			});
 		}
 
