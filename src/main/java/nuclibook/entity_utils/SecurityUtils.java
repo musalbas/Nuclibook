@@ -6,18 +6,23 @@ import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.Staff;
 import nuclibook.server.SqlServerConnection;
 import spark.Response;
+import spark.Session;
 
 public class SecurityUtils {
-
-	/* singleton pattern */
-
-	private static Staff loggedInAs = null;
 
 	private SecurityUtils() {
 		// prevent instantiation
 	}
 
-	public static Staff attemptLogin(String username, String password) {
+	private static void setUser(Session session, Staff user) {
+		session.attribute("user", user);
+	}
+
+	private static Staff getUser(Session session) {
+		return session.attribute("user");
+	}
+
+	public static Staff attemptLogin(Session session, String username, String password) {
 		// set up server connection
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
@@ -28,7 +33,7 @@ public class SecurityUtils {
 					// check their password
 					if (staff.checkPassword(password)) {
 						// correct login!
-						loggedInAs = staff;
+						setUser(session, staff);
 						return staff;
 					}
 				}
@@ -39,20 +44,20 @@ public class SecurityUtils {
 		return null;
 	}
 
-	public static boolean checkLoggedIn() {
-		return loggedInAs != null;
+	public static boolean checkLoggedIn(Session session) {
+		return getUser(session) != null;
 	}
 
-	public static void destroyLogin() {
-		loggedInAs = null;
+	public static void destroyLogin(Session session) {
+		setUser(session, null);
 	}
 
-	public static Staff getCurrentUser() {
-		return loggedInAs;
+	public static Staff getCurrentUser(Session session) {
+		return getUser(session);
 	}
 
-	public static boolean requirePermission(P p, Response response) {
-		if (loggedInAs == null || !loggedInAs.hasPermission(p)) {
+	public static boolean requirePermission(Session session, P p, Response response) {
+		if (getUser(session) == null || !getUser(session).hasPermission(p)) {
 			try {
 				response.redirect("/access-denied");
 			} catch (IllegalStateException e) {
