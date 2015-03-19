@@ -4,6 +4,7 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
+import nuclibook.models.Staff;
 import nuclibook.models.TracerOrder;
 import nuclibook.server.HtmlRenderer;
 import org.joda.time.DateTime;
@@ -18,11 +19,14 @@ public class TracerOrdersRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACER_ORDERS, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_TRACERS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_TRACER_ORDERS, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -67,7 +71,7 @@ public class TracerOrdersRoute extends DefaultRoute {
 		// mode field
 		renderer.setField("mode", mode);
 
-        ActionLogger.logAction(ActionLogger.VIEW_TRACER_ORDERS, 0);
+        ActionLogger.logAction(user, ActionLogger.VIEW_TRACER_ORDERS, 0);
 
 		return renderer.render();
 	}

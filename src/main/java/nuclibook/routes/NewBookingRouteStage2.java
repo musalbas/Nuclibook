@@ -25,12 +25,15 @@ public class NewBookingRouteStage2 extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) return null;
-		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) return null;
-		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
+		if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_LIST, response)) return null;
+		if (!SecurityUtils.requirePermission(user, P.VIEW_THERAPIES, response)) return null;
+		if (!SecurityUtils.requirePermission(user, P.EDIT_APPOINTMENTS, response)) return null;
 
 		// get JSON from submission
 		String rawJson = request.queryParams("jsonFromStage1");

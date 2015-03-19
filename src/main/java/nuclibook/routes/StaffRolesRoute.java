@@ -6,6 +6,7 @@ import nuclibook.entity_utils.PermissionUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffRoleUtils;
 import nuclibook.models.Permission;
+import nuclibook.models.Staff;
 import nuclibook.models.StaffRole;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -20,11 +21,14 @@ public class StaffRolesRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ROLES, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_STAFF_ROLES, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_STAFF_ROLES, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_STAFF_ROLES, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -46,7 +50,7 @@ public class StaffRolesRoute extends DefaultRoute {
 		});
 		renderer.setCollection("permissions", allPermissions);
 
-        ActionLogger.logAction(ActionLogger.VIEW_STAFF_ROLES, 0);
+        ActionLogger.logAction(user, ActionLogger.VIEW_STAFF_ROLES, 0);
 
 		return renderer.render();
 	}

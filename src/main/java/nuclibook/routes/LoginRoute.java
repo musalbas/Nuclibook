@@ -8,6 +8,7 @@ import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
+import spark.Session;
 
 import java.util.HashMap;
 
@@ -22,10 +23,14 @@ public class LoginRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		getRenderer().clearFields();
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current session and user
+		Session session = request.session();
+		Staff user = SecurityUtils.getCurrentUser(session);
 
 		// check they are not already logged in
-		if (SecurityUtils.checkLoggedIn()) {
+		if (SecurityUtils.checkLoggedIn(session)) {
 			response.redirect("/");
 			return null;
 		}
@@ -62,6 +67,9 @@ public class LoginRoute extends DefaultRoute {
 		String username = request.queryParams("username");
 		String password = request.queryParams("password");
 
+		// get session
+		Session session = request.session();
+
 		// is this stage 1 or stage 2?
 		if (password == null) {
 			// submission from stage 1
@@ -74,7 +82,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-staff-id", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID, 0, "Attempted username: " + username);
+                ActionLogger.logAction(null, ActionLogger.ATTEMPT_LOG_IN_STAFF_ID, 0, "Attempted username: " + username);
 				return handleGet();
 			}
 
@@ -83,7 +91,7 @@ public class LoginRoute extends DefaultRoute {
 				rendererFields.clear();
 				rendererFields.put("error-bad-status", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_STAFF_ID_DISABLED, 0, "Attempted username: " + username);
+                ActionLogger.logAction(null, ActionLogger.ATTEMPT_LOG_IN_STAFF_ID_DISABLED, 0, "Attempted username: " + username);
 				return handleGet();
 			}
 
@@ -97,17 +105,17 @@ public class LoginRoute extends DefaultRoute {
 			// submission from stage 2
 
 			// check credentials
-			Staff staff = SecurityUtils.attemptLogin(username, password);
+			Staff staff = SecurityUtils.attemptLogin(session, username, password);
 			if (staff == null) {
 				// sent back to stage 1 of login screen
 				rendererFields.clear();
 				rendererFields.put("error-bad-password", "");
 				rendererFields.put("username", username);
-                ActionLogger.logAction(ActionLogger.ATTEMPT_LOG_IN_PASSWORD, 0, "Attempted username: " + username);
+                ActionLogger.logAction(null, ActionLogger.ATTEMPT_LOG_IN_PASSWORD, 0, "Attempted username: " + username);
 				return handleGet();
 			} else {
 				response.redirect("/");
-                ActionLogger.logAction(ActionLogger.LOG_IN, staff.getId());
+                ActionLogger.logAction(staff, ActionLogger.LOG_IN, staff.getId());
 				return null;
 			}
 		}

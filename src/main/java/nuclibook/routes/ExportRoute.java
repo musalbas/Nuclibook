@@ -6,6 +6,7 @@ import nuclibook.entity_utils.ExportUtils;
 import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -17,7 +18,10 @@ public class ExportRoute extends DefaultRoute {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         // necessary prelim routine
-        prepareToHandle();
+        prepareToHandle(request);
+
+        // get current user
+        Staff user = SecurityUtils.getCurrentUser(request.session());
 
         String[] fileSplit = request.params(":file:").split("\\.", 2);
         String table = fileSplit[0];
@@ -32,13 +36,13 @@ public class ExportRoute extends DefaultRoute {
         String exportData = null;
 
         if (table.equals("patients")) {
-            if (SecurityUtils.requirePermission(P.EXPORT_PATIENTS, response)) {
+            if (SecurityUtils.requirePermission(user, P.EXPORT_PATIENTS, response)) {
                 if (type.equals("csv")) {
                     exportData = ExportUtils.exportCSV(Patient.class);
                 }
-                ActionLogger.logAction(ActionLogger.EXPORT_PATIENTS, 0);
+                ActionLogger.logAction(user, ActionLogger.EXPORT_PATIENTS, 0);
             } else {
-                ActionLogger.logAction(ActionLogger.ATTEMPT_EXPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
+                ActionLogger.logAction(user, ActionLogger.ATTEMPT_EXPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
             }
         }
 

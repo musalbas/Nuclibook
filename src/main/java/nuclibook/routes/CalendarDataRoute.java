@@ -2,10 +2,7 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
-import nuclibook.models.Booking;
-import nuclibook.models.BookingSection;
-import nuclibook.models.GenericEvent;
-import nuclibook.models.StaffAbsence;
+import nuclibook.models.*;
 import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
@@ -21,11 +18,14 @@ public class CalendarDataRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENTS, response)) {
-			ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_BOOKING_CALENDAR, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_APPOINTMENTS, response)) {
+			ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_BOOKING_CALENDAR, 0, "Failed as user does not have permissions for this action");
 			return "no_permission";
 		}
 
@@ -226,7 +226,7 @@ public class CalendarDataRoute extends DefaultRoute {
 		 */
 
 		// We did a thing!
-		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
+		ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
 		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
 	}

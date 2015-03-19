@@ -8,6 +8,7 @@ import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Booking;
 import nuclibook.models.BookingSection;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -19,11 +20,14 @@ public class BookingDetailsRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENT_DETAILS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_BOOKING, Integer.parseInt(request.params(":bookingid")), "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_APPOINTMENT_DETAILS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_BOOKING, Integer.parseInt(request.params(":bookingid")), "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -35,10 +39,10 @@ public class BookingDetailsRoute extends DefaultRoute {
 		Booking booking = BookingUtils.getBooking(request.params(":bookingid:"));
 
 		// update?
-		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_APPOINTMENTS)) {
+		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_APPOINTMENTS)) {
 			booking.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(Booking.class, booking);
-            ActionLogger.logAction(ActionLogger.UPDATE_BOOKING, booking.getId());
+            ActionLogger.logAction(user, ActionLogger.UPDATE_BOOKING, booking.getId());
 		}
 
 		// add booking to renderer
@@ -58,7 +62,7 @@ public class BookingDetailsRoute extends DefaultRoute {
 		Patient patient = booking.getPatient();
 		renderer.setBulkFields(patient.getHashMap());
 
-        ActionLogger.logAction(ActionLogger.VIEW_BOOKING, booking.getId());
+        ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING, booking.getId());
 
 		return renderer.render();
 	}

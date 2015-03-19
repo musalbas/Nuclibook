@@ -19,7 +19,10 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// get request info
 		String entityType = request.queryParams("entity-type");
@@ -116,52 +119,52 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 					switch (entityType) {
 						case "camera":
 							Camera camera = (Camera) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, camera.getId());
+							ActionLogger.logAction(user, action, camera.getId());
 							break;
 
 						case "camera-type":
 							CameraType cameraType = (CameraType) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, cameraType.getId());
+							ActionLogger.logAction(user, action, cameraType.getId());
 							break;
 
 						case "tracer":
 							Tracer tracer = (Tracer) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, tracer.getId());
+							ActionLogger.logAction(user, action, tracer.getId());
 							break;
 
 						case "patient":
 							Patient patient = (Patient) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, patient.getId());
+							ActionLogger.logAction(user, action, patient.getId());
 							break;
 
 						case "staff":
 							Staff staff = (Staff) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, staff.getId());
+							ActionLogger.logAction(user, action, staff.getId());
 							break;
 
 						case "staff-absence":
 							StaffAbsence staffAbsence = (StaffAbsence) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, staffAbsence.getId());
+							ActionLogger.logAction(user, action, staffAbsence.getId());
 							break;
 
 						case "staff-availability":
 							StaffAvailability staffAvailability = (StaffAvailability) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
-							ActionLogger.logAction(action, staffAvailability.getId());
+							ActionLogger.logAction(user, action, staffAvailability.getId());
 							break;
 					}
 				} else {
 					AbstractEntityUtils.updateEntity(dbClass, entityPair.getValue());
 					if (entityType.equals("staff-password-change")) {
-						ActionLogger.logAction(action, SecurityUtils.getCurrentUser().getId());
+						ActionLogger.logAction(user, action, user.getId());
 					} else {
-						ActionLogger.logAction(action, entityId);
+						ActionLogger.logAction(user, action, entityId);
 					}
 				}
 			}
 
 			// anything to do afterwards?
 			if (entityType.equals("staff-role") || entityType.equals("staff")) {
-				SecurityUtils.getCurrentUser().refreshPermissions();
+				user.refreshPermissions();
 			}
 
 			return "okay";
@@ -187,10 +190,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateCamera(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+		
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+		if (user == null || !user.hasPermission(P.EDIT_CAMERAS)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_CAMERA : ActionLogger.ATTEMPT_UPDATE_CAMERA;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -219,10 +225,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+		
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_CAMERAS)) {
+		if (user == null || !user.hasPermission(P.EDIT_CAMERAS)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_CAMERA_TYPE : ActionLogger.ATTEMPT_UPDATE_CAMERA_TYPE;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -247,10 +256,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+		if (user == null || !user.hasPermission(P.EDIT_PATIENTS)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_PATIENT : ActionLogger.ATTEMPT_UPDATE_PATIENT;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -294,10 +306,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF)) {
+		if (user == null || !user.hasPermission(P.EDIT_STAFF)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF : ActionLogger.ATTEMPT_UPDATE_STAFF;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -310,9 +325,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// check if staff username is taken and the request is not updating a user
-		if (createNew || !request.queryParams("username").equals(SecurityUtils.getCurrentUser().getUsername())) {
+		if (createNew || !request.queryParams("username").equals(user.getUsername())) {
             if (StaffUtils.usernameExists(request.queryParams("username"))) {
-                ActionLogger.logAction( ActionLogger.ATTEMPT_UPDATE_STAFF, entityId, "Failed as the chosen username already exists");
+                ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF, entityId, "Failed as the chosen username already exists");
                 return new Pair<>(Status.CUSTOM_ERROR, "Username has been taken");
             }
 		}
@@ -332,8 +347,8 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// password
 		if (request.queryParams("password") != null && request.queryParams("password").length() > 0) {
 			// password strength validation
-            if(!createNew && (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_PASSWORD))) {
-                ActionLogger.logAction(ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entityId, "Failed as the user does not have permissions to edit other users' passwords");
+            if(!createNew && (user == null || !user.hasPermission(P.EDIT_STAFF_PASSWORD))) {
+                ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entityId, "Failed as the user does not have permissions to edit other users' passwords");
                 return new Pair<>(Status.NO_PERMISSION, null);
             }
 
@@ -345,7 +360,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			}
 			if (passwordError != null) {
 				Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF_PASSWORD : ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD;
-				ActionLogger.logAction(action, entityId, "Failed as the following error had occurred: " + passwordError);
+				ActionLogger.logAction(user, action, entityId, "Failed as the following error had occurred: " + passwordError);
 				return new Pair<>(Status.CUSTOM_ERROR, passwordError);
 			}
 
@@ -364,10 +379,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateStaffAbsence(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ABSENCES)) {
+		if (user == null || !user.hasPermission(P.EDIT_STAFF_ABSENCES)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF_ABSENCE : ActionLogger.ATTEMPT_UPDATE_STAFF_ABSENCE;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -405,10 +423,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_AVAILABILITIES)) {
+		if (user == null || !user.hasPermission(P.EDIT_STAFF_AVAILABILITIES)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF_AVAILABILITY : ActionLogger.ATTEMPT_UPDATE_STAFF_AVAILABILITY;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -452,20 +473,23 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateStaffPassword(Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// this is not new
 		createNew = false;
 
 		// get current user
-		Staff entity = SecurityUtils.getCurrentUser();
+		Staff entity = user;
 
 		// check against current password
 		try {
 			if (!entity.checkPassword(request.queryParams("password_old"))) {
-				ActionLogger.logAction(ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the the user entered an incorrect password");
+				ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the the user entered an incorrect password");
 				return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 			}
 		} catch (CannotHashPasswordException e) {
-			ActionLogger.logAction(ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the the user entered an incorrect password");
+			ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the the user entered an incorrect password");
 			return new Pair<>(Status.CUSTOM_ERROR, "Your current password was incorrect");
 		}
 
@@ -477,7 +501,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 			return new Pair<>(Status.FAILED_VALIDATION, null);
 		}
 		if (passwordError != null) {
-			ActionLogger.logAction(ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the following error had occurred: " + passwordError);
+			ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entity.getId(), "Failed as the following error had occurred: " + passwordError);
 			return new Pair<>(Status.CUSTOM_ERROR, passwordError);
 		}
 
@@ -497,10 +521,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_STAFF_ROLES)) {
+		if (user == null || !user.hasPermission(P.EDIT_STAFF_ROLES)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_STAFF_ROLE : ActionLogger.ATTEMPT_UPDATE_STAFF_ROLE;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -540,7 +567,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// if it's new, we'll save it here so that the permissions can be added properly
 		if (createNew) {
 			StaffRole staffRole = AbstractEntityUtils.createEntity(StaffRole.class, entity);
-			ActionLogger.logAction(ActionLogger.CREATE_STAFF_ROLE, staffRole.getId());
+			ActionLogger.logAction(user, ActionLogger.CREATE_STAFF_ROLE, staffRole.getId());
 		}
 
 		// permissions
@@ -568,10 +595,13 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	}
 
 	private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_THERAPIES)) {
+		if (user == null || !user.hasPermission(P.EDIT_THERAPIES)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_THERAPY : ActionLogger.ATTEMPT_UPDATE_THERAPY;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
@@ -739,17 +769,20 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		}
 
 		// all validation has passed, we can now log the action
-		ActionLogger.logAction(ActionLogger.CREATE_THERAPY, entity.getId());
+		ActionLogger.logAction(user, ActionLogger.CREATE_THERAPY, entity.getId());
 
 		// don't let it be created again if it's new
 		return createNew ? null : new Pair<>(Status.OK, entity);
 	}
 
 	private Pair<Status, Object> createUpdateTracer(int entityId, Request request) {
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
+
 		// permission
-		if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
+		if (user == null || !user.hasPermission(P.EDIT_TRACERS)) {
 			Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_TRACER : ActionLogger.ATTEMPT_UPDATE_TRACER;
-			ActionLogger.logAction(action, entityId, "Failed as user does not have permissions for this action");
+			ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
 			return new Pair<>(Status.NO_PERMISSION, null);
 		}
 
