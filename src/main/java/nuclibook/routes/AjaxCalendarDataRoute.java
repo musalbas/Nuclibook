@@ -225,9 +225,6 @@ public class AjaxCalendarDataRoute extends DefaultRoute {
 		END GENERIC EVENTS SECTION
 		 */
 
-		// We did a thing!
-		ActionLogger.logAction(ActionLogger.VIEW_BOOKING_CALENDAR, 0);
-
 		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
 	}
 

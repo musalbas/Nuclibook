@@ -4,6 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import nuclibook.constants.P;
 import nuclibook.entity_utils.AbstractEntityUtils;
+import nuclibook.entity_utils.ActionLogUtils;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.ActionLog;
@@ -26,9 +27,6 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 			return null;
 		}
 
-		// log
-		ActionLogger.logAction(ActionLogger.VIEW_ACTION_LOG, 0);
-
 		// get request info
 		int start = Integer.parseInt(request.queryParams("start"));
 		int length = Integer.parseInt(request.queryParams("length"));
@@ -37,8 +35,7 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 		String orderDir = request.queryParams("order[0][dir]");
 
 		// prepare query string
-		// TODO
-		String whereQuery = "LOWER(`note`) LIKE ?";
+		String whereQuery = "LOWER(`staff`.`name`) LIKE ? OR FROM_UNIXTIME(ROUND(`when` / 1000), '%Y-%m-%d') LIKE ? OR `associated_id` LIKE ? OR (" + (search.equals("") ? "`note` IS NULL OR " : "") + "LOWER(`note`) LIKE ?)";
 
 		// prepare order string
 		String orderQuery = "ORDER BY ";
@@ -64,17 +61,19 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 		int totalRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query to get ALL filtered results
-		rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `action_log` WHERE " + whereQuery, search);
+		rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id` WHERE " + whereQuery, search, search, search, search);
 		totalResults = rawTotalResults.getResults();
 		int totalFilteredRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query for matched rows
 		ArrayList<String[]> records = new ArrayList<>();
-		GenericRawResults<ActionLog> rawResults = dao.queryRaw("SELECT * FROM `action_log` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, dao.getRawRowMapper(), search);
-		List<ActionLog> results = rawResults.getResults();
+		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT * FROM `action_log` LEFT OUTER JOIN `staff` ON `action_log`.`staff_id` = `staff`.`id` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, search, search, search, search);
+		List<String[]> results = rawResults.getResults();
 
 		// create rows
-		for (ActionLog a : results) {
+		ActionLog a;
+		for (String[] row : results) {
+			a = ActionLogUtils.getActionLog(row[0]);
 			records.add(new String[]{
 					a.getStaff() == null ?
 							"Unknown" :
@@ -84,7 +83,9 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 							"Unknown" :
 							ActionLogger.actionDescription.get(a.getAction()).toString(),
 					a.getAssociatedId().toString(),
-					a.getNote()
+					a.getNote() == null ?
+							"" :
+							a.getNote()
 			});
 		}
 

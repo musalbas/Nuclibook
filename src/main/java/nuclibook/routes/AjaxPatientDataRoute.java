@@ -33,9 +33,6 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 			return null;
 		}
 
-		// log
-		ActionLogger.logAction(ActionLogger.VIEW_PATIENTS, 0);
-
 		// get request info
 		int start = Integer.parseInt(request.queryParams("start"));
 		int length = Integer.parseInt(request.queryParams("length"));
