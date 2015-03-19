@@ -89,7 +89,7 @@ $(document).ready(function () {
 		order: [0, 'asc'],
 		processing: true,
 		serverSide: true,
-		ajax: '/ajax/patient-data'
+		ajax: '/ajax/patient-data/0'
 	});
 
 	$('.import-button').click(function () {

@@ -60,7 +60,7 @@ $(document).ready(function () {
 		order: [0, 'asc'],
 		processing: true,
 		serverSide: true,
-		ajax: '/ajax/patient-data'
+		ajax: '/ajax/patient-data/1'
 	});
 	setUpDataTable('#therapies-table', [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
 		order: [0, 'asc']

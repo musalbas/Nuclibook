@@ -16,6 +16,12 @@ import java.util.List;
 
 public class AjaxPatientDataRoute extends DefaultRoute {
 
+	int mode;
+
+	public AjaxPatientDataRoute(int mode) {
+		this.mode = mode;
+	}
+
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
@@ -84,11 +90,15 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 
 		// build button string (do this just once for efficiency)
 		String buttonString = "";
-		if (SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
-			buttonString += "<button class=\"btn edit-button\" data-id=\"#id\"><i class=\"fa fa-edit\"></i> Edit</button>";
-		}
-		if (SecurityUtils.getCurrentUser().hasPermission(P.VIEW_PATIENT_DETAILS)) {
-			buttonString += (buttonString.length() == 0 ? "" : "&nbsp;") + "<button class=\"btn info-button link-button\" data-target=\"/patient-details/#id\"><i class=\"fa fa-list-alt\"></i> View Details</button>";
+		if (mode == 0) {
+			if (SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+				buttonString += "<button class=\"btn edit-button\" data-id=\"#id\"><i class=\"fa fa-edit\"></i> Edit</button>";
+			}
+			if (SecurityUtils.getCurrentUser().hasPermission(P.VIEW_PATIENT_DETAILS)) {
+				buttonString += (buttonString.length() == 0 ? "" : "&nbsp;") + "<button class=\"btn info-button link-button\" data-target=\"/patient-details/#id\"><i class=\"fa fa-list-alt\"></i> View Details</button>";
+			}
+		} else {
+			buttonString = "<button class=\"btn select-patient confirm-button\" data-id=\"#id\" data-name=\"#name\"><i class=\"fa fa-fw fa-arrow-circle-right\"></i> Select</button>";
 		}
 
 		// create rows
@@ -99,7 +109,7 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 					row[3],
 					row[5].equals("MALE") ? "M" : "F",
 					new DateTime(Long.parseLong(row[4])).toString("YYYY-MM-dd"),
-					buttonString.replace("#id", row[0])
+					buttonString.replace("#id", row[0]).replace("#name", row[1])
 			});
 		}
 

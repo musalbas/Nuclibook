@@ -128,7 +128,8 @@ public class LocalServer {
 
 		// AJAX routes
 		Spark.get("/ajax/calendar-data", new AjaxCalendarDataRoute());
-		Spark.get("/ajax/patient-data", new AjaxPatientDataRoute());
+		Spark.get("/ajax/patient-data/0", new AjaxPatientDataRoute(0));
+		Spark.get("/ajax/patient-data/1", new AjaxPatientDataRoute(1));
 
 		// tracer orders
 		Spark.get("/tracer-orders", new TracerOrdersRoute());

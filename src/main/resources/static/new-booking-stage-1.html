@@ -17,30 +17,6 @@
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				#[collection: patients]
-
-				#[pre]#[/pre]
-
-				#[each]
-				<tr>
-					<td>#name</td>
-					<td>#hospital-number</td>
-					<td>#nhs-number</td>
-					<td>#sex</td>
-					<td>#date-of-birth</td>
-					<td>
-						<button class="btn select-patient confirm-button" data-id="#id" data-name="#name"><i class="fa fa-fw fa-arrow-circle-right"></i> Select</button>
-					</td>
-				</tr>
-				#[/each]
-
-				#[post]#[/post]
-
-				#[empty]#[/empty]
-
-				#[/collection]
-			</tbody>
 		</table>
 	</div>
 
