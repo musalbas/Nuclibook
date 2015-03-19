@@ -7,6 +7,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
+import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
@@ -101,14 +102,17 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		}
 
 		// create rows
-		for (Patient p : results) {
+		Patient p;
+		for (int i = 0; i < results.size(); ++i) {
+			p = results.get(i);
 			records.add(new String[]{
 					p.getName(),
 					p.getHospitalNumber(),
 					p.getNhsNumber(),
 					p.getSex() == Patient.Sex.MALE ? "M" : "F",
 					p.getDateOfBirth().toString("YYYY-MM-dd"),
-					buttonString.replace("#id", p.getId().toString()).replace("#name", p.getName())
+					buttonString.replace("#id", p.getId().toString()).replace("#name", p.getName()) +
+							(i == results.size() - 1 ? HtmlRenderer.getCollectionMapHtml(results, "objectMap") : "")
 			});
 		}
 
