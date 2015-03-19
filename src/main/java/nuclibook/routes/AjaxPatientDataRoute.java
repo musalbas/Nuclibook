@@ -7,6 +7,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -25,11 +26,14 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+		// get current user
+
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-			ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_LIST, response)) {
+			ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
 			return null;
 		}
 
@@ -93,10 +97,10 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		// build button string (do this just once for efficiency)
 		String buttonString = "";
 		if (mode == 0) {
-			if (SecurityUtils.getCurrentUser().hasPermission(P.EDIT_PATIENTS)) {
+			if (user.hasPermission(P.EDIT_PATIENTS)) {
 				buttonString += "<button class=\"btn edit-button\" data-id=\"#id\"><i class=\"fa fa-edit\"></i> Edit</button>";
 			}
-			if (SecurityUtils.getCurrentUser().hasPermission(P.VIEW_PATIENT_DETAILS)) {
+			if (user.hasPermission(P.VIEW_PATIENT_DETAILS)) {
 				buttonString += (buttonString.length() == 0 ? "" : "&nbsp;") + "<button class=\"btn info-button link-button\" data-target=\"/patient-details/#id\"><i class=\"fa fa-list-alt\"></i> View Details</button>";
 			}
 		} else {
