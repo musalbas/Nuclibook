@@ -249,13 +249,13 @@ public class ActionLogger {
 	 * an integer for the type of action performed and an id of the object to which it is applied to.
 	 * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
 	 *
+	 * @param user the Staff that performed the action
 	 * @param actionPerformed the type of action performed (e.g. deleted patient)
 	 * @param objectID        the objectID on which the action was performed
 	 */
-	public static void logAction(int actionPerformed, int objectID) {
+	public static void logAction(Staff user, int actionPerformed, int objectID) {
 
-		Staff loggedIn = SecurityUtils.getCurrentUser();
-		ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID);
+		ActionLog entity = new ActionLog(user, new DateTime(), actionPerformed, objectID);
 		AbstractEntityUtils.createEntity(ActionLog.class, entity);
 	}
 
@@ -264,14 +264,14 @@ public class ActionLogger {
 	 * an integer for the type of action performed and an id of the object to which it is applied to.
 	 * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
 	 *
+	 * @param user the Staff that performed the action
 	 * @param actionPerformed the type of action performed (e.g. deleted patient)
 	 * @param objectID        the objectID on which the action was performed
 	 * @param note            the note about the action when it occurred
 	 */
-	public static void logAction(int actionPerformed, int objectID, String note) {
+	public static void logAction(Staff user, int actionPerformed, int objectID, String note) {
 
-		Staff loggedIn = SecurityUtils.getCurrentUser();
-		ActionLog entity = new ActionLog(loggedIn, new DateTime(), actionPerformed, objectID, note);
+		ActionLog entity = new ActionLog(user, new DateTime(), actionPerformed, objectID, note);
 		AbstractEntityUtils.createEntity(ActionLog.class, entity);
 	}
 
