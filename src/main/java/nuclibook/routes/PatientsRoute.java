@@ -28,10 +28,6 @@ public class PatientsRoute extends DefaultRoute {
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("patients.html");
 
-		// get patients and add to renderer
-		List<Patient> allPatients = PatientUtils.getAllPatients(true);
-		renderer.setCollection("patients", allPatients);
-
         ActionLogger.logAction(ActionLogger.VIEW_PATIENTS, 0);
 
         return renderer.render();

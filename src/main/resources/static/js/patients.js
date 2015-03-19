@@ -86,7 +86,10 @@ var onFormLoadSetup = function () {
 
 $(document).ready(function () {
 	setUpDataTable('#patients-table', [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
-		order: [0, 'asc']
+		order: [0, 'asc'],
+		processing: true,
+		serverSide: true,
+		ajax: '/ajax/patient-data'
 	});
 
 	$('.import-button').click(function () {

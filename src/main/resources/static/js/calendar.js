@@ -165,7 +165,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 		+ ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
 
 	// build URL
-	var url = '/calendar-data?start=' + startDateString + '&end=' + endDateString;
+	var url = '/ajax/calendar-data?start=' + startDateString + '&end=' + endDateString;
 	for (var key in options) url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
 	for (key in calendarChannelOptions) url += '&' + key + '=' + (calendarChannelOptions[key] === true ? '1' : calendarChannelOptions[key]);
 	url += '&cameras=';

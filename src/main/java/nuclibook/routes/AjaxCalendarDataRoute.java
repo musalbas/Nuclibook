@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CalendarDataRoute extends DefaultRoute {
+public class AjaxCalendarDataRoute extends DefaultRoute {
 
 	private HashMap<Integer, Integer> cameraIdColours = new HashMap<>();
 

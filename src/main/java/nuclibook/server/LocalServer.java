@@ -124,8 +124,9 @@ public class LocalServer {
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
-		// calendar data
-		Spark.get("/calendar-data", new CalendarDataRoute());
+		// AJAX routes
+		Spark.get("/ajax/calendar-data", new AjaxCalendarDataRoute());
+		Spark.get("/ajax/patient-data", new AjaxPatientDataRoute());
 
 		// tracer orders
 		Spark.get("/tracer-orders", new TracerOrdersRoute());
