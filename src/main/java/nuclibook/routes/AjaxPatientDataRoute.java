@@ -7,7 +7,6 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
-import org.joda.time.DateTime;
 import spark.Request;
 import spark.Response;
 
@@ -79,14 +78,14 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		Dao<Patient, Integer> dao = AbstractEntityUtils.acquireDao(Patient.class);
 
 		// query to get ALL results
-		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
-		List<String[]> results = rawResults.getResults();
-		int totalRecords = Integer.parseInt((results.get(0))[0]);
+		GenericRawResults<String[]> rawTotalResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
+		List<String[]> totalResults = rawTotalResults.getResults();
+		int totalRecords = Integer.parseInt((totalResults.get(0))[0]);
 
 		// query for matched rows
 		ArrayList<String[]> records = new ArrayList<>();
-		rawResults = dao.queryRaw("SELECT * FROM `patients` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, search, search, search, search, search);
-		results = rawResults.getResults();
+		GenericRawResults<Patient> rawResults = dao.queryRaw("SELECT * FROM `patients` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, dao.getRawRowMapper(), search, search, search, search, search);
+		List<Patient> results = rawResults.getResults();
 
 		// build button string (do this just once for efficiency)
 		String buttonString = "";
@@ -102,14 +101,14 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		}
 
 		// create rows
-		for (String[] row : results) {
+		for (Patient p : results) {
 			records.add(new String[]{
-					row[1],
-					row[2],
-					row[3],
-					row[5].equals("MALE") ? "M" : "F",
-					new DateTime(Long.parseLong(row[4])).toString("YYYY-MM-dd"),
-					buttonString.replace("#id", row[0]).replace("#name", row[1])
+					p.getName(),
+					p.getHospitalNumber(),
+					p.getNhsNumber(),
+					p.getSex() == Patient.Sex.MALE ? "M" : "F",
+					p.getDateOfBirth().toString("YYYY-MM-dd"),
+					buttonString.replace("#id", p.getId().toString()).replace("#name", p.getName())
 			});
 		}
 
