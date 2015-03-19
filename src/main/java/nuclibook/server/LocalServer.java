@@ -3,8 +3,10 @@ package nuclibook.server;
 import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.models.Staff;
 import nuclibook.routes.*;
 import org.apache.commons.configuration.ConfigurationException;
+import spark.Session;
 import spark.Spark;
 
 public class LocalServer {
@@ -38,10 +40,14 @@ public class LocalServer {
 				return;
 			}
 
+			// get current session and user
+			Session session = request.session();
+			Staff user = SecurityUtils.getCurrentUser(session);
+
 			// check for a password force-change
-			if (SecurityUtils.checkLoggedIn()
-					&& SecurityUtils.getCurrentUser() != null
-					&& SecurityUtils.getCurrentUser().getDaysRemainingToPasswordChange() < 1
+			if (SecurityUtils.checkLoggedIn(session)
+					&& user != null
+					&& user.getDaysRemainingToPasswordChange() < 1
 					&& !path.startsWith("/profile")) {
 				response.redirect("/profile?changepw=1&force=1");
 			}
@@ -53,7 +59,7 @@ public class LocalServer {
 			}
 
 			// not authenticated?
-			if (!SecurityUtils.checkLoggedIn()) {
+			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
 			}
