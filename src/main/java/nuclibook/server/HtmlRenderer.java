@@ -2,6 +2,7 @@ package nuclibook.server;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -495,7 +496,7 @@ public class HtmlRenderer {
 	private String getConditionalPermissionFieldValue(String ifField, String key, String original) {
 		try {
 			P p = P.valueOf(key);
-			Staff currentStaff = SecurityUtils.getCurrentUser();
+			Staff currentStaff = StaffUtils.getStaff(fields.get("current-user-id"));
 			return ifField.startsWith("!") ?
 					((currentStaff == null || !currentStaff.hasPermission(p)) ? original : "") :
 					((currentStaff != null && currentStaff.hasPermission(p)) ? original : "");

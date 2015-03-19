@@ -17,10 +17,13 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) return null;
+		if (!SecurityUtils.requirePermission(user, P.EDIT_APPOINTMENTS, response)) return null;
 
 		// get basic info from post
 		Patient patient = PatientUtils.getPatient(request.queryParams("patient"));
@@ -102,7 +105,7 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 		}
 
 		// log creation
-        	ActionLogger.logAction(ActionLogger.CREATE_BOOKING, entity.getId());
+        	ActionLogger.logAction(user, ActionLogger.CREATE_BOOKING, entity.getId());
 
 		// forward to booking details
 		response.redirect("/booking-details/" + booking.getId());

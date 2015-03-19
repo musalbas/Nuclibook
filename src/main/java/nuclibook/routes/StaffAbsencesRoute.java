@@ -18,12 +18,15 @@ public class StaffAbsencesRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF_ABSENCES, response)) {
+		if (!SecurityUtils.requirePermission(user, P.VIEW_STAFF_ABSENCES, response)) {
             String staffId = (request.params(":staffid:")) == null ? 0 + "" : request.params(":staffid:");
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_STAFF_ABSENCE, Integer.parseInt(staffId), "Failed as user does not have permissions for this action");
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_STAFF_ABSENCE, Integer.parseInt(staffId), "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -46,7 +49,7 @@ public class StaffAbsencesRoute extends DefaultRoute {
 		List<StaffAbsence> allAbsences = StaffAbsenceUtils.getStaffAbsencesByStaffId(currentStaff.getId());
 		renderer.setCollection("staff-absences", allAbsences);
 
-        ActionLogger.logAction(ActionLogger.VIEW_STAFF_ABSENCE, currentStaff.getId());
+        ActionLogger.logAction(user, ActionLogger.VIEW_STAFF_ABSENCE, currentStaff.getId());
 
 		return renderer.render();
 	}

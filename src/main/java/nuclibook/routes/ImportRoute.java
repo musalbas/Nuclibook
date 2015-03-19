@@ -17,15 +17,18 @@ public class ImportRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// get request info
 		String table = request.queryParams("table");
 		String csvData = request.queryParams("csv-data");
 
 		if (table.equals("patients")) {
-			if (SecurityUtils.getCurrentUser() == null || !SecurityUtils.getCurrentUser().hasPermission(P.IMPORT_PATIENTS)) {
-				ActionLogger.logAction(ActionLogger.ATTEMPT_IMPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
+			if (user == null || !user.hasPermission(P.IMPORT_PATIENTS)) {
+				ActionLogger.logAction(user, ActionLogger.ATTEMPT_IMPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
 				return "no_permission";
 			}
 
@@ -36,7 +39,7 @@ public class ImportRoute extends DefaultRoute {
 				return "failed_validation";
 			}
 
-			ActionLogger.logAction(ActionLogger.IMPORT_PATIENTS, 0);
+			ActionLogger.logAction(user, ActionLogger.IMPORT_PATIENTS, 0);
 
 			return "OKAY:" + importResult[0].toString() + " rows successfully imported; " + importResult[1].toString() + " failed to import.";
 		}
