@@ -54,7 +54,7 @@ public class SecurityUtils {
 	}
 
 	public static void destroyLogin(Session session) {
-		setUser(session, null);
+		session.invalidate();
 	}
 
 	public static Staff getCurrentUser(Session session) {
