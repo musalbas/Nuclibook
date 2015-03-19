@@ -38,7 +38,13 @@ public class AjaxActionLogDataRoute extends DefaultRoute {
 		// prepare order string
 		String orderQuery = "ORDER BY ";
 		switch (orderCol) {
-			// TODO
+			case 0:
+				orderQuery += "`staff`.`name`";
+				break;
+
+			case 2:
+				orderQuery += "`action_log_events`.`label`";
+				break;
 
 			default:
 				orderQuery += "`when`";
