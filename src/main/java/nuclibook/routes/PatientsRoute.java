@@ -2,15 +2,11 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.models.Patient;
 import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
-
-import java.util.List;
 
 public class PatientsRoute extends DefaultRoute {
 
@@ -24,20 +20,16 @@ public class PatientsRoute extends DefaultRoute {
 
 		// security check
 		if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_LIST, response)) {
-            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
-            return null;
-        }
+			ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
+			return null;
+		}
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
 		renderer.setTemplateFile("patients.html");
 
-		// get patients and add to renderer
-		List<Patient> allPatients = PatientUtils.getAllPatients(true);
-		renderer.setCollection("patients", allPatients);
+		ActionLogger.logAction(user, ActionLogger.VIEW_PATIENTS, 0);
 
-        ActionLogger.logAction(user, ActionLogger.VIEW_PATIENTS, 0);
-
-        return renderer.render();
+		return renderer.render();
 	}
 }

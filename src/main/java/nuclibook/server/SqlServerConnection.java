@@ -40,6 +40,7 @@ public class SqlServerConnection {
 	public static void initDB(ConnectionSource connection) {
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
+			TableUtils.createTableIfNotExists(connection, ActionLogEvent.class);
 			TableUtils.createTableIfNotExists(connection, Booking.class);
 			TableUtils.createTableIfNotExists(connection, BookingPatternSection.class);
 			TableUtils.createTableIfNotExists(connection, BookingSection.class);

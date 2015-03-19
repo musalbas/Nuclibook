@@ -85,7 +85,12 @@ var onFormLoadSetup = function () {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#patients-table', [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc'],
+		processing: true,
+		serverSide: true,
+		ajax: '/ajax/patient-data/0'
+	});
 
 	$('.import-button').click(function () {
 		$('.import-modal').removeClass('hide').modal({

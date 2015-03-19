@@ -91,8 +91,8 @@ public class LocalServer {
 		// basic pages
 		Spark.get("/", new DashboardRoute());
 
-        // day summary
-        Spark.get("/day-summary", new DaySummaryRoute());
+		// day summary
+		Spark.get("/day-summary", new DaySummaryRoute());
 
 		// security
 		Spark.get("/access-denied", new AccessDeniedRoute());
@@ -130,8 +130,11 @@ public class LocalServer {
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
-		// calendar data
-		Spark.get("/calendar-data", new CalendarDataRoute());
+		// AJAX routes
+		Spark.get("/ajax/calendar-data", new AjaxCalendarDataRoute());
+		Spark.get("/ajax/patient-data/0", new AjaxPatientDataRoute(0));
+		Spark.get("/ajax/patient-data/1", new AjaxPatientDataRoute(1));
+		Spark.get("/ajax/action-log-data", new AjaxActionLogDataRoute());
 
 		// tracer orders
 		Spark.get("/tracer-orders", new TracerOrdersRoute());

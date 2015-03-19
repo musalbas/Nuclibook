@@ -197,22 +197,22 @@ function openDeleteModal(objectId) {
 				} else if (result == 'no_permission') {
 					disableLoading(function () {
 						toastr.error('You do not have permission to delete this item');
-                        // hide modal
-                        deleteModal.modal('hide');
+						// hide modal
+						deleteModal.modal('hide');
 					});
 				} else {
 					disableLoading(function () {
 						toastr.error('Something went wrong; please try again');
-                        // hide modal
-                        deleteModal.modal('hide');
+						// hide modal
+						deleteModal.modal('hide');
 					});
 				}
 			}
 		).fail(function () {
 				disableLoading(function () {
 					toastr.error('Something went wrong; please try again');
-                    // hide modal
-                    deleteModal.modal('hide');
+					// hide modal
+					deleteModal.modal('hide');
 				});
 			}
 		);
@@ -238,3 +238,17 @@ function disableLoading(onComplete) {
 		if (typeof(onComplete) == 'function') onComplete();
 	}, 1000);
 }
+
+// for lazy-loaded tables
+var onTableReloadFinished = function () {
+	// link up clickable items
+	$('.create-button').unbind('click').click(function (e) {
+		openEditModal(0);
+	});
+	$('.edit-button').unbind('click').click(function (e) {
+		openEditModal($(this).attr('data-id'));
+	});
+	$('.delete-button').unbind('click').click(function (e) {
+		openDeleteModal($(this).attr('data-id'));
+	});
+};

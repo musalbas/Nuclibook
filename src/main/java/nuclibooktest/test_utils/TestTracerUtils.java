@@ -29,13 +29,17 @@ public class TestTracerUtils extends AbstractUtilTest{
     @Test
     public void testGetTracer(){
         Tracer tracer = TracerUtils.getTracer(1);
-        assertTrue(tracer.getId() == 1);
-        assertNull(TracerUtils.getTracer(30));
+        assertTrue("The tracer could not be found",
+                tracer.getId() == 1);
+        assertNull("A tracer found that was not inserted into the table",
+                TracerUtils.getTracer(30));
     }
 
     @Test
     public void testGetAllTracers() throws Exception {
-        assertTrue(TracerUtils.getAllTracers(false).size() == 2);
-        assertTrue(TracerUtils.getAllTracers(true).size() == 1);
+        assertTrue("The size of the retrieved list is not equal to the rows placed into the table",
+                TracerUtils.getAllTracers(false).size() == 2);
+        assertTrue("The size of the retrieved list is not equal to the number of enabled tracers placed into the table",
+                TracerUtils.getAllTracers(true).size() == 1);
     }
 }

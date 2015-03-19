@@ -49,5 +49,7 @@ var onFormLoadSetup = function () {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#staff-availabilities', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#staff-availabilities', [[1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 });

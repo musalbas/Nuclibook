@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="booking_sections">
+        <column>id</column>
+        <column>booking_id</column>
+        <column>start</column>
+        <column>end</column>
+        <row>
+            <value>1</value>
+            <value>1</value>
+            <value>1426582800000</value>
+            <value>1426584600000</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>1</value>
+            <value>1426584600000</value>
+            <value>1426585500000</value>
+        </row>
+    </table>
+</dataset>

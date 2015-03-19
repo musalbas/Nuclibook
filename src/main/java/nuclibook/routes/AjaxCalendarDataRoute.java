@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CalendarDataRoute extends DefaultRoute {
+public class AjaxCalendarDataRoute extends DefaultRoute {
 
 	private HashMap<Integer, Integer> cameraIdColours = new HashMap<>();
 
@@ -224,9 +224,6 @@ public class CalendarDataRoute extends DefaultRoute {
 		/*
 		END GENERIC EVENTS SECTION
 		 */
-
-		// We did a thing!
-		ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING_CALENDAR, 0);
 
 		return jsonOutput.substring(0, jsonOutput.length() == 1 ? 1 : jsonOutput.length() - 1) + "}";
 	}
