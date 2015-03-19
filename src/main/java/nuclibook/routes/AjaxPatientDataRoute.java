@@ -40,17 +40,46 @@ public class AjaxPatientDataRoute extends DefaultRoute {
 		// prepare query string
 		String whereQuery = "LOWER(`name`) LIKE ? OR LOWER(`hospital_number`) LIKE ? OR LOWER(`nhs_number`) LIKE ? OR LOWER(`sex`) LIKE ? OR FROM_UNIXTIME(ROUND(`date_of_birth` / 1000), '%Y-%m-%d') LIKE ?";
 
+		// prepare order string
+		String orderQuery = "ORDER BY ";
+		switch (orderCol) {
+			case 1:
+				orderQuery += "`hospital_number`";
+				break;
+
+			case 2:
+				orderQuery += "`nhs_number`";
+				break;
+
+			case 3:
+				orderQuery += "`sex`";
+				break;
+
+			case 4:
+				orderQuery += "`date_of_birth`";
+				break;
+
+			default:
+				orderQuery += "`name`";
+				break;
+		}
+		if (orderDir.equals("asc")) {
+			orderQuery += " ASC";
+		} else {
+			orderQuery += " DESC";
+		}
+
 		// get patient DAO
 		Dao<Patient, Integer> dao = AbstractEntityUtils.acquireDao(Patient.class);
 
 		// query to get ALL results
-		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery + " LIMIT", search, search, search, search, search);
+		GenericRawResults<String[]> rawResults = dao.queryRaw("SELECT COUNT(*) FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
 		List<String[]> results = rawResults.getResults();
 		int totalRecords = Integer.parseInt((results.get(0))[0]);
 
 		// query for matched rows
 		ArrayList<String[]> records = new ArrayList<>();
-		rawResults = dao.queryRaw("SELECT * FROM `patients` WHERE " + whereQuery, search, search, search, search, search);
+		rawResults = dao.queryRaw("SELECT * FROM `patients` WHERE " + whereQuery + " " + orderQuery + " LIMIT " + start + ", " + length, search, search, search, search, search);
 		results = rawResults.getResults();
 
 		// build button string (do this just once for efficiency)
