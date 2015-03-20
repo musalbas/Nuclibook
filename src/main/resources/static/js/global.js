@@ -33,22 +33,24 @@ function subMenuToggle(menuWrapper) {
 }
 
 // function to start the automatic timeout
-var AUTOMATIC_TIMEOUT_TIMER;
+var AUTOMATIC_TIMEOUT_TIMER1;
+var AUTOMATIC_TIMEOUT_TIMER2;
 function setAutomaticTimeout() {
 	if (AUTOMATIC_TIMEOUT > 0) {
-		AUTOMATIC_TIMEOUT_TIMER = setTimeout(function () {
+		AUTOMATIC_TIMEOUT_TIMER1 = setTimeout(function () {
 			$('.timeout-modal').removeClass('hide').modal({
 				backdrop: 'static',
 				keyboard: false
 			});
-			setTimeout(function () {
+			AUTOMATIC_TIMEOUT_TIMER2 = setTimeout(function () {
 				location.href = "/logout";
 			}, 30 * 1000);
 		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
 		$('.timeout-link').click(function (e) {
 			e.preventDefault();
 			$('.timeout-modal').modal('hide');
-			clearTimeout(AUTOMATIC_TIMEOUT_TIMER);
+			clearTimeout(AUTOMATIC_TIMEOUT_TIMER1);
+			clearTimeout(AUTOMATIC_TIMEOUT_TIMER2);
 			setAutomaticTimeout();
 		});
 	}
