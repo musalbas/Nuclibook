@@ -43,10 +43,11 @@ function setAutomaticTimeout() {
 				keyboard: false
 			});
 			AUTOMATIC_TIMEOUT_TIMER2 = setTimeout(function () {
-				location.href = "/logout";
+				location.href = "/login?logged-out=1";
 			}, 30 * 1000);
 		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
 		$('.timeout-link').click(function (e) {
+			$.post('/renew-session');
 			e.preventDefault();
 			$('.timeout-modal').modal('hide');
 			clearTimeout(AUTOMATIC_TIMEOUT_TIMER1);
