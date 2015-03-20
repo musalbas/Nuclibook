@@ -47,6 +47,7 @@ function setAutomaticTimeout() {
 			}, 30 * 1000);
 		}, (AUTOMATIC_TIMEOUT - 30) * 1000);
 		$('.timeout-link').click(function (e) {
+			$.post('/renew-session');
 			e.preventDefault();
 			$('.timeout-modal').modal('hide');
 			clearTimeout(AUTOMATIC_TIMEOUT_TIMER1);
