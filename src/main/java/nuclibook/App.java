@@ -36,19 +36,15 @@ public class App extends Application {
 		// set up webView
 		webView.getEngine().load("http://localhost:4567");
 		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
-			boolean panelShown = false;
-
 			@Override
 			public void changed(ObservableValue<? extends Worker.State> value, Worker.State oldState, Worker.State newState) {
 				// show progress bar
 				if (newState == Worker.State.RUNNING) {
-					panelShown = true;
 					loadingImage.setVisible(true);
 				}
 
 				// hide progress bar
 				if (newState == Worker.State.SUCCEEDED) {
-					panelShown = false;
 					loadingImage.setVisible(false);
 				}
 
