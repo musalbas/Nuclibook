@@ -49,7 +49,6 @@
 				</div>
 
 				#[if: logged-in = yes]
-				<!-- Top Menu Items -->
 				<ul class="nav navbar-right top-nav">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
@@ -68,111 +67,112 @@
 				</ul>
 				#[/if]
 
-				<!-- Sidebar Menu Items -->
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav side-nav">
-						<li
-						#[if: current-page = dashboard] class="active"#[/if]>
-						<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
+						<li#[if: current-page = dashboard] class="active"#[/if]>
+							<a href="/"><i class="fa fa-fw fa-lg fa-dashboard"></i> Dashboard</a>
 						</li>
-                        <li
-                        #[if: current-page = day-summary] class="active"#[/if]>
-                        <a href="/day-summary"><i class="fa fa-fw fa-lg fa-clock-o"></i> Daily Summary</a>
+
+                        <li#[if: current-page = day-summary] class="active"#[/if]>
+                        	<a href="/day-summary"><i class="fa fa-fw fa-lg fa-clock-o"></i> Daily Summary</a>
                         </li>
+
 						#[ifperm: VIEW_APPOINTMENTS]
-						<li
-						#[if: current-page = bookings] class="active"#[/if]>
-						<a href="/bookings"><i class="fa fa-fw fa-lg fa-calendar"></i> Bookings</a>
+						<li#[if: current-page = bookings] class="active"#[/if]>
+							<a href="/bookings"><i class="fa fa-fw fa-lg fa-calendar"></i> Bookings</a>
 						</li>
 						#[/ifperm]
-                        #[ifperm: EDIT_APPOINTMENTS]
-						<li
-						#[if: current-page = new-booking] class="active"#[/if]>
-						<a href="/new-booking-1"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
+
+						#[ifperm: EDIT_APPOINTMENTS]
+						<li#[if: current-page = new-booking] class="active"#[/if]>
+							<a href="/new-booking-1"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
 						</li>
 						#[/ifperm]
+
 						#[ifperm: VIEW_PATIENT_LIST]
-						<li
-						#[if: current-page = patients] class="active"#[/if]>
-						<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
+						<li#[if: current-page = patients] class="active"#[/if]>
+							<a href="/patients"><i class="fa fa-fw fa-lg fa-group"></i> Patients</a>
 						</li>
 						#[/ifperm]
+
 						<li>
 							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Resources</a>
 							<ul class="nav navbar-nav drop-down-menu">
+
 								#[ifperm: VIEW_CAMERAS]
-								<li
-								#[if: current-page = cameras] class="active"#[/if]>
-								<a href="/cameras"><i class="fa fa-fw fa-lg fa-camera"></i> Cameras</a>
+								<li#[if: current-page = cameras] class="active"#[/if]>
+									<a href="/cameras"><i class="fa fa-fw fa-lg fa-camera"></i> Cameras</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_CAMERAS]
+								<li#[if: current-page = camera-types] class="active"#[/if]>
+									<a href="/camera-types"><i class="fa fa-fw fa-lg fa-instagram"></i> Camera Types</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_THERAPIES]
+								<li#[if: current-page = therapies] class="active"#[/if]>
+									<a href="/therapies"><i class="fa fa-fw fa-lg fa-gears"></i> Therapies</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_TRACERS]
+								<li#[if: current-page = tracers] class="active"#[/if]>
+									<a href="/tracers"><i class="fa fa-fw fa-lg fa-flask"></i> Tracers</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_TRACERS]
+								<li#[if: current-page = tracer-orders] class="active"#[/if]>
+									<a href="/tracer-orders"><i class="fa fa-fw fa-lg fa-truck"></i> Tracer Orders</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_GENERIC_EVENTS]
+								<li#[if: current-page = generic-events] class="active"#[/if]>
+									<a href="/generic-events"><i class="fa fa-fw fa-lg fa-paperclip"></i> Generic Events</a>
+								</li>
+								#[/ifperm]
+
+							</ul>
 						</li>
-						#[/ifperm]
-						#[ifperm: VIEW_CAMERAS]
-						<li
-						#[if: current-page = camera-types] class="active"#[/if]>
-						<a href="/camera-types"><i class="fa fa-fw fa-lg fa-instagram"></i> Camera Types</a>
+						<li>
+							<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Staff</a>
+							<ul class="nav navbar-nav drop-down-menu">
+
+								#[ifperm: VIEW_STAFF]
+								<li#[if: current-page = staff] class="active"#[/if]>
+									<a href="/staff"><i class="fa fa-fw fa-lg fa-user-md"></i> Staff Accounts</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_STAFF_ROLES]
+								<li#[if: current-page = staff-roles] class="active"#[/if]>
+									<a href="/staff-roles"><i class="fa fa-fw fa-lg fa-stethoscope"></i> Staff Roles</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_STAFF_AVAILABILITIES]
+								<li#[if: current-page = staff-availabilities] class="active"#[/if]>
+									<a href="/select-staff/availabilities"><i class="fa fa-fw fa-lg fa-check-circle"></i> Staff Availabilities</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_STAFF_ABSENCES]
+								<li#[if: current-page = staff-absences] class="active"#[/if]>
+									<a href="/select-staff/absences"><i class="fa fa-fw fa-lg fa-times-circle"></i> Staff Absences</a>
+								</li>
+								#[/ifperm]
+
+								#[ifperm: VIEW_ACTION_LOG]
+								<li#[if: current-page = action-logs] class="active"#[/if]>
+									<a href="/action-log"><i class="fa fa-fw fa-lg fa-list"></i> Action Log</a>
+								</lii>
+								#[/ifperm]
+
+							</ul>
 						</li>
-						#[/ifperm]
-						#[ifperm: VIEW_THERAPIES]
-						<li
-						#[if: current-page = therapies] class="active"#[/if]>
-						<a href="/therapies"><i class="fa fa-fw fa-lg fa-gears"></i> Therapies</a>
-						</li>
-						#[/ifperm]
-						#[ifperm: VIEW_TRACERS]
-						<li
-						#[if: current-page = tracers] class="active"#[/if]>
-						<a href="/tracers"><i class="fa fa-fw fa-lg fa-flask"></i> Tracers</a>
-						</li>
-						#[/ifperm]
-						#[ifperm: VIEW_TRACERS]
-						<li
-						#[if: current-page = tracer-orders] class="active"#[/if]>
-						<a href="/tracer-orders"><i class="fa fa-fw fa-lg fa-truck"></i> Tracer Orders</a>
-						</li>
-						#[/ifperm]
-                        #[ifperm: VIEW_GENERIC_EVENTS]
-                        <li
-                        #[if: current-page = generic-events] class="active"#[/if]>
-                        <a href="/generic-events"><i class="fa fa-fw fa-lg fa-paperclip"></i> Generic Events</a>
-                        </li>
-                        #[/ifperm]
-					</ul>
-					</li>
-					<li>
-						<a href="javascript:;"><i class="fa fa-fw fa-lg fa-angle-down"></i> Manage Staff</a>
-						<ul class="nav navbar-nav drop-down-menu">
-							#[ifperm: VIEW_STAFF]
-							<li
-							#[if: current-page = staff] class="active"#[/if]>
-							<a href="/staff"><i class="fa fa-fw fa-lg fa-user-md"></i> Staff Accounts</a>
-					</li>
-					#[/ifperm]
-					#[ifperm: VIEW_STAFF_ROLES]
-					<li
-					#[if: current-page = staff-roles] class="active"#[/if]>
-					<a href="/staff-roles"><i class="fa fa-fw fa-lg fa-stethoscope"></i> Staff Roles</a>
-					</li>
-					#[/ifperm]
-					#[ifperm: VIEW_STAFF_AVAILABILITIES]
-					<li
-					#[if: current-page = staff-availabilities] class="active"#[/if]>
-					<a href="/select-staff/availabilities"><i class="fa fa-fw fa-lg fa-check-circle"></i> Staff Availabilities</a>
-					</li#[if: current-page = settings] class="active"#[/if]>
-					#[/ifperm]
-					#[ifperm: VIEW_STAFF_ABSENCES]
-					<li
-					#[if: current-page = staff-absences] class="active"#[/if]>
-					<a href="/select-staff/absences"><i class="fa fa-fw fa-lg fa-times-circle"></i> Staff Absences</a>
-					</li#[if: current-page = settings] class="active"#[/if]>
-					#[/ifperm]
-					#[ifperm: VIEW_ACTION_LOG]
-					<li
-					#[if: current-page = action-logs] class="active"#[/if]>
-					<a href="/action-log"><i class="fa fa-fw fa-lg fa-list"></i> Action Log</a>
-					</li#[if: current-page = settings] class="active"#[/if]>
-					#[/ifperm]
-					</ul>
-					</li>
 					</ul>
 				</div>
 			</nav>
@@ -182,8 +182,10 @@
                         <div class="col-lg-12">
                             #[if: show-password-reminder = yes]
 							<div class="alert alert-warning" style="margin-top: 50px" role="alert">
-								<p>You have #current-user-days-until-password-change days remaining before you will be forced to change your password.
-								<a href="/profile?changepw=1">Click to change it now.</a></p>
+								<p>
+									You have #current-user-days-until-password-change days remaining before you will be forced to change your password.
+									<a href="/profile?changepw=1">Click to change it now.</a>
+								</p>
 							</div>
                             #[/if]
 							<h1 class="page-header">
