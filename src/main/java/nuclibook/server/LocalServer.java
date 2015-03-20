@@ -116,6 +116,7 @@ public class LocalServer {
 		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 		Spark.get("/tracers", new TracersRoute());
+        Spark.get("/generic-events", new GenericEventsRoute());
 
 		// staff absences and availabilities
 		Spark.get("/select-staff/:target:", new SelectStaffRoute());
