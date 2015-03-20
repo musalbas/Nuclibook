@@ -279,9 +279,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         // validation
         String title = request.queryParams("title");
-        if(title.trim().length()<1) return new Pair<>(Status.FAILED_VALIDATION, null);
+        String description = request.queryParams("description") == null ? "" : request.queryParams("description");
+        if(title.trim().length()<1 || title.length() > 64 || description.length() > 255
+                || !title.matches("[a-zA-Z|0-9\\-\\.' ]+") || !description.matches("[a-zA-Z|0-9\\-\\.' ]+")) return new Pair<>(Status.FAILED_VALIDATION, null);
 
-        String description = request.queryParams("description") == null ? "" : request.queryParams("description").trim();
+
 
         DateTime from;
         DateTime to;
