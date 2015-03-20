@@ -1,0 +1,186 @@
+
+
+<div class="modal hide fade edit-modal booking-edit-modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Booking [WORK IN PROGRESS. DO NOT TOUCH IT.]</h3>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/booking-edit" class="form-horizontal edit-form edit-booking-form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Booking ID: </label>
+                        <h5 class="col-md-8 col-lg-8">#booking-id</h5>
+                        <input type="hidden" name="patient" value="#patient-id"/>
+                        <label class="col-sm-4 control-label">Patient: </label>
+                        <h5 class="col-md-8 col-lg-8">#patient-name</h5>
+                        <label class="col-sm-4 control-label">Therapy: </label>
+                        <h5 class="col-md-8 col-lg-8">#therapy-name</h5>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-lg-4 text-right">
+                            <label for="camera-select" class="control-label">Camera:</label>
+                        </div>
+                        <div class="col-md-5 col-lg-5">
+                            <input type="hidden" id="current-camera" value="#camera-id">
+                            <select class="form-control" name="camera" id="camera-select">
+                                #[collection: cameras]
+
+                                #[pre]#[/pre]
+
+                                #[each]
+                                <option value="#camera-id">#camera-type-label, #room-number</option>
+                                #[/each]
+
+                                #[post]#[/post]
+
+                                #[empty]#[/empty]
+
+                                #[/collection]
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-lg-4 text-right">
+                            <label for="current-tracer" class="control-label">Tracer:</label>
+                        </div>
+                        <div class="col-md-5 col-lg-5">
+                            <input type="hidden" id="current-tracer" value="#tracer-id">
+                            <select class="form-control" name="tracer" id="tracer-select">
+                                <option value="0" disabled selected></option>
+                                #[collection: tracers]
+
+                                #[pre]#[/pre]
+
+                                #[each]
+                                <option value="#tracer-id">#tracer-name (#order-time day to order)</option>
+                                #[/each]
+
+                                #[post]#[/post]
+
+                                #[empty]#[/empty]
+
+                                #[/collection]
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4 col-lg-4 text-right">
+                            <label for="tracer-dose" class="control-label">Tracer Dose:</label>
+                        </div>
+                        <div class="col-md-5 col-lg-5">
+                            <input type="text" class="form-control" name="tracer-dose" id="tracer-dose"
+                                   value="#tracer-dose"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4 col-lg-4 text-right">
+                            <label class="control-label">Tracer Order Due:</label>
+                        </div>
+                        <div class="col-md-8 col-lg-8">
+                            <div class="tracer-order-wrapper">
+                                <div class="date-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+                                <input type="hidden" name="tracer-order-due" class="date-selector-output"
+                                       value="#tracer-order-due" data-sequence="1"/>
+                                <br style="clear: both"/>
+                            </div>
+                            <p class="help-block label-for-no-tracer-order">
+                                <input type="checkbox" name="no-tracer-order" value="1" id="no-tracer-order">
+                                <label for="no-tracer-order">No tracer order needed</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-lg-4 text-right">
+                            <label for="staff" class="control-label">Staff Members:</label>
+                        </div>
+                        <div class="col-md-7 col-lg-7">
+                            <input type="hidden" id="current-staff" value="#staff">
+                            <input type="hidden" id="current-staff-id" value="#staff-id-list">
+                            <select class="form-control" name="staff" id="staff">
+                                <option value="0" disabled selected>Select a staff member and click '+ Add'</option>
+                                #[collection: staff]
+
+                                #[pre]#[/pre]
+
+                                #[each]
+                                <option value="#staff-id">#staff-name</option>
+                                #[/each]
+
+                                #[post]#[/post]
+
+                                #[empty]#[/empty]
+
+                                #[/collection]
+                            </select>
+
+                            <p class="help-block">
+                                <a href="javascript:;" class="add-staff-member"><span class="fa fa-plus"></span> Add</a>
+                            </p>
+
+                            <p class="help-block assigned-staff"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookingTimesDiv" class="control-label col-md-4 col-lg-4 text-right">Booking
+                            Schedule: </label>
+                        <div class="col-md-8">
+                            <input type="hidden" id="current-bookings-timers" value="#booking-sections-as-string-time-only">
+                            <input type="hidden" id="current-bookings-date" value="#date">
+
+                            <p class="help-block assigned-booking-section"></p>
+                        </div>
+                        <form class="form-horizontal edit-form text-center">
+                            <div class="col-md-4"></div>
+                            <div id="bookingTimesDiv"    class="col-md-8 col-lg-8">
+                                <div class="col-md-12 col-lg-12 form-group">
+                                    <div class="tracer-order-wrapper">
+                                        <div class="date-selector" style="margin:0; padding:0;" data-sequence="2" data-mode="future"></div>
+                                        <input type="hidden" name="tracer-order-due" class="date-selector-output"
+                                               value="#tracer-order-due" data-sequence="2"/>
+                                        <br style="clear: both"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 form-group" style="padding-top: 10px">
+                                    <label class="col-sm-3 control-label">Starts:</label>
+                                    <div class="col-sm-9">
+                                        <div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+                                        <input type="hidden" name="start-time" class="time-selector-output" data-sequence="1"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Ends:</label>
+                                    <div class="col-sm-9">
+                                        <div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+                                        <input type="hidden" name="end-time" class="time-selector-output" data-sequence="2"/>
+                                    </div>
+                                </div>
+                                <p class="help-block">
+                                    <a href="javascript:;" class="add-booking-section"><span class="fa fa-plus"></span> Add</a>
+                                </p>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 text-right control-label">Notes: </label>
+
+                        <div class="col-sm-8">
+                            <input class="col-sm-12" value = "#notes"/>
+
+                            <p class="help-block text-center">Optional.</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-save">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

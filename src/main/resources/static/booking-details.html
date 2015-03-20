@@ -33,7 +33,7 @@
 		<p><strong>Camera:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<p>#camera-type-label, #camera-room-number</p>
+		<p id = "camera-type">#camera-type-label, #camera-room-number</p>
 	</div>
 </div>
 
@@ -92,7 +92,8 @@
 		<button class="btn edit-button link-button" data-id="#id" data-target="/booking-details/#booking-id/unconfirmed"><i class="fa fa-minus-circle"></i> Unconfirmed</button>
 		<button class="btn delete-button link-button" data-id="#id" data-target="/booking-details/#booking-id/cancelled"><i class="fa fa-times-circle"></i> Cancelled</button>
 		<button class="btn info-button link-button" data-id="#id" data-target="/booking-details/#booking-id/rebooked"><i class="fa fa-refresh"></i> Re-booked</button>
-	</div>
+	    <button class="btn btn-primary" id="edit-button-modal"><i class="fa fa-pencil-square-o"></i> Edit</button>
+    </div>
 </div>
 #[/ifperm]
 
@@ -123,5 +124,8 @@
 </div>
 
 #[/if]
-
+<script src="/js/bookings-edit.js"></script>
+<script src="/js/plugins/date-time-selector/date-selector.js"></script>
+<script src="/js/plugins/date-time-selector/time-selector.js"></script>
+##booking-edit-modal.html
 ##_footer.html

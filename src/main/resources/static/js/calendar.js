@@ -76,7 +76,8 @@ function setupCalendar(selector, onSelect, viewOptions) {
 
 		eventClick: function (calEvent, jsEvent, view) {
 			if (calEvent.url && viewOptions['linkEvents']) {
-				window.location.href = calEvent.url;
+
+                window.location.href = calEvent.url;
 			}
 			return false;
 		},
