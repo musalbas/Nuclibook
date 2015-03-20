@@ -6,6 +6,9 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
+/**
+ * Model to represent a camera type.
+ */
 @DatabaseTable(tableName = "camera_types")
 public class CameraType implements Renderable {
 
@@ -18,29 +21,56 @@ public class CameraType implements Renderable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
+    /**
+     * Initialise a camera type without fields.
+     */
 	public CameraType() {
 	}
 
+    /**
+     * Gets the ID of the camera type.
+     * @return the ID of the camera type.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the camera type.
+     * @param id the ID of the camera type.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Gets the label of the camera type.
+     * @return the label of the camera type.
+     */
 	public String getLabel() {
 		return label;
 	}
 
+    /**
+     * Sets the label of the camera type.
+     * @param label the label of the camera type.
+     */
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
+    /** TODO: Unsure
+     * Gets whether it's enabled or not.
+     * @return whether it's enabled or not.
+     */
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+    /** TODO: Unsure
+     * Sets whether it's enabled or not.
+     * @param enabled whether it's enabled or not.
+     */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
