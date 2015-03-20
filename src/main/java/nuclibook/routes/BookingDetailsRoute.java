@@ -66,15 +66,17 @@ public class BookingDetailsRoute extends DefaultRoute {
         // add cameras
         renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
 
-        // add tracers
 
 
-        renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
-        renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
 
-        // add tracer dose
-        renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
-
+//        renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
+//        renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
+//
+//        // add tracer dose
+//        renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
+//
+//        // add tracer order date
+//        renderer.setField("tracer-order-due", displayBookingSections.isEmpty() ? "" : displayBookingSections.get(0).getStart().minusDays(therapy.getTracerRequired().getOrderTime()).toString("YYYY-MM-dd"));
 
 
         // add staff

@@ -11,11 +11,13 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Booking ID: </label>
                         <h5 class="col-md-8 col-lg-8">#booking-id</h5>
-                        <input type="hidden" name="patient" value="#patient-id"/>
+                        <input type="hidden" name="bookingid" value="#booking-id"/>
                         <label class="col-sm-4 control-label">Patient: </label>
                         <h5 class="col-md-8 col-lg-8">#patient-name</h5>
+                        <input type="hidden" name="patient" value="#patient-name"/>
                         <label class="col-sm-4 control-label">Therapy: </label>
                         <h5 class="col-md-8 col-lg-8">#therapy-name</h5>
+                        <input type="hidden" name="therapy" value="#therapy-name"/>
                     </div>
                     <div class="form-group">
                         <div class="col-md-4 col-lg-4 text-right">
@@ -99,6 +101,7 @@
                         <div class="col-md-7 col-lg-7">
                             <input type="hidden" id="current-staff" value="#staff">
                             <input type="hidden" id="current-staff-id" value="#staff-id-list">
+                            <input type="hidden" name="assigned-staff" value="0"/>
                             <select class="form-control" name="staff" id="staff">
                                 <option value="0" disabled selected>Select a staff member and click '+ Add'</option>
                                 #[collection: staff]
@@ -128,9 +131,8 @@
                         <label for="bookingTimesDiv" class="control-label col-md-4 col-lg-4 text-right">Booking
                             Schedule: </label>
                         <div class="col-md-8">
-                            <input type="hidden" id="current-bookings-timers" value="#booking-sections-as-string-time-only">
-                            <input type="hidden" id="current-bookings-date" value="#date">
-
+                            <input type="hidden" id="current-bookings-timers" name="booking-sections-as-string-time-only" value="#booking-sections-as-string-time-only">
+                            <input type="hidden" id="current-bookings-date" name="date" value="#date">
                             <p class="help-block assigned-booking-section"></p>
                         </div>
                         <form class="form-horizontal edit-form text-center">
