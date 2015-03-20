@@ -4,11 +4,16 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -101,6 +106,37 @@ public class App extends Application {
 		stage.setMinWidth(600);
 		stage.setMaximized(true);
 		stage.show();
+
+		// confirm close
+		scene.getWindow().setOnCloseRequest(event -> {
+			// prevent the close action
+			event.consume();
+
+			// build a dialog
+			final Stage dialog = new Stage();
+			Label label = new Label("Are you sure you want to exit Nuclibook?");
+			Button okButton = new Button("OK");
+			okButton.setOnAction(event1 -> {
+				// close dialog and stage
+				dialog.close();
+				stage.close();
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(event1 -> {
+				// close dialog only
+				dialog.close();
+			});
+			FlowPane buttonPane = new FlowPane(10, 10);
+			buttonPane.setAlignment(Pos.CENTER);
+			buttonPane.getChildren().addAll(okButton, cancelButton);
+			VBox vBox = new VBox(10);
+			vBox.setAlignment(Pos.CENTER);
+			vBox.getChildren().addAll(label, buttonPane);
+			vBox.setPadding(new Insets(10));
+			Scene scene1 = new Scene(vBox);
+			dialog.setScene(scene1);
+			dialog.show();
+		});
 	}
 
 	// adapted from http://goo.gl/GA9fkd
