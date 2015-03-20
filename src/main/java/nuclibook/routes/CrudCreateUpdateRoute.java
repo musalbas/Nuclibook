@@ -53,6 +53,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 				action = (entityId == 0) ? ActionLogger.CREATE_CAMERA_TYPE : ActionLogger.UPDATE_CAMERA_TYPE;
 				break;
 
+            case "generic-event":
+                entityPair = createUpdateGenericEvent(entityId, request);
+                dbClass = GenericEvent.class;
+                action = (entityId == 0) ? ActionLogger.CREATE_GENERIC_EVENT : ActionLogger.UPDATE_GENERIC_EVENT;
+                break;
+
 			case "tracer":
 				entityPair = createUpdateTracer(entityId, request);
 				dbClass = Tracer.class;
@@ -126,6 +132,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 							CameraType cameraType = (CameraType) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
 							ActionLogger.logAction(user, action, cameraType.getId());
 							break;
+
+                        case "generic-event":
+                            GenericEvent genericEvent = (GenericEvent) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
+                            ActionLogger.logAction(user, action, genericEvent.getId());
+                            break;
 
 						case "tracer":
 							Tracer tracer = (Tracer) AbstractEntityUtils.createEntity(dbClass, entityPair.getValue());
@@ -254,6 +265,46 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
+
+    private Pair<Status, Object> createUpdateGenericEvent(int entityId, Request request) {
+        // get current user
+        Staff user = SecurityUtils.getCurrentUser(request.session());
+
+        // permission
+        if (user == null || !user.hasPermission(P.EDIT_GENERIC_EVENTS)) {
+            Integer action = (createNew) ? ActionLogger.ATTEMPT_CREATE_GENERIC_EVENT : ActionLogger.ATTEMPT_UPDATE_GENERIC_EVENT;
+            ActionLogger.logAction(user, action, entityId, "Failed as user does not have permissions for this action");
+            return new Pair<>(Status.NO_PERMISSION, null);
+        }
+
+        // validation
+        DateTime from;
+        DateTime to;
+        try {
+            // attempt to parse the dates
+            from = new DateTime(request.queryParams("from-date") + "T" + request.queryParams("from-time") + ":00");
+            to = new DateTime(request.queryParams("to-date") + "T" + request.queryParams("to-time") + ":00");
+            if (from.isAfter(to)) {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            return new Pair<>(Status.FAILED_VALIDATION, null);
+        }
+
+        // create and set ID
+        GenericEvent entity;
+        if (createNew) {
+            entity = new GenericEvent();
+        } else {
+            entity = AbstractEntityUtils.getEntityById(GenericEvent.class, entityId);
+        }
+
+        // dates
+        entity.setFrom(from);
+        entity.setTo(to);
+
+        return new Pair<>(Status.OK, entity);
+    }
 
 	private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
 		// get current user
