@@ -81,7 +81,7 @@ public class LocalServer {
 
 					// redirect
 					String toOpen = "http://localhost:4567" + path.replace("goto-csv", "csv") + "?token=" + token;
-					Spark.halt("<!--OPEN:-->Please wait...<script type=\"text/javascript\">window.history.back();</script>");
+					Spark.halt("<!--OPEN:" + toOpen + "-->Your file will download now. Please wait...<script type=\"text/javascript\">window.history.back();</script>");
 				}
 			}
 		});

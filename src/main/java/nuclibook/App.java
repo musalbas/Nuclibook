@@ -16,6 +16,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class App extends Application {
 
 	public static void main(String[] args) {
@@ -35,6 +44,30 @@ public class App extends Application {
 
 		// set up webView
 		webEngine.load("http://localhost:4567");
+		webEngine.documentProperty().addListener(new ChangeListener<Document>() {
+			@Override
+			public void changed(ObservableValue<? extends Document> observable, Document oldValue, Document newValue) {
+				try {
+					// get HTML of new document
+					DOMSource domSource = new DOMSource(newValue);
+					StringWriter writer = new StringWriter();
+					StreamResult result = new StreamResult(writer);
+					TransformerFactory tf = TransformerFactory.newInstance();
+					Transformer transformer = tf.newTransformer();
+					transformer.transform(domSource, result);
+					String htmlString = writer.toString();
+
+					// does it contain an instruction to open in the browser?
+					Pattern openPattern = Pattern.compile("(.*)<!\\-\\-OPEN:(.*)\\-\\->(.*)");
+					Matcher openMatcher = openPattern.matcher(htmlString);
+					if (openMatcher.matches() && openMatcher.groupCount() >= 3 && openMatcher.group(2).contains("http")) {
+						getHostServices().showDocument(openMatcher.group(2));
+					}
+				} catch (TransformerException e) {
+					// nothing
+				}
+			}
+		});
 		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
 			@Override
 			public void changed(ObservableValue<? extends Worker.State> value, Worker.State oldState, Worker.State newState) {
