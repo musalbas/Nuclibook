@@ -278,6 +278,11 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
         }
 
         // validation
+        String title = request.queryParams("title");
+        if(title.trim().length()<1) return new Pair<>(Status.FAILED_VALIDATION, null);
+
+        String description = request.queryParams("description") == null ? "" : request.queryParams("description").trim();
+
         DateTime from;
         DateTime to;
         try {
@@ -299,6 +304,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
             entity = AbstractEntityUtils.getEntityById(GenericEvent.class, entityId);
         }
 
+        //title and descr
+        entity.setTitle(title);
+        entity.setDescription(description);
         // dates
         entity.setFrom(from);
         entity.setTo(to);
