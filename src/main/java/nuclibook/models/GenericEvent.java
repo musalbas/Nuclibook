@@ -73,7 +73,7 @@ public class GenericEvent implements Renderable {
 		return new HashMap<String, String>() {{
 			put("id", getId().toString());
 
-			put("title", getTitle());
+			put("event-title", getTitle());
 			put("description", getDescription());
 
 			put("from", getFrom().toString("YYYY-MM-dd HH:mm"));
