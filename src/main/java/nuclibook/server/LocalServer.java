@@ -11,7 +11,6 @@ import spark.Spark;
 
 import java.awt.*;
 import java.math.BigInteger;
-import java.net.URI;
 import java.security.SecureRandom;
 
 public class LocalServer {
@@ -81,8 +80,8 @@ public class LocalServer {
 					SecurityUtils.setOneOffToken(token, session);
 
 					// redirect
-					Desktop.getDesktop().browse(new URI("http://localhost:4567" + path.replace("goto-csv", "csv") + "?token=" + token));
-					Spark.halt("Please wait...<script type=\"text/javascript\">window.history.back();</script>");
+					String toOpen = "http://localhost:4567" + path.replace("goto-csv", "csv") + "?token=" + token;
+					Spark.halt("<!--OPEN:-->Please wait...<script type=\"text/javascript\">window.history.back();</script>");
 				}
 			}
 		});

@@ -34,7 +34,7 @@ public class App extends Application {
 		loadingImage.setTranslateX(10);
 
 		// set up webView
-		webView.getEngine().load("http://localhost:4567");
+		webEngine.load("http://localhost:4567");
 		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
 			@Override
 			public void changed(ObservableValue<? extends Worker.State> value, Worker.State oldState, Worker.State newState) {
