@@ -78,6 +78,7 @@ public class NewBookingRouteStage3 extends DefaultRoute {
 		booking.setTracer(tracer);
 		booking.setTracerDose(tracerDose);
 		booking.setStatus("unconfirmed");
+		booking.setNotes(request.queryParams("notes"));
 		Booking entity = AbstractEntityUtils.createEntity(Booking.class, booking);
 
 		// add booking sections
