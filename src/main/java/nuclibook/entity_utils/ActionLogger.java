@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 
 /**
  * This class records user logging. Types of actions are stored as static final integers.
- * There is a static HashMap for associating the actionID (integer) with the action description.
  * Logging an action can be done by calling the static method logAction
  */
 public class ActionLogger {
@@ -15,6 +14,7 @@ public class ActionLogger {
 	public static final int CREATE_PATIENT = 2;
 	public static final int VIEW_PATIENT = 3;
 	public static final int UPDATE_PATIENT = 4;
+    //TODO missing 5
 	public static final int ATTEMPT_VIEW_PATIENTS = 6;
 	public static final int ATTEMPT_CREATE_PATIENT = 7;
 	public static final int ATTEMPT_VIEW_PATIENT = 8;
@@ -95,7 +95,8 @@ public class ActionLogger {
 	public static final int ATTEMPT_VIEW_BOOKING_CALENDAR = 85;
 	public static final int ATTEMPT_CREATE_BOOKING = 86;
 	public static final int ATTEMPT_VIEW_BOOKING = 87;
-	public static final int ATTEMPT_UPDATE_BOOKING = 88;
+    //TODO unused variable      v
+    public static final int ATTEMPT_UPDATE_BOOKING = 88;
 	public static final int LOG_IN = 90;
 	public static final int ATTEMPT_LOG_IN_PASSWORD = 91;
 	public static final int ATTEMPT_LOG_IN_STAFF_ID = 92;
@@ -123,7 +124,7 @@ public class ActionLogger {
 	/**
 	 * A method for recording staff action. Date/Time of the action are generated in the database. Requires
 	 * an integer for the type of action performed and an id of the object to which it is applied to.
-	 * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
+	 * E.g. for updating a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
 	 *
 	 * @param user            the Staff that performed the action
 	 * @param actionPerformed the type of action performed (e.g. deleted patient)
@@ -138,7 +139,7 @@ public class ActionLogger {
 	/**
 	 * A method for recording staff action. Date/Time of the action are generated in the database. Requires
 	 * an integer for the type of action performed and an id of the object to which it is applied to.
-	 * E.g. for deleting a patient with id = 4356, actionPerformed would be 5 amd objectID - 4356.
+	 * E.g. for deleting a patient with id = 4356, actionPerformed would be 4 amd objectID - 4356.
 	 *
 	 * @param user            the Staff that performed the action
 	 * @param actionPerformed the type of action performed (e.g. deleted patient)

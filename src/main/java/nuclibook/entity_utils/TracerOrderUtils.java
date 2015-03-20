@@ -11,8 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for reading data from the tracer_orders table in the database.
+ */
 public class TracerOrderUtils extends AbstractEntityUtils {
 
+    /**
+     * Gets the {@link nuclibook.models.TracerOrder} object with the specified ID.
+     * @param id    the <code>TracerOrder</code> ID
+     * @return  the associated <code>TracerOrder</code> object
+     */
 	public static TracerOrder getTracerOrder(String id) {
 		try {
 			return getTracerOrder(Integer.parseInt(id));
@@ -21,15 +29,33 @@ public class TracerOrderUtils extends AbstractEntityUtils {
 		}
 	}
 
+    /**
+     * Gets the {@link nuclibook.models.TracerOrder} object with the specified ID.
+     * @param id    the <code>TracerOrder</code> ID
+     * @return  the associated <code>TracerOrder</code> object
+     */
 	public static TracerOrder getTracerOrder(int id) {
 		return getEntityById(TracerOrder.class, id);
 	}
 
+    /**
+     * Gets all the {@link nuclibook.models.TracerOrder} objects in the database.
+     *
+     * @return  a list of all <code>TracerOrder</code> objects
+     */
 	public static List<TracerOrder> getAllTracerOrders() {
 		return getAllTracerOrders(false);
 	}
 
-	public static List<TracerOrder> getAllTracerOrders(boolean pendingOnly) {
+    /**
+     * Gets all the {@link nuclibook.models.TracerOrder} objects in the database.
+     *
+     * Can return data only for the <code>pending</code> fields.
+     *
+     * @param pendingOnly  specifies whether the method should get only <code>pending TracerOrders</code>
+     * @return  a list of <code>TracerOrders</code> objects
+     */
+    public static List<TracerOrder> getAllTracerOrders(boolean pendingOnly) {
 		if (pendingOnly) {
 			return getTracerOrdersByStatus("pending");
 		} else {
@@ -37,14 +63,33 @@ public class TracerOrderUtils extends AbstractEntityUtils {
 		}
 	}
 
+    /**
+     * Gets all the {@link nuclibook.models.TracerOrder} objects with the specified status.
+     *
+     * @param status    the <code>TracerOrder</code> status
+     * @return  a list of the <code>TracerOrder</code> objects with the specified status
+     */
 	public static List<TracerOrder> getTracerOrdersByStatus(String status) {
 		return getEntitiesByField(TracerOrder.class, "status", status);
 	}
 
+    /**
+     * Gets all the {@link nuclibook.models.TracerOrder} objects on the specified date.
+     *
+     * @param date    the date to look for
+     * @return  a list of the <code>TracerOrder</code> objects on the specified date
+     */
 	public static List<TracerOrder> getTracerOrdersRequiredByDay(DateTime date) {
 		return getTracerOrdersRequiredByDay(date, false);
 	}
 
+    /**
+     * Gets all the {@link nuclibook.models.TracerOrder} objects with the specified date and status.
+     *
+     * @param date  the date to look for
+     * @param pendingOnly   specifies whether the method should get only <code>pending TracerOrders</code>
+     * @return  a list of all <code>TracerOrders</code> with the specified date and status
+     */
 	public static List<TracerOrder> getTracerOrdersRequiredByDay(DateTime date, boolean pendingOnly) {
 		// find all tracer orders required between the supplied dates
 		Dao<TracerOrder, Integer> dao = acquireDao(TracerOrder.class);
