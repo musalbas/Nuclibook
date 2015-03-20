@@ -1,18 +1,14 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.BookingUtils;
-import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.models.Booking;
-import nuclibook.models.BookingSection;
-import nuclibook.models.Patient;
-import nuclibook.models.Staff;
+import nuclibook.entity_utils.*;
+import nuclibook.models.*;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class BookingDetailsRoute extends DefaultRoute {
@@ -38,6 +34,13 @@ public class BookingDetailsRoute extends DefaultRoute {
 		// get booking
 		Booking booking = BookingUtils.getBooking(request.params(":bookingid:"));
 
+		// add booking to renderer
+		if (booking == null) {
+			renderer.setField("no-booking", "yes");
+            return renderer.render();
+		}
+		renderer.setBulkFields(booking.getHashMap());
+
 		// update?
 		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_APPOINTMENTS)) {
 			booking.setStatus(request.params(":newstatus:"));
@@ -45,14 +48,10 @@ public class BookingDetailsRoute extends DefaultRoute {
             ActionLogger.logAction(user, ActionLogger.UPDATE_BOOKING, booking.getId());
 		}
 
-		// add booking to renderer
-		if (booking == null) {
-			renderer.setField("no-booking", "yes");
-            return renderer.render();
-		}
+        ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING, booking.getId());
 
-		renderer.setField("no-patient", "no");
-		renderer.setBulkFields(booking.getHashMap());
+        // get therapy
+        Therapy therapy = booking.getTherapy();
 
 		// add booking sections
 		List<BookingSection> bookingSections = booking.getBookingSections();
@@ -62,7 +61,25 @@ public class BookingDetailsRoute extends DefaultRoute {
 		Patient patient = booking.getPatient();
 		renderer.setBulkFields(patient.getHashMap());
 
-        ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING, booking.getId());
+        // add cameras
+        renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
+
+        // add tracers
+        renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
+        renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
+
+        // add tracer dose
+        renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
+
+        // add staff
+        List<Staff> allStaff = StaffUtils.getAllStaff(true);
+        Collections.sort(allStaff, new Comparator<Staff>() {
+            @Override
+            public int compare(Staff o1, Staff o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+            }
+        });
+        renderer.setCollection("staff", allStaff);
 
 		return renderer.render();
 	}
