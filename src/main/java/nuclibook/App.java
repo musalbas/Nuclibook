@@ -32,10 +32,20 @@ import java.util.regex.Pattern;
 
 public class App extends Application {
 
+	/**
+	 * Runs when the app is launched to start the JavaFX application.
+	 *
+	 * @param args Any command line arguments; ignored in this application.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Sets up the stage, including loading icon, web view and close confirmation.
+	 *
+	 * @param stage the primary stage for this application, onto which the application scene can be set.
+	 */
 	@Override
 	public void start(Stage stage) {
 		// initialise
@@ -139,7 +149,14 @@ public class App extends Application {
 		});
 	}
 
-	// adapted from http://goo.gl/GA9fkd
+	/**
+	 * Get the title from the <title> HTML tags of the page currently loaded in the web engine.
+	 * Defaults to the page URL if no title can be found.
+	 * Code adapted from http://goo.gl/GA9fkd
+	 *
+	 * @param webEngine The web engine to extract the title from.
+	 * @return The title from the provided web engine.
+	 */
 	private String getTitle(WebEngine webEngine) {
 		Document doc = webEngine.getDocument();
 		NodeList heads = doc.getElementsByTagName("head");
