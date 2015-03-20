@@ -63,8 +63,6 @@ public class CrudDeleteRoute extends DefaultRoute {
                 }
 
                 GenericEvent entity = AbstractEntityUtils.getEntityById(GenericEvent.class, entityId);
-                /*entity.setEnabled(false);
-                AbstractEntityUtils.updateEntity(GenericEvent.class, entity);*/
                 AbstractEntityUtils.deleteEntity(GenericEvent.class, entity);
                 ActionLogger.logAction(user, ActionLogger.DELETE_GENERIC_EVENT, entity.getId());
                 return "okay";
