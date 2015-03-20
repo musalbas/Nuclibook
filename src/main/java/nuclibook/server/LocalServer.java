@@ -100,7 +100,7 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 		Spark.get("/profile", new ProfileRoute());
-		Spark.get("/renew-session", new RenewSessionRoute());
+		Spark.post("/renew-session", new RenewSessionRoute());
 
 		// action logs
 		Spark.get("/action-log", new ActionLogRoute());
