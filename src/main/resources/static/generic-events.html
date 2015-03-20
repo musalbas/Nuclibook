@@ -15,8 +15,10 @@
 		<table class="table table-bordered table-hover" id="generic-events">
 			<thead>
 				<tr>
+					<th class="text-center">Title</th>
 					<th class="text-center">From</th>
 					<th class="text-center">To</th>
+					<th class="text-center">Description</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -27,8 +29,10 @@
 
 				#[each]
 				<tr>
+					<td>#title</td>
 					<td>#from</td>
 					<td>#to</td>
+					<td>#description</td>
 					<td>
 						#[ifperm: EDIT_GENERIC_EVENTS]
 						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
@@ -66,6 +70,20 @@
 					<input type="hidden" name="entity-type" value="generic-event"/>
 					<input type="hidden" name="entity-id" value="0"/>
 
+                    <div class="form-group">
+                        <label for="title" class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="title" id="title"/>
+                            <p class="help-block">Enter the title for the event.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="description" id="description"/>
+                            <p class="help-block">Enter the description for the event.</p>
+                        </div>
+                    </div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">From</label>
 						<div class="col-sm-9">
