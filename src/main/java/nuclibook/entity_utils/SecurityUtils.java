@@ -9,7 +9,11 @@ import nuclibook.server.SqlServerConnection;
 import spark.Response;
 import spark.Session;
 
+import java.util.HashMap;
+
 public class SecurityUtils {
+
+	private static HashMap<String, Session> oneOffTokens = new HashMap<>();
 
 	private SecurityUtils() {
 		// prevent instantiation
@@ -81,6 +85,14 @@ public class SecurityUtils {
 		}
 
 		return null;
+	}
+
+	public static void setOneOffToken(String token, Session session) {
+		oneOffTokens.put(token, session);
+	}
+
+	public static Session checkOneOffSession(String token) {
+		return oneOffTokens.get(token);
 	}
 
 }

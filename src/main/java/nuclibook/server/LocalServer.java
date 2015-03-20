@@ -9,6 +9,11 @@ import org.apache.commons.configuration.ConfigurationException;
 import spark.Session;
 import spark.Spark;
 
+import java.awt.*;
+import java.math.BigInteger;
+import java.net.URI;
+import java.security.SecureRandom;
+
 public class LocalServer {
 
 	public static void main(String... args) {
@@ -42,6 +47,9 @@ public class LocalServer {
 
 			// get current session and user
 			Session session = request.session();
+			if (request.queryParams("token") != null) {
+				session = SecurityUtils.checkOneOffSession(request.queryParams("token"));
+			}
 			Staff user = SecurityUtils.getCurrentUser(session);
 
 			// check for a password force-change
@@ -62,6 +70,20 @@ public class LocalServer {
 			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
+			}
+
+			// CSV page
+			if (path.endsWith(".goto-csv")) {
+				if (Desktop.isDesktopSupported()) {
+					// generate token
+					SecureRandom random = new SecureRandom();
+					String token = new BigInteger(130, random).toString(32);
+					SecurityUtils.setOneOffToken(token, session);
+
+					// redirect
+					Desktop.getDesktop().browse(new URI("http://localhost:4567" + path.replace("goto-csv", "csv") + "?token=" + token));
+					Spark.halt("Please wait...<script type=\"text/javascript\">window.history.back();</script>");
+				}
 			}
 		});
 

@@ -101,7 +101,7 @@ $(document).ready(function () {
 			var endHours = (end.getHours() < 10 ? '0' : '') + end.getHours();
 			var endMins = (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
 
-			if (start.getDate() < (new Date()).getDate()) {
+			if (start.getTime() < (new Date()).getTime()) {
 				toastr.error("You cannot make a booking in the past");
 				calendar.fullCalendar('unselect');
 				return;
