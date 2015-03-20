@@ -1,7 +1,6 @@
 package nuclibook.entity_utils;
 
 import com.j256.ormlite.support.ConnectionSource;
-import nuclibook.constants.C;
 import nuclibook.constants.P;
 import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.Staff;
@@ -35,10 +34,6 @@ public class SecurityUtils {
 					if (staff.checkPassword(password)) {
 						// correct login!
 						setUser(session, staff);
-
-						// set session timeout time
-						session.maxInactiveInterval(C.AUTOMATIC_TIMEOUT);
-
 						return staff;
 					}
 				}
