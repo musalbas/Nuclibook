@@ -55,6 +55,21 @@ public class CrudDeleteRoute extends DefaultRoute {
 				return "okay";
 			}
 
+            case "generic-event": {
+                // permission
+                if (user == null || !user.hasPermission(P.EDIT_GENERIC_EVENTS)) {
+                    ActionLogger.logAction(user, ActionLogger.ATTEMPT_DELETE_GENERIC_EVENT, entityId, "Failed as user does not have permissions for this action");
+                    return "no_permission";
+                }
+
+                GenericEvent entity = AbstractEntityUtils.getEntityById(GenericEvent.class, entityId);
+                /*entity.setEnabled(false);
+                AbstractEntityUtils.updateEntity(GenericEvent.class, entity);*/
+                AbstractEntityUtils.deleteEntity(GenericEvent.class, entity);
+                ActionLogger.logAction(user, ActionLogger.DELETE_GENERIC_EVENT, entity.getId());
+                return "okay";
+            }
+
 			case "staff": {
 				// permission
 				if (user == null || !user.hasPermission(P.EDIT_STAFF)) {
