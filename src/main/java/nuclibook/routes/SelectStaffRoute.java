@@ -16,14 +16,17 @@ public class SelectStaffRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
         Integer action = null;
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_STAFF, response)) {
+		if (!SecurityUtils.requirePermission(user, P.VIEW_STAFF, response)) {
             action = (request.params(":target:").equals("absences"))? ActionLogger.ATTEMPT_VIEW_STAFF_ABSENCES
                     : (request.params(":target:").equals("availabilities")) ? ActionLogger.ATTEMPT_VIEW_STAFF_AVAILABILITIES : null;
-            ActionLogger.logAction(action, 0, "Failed as user does not have permissions for this action");
+            ActionLogger.logAction(user, action, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -56,7 +59,7 @@ public class SelectStaffRoute extends DefaultRoute {
 		List<Staff> allStaff = StaffUtils.getAllStaff(true);
 		renderer.setCollection("staff", allStaff);
 
-        ActionLogger.logAction(action, 0);
+        ActionLogger.logAction(user, action, 0);
 
 		return renderer.render();
 	}

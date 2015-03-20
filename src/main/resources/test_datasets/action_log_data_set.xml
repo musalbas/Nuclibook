@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="action_log">
+        <column>id</column>
+        <column>when</column>
+        <column>staff_id</column>
+        <column>action</column>
+        <column>associated_id</column>
+        <column>note</column>
+        <row>
+            <value>1</value>
+            <value>1426515795108</value>
+            <value>1</value>
+            <value>91</value>
+            <value>1</value>
+            <value>NULL</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>1426515795109</value>
+            <value>1</value>
+            <value>90</value>
+            <value>1</value>
+            <value>NULL</value>
+        </row>
+    </table>
+</dataset>

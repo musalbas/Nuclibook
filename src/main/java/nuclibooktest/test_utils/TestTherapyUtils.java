@@ -35,7 +35,9 @@ public class TestTherapyUtils extends AbstractUtilTest{
 
     @Test
     public void testGetAllTherapies() throws Exception {
-        assertTrue(TherapyUtils.getAllTherapies(false).size() == 2);
-        assertTrue(TherapyUtils.getAllTherapies(true).size() == 1);
+        assertTrue("The size of the retrieved list is not equal to the number of rows placed into the table",
+                TherapyUtils.getAllTherapies(false).size() == 2);
+        assertTrue("The size of the retrieved list is not equal to the number of enabled therapies placed into the table",
+                TherapyUtils.getAllTherapies(true).size() == 1);
     }
 }

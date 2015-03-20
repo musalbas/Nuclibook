@@ -5,6 +5,7 @@ import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.TracerOrderUtils;
+import nuclibook.models.Staff;
 import nuclibook.models.TracerOrder;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -15,11 +16,14 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACERS, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_TRACERS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_TRACERS, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -31,10 +35,10 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		TracerOrder tracerOrder = TracerOrderUtils.getTracerOrder(request.params(":tracerorderid:"));
 
 		// update?
-		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_TRACERS)) {
+		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_TRACERS)) {
 			tracerOrder.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(TracerOrder.class, tracerOrder);
-            ActionLogger.logAction(ActionLogger.UPDATE_TRACER, tracerOrder.getId());
+            ActionLogger.logAction(user, ActionLogger.UPDATE_TRACER, tracerOrder.getId());
 		}
 
 		// add tracer order to renderer
@@ -46,7 +50,7 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 		renderer.setField("no-tracer-order", "no");
 		renderer.setBulkFields(tracerOrder.getHashMap());
 
-        ActionLogger.logAction(ActionLogger.VIEW_TRACERS, 0);
+        ActionLogger.logAction(user, ActionLogger.VIEW_TRACERS, 0);
 
 		return renderer.render();
 	}

@@ -7,15 +7,7 @@ $(document).ready(function () {
 	 FIRST STAGE NAVIGATION
 	 **********************/
 
-	$('.select-patient').click(function () {
-		// get id and name
-		patientId = $(this).attr('data-id');
-		$('.patient-selected').html($(this).attr('data-name'));
-
-		// open next page
-		$('#page-one').slideUp(500);
-		$('#page-two').slideDown(500);
-	});
+	// select patient handled in onTableReloadFinished()
 
 	$('#go-back-to-select-patient').click(function () {
 		// open prev page
@@ -26,7 +18,20 @@ $(document).ready(function () {
 	$('.select-therapy').click(function () {
 		// get id and name
 		therapyId = $(this).attr('data-id');
-		$('.therapy-selected').html($(this).attr('data-name'));
+		$('.therapy-selected').html($(this).attr('data-name') + '&nbsp;<i class="fa fa-fw fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + $(this).attr('data-advice').replace("//", "\n\n") + '"></i>');
+
+		// reload tooltips
+		$("body").tooltip({selector: '[data-toggle=tooltip]'});
+
+		// set specified cameras
+		var rawCameras = ($(this).attr('data-cameras').split(":"))[1].split(",");
+		var cameras = [];
+		for (var c in rawCameras) {
+			if (rawCameras[c] != "") cameras.push(rawCameras[c]);
+		}
+		if (cameras.length > 0) {
+			selectedCameras = cameras;
+		}
 
 		// open next page
 		$('#page-two').slideUp(500);
@@ -43,8 +48,15 @@ $(document).ready(function () {
 	 FIRST STAGE DATA TABLES
 	 ***********************/
 
-	setUpDataTable('#patients-table', 0, [[1, 1], [1, 1], [1, 1], [0, 0]]);
-	setUpDataTable('#therapies-table', 0, [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]]);
+	setUpDataTable('#patients-table', [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc'],
+		processing: true,
+		serverSide: true,
+		ajax: '/ajax/patient-data/1'
+	});
+	setUpDataTable('#therapies-table', [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 
 	// "show more" links
 	$('.more-camera-types').click(function (e) {
@@ -67,11 +79,7 @@ $(document).ready(function () {
 		$('#go-back-to-select-therapy').hide();
 
 		// add button for saving the bookings
-		$('#page-three-sub-div').append('<div class = "col-sm-4 text-right">' +
-		'<button class="btn btn-primary" id="saveAppointments" disabled>' +
-		'Select Time Slot(s) Below...' +
-		'</button>' +
-		'</div>');
+		$('#page-three-sub-div').find('div.col-sm-4').eq(2).html('<button class="btn btn-primary" id="saveAppointments" disabled>Select Time Slot(s) Below...</button>');
 
 		// variables for modal
 		var startTimeObject;
@@ -93,13 +101,23 @@ $(document).ready(function () {
 			var endHours = (end.getHours() < 10 ? '0' : '') + end.getHours();
 			var endMins = (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
 
+			if (start.getTime() < (new Date()).getTime()) {
+				toastr.error("You cannot make a booking in the past");
+				calendar.fullCalendar('unselect');
+				return;
+			}
+
 			// pre-fill modal
 			startTimeInput.val(startHours + ':' + startMins);
 			endTimeInput.val(endHours + ':' + endMins);
 			prepareTimeSelector();
 
 			// open Modal
-			$('.time-modal').removeClass('hide').modal('show');
+			var timeModal = $('.time-modal');
+			timeModal.removeClass('hide').modal('show');
+			setTimeout(function () {
+				timeModal.find('select').eq(0).focus().select();
+			}, 200);
 		};
 
 		// show calendar
@@ -176,3 +194,16 @@ $(document).ready(function () {
 	});
 
 });
+
+// for lazy-loaded tables
+var onTableReloadFinished = function () {
+	$('.select-patient').click(function () {
+		// get id and name
+		patientId = $(this).attr('data-id');
+		$('.patient-selected').html($(this).attr('data-name'));
+
+		// open next page
+		$('#page-one').slideUp(500);
+		$('#page-two').slideDown(500);
+	});
+}

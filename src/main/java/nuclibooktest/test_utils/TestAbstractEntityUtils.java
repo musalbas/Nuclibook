@@ -3,7 +3,8 @@ package nuclibooktest.test_utils;
 import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.models.Patient;
 import org.joda.time.DateTime;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(value = Parameterized.class)
 public class TestAbstractEntityUtils extends AbstractUtilTest{
 
     public TestAbstractEntityUtils(String datasetPath, Class<?> tableClass) {
@@ -29,11 +31,16 @@ public class TestAbstractEntityUtils extends AbstractUtilTest{
     @Test
     public void testRead(){
         Patient retrievedPatient = AbstractEntityUtils.getEntityById(Patient.class, 1);
-        assertTrue(retrievedPatient.getId() == 1);
-        assertEquals(retrievedPatient.getName(), "TestPatient1");
-        assertEquals(retrievedPatient.getHospitalNumber(), "544");
-        assertEquals(retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), 1994-11-12);
-        assertEquals(retrievedPatient.getEnabled(), false);
+        assertTrue("Retrieved patient does not have the same id as the patient in the table with and id of 1",
+                retrievedPatient.getId() == 1);
+        assertEquals("Retrieved patient does not have the same name as the patient in the table with and id of 1",
+                retrievedPatient.getName(), "TestPatient1");
+        assertEquals("Retrieved patient does not have the same hospital number as the patient in the table with and id of 1",
+                retrievedPatient.getHospitalNumber(), "544");
+        assertEquals("Retrieved patient does not have the same date of birth number as the patient in the table with and id of 1",
+                retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), "1994-11-12");
+        assertEquals("Retrieved patient does not have the same date of enabled value as the patient in the table with and id of 1",
+                retrievedPatient.getEnabled(), false);
     }
     @Test
     public void testCreate() throws Exception {
@@ -55,7 +62,8 @@ public class TestAbstractEntityUtils extends AbstractUtilTest{
                 testPatient.getHospitalNumber(), patientList.get(0).getHospitalNumber());
         assertEquals("The DOBs of testPatient and the retrieved Patient object do not match",
                 testPatient.getDateOfBirth(), patientList.get(0).getDateOfBirth());
-        assertTrue(AbstractEntityUtils.getAllEntities(Patient.class).size() == 3);
+        assertTrue("Size of retrieved list is not equal to number of rows in table",
+                AbstractEntityUtils.getAllEntities(Patient.class).size() == 3);
 
         //update the patient
         testPatient = patientList.get(0);
@@ -78,14 +86,14 @@ public class TestAbstractEntityUtils extends AbstractUtilTest{
         retrievedPatient.setName("TestPatientRenamed");
         AbstractEntityUtils.updateEntity(Patient.class, retrievedPatient);
         retrievedPatient = AbstractEntityUtils.getEntityById(Patient.class, 1);
-        assertEquals(retrievedPatient.getName(),"TestPatientRenamed");
+        assertEquals("The name has not been updated properly",retrievedPatient.getName(),"TestPatientRenamed");
     }
 
     @Test
     public void testDelete(){
         Patient retrievedPatient = AbstractEntityUtils.getEntityById(Patient.class, 1);
         AbstractEntityUtils.deleteEntityById(Patient.class,retrievedPatient.getId());
-        assertNull(AbstractEntityUtils.getEntityById(Patient.class,1));
+        assertNull("Entity has not been deleted properly", AbstractEntityUtils.getEntityById(Patient.class,1));
     }
 
 }

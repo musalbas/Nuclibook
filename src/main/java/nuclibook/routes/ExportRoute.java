@@ -1,47 +1,56 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
+import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.ExportUtils;
-import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Patient;
-import nuclibook.server.HtmlRenderer;
+import nuclibook.models.Staff;
 import spark.Request;
 import spark.Response;
-
-import java.util.List;
+import spark.Session;
 
 public class ExportRoute extends DefaultRoute {
 
-    @Override
-    public Object handle(Request request, Response response) throws Exception {
-        // necessary prelim routine
-        prepareToHandle();
+	@Override
+	public Object handle(Request request, Response response) throws Exception {
+		// necessary prelim routine
+		prepareToHandle(request);
 
-        String[] fileSplit = request.params(":file:").split("\\.", 2);
-        String table = fileSplit[0];
+		// get current session and user
+		Session session = request.session();
+		if (request.queryParams("token") != null) {
+			session = SecurityUtils.checkOneOffSession(request.queryParams("token"));
+		}
+		Staff user = SecurityUtils.getCurrentUser(session);
 
-        String type = "";
-        try {
-            type = fileSplit[1];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+		String[] fileSplit = request.params(":file:").split("\\.", 2);
+		String table = fileSplit[0];
 
-        String exportData = null;
+		String type;
+		try {
+			type = fileSplit[1];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
 
-        if (table.equals("patients")) {
-            if (SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-                if (type.equals("csv")) {
-                    exportData = ExportUtils.exportCSV(Patient.class);
-                }
-            }
-        }
+		String exportData = null;
 
-        if (exportData != null) {
-            response.header("Content-Disposition", "attachment");
-        }
+		if (table.equals("patients")) {
+			if (SecurityUtils.requirePermission(user, P.EXPORT_PATIENTS, response)) {
+				if (type.equals("csv")) {
+					exportData = ExportUtils.exportCSV(Patient.class);
+				}
+				ActionLogger.logAction(user, ActionLogger.EXPORT_PATIENTS, 0);
+			} else {
+				ActionLogger.logAction(user, ActionLogger.ATTEMPT_EXPORT_PATIENTS, 0, "Failed as user does not have permissions for this action");
+			}
+		}
 
-        return exportData;
-    }
+		if (exportData != null) {
+			response.header("Content-Disposition", "attachment; filename=\"" + table + "." + type + "\"");
+		}
+
+		return exportData;
+	}
 }

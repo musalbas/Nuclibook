@@ -7,6 +7,7 @@ import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Booking;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
@@ -19,13 +20,16 @@ public class PatientDetailsRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_DETAILS, response)) {
+		if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_DETAILS, response)) {
             //check which patient was being viewed
             String patientId = (request.params(":patientid:")) == null ? 0 + "" : request.params(":patientid:");
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_PATIENT, Integer.parseInt(patientId) ,"Failed as user does not have permissions for this action");
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_PATIENT, Integer.parseInt(patientId) ,"Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -52,7 +56,7 @@ public class PatientDetailsRoute extends DefaultRoute {
 		List<Booking> bookings = BookingUtils.getBookingsByPatientId(patient.getId());
 		renderer.setCollection("bookings", bookings);
 
-        ActionLogger.logAction(ActionLogger.VIEW_PATIENT, patient.getId());
+        ActionLogger.logAction(user, ActionLogger.VIEW_PATIENT, patient.getId());
 
 		return renderer.render();
 	}

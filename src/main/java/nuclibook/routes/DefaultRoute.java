@@ -5,7 +5,9 @@ import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
+import spark.Request;
 import spark.Route;
+import spark.Session;
 
 public abstract class DefaultRoute implements Route {
 
@@ -24,29 +26,32 @@ public abstract class DefaultRoute implements Route {
 		renderer = new HtmlRenderer();
 	}
 
-	public void prepareToHandle() {
+	public void prepareToHandle(Request request) {
 		// make sure this is a fresh start
 		renderer.clearFields();
 		renderer.clearCollections();
 
+		// get current session and user
+		Session session = request.session();
+		Staff user = SecurityUtils.getCurrentUser(session);
+
 		// set up login field
-		if (SecurityUtils.checkLoggedIn()) {
+		if (SecurityUtils.checkLoggedIn(session)) {
 			renderer.setField("logged-in", "yes");
 
 			// automatic logout timer
 			renderer.setField("automatic-timeout", C.AUTOMATIC_TIMEOUT);
 
-			// add staff details
-			Staff currentUser = SecurityUtils.getCurrentUser();
-			renderer.setField("current-user-id", currentUser.getId());
-			renderer.setField("current-user-username", currentUser.getUsername());
-			renderer.setField("current-user-name", currentUser.getName());
-			renderer.setField("current-user-role", currentUser.getRole().getLabel());
-			renderer.setField("current-user-permissions-summary", currentUser.getRole().getPermissionSummary());
-			renderer.setField("current-user-days-until-password-change", currentUser.getDaysRemainingToPasswordChange());
+			// add staff details;
+			renderer.setField("current-user-id", user.getId());
+			renderer.setField("current-user-username", user.getUsername());
+			renderer.setField("current-user-name", user.getName());
+			renderer.setField("current-user-role", user.getRole().getLabel());
+			renderer.setField("current-user-permissions-summary", user.getRole().getPermissionSummary());
+			renderer.setField("current-user-days-until-password-change", user.getDaysRemainingToPasswordChange());
 
 			// do they need a password change reminder?
-			if (currentUser.getDaysRemainingToPasswordChange() >= 1 && currentUser.getDaysRemainingToPasswordChange() <= 7) {
+			if (user.getDaysRemainingToPasswordChange() >= 1 && user.getDaysRemainingToPasswordChange() <= 7) {
 				renderer.setField("show-password-reminder", "yes");
 			}
 		} else {

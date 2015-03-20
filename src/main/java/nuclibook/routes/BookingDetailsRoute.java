@@ -16,11 +16,14 @@ public class BookingDetailsRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_APPOINTMENT_DETAILS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_BOOKING, Integer.parseInt(request.params(":bookingid")), "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_APPOINTMENT_DETAILS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_BOOKING, Integer.parseInt(request.params(":bookingid")), "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -31,27 +34,24 @@ public class BookingDetailsRoute extends DefaultRoute {
 		// get booking
 		Booking booking = BookingUtils.getBooking(request.params(":bookingid:"));
 
-        // get cameras
-        List<Camera> cameras = CameraUtils.getAllCameras(true);
-
-        //get therapy
-        Therapy therapy = booking.getTherapy();
-
-		// update?
-		if (request.params(":newstatus:") != null && SecurityUtils.getCurrentUser().hasPermission(P.EDIT_APPOINTMENTS)) {
-			booking.setStatus(request.params(":newstatus:"));
-			AbstractEntityUtils.updateEntity(Booking.class, booking);
-            ActionLogger.logAction(ActionLogger.UPDATE_BOOKING, booking.getId());
-		}
-
 		// add booking to renderer
 		if (booking == null) {
 			renderer.setField("no-booking", "yes");
             return renderer.render();
 		}
-
-		renderer.setField("no-patient", "no");
 		renderer.setBulkFields(booking.getHashMap());
+
+		// update?
+		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_APPOINTMENTS)) {
+			booking.setStatus(request.params(":newstatus:"));
+			AbstractEntityUtils.updateEntity(Booking.class, booking);
+            ActionLogger.logAction(user, ActionLogger.UPDATE_BOOKING, booking.getId());
+		}
+
+        ActionLogger.logAction(user, ActionLogger.VIEW_BOOKING, booking.getId());
+
+        // get therapy
+        Therapy therapy = booking.getTherapy();
 
 		// add booking sections
 		List<BookingSection> bookingSections = booking.getBookingSections();
@@ -61,21 +61,15 @@ public class BookingDetailsRoute extends DefaultRoute {
 		Patient patient = booking.getPatient();
 		renderer.setBulkFields(patient.getHashMap());
 
-        ActionLogger.logAction(ActionLogger.VIEW_BOOKING, booking.getId());
-
         // add cameras
         renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
 
         // add tracers
-
-
         renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
         renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
 
         // add tracer dose
         renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
-
-
 
         // add staff
         List<Staff> allStaff = StaffUtils.getAllStaff(true);

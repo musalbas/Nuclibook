@@ -4,6 +4,7 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
 import nuclibook.entity_utils.TracerUtils;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.models.Staff;
 import nuclibook.models.Tracer;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -16,11 +17,14 @@ public class TracersRoute extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_TRACERS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_TRACERS, 0, "Failed as user does not have permissions for this action");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_TRACERS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_TRACERS, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
@@ -32,7 +36,7 @@ public class TracersRoute extends DefaultRoute {
 		List<Tracer> allTracers = TracerUtils.getAllTracers(true);
 		renderer.setCollection("tracers", allTracers);
 
-        ActionLogger.logAction(ActionLogger.VIEW_TRACERS, 0);
+        ActionLogger.logAction(user, ActionLogger.VIEW_TRACERS, 0);
 
 		return renderer.render();
 	}

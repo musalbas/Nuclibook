@@ -53,5 +53,7 @@ var validateEditForm = function (formObject) {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#tracers-table', 0, [[1, 1], [1, 1], [0, 0]]);
-})
+	setUpDataTable('#tracers-table', [[1, 1], [1, 1], [0, 0]], {
+		order: [0, "asc"]
+	});
+});

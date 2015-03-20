@@ -31,14 +31,16 @@ public class TestStaffRoleUtils extends AbstractUtilTest{
     @Test
     public void getStaffRole(){
         StaffRole staffRole = StaffRoleUtils.getStaffRole(1);
-        assertTrue(staffRole.getId() == 1);
-        assertNull(StaffRoleUtils.getStaffRole(20));
+        assertTrue("Staff role which exists which was not found", staffRole.getId() == 1);
+        assertNull("Staff role which does not exist found", StaffRoleUtils.getStaffRole(20));
     }
 
     @Test
     public void testGetAllStaffRoles() throws Exception {
-        assertTrue(StaffRoleUtils.getAllStaffRoles(false).size() == 2);
-        assertTrue(StaffRoleUtils.getAllStaffRoles(true).size() == 1);
+        assertTrue("Size of retrieved list is not equal to number of rows in table",
+                StaffRoleUtils.getAllStaffRoles(false).size() == 2);
+        assertTrue("Size of retrieved list is not equal to number of enabled staff roles in table",
+                StaffRoleUtils.getAllStaffRoles(true).size() == 1);
     }
 
 }

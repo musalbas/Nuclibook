@@ -1,0 +1,144 @@
+#[def: title = Manage Generic Events]
+#[def: current-page = generic-events]
+#[def: crud = yes]
+
+##_header.html
+
+<div class="row">
+	<div class="col-lg-12 col-md-12">
+		#[ifperm: EDIT_GENERIC_EVENTS]
+		<div class="text-right">
+			<button class="btn btn-default create-button"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Generic Event
+			</button>
+		</div>
+		#[/ifperm]
+		<table class="table table-bordered table-hover" id="generic-events">
+			<thead>
+				<tr>
+					<th class="text-center">Title</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">From</th>
+					<th class="text-center">To</th>
+					<th class="text-center">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				#[collection: generic-events]
+
+				#[pre]#[/pre]
+
+				#[each]
+				<tr>
+					<td>#event-title</td>
+					<td>#description</td>
+					<td>#from</td>
+					<td>#to</td>
+					<td>
+						#[ifperm: EDIT_GENERIC_EVENTS]
+						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
+						<button class="btn delete-button" data-id="#id"><i class="fa fa-times-circle"></i> Delete
+						</button>
+						#[/ifperm]
+						#[!ifperm: EDIT_GENERIC_EVENTS]
+						-
+						#[/!ifperm]
+					</td>
+				</tr>
+
+				#[/each]
+
+				#[post]#[/post]
+
+				#[empty]#[/empty]
+
+				#[/collection]
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+<div class="modal hide fade edit-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="edit-mode">Edit Event</h3>
+				<h3 class="create-mode">Create Event</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal edit-form">
+					<input type="hidden" name="entity-type" value="generic-event"/>
+					<input type="hidden" name="entity-id" value="0"/>
+
+                    <div class="form-group">
+                        <label for="title" class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="title" id="title"/>
+                            <p class="help-block">Enter the title for the event.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="description" id="description"></textarea>
+                            <p class="help-block">Enter the description for the event.</p>
+                        </div>
+                    </div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">From</label>
+						<div class="col-sm-9">
+							<div class="date-selector" style="margin:0; padding:0;" data-sequence="1" data-mode="future"></div>
+							<input type="hidden" name="from-date" class="date-selector-output" data-sequence="1"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+							<input type="hidden" name="from-time" class="time-selector-output" data-sequence="1" data-default="00:00"/>
+							<br style="clear: both"/>
+							<p class="help-block">Leave time blank for 'all day'.</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">To</label>
+						<div class="col-sm-9">
+							<div class="date-selector" style="margin:0; padding:0;" data-sequence="2" data-mode="future"></div>
+							<input type="hidden" name="to-date" class="date-selector-output" data-sequence="2"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label"></label>
+						<div class="col-sm-9">
+							<div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+							<input type="hidden" name="to-time" class="time-selector-output" data-sequence="2" data-default="23:59"/>
+							<br style="clear: both"/>
+							<p class="help-block">Leave time blank for 'all day'.</p>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-primary btn-save">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/js/plugins/date-time-selector/date-selector.js"></script>
+<script src="/js/plugins/date-time-selector/time-selector.js"></script>
+<script src="/js/generic-events.js"></script>
+
+#[def: entity-name-title = Generic Event]
+#[def: entity-name-body = generic event]
+#[def: entity-type = generic-event]
+
+##_delete-modal.html
+##_loading-modal.html
+
+#[collectionmap: objectMap: generic-events]
+
+##_footer.html

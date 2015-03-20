@@ -18,7 +18,7 @@ public class DaySummaryRoute extends DefaultRoute {
 
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
-		prepareToHandle();
+		prepareToHandle(request);
 
 		// start renderer
 		HtmlRenderer renderer = getRenderer();
