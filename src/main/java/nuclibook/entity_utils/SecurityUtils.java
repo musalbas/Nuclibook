@@ -1,6 +1,7 @@
 package nuclibook.entity_utils;
 
 import com.j256.ormlite.support.ConnectionSource;
+import javafx.util.Pair;
 import nuclibook.constants.C;
 import nuclibook.constants.P;
 import nuclibook.models.CannotHashPasswordException;
@@ -9,7 +10,11 @@ import nuclibook.server.SqlServerConnection;
 import spark.Response;
 import spark.Session;
 
+import java.util.HashMap;
+
 public class SecurityUtils {
+
+	private static HashMap<String, Pair<Long, Session>> oneOffTokens = new HashMap<>();
 
 	private SecurityUtils() {
 		// prevent instantiation
@@ -20,7 +25,7 @@ public class SecurityUtils {
 	}
 
 	private static Staff getUser(Session session) {
-		return session.attribute("user");
+		return session == null ? null : session.attribute("user");
 	}
 
 	public static Staff attemptLogin(Session session, String username, String password) {
@@ -82,6 +87,20 @@ public class SecurityUtils {
 		}
 
 		return null;
+	}
+
+	public static void setOneOffToken(String token, Session session) {
+		oneOffTokens.put(token, new Pair<>(System.currentTimeMillis(), session));
+	}
+
+	public static Session checkOneOffSession(String token) {
+		Pair<Long, Session> found = oneOffTokens.get(token);
+		if (found == null) return null;
+		if (found.getKey() + (2 * 60 * 1000) < System.currentTimeMillis()) {
+			oneOffTokens.remove(token);
+			return null;
+		}
+		return found.getValue();
 	}
 
 }

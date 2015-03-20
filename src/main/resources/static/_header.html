@@ -77,19 +77,18 @@
 						</li>
                         <li
                         #[if: current-page = day-summary] class="active"#[/if]>
-                        <a href="/day-summary"><i class="fa fa-fw fa-lg fa-calendar"></i> Daily Summary</a>
+                        <a href="/day-summary"><i class="fa fa-fw fa-lg fa-clock-o"></i> Daily Summary</a>
                         </li>
-
+						#[ifperm: VIEW_APPOINTMENTS]
+						<li
+						#[if: current-page = bookings] class="active"#[/if]>
+						<a href="/bookings"><i class="fa fa-fw fa-lg fa-calendar"></i> Bookings</a>
+						</li>
+						#[/ifperm]
                         #[ifperm: EDIT_APPOINTMENTS]
 						<li
 						#[if: current-page = new-booking] class="active"#[/if]>
 						<a href="/new-booking-1"><i class="fa fa-fw fa-lg fa-plus"></i> New Booking</a>
-						</li>
-						#[/ifperm]
-						#[ifperm: VIEW_APPOINTMENTS]
-						<li
-						#[if: current-page = bookings] class="active"#[/if]>
-						<a href="/bookings"><i class="fa fa-fw fa-lg fa-clock-o"></i> Bookings</a>
 						</li>
 						#[/ifperm]
 						#[ifperm: VIEW_PATIENT_LIST]
