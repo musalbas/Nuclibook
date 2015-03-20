@@ -111,6 +111,14 @@ public class ActionLogger {
 	public static final int ATTEMPT_IMPORT_PATIENTS = 102;
 	public static final int EXPORT_PATIENTS = 103;
 	public static final int ATTEMPT_EXPORT_PATIENTS = 104;
+    public static final int CREATE_GENERIC_EVENT = 105;
+    public static final int VIEW_GENERIC_EVENTS = 106;
+    public static final int UPDATE_GENERIC_EVENT = 107;
+    public static final int DELETE_GENERIC_EVENT = 108;
+    public static final int ATTEMPT_VIEW_GENERIC_EVENTS = 109;
+    public static final int ATTEMPT_CREATE_GENERIC_EVENT = 110;
+    public static final int ATTEMPT_UPDATE_GENERIC_EVENT = 111;
+    public static final int ATTEMPT_DELETE_GENERIC_EVENT = 112;
 
 	/**
 	 * A method for recording staff action. Date/Time of the action are generated in the database. Requires

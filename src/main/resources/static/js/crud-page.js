@@ -78,8 +78,13 @@ function openEditModal(objectId) {
 					if (input.length) {
 						input.val(data[key]);
 					} else {
-						select = form.find('select[name=' + key + ']');
-						select.val(data[key]).attr('selected', 'selected');
+						input = form.find('textarea[name=' + key + ']');
+						if (input.length) {
+							input.val(data[key]);
+						} else {
+							select = form.find('select[name=' + key + ']');
+							select.val(data[key]).attr('selected', 'selected');
+						}
 					}
 					continue;
 				}
