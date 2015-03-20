@@ -16,9 +16,9 @@
 			<thead>
 				<tr>
 					<th class="text-center">Title</th>
+					<th class="text-center">Description</th>
 					<th class="text-center">From</th>
 					<th class="text-center">To</th>
-					<th class="text-center">Description</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -30,9 +30,9 @@
 				#[each]
 				<tr>
 					<td>#event-title</td>
+					<td>#description</td>
 					<td>#from</td>
 					<td>#to</td>
-					<td>#description</td>
 					<td>
 						#[ifperm: EDIT_GENERIC_EVENTS]
 						<button class="btn edit-button" data-id="#id"><i class="fa fa-edit"></i> Edit</button>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label for="description" class="col-sm-3 control-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" name="description" id="description"/>
+                            <textarea class="form-control" name="description" id="description"></textarea>
                             <p class="help-block">Enter the description for the event.</p>
                         </div>
                     </div>

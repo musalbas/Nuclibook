@@ -52,7 +52,7 @@ var onFormLoadSetup = function () {
 };
 
 $(document).ready(function () {
-    setUpDataTable('#generic-events', [[1, 1], [1, 1], [0, 0]], {
-        order: [0, 'asc']
+    setUpDataTable('#generic-events', [[1, 1], [1, 1], [1, 1], [1, 1], [0, 0]], {
+        order: [2, 'desc']
     });
 });
