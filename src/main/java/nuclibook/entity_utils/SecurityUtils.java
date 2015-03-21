@@ -121,7 +121,7 @@ public class SecurityUtils {
 	 * @param user     The Staff object representing the user.
 	 * @param password The new password for the user.
 	 * @return null if the new password is valid, otherwise a String that states why the password does not comply with the new password policy.
-	 * @throws CannotHashPasswordException
+	 * @throws CannotHashPasswordException  when the password could not be hashed successfully
 	 */
 	public static String validateNewPassword(Staff user, String password) throws CannotHashPasswordException {
 		if (password.length() < 6) {
