@@ -14,7 +14,6 @@ public class ActionLogger {
 	public static final int CREATE_PATIENT = 2;
 	public static final int VIEW_PATIENT = 3;
 	public static final int UPDATE_PATIENT = 4;
-    //TODO missing 5
 	public static final int ATTEMPT_VIEW_PATIENTS = 6;
 	public static final int ATTEMPT_CREATE_PATIENT = 7;
 	public static final int ATTEMPT_VIEW_PATIENT = 8;
@@ -95,8 +94,7 @@ public class ActionLogger {
 	public static final int ATTEMPT_VIEW_BOOKING_CALENDAR = 85;
 	public static final int ATTEMPT_CREATE_BOOKING = 86;
 	public static final int ATTEMPT_VIEW_BOOKING = 87;
-    //TODO unused variable      v
-    public static final int ATTEMPT_UPDATE_BOOKING = 88;
+	public static final int ATTEMPT_UPDATE_BOOKING = 88;
 	public static final int LOG_IN = 90;
 	public static final int ATTEMPT_LOG_IN_PASSWORD = 91;
 	public static final int ATTEMPT_LOG_IN_STAFF_ID = 92;
@@ -112,14 +110,14 @@ public class ActionLogger {
 	public static final int ATTEMPT_IMPORT_PATIENTS = 102;
 	public static final int EXPORT_PATIENTS = 103;
 	public static final int ATTEMPT_EXPORT_PATIENTS = 104;
-    public static final int CREATE_GENERIC_EVENT = 105;
-    public static final int VIEW_GENERIC_EVENTS = 106;
-    public static final int UPDATE_GENERIC_EVENT = 107;
-    public static final int DELETE_GENERIC_EVENT = 108;
-    public static final int ATTEMPT_VIEW_GENERIC_EVENTS = 109;
-    public static final int ATTEMPT_CREATE_GENERIC_EVENT = 110;
-    public static final int ATTEMPT_UPDATE_GENERIC_EVENT = 111;
-    public static final int ATTEMPT_DELETE_GENERIC_EVENT = 112;
+	public static final int CREATE_GENERIC_EVENT = 105;
+	public static final int VIEW_GENERIC_EVENTS = 106;
+	public static final int UPDATE_GENERIC_EVENT = 107;
+	public static final int DELETE_GENERIC_EVENT = 108;
+	public static final int ATTEMPT_VIEW_GENERIC_EVENTS = 109;
+	public static final int ATTEMPT_CREATE_GENERIC_EVENT = 110;
+	public static final int ATTEMPT_UPDATE_GENERIC_EVENT = 111;
+	public static final int ATTEMPT_DELETE_GENERIC_EVENT = 112;
 
 	/**
 	 * A method for recording staff action. Date/Time of the action are generated in the database. Requires

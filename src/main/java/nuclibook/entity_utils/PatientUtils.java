@@ -14,12 +14,13 @@ import java.util.List;
  */
 public class PatientUtils extends AbstractEntityUtils {
 
-    /**
-     * Gets the {@link nuclibook.models.Patient} object with the specified ID.
-     * @param id    the <code>Patient</code> ID.
-     * @return  the associated <code>Patient</code> object
-     */
-    public static Patient getPatient(String id) {
+	/**
+	 * Gets the {@link nuclibook.models.Patient} object with the specified ID.
+	 *
+	 * @param id the <code>Patient</code> ID.
+	 * @return the associated <code>Patient</code> object
+	 */
+	public static Patient getPatient(String id) {
 		try {
 			return getPatient(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
@@ -27,23 +28,24 @@ public class PatientUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Patient} object with the specified ID.
-     * @param id    the <code>Patient</code> ID.
-     * @return  the associated <code>Patient</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Patient} object with the specified ID.
+	 *
+	 * @param id the <code>Patient</code> ID.
+	 * @return the associated <code>Patient</code> object
+	 */
 	public static Patient getPatient(int id) {
 		return getEntityById(Patient.class, id);
 	}
 
-    /**
-     * Gets all the {@link nuclibook.models.Patient} objects in the database.
-     *
-     * Can return data only for the <code>enabled</code> fields.
-     *
-     * @param enabledOnly  specifies whether the method should get only <code>enabled Patients</code>
-     * @return  a list of <code>Patient</code> objects
-     */
+	/**
+	 * Gets all the {@link nuclibook.models.Patient} objects in the database.
+	 * <p>
+	 * Can return data only for the <code>enabled</code> fields.
+	 *
+	 * @param enabledOnly specifies whether the method should get only <code>enabled Patients</code>
+	 * @return a list of <code>Patient</code> objects
+	 */
 	public static List<Patient> getAllPatients(boolean enabledOnly) {
 		if (enabledOnly) {
 			return getEntitiesByField(Patient.class, "enabled", "1");
@@ -52,13 +54,13 @@ public class PatientUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Imports {@link nuclibook.models.Patient} records in the database from a <code>CSV/code> form.
-     *
-     * @param csvData   the <code>CSV</code> data to be imported
-     * @return  the number of successful and failed imports
-     * @throws IOException  when a <code>Patient's</code> sex is not in the appropriate format.
-     */
+	/**
+	 * Imports {@link nuclibook.models.Patient} records in the database from a <code>CSV/code> form.
+	 *
+	 * @param csvData the <code>CSV</code> data to be imported
+	 * @return the number of successful and failed imports
+	 * @throws IOException when a <code>Patient's</code> sex is not in the appropriate format.
+	 */
 	public static Integer[] importPatientsCSV(String csvData) throws IOException {
 		CSVParser parser = CSVParser.parse(csvData, CSVFormat.DEFAULT);
 

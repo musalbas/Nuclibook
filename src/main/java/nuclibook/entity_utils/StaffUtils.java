@@ -10,12 +10,13 @@ import java.util.List;
  */
 public class StaffUtils extends AbstractEntityUtils {
 
-    /**
-     * Gets the {@link nuclibook.models.Staff} object with the specified ID.
-     * @param id    the <code>Staff</code> ID
-     * @return  the associated <code>Staff</code> object
-     */
-    public static Staff getStaff(String id) {
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified ID.
+	 *
+	 * @param id the <code>Staff</code> ID
+	 * @return the associated <code>Staff</code> object
+	 */
+	public static Staff getStaff(String id) {
 		try {
 			return getStaff(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
@@ -23,20 +24,22 @@ public class StaffUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Staff} object with the specified ID.
-     * @param id    the <code>Staff</code> ID
-     * @return  the associated <code>Staff</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified ID.
+	 *
+	 * @param id the <code>Staff</code> ID
+	 * @return the associated <code>Staff</code> object
+	 */
 	public static Staff getStaff(int id) {
 		return getEntityById(Staff.class, id);
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Staff} object with the specified username.
-     * @param username    the <code>Staff</code> username
-     * @return  the associated <code>Staff</code> object with that username
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified username.
+	 *
+	 * @param username the <code>Staff</code> username
+	 * @return the associated <code>Staff</code> object with that username
+	 */
 	public static Staff getStaffByUsername(String username) {
 		List<Staff> matched = getEntitiesByField(Staff.class, "username", username);
 		if (matched == null || matched.size() != 1) {
@@ -45,15 +48,15 @@ public class StaffUtils extends AbstractEntityUtils {
 		return matched.get(0);
 	}
 
-    /**
-     * Gets all the {@link nuclibook.models.Staff} objects in the database.
-     *
-     * Can return data only for the <code>enabled</code> fields.
-     *
-     * @param enabledOnly  specifies whether the method should get only <code>enabled Staff</code> records
-     * @return  a list of <code>Staff</code> objects
-     */
-    public static List<Staff> getAllStaff(boolean enabledOnly) {
+	/**
+	 * Gets all the {@link nuclibook.models.Staff} objects in the database.
+	 * <p>
+	 * Can return data only for the <code>enabled</code> fields.
+	 *
+	 * @param enabledOnly specifies whether the method should get only <code>enabled Staff</code> records
+	 * @return a list of <code>Staff</code> objects
+	 */
+	public static List<Staff> getAllStaff(boolean enabledOnly) {
 		if (enabledOnly) {
 			return getEntitiesByField(Staff.class, "enabled", "1");
 		} else {
@@ -112,27 +115,27 @@ public class StaffUtils extends AbstractEntityUtils {
 		}
 
         /* BOOKINGS */
-        List<Booking> bookings = BookingUtils.getBookingsByStaffId(staffId);
-        for(Booking b: bookings) {
-            for(BookingSection bs: b.getBookingSections()) {
-                if ((bs.getStart().isBefore(startDate) && bs.getEnd().isAfter(endDate))
-                        || (bs.getStart().isAfter(startDate) && bs.getEnd().isBefore(endDate))
-                        || (bs.getStart().isAfter(startDate) && bs.getStart().isBefore(endDate))
-                        || (bs.getEnd().isAfter(startDate) && bs.getEnd().isBefore(endDate))) {
-                    return false; // not allowed to overlap with ANY bookings
-                }
-            }
-        }
+		List<Booking> bookings = BookingUtils.getBookingsByStaffId(staffId);
+		for (Booking b : bookings) {
+			for (BookingSection bs : b.getBookingSections()) {
+				if ((bs.getStart().isBefore(startDate) && bs.getEnd().isAfter(endDate))
+						|| (bs.getStart().isAfter(startDate) && bs.getEnd().isBefore(endDate))
+						|| (bs.getStart().isAfter(startDate) && bs.getStart().isBefore(endDate))
+						|| (bs.getEnd().isAfter(startDate) && bs.getEnd().isBefore(endDate))) {
+					return false; // not allowed to overlap with ANY bookings
+				}
+			}
+		}
 
 		return true;
 	}
 
-    /**
-     * Checks if the specified <code>username</code> already exists in the database.
-     *
-     * @param username  the username to be checked
-     * @return  true if the username already exists in the database; false otherwise
-     */
+	/**
+	 * Checks if the specified <code>username</code> already exists in the database.
+	 *
+	 * @param username the username to be checked
+	 * @return true if the username already exists in the database; false otherwise
+	 */
 	public static boolean usernameExists(String username) {
 		return (getStaffByUsername(username) != null);
 	}

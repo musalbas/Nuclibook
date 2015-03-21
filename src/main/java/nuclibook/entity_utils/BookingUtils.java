@@ -16,11 +16,12 @@ import java.util.*;
  */
 public class BookingUtils extends AbstractEntityUtils {
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} object with the specified ID.
-     * @param id    the id of the object
-     * @return  the associated <code>Booking</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} object with the specified ID.
+	 *
+	 * @param id the id of the object
+	 * @return the associated <code>Booking</code> object
+	 */
 	public static Booking getBooking(String id) {
 		try {
 			return getBooking(Integer.parseInt(id));
@@ -29,20 +30,22 @@ public class BookingUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} object with the specified ID.
-     * @param id    the id of the object
-     * @return  the associated <code>Booking</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} object with the specified ID.
+	 *
+	 * @param id the id of the object
+	 * @return the associated <code>Booking</code> object
+	 */
 	public static Booking getBooking(int id) {
 		return getEntityById(Booking.class, id);
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} objects with the specified {@link nuclibook.models.Staff} ID.
-     * @param staffId    the <code>Staff</code> id
-     * @return  a list of the associated <code>Booking</code> objects
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} objects with the specified {@link nuclibook.models.Staff} ID.
+	 *
+	 * @param staffId the <code>Staff</code> id
+	 * @return a list of the associated <code>Booking</code> objects
+	 */
 	public static List<Booking> getBookingsByStaffId(int staffId) {
 		List<BookingStaff> bookingStaff = getEntitiesByField(BookingStaff.class, "staff_id", staffId);
 		HashSet<Booking> bookings = new HashSet<>();
@@ -52,20 +55,22 @@ public class BookingUtils extends AbstractEntityUtils {
 		return new ArrayList<>(bookings);
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} objects with the specified {@link nuclibook.models.Patient} ID.
-     * @param patientId the <code>Patient</code> id
-     * @return  a list of the associated <code>Booking</code> objects
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} objects with the specified {@link nuclibook.models.Patient} ID.
+	 *
+	 * @param patientId the <code>Patient</code> id
+	 * @return a list of the associated <code>Booking</code> objects
+	 */
 	public static List<Booking> getBookingsByPatientId(int patientId) {
 		return getEntitiesByField(Booking.class, "patient_id", patientId);
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} objects with the specified value in the <code>status</code> field.
-     * @param status    the status of the <code>Booking</code>
-     * @return  a list of the associated <code>Booking</code> objects
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} objects with the specified value in the <code>status</code> field.
+	 *
+	 * @param status the status of the <code>Booking</code>
+	 * @return a list of the associated <code>Booking</code> objects
+	 */
 	public static List<Booking> getBookingsByStatus(String status) {
 		List<Booking> bookings = getEntitiesByField(Booking.class, "status", status);
 		if (bookings == null) return null;
@@ -85,12 +90,13 @@ public class BookingUtils extends AbstractEntityUtils {
 		return bookings;
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.Booking} objects within the specified date range.
-     * @param startDate     the start date
-     * @param endDate       the end date
-     * @return  a list of the associated <code>Booking</code> objects
-     */
+	/**
+	 * Gets the {@link nuclibook.models.Booking} objects within the specified date range.
+	 *
+	 * @param startDate the start date
+	 * @param endDate   the end date
+	 * @return a list of the associated <code>Booking</code> objects
+	 */
 	public static List<Booking> getBookingsByDateRange(DateTime startDate, DateTime endDate) {
 		// find all booking sections between the supplied dates
 		Dao<BookingSection, Integer> dao = acquireDao(BookingSection.class);

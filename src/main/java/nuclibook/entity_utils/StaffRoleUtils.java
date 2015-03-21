@@ -9,11 +9,12 @@ import java.util.List;
  */
 public class StaffRoleUtils extends AbstractEntityUtils {
 
-    /**
-     * Gets the {@link nuclibook.models.StaffRole} object with the specified ID.
-     * @param id    the <code>StaffRole</code> ID
-     * @return  the associated <code>StaffRole</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.StaffRole} object with the specified ID.
+	 *
+	 * @param id the <code>StaffRole</code> ID
+	 * @return the associated <code>StaffRole</code> object
+	 */
 	public static StaffRole getStaffRole(String id) {
 		try {
 			return getStaffRole(Integer.parseInt(id));
@@ -22,20 +23,21 @@ public class StaffRoleUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.StaffRole} object with the specified ID.
-     * @param id    the <code>StaffRole</code> ID
-     * @return  the associated <code>StaffRole</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.StaffRole} object with the specified ID.
+	 *
+	 * @param id the <code>StaffRole</code> ID
+	 * @return the associated <code>StaffRole</code> object
+	 */
 	public static StaffRole getStaffRole(int id) {
 		return getEntityById(StaffRole.class, id);
 	}
 
-    /**
-     * Gets all the {@link nuclibook.models.StaffRole} objects in the database.
-     *
-     * @return  a list of all <code>StaffRole</code> objects
-     */
+	/**
+	 * Gets all the {@link nuclibook.models.StaffRole} objects in the database.
+	 *
+	 * @return a list of all <code>StaffRole</code> objects
+	 */
 	public static List<StaffRole> getAllStaffRoles(boolean enabledOnly) {
 		if (enabledOnly) {
 			return getEntitiesByField(StaffRole.class, "enabled", "1");
