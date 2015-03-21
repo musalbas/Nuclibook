@@ -9,7 +9,7 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
  */
 public class C {
 
-    //private constructor to prevent construction
+    //private constructor to prevent instantiation
     private C(){
     }
 
