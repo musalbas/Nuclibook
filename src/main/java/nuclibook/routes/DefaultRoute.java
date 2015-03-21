@@ -35,6 +35,9 @@ public abstract class DefaultRoute implements Route {
 		Session session = request.session();
 		Staff user = SecurityUtils.getCurrentUser(session);
 
+		// csrf token
+		renderer.setField("csrf-token", SecurityUtils.getCsrfToken(session));
+
 		// set up login field
 		if (SecurityUtils.checkLoggedIn(session)) {
 			renderer.setField("logged-in", "yes");

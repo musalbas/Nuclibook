@@ -18,6 +18,11 @@ public class LogoutRoute extends DefaultRoute {
 		Session session = request.session();
 		Staff user = SecurityUtils.getCurrentUser(session);
 
+		// require csrf token for logout
+		if (!SecurityUtils.checkCsrfToken(session, request.queryParams("csrf-token"))) {
+			return null;
+		}
+
         //accquire id for action logging
         Integer loggedIn = user == null ? 0 : user.getId() ;
 

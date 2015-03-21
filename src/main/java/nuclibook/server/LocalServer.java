@@ -35,6 +35,18 @@ public class LocalServer {
 			// get path
 			String path = request.pathInfo();
 
+			// get current session and user
+			Session session = request.session();
+			if (request.queryParams("token") != null) {
+				session = SecurityUtils.checkOneOffSession(request.queryParams("token"));
+			}
+			Staff user = SecurityUtils.getCurrentUser(session);
+
+			// require all POST requests to be authenticated with a CSRF token
+			if (request.requestMethod().toLowerCase().equals("post") && !SecurityUtils.checkCsrfToken(session, request.queryParams("csrf-token"))) {
+				Spark.halt(403, "Security token invalid.");
+			}
+
 			// check if they are accessing non-page
 			if (path.startsWith("/css")
 					|| path.startsWith("/images")
@@ -43,13 +55,6 @@ public class LocalServer {
 				// nothing more to do - everything is fine
 				return;
 			}
-
-			// get current session and user
-			Session session = request.session();
-			if (request.queryParams("token") != null) {
-				session = SecurityUtils.checkOneOffSession(request.queryParams("token"));
-			}
-			Staff user = SecurityUtils.getCurrentUser(session);
 
 			// check for a password force-change
 			if (SecurityUtils.checkLoggedIn(session)
@@ -121,7 +126,7 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 		Spark.get("/profile", new ProfileRoute());
-		Spark.post("/renew-session", new RenewSessionRoute());
+		Spark.get("/renew-session", new RenewSessionRoute());
 
 		// action logs
 		Spark.get("/action-log", new ActionLogRoute());
