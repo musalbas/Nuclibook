@@ -14,7 +14,6 @@ public class ActionLogger {
 	public static final int CREATE_PATIENT = 2;
 	public static final int VIEW_PATIENT = 3;
 	public static final int UPDATE_PATIENT = 4;
-	//TODO missing 5
 	public static final int ATTEMPT_VIEW_PATIENTS = 6;
 	public static final int ATTEMPT_CREATE_PATIENT = 7;
 	public static final int ATTEMPT_VIEW_PATIENT = 8;
@@ -95,7 +94,6 @@ public class ActionLogger {
 	public static final int ATTEMPT_VIEW_BOOKING_CALENDAR = 85;
 	public static final int ATTEMPT_CREATE_BOOKING = 86;
 	public static final int ATTEMPT_VIEW_BOOKING = 87;
-	//TODO unused variable      v
 	public static final int ATTEMPT_UPDATE_BOOKING = 88;
 	public static final int LOG_IN = 90;
 	public static final int ATTEMPT_LOG_IN_PASSWORD = 91;
