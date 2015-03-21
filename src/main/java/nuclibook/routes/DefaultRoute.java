@@ -39,6 +39,9 @@ public abstract class DefaultRoute implements Route {
 		if (SecurityUtils.checkLoggedIn(session)) {
 			renderer.setField("logged-in", "yes");
 
+			// csrf token
+			renderer.setField("csrf-token", SecurityUtils.getCsrfToken(session));
+
 			// automatic logout timer
 			renderer.setField("automatic-timeout", C.AUTOMATIC_TIMEOUT);
 
