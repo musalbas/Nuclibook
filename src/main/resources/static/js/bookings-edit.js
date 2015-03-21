@@ -55,9 +55,9 @@ $(document).ready(function () {
         var currentCamera = $('#current-camera').val();
         $("#camera-select").val(currentCamera).attr('selected','selected');
 
-        //tracer
-        var currentTracer = $('#current-tracer').val();
-        $("#tracer-select").val(currentTracer).attr('selected','selected');
+        ////tracer
+        //var currentTracer = $('#current-tracer').val();
+        //$("#tracer-select").val(currentTracer).attr('selected','selected');
 
         //staff
         var currentStaff = $('#current-staff').val();

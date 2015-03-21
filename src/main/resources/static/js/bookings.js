@@ -1,6 +1,5 @@
 $(document).ready(function () {
-
-	// show calendar
+    // show calendar
 	setupCalendar($('.calendar'), null, {
 		linkEvents: true,
 		selectable: false
