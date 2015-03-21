@@ -11,24 +11,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for reading data from the generic_events table in the database.
+ */
 public class GenericEventUtils extends AbstractEntityUtils {
 
-	public static GenericEvent getGenericEvent(String id) {
-		try {
-			return getGenericEvent(Integer.parseInt(id));
-		} catch (NumberFormatException e) {
-			return null;
-		}
-	}
-
-	public static GenericEvent getGenericEvent(int id) {
-		return getEntityById(GenericEvent.class, id);
-	}
-
+    /**
+     * Gets all the {@link nuclibook.models.GenericEvent} objects from the database.
+     * @return  a list of all <code>GenericEvent</code> objects
+     */
 	public static List<GenericEvent> getAllGenericEvents() {
 		return getAllEntities(GenericEvent.class);
 	}
 
+    /**
+     * Gets the {@link nuclibook.models.GenericEvent} objects within the specified date range
+     * @param startDate     the start date and time
+     * @param endDate       the end date and time
+     * @return  a list of all <code>GenericEvent</code> objects within the date range
+     */
 	public static List<GenericEvent> getGenericEventsByDateRange(DateTime startDate, DateTime endDate) {
 		// find all generic events that have a start or end between the supplied dates
 		Dao<GenericEvent, Integer> dao = acquireDao(GenericEvent.class);
