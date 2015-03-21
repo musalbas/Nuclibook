@@ -12,8 +12,8 @@ public class PatientQuestionUtils extends AbstractEntityUtils {
 	/**
 	 * Gets the {@link nuclibook.models.PatientQuestion} object with the specified ID.
 	 *
-	 * @param id
-	 * @return
+	 * @param id    the <code>PatientQuestion</code> ID
+	 * @return  the associated <code>PatientQuestion</code> object
 	 */
 	public static PatientQuestion getPatientQuestion(int id) {
 		return getEntityById(PatientQuestion.class, id);
