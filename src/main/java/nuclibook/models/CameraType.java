@@ -59,7 +59,7 @@ public class CameraType implements Renderable {
 		this.label = label;
 	}
 
-    /** TODO: Unsure
+    /**
      * Gets whether it's enabled or not.
      * @return whether it's enabled or not.
      */
@@ -67,7 +67,7 @@ public class CameraType implements Renderable {
 		return enabled;
 	}
 
-    /** TODO: Unsure
+    /**
      * Sets whether it's enabled or not.
      * @param enabled whether it's enabled or not.
      */

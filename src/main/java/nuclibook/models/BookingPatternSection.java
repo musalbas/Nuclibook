@@ -113,12 +113,18 @@ public class BookingPatternSection {
 		this.maxLength = maxLength;
 	}
 
-    //TODO: Unsure of JavaDoc
+    /**
+     * Gets the ordering of the section.
+     * @return the ordering of the section.
+     */
 	public int getSequence() {
 		return sequence;
 	}
 
-    //TODO: Unsure of JavaDoc
+    /**
+     * Sets the ordering of the section.
+     * @param sequence the ordering of the section.
+     */
 	public void setSequence(int sequence) {
 		this.sequence = sequence;
 	}

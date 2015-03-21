@@ -6,6 +6,11 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
+/**
+ * Model that represents a permission that allows a user to
+ * accomplish a task on the application, or gain access to
+ * a part of the system.
+ */
 @DatabaseTable(tableName = "permissions")
 public class Permission  implements Renderable{
 
@@ -18,17 +23,32 @@ public class Permission  implements Renderable{
 	@DatabaseField(width = 64)
 	private String description;
 
+    /**
+     * Initialise the permission without fields.
+     */
 	public Permission() {
 	}
 
+    /**
+     * Gets the ID of the permission.
+     * @return the ID of the permission.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Gets the label of the permission.
+     * @return the label of the permission.
+     */
 	public String getLabel() {
 		return label;
 	}
 
+    /**
+     * Gets the description of the permission.
+     * @return the description of the permission.
+     */
 	public String getDescription() {
 		return description;
 	}

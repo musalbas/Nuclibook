@@ -7,6 +7,9 @@ import org.joda.time.DateTime;
 
 import java.util.HashMap;
 
+/**
+ * Model to represent a patient.
+ */
 @DatabaseTable(tableName = "patients")
 public class Patient implements Renderable, Exportable {
 
@@ -31,61 +34,120 @@ public class Patient implements Renderable, Exportable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
+    /**
+     * Initialise a patient without the fields.
+     */
 	public Patient() {
 	}
 
+    /**
+     * Gets the ID of the patient.
+     * @return the ID of the patient.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the patient.
+     * @param id the ID of the patient.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Gets the name of the patient.
+     * @return the name of the patient.
+     */
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * Sets the name of the patient.
+     * @param name the name of the patient.
+     */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+    /**
+     * Gets the patient's hospital number.
+     * @return the patient's hospital number.
+     */
 	public String getHospitalNumber() {
 		return hospitalNumber;
 	}
 
+    /**
+     * Sets the patient's hospital number.
+     * @param hospitalNumber the patient's hospital number.
+     */
 	public void setHospitalNumber(String hospitalNumber) {
 		this.hospitalNumber = hospitalNumber;
 	}
 
+    /**
+     * Gets the patient's NHS number.
+     * @return the patient's NHS number.
+     */
 	public String getNhsNumber() {
 		return nhsNumber;
 	}
 
+    /**
+     * Sets the patient's NHS number.
+     * @param nhsNumber the patient's NHS number.
+     */
 	public void setNhsNumber(String nhsNumber) {
 		this.nhsNumber = nhsNumber;
 	}
 
+    /**
+     * Gets the patient's birthdate.
+     * @return the patient's birthdate.
+     */
 	public DateTime getDateOfBirth() {
 		return new DateTime(dateOfBirth);
 	}
 
+    /**
+     * Sets the patient's birthdate.
+     * @param dateOfBirth the patient's birthdate.
+     */
 	public void setDateOfBirth(DateTime dateOfBirth) {
 		this.dateOfBirth = dateOfBirth.getMillis();
 	}
 
+    /**
+     * Gets the patient's sex.
+     * @return the patient's sex.
+     */
 	public Sex getSex() {
 		return (sex != null && sex.equals("MALE")) ? Sex.MALE : Sex.FEMALE;
 	}
 
+    /**
+     * Sets the patient's sex.
+     * @param sex the patient's sex.
+     */
 	public void setSex(Sex sex) {
 		this.sex = sex.toString();
 	}
 
+    /**
+     * Gets whether it's enabled in the database.
+     * @return whether it's enabled in the database.
+     */
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+    /**
+     * Sets whether it's enabled in the database.
+     * @param enabled whether it's enabled in the database.
+     */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -103,10 +165,17 @@ public class Patient implements Renderable, Exportable {
 		}};
 	}
 
+    /**
+     * Returns an exportable hashmap of the overridden method getHashMap.
+     * @return
+     */
 	public HashMap<String, String> getExportableHashMap() {
 		return getHashMap();
 	}
 
+    /**
+     * An enumerated type that defines the user's gender/sex.
+     */
 	public enum Sex {
 		MALE, FEMALE
 	}
