@@ -36,6 +36,9 @@ public class TracerOrderDetailsRoute extends DefaultRoute {
 
 		// update?
 		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_TRACERS)) {
+			if (!SecurityUtils.checkCsrfToken(request.session(), request.queryParams("csrf-token"))) {
+				return null;
+			}
 			tracerOrder.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(TracerOrder.class, tracerOrder);
             ActionLogger.logAction(user, ActionLogger.UPDATE_TRACER, tracerOrder.getId());

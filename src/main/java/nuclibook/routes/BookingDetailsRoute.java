@@ -43,6 +43,9 @@ public class BookingDetailsRoute extends DefaultRoute {
 
 		// update?
 		if (request.params(":newstatus:") != null && user.hasPermission(P.EDIT_APPOINTMENTS)) {
+			if (!SecurityUtils.checkCsrfToken(request.session(), request.queryParams("csrf-token"))) {
+				return null;
+			}
 			booking.setStatus(request.params(":newstatus:"));
 			AbstractEntityUtils.updateEntity(Booking.class, booking);
             ActionLogger.logAction(user, ActionLogger.UPDATE_BOOKING, booking.getId());
