@@ -9,6 +9,9 @@ import spark.Request;
 import spark.Route;
 import spark.Session;
 
+/**
+ * abstract class which is extended by all other routes classes in the application.
+ */
 public abstract class DefaultRoute implements Route {
 
 	private RequestType requestType;
@@ -26,6 +29,11 @@ public abstract class DefaultRoute implements Route {
 		renderer = new HtmlRenderer();
 	}
 
+    /**
+     * method performs the routines common to all the routes in the application.
+     * These routines are necessary to perform before handling each user's request.
+     * @param request  Information sent by the client.
+     */
 	public void prepareToHandle(Request request) {
 		// make sure this is a fresh start
 		renderer.clearFields();
@@ -65,10 +73,18 @@ public abstract class DefaultRoute implements Route {
 		}
 	}
 
+    /**
+     *gets the request type.
+     * @return RequestType : GET or POST.
+     */
 	public RequestType getRequestType() {
 		return requestType;
 	}
 
+    /**
+     *gets the renderer.
+     * @return HtmlRenderer.
+     */
 	public HtmlRenderer getRenderer() {
 		return renderer;
 	}

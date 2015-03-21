@@ -13,8 +13,18 @@ import spark.Response;
 import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.IOException;
 
+/**
+ * The class is called when the user wants to import patients details
+ */
 public class ImportRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to import patients details.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return status value of the request: OKAY, no_permission, failed_validation, error.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle(request);

@@ -11,15 +11,30 @@ import spark.Response;
 import spark.Session;
 
 import java.util.HashMap;
-
+/**
+ * This class handles all the action that the user does on the login page.
+ * This class is called when the user tries to access information without logging in or when the user session has been expired.
+ */
 public class LoginRoute extends DefaultRoute {
-
+    /**
+     *
+     */
 	private HashMap<String, String> rendererFields = new HashMap<>();
 
+    /**
+     * calls the super constructor.
+     * @param requestType
+     */
 	public LoginRoute(RequestType requestType) {
 		super(requestType);
 	}
 
+    /**
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return null if the user successfully logged in, else returns the user to the login.html
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		getRenderer().clearFields();
@@ -50,6 +65,11 @@ public class LoginRoute extends DefaultRoute {
 		}
 	}
 
+    /**
+     * handles GET request.
+     * @return the template of login.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	public Object handleGet() throws Exception {
 		// check stage
 		if (!rendererFields.containsKey("stage")) {
@@ -62,6 +82,13 @@ public class LoginRoute extends DefaultRoute {
 		return renderer.render();
 	}
 
+    /**
+     * handles POST request.
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return null if the user successfully logged in, else returns the templates of the login.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	public Object handlePost(Request request, Response response) throws Exception {
 		// get staff id and password from POST
 		String username = request.queryParams("username");

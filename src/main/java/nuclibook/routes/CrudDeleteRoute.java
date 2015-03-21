@@ -7,9 +7,17 @@ import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.models.*;
 import spark.Request;
 import spark.Response;
-
+/**
+ *This class is called whenever the user wants to delete the information about resources or about staff.
+ */
 public class CrudDeleteRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to delete the information about resources or about staff.
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return the Status of the user's request.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle(request);

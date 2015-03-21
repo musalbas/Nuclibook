@@ -9,9 +9,18 @@ import nuclibook.models.Staff;
 import spark.Request;
 import spark.Response;
 import spark.Session;
-
+/**
+ * The class is called when the user wants to export patients details
+ */
 public class ExportRoute extends DefaultRoute {
-
+     /**
+     * method handles user's request to export patients details.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return exported data.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

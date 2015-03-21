@@ -13,9 +13,18 @@ import spark.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The class redirects the user to the tracer-orders.html page if he has a permission to view the page.
+ */
 public class TracerOrdersRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to access tracer-orders.html page.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return The rendered template of the tracer-orders.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
