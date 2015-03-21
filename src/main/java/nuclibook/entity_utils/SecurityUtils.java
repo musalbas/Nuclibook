@@ -34,7 +34,7 @@ public class SecurityUtils {
 	/**
 	 * Attempt a login.
 	 *
-	 * @param session The browsing session.
+	 * @param session  The browsing session.
 	 * @param username The username of the user.
 	 * @param password The password of the user.
 	 * @return The Staff object representing the logged in user, otherwise null if the login failed.
@@ -98,8 +98,8 @@ public class SecurityUtils {
 	/**
 	 * Redirect the user to an "access denied" page if the user doesn't have the required permissions.
 	 *
-	 * @param user The Staff object for the user.
-	 * @param p The required permission
+	 * @param user     The Staff object for the user.
+	 * @param p        The required permission
 	 * @param response The server response object.
 	 * @return false if the user does not have the required permission (and redirect the user to an "access denied" page in the response), otherwise true.
 	 */
@@ -118,7 +118,7 @@ public class SecurityUtils {
 	/**
 	 * Check that a new password fits within the new password policy.
 	 *
-	 * @param user The Staff object representing the user.
+	 * @param user     The Staff object representing the user.
 	 * @param password The new password for the user.
 	 * @return null if the new password is valid, otherwise a String that states why the password does not comply with the new password policy.
 	 * @throws CannotHashPasswordException
@@ -136,7 +136,7 @@ public class SecurityUtils {
 	/**
 	 * Set a one-off security token to identify the user's session.
 	 *
-	 * @param token The token.
+	 * @param token   The token.
 	 * @param session The browsing session.
 	 */
 	public static void setOneOffToken(String token, Session session) {
