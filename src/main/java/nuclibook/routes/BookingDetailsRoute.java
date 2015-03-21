@@ -66,11 +66,9 @@ public class BookingDetailsRoute extends DefaultRoute {
         // add cameras
         renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
 
-
-
-
-//        renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
-//        renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
+        // add tracers
+        renderer.setCollection("tracers", TracerUtils.getAllTracers(true));
+        renderer.setField("default-tracer-id", therapy.getTracerRequired().getId());
 //
 //        // add tracer dose
 //        renderer.setField("therapy-tracer-dose", therapy.getTracerDose());
