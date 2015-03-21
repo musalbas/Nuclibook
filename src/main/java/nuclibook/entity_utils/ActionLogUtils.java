@@ -9,12 +9,13 @@ import java.util.List;
  */
 public class ActionLogUtils extends AbstractEntityUtils {
 
-    /**
-     * Gets the {@link nuclibook.models.ActionLog} for the specified id.
-     * @param id    the <code>ActionLog</code> id
-     * @return  the associated <code>ActionLog</code> object
-     */
-    public static ActionLog getActionLog(String id) {
+	/**
+	 * Gets the {@link nuclibook.models.ActionLog} for the specified id.
+	 *
+	 * @param id the <code>ActionLog</code> id
+	 * @return the associated <code>ActionLog</code> object
+	 */
+	public static ActionLog getActionLog(String id) {
 		try {
 			return getActionLog(Integer.parseInt(id));
 		} catch (NumberFormatException e) {
@@ -22,20 +23,22 @@ public class ActionLogUtils extends AbstractEntityUtils {
 		}
 	}
 
-    /**
-     * Gets the {@link nuclibook.models.ActionLog} for the specified id.
-     * @param id    the <code>ActionLog</code> id
-     * @return  the associated <code>ActionLog</code> object
-     */
+	/**
+	 * Gets the {@link nuclibook.models.ActionLog} for the specified id.
+	 *
+	 * @param id the <code>ActionLog</code> id
+	 * @return the associated <code>ActionLog</code> object
+	 */
 	public static ActionLog getActionLog(int id) {
 		return getEntityById(ActionLog.class, id);
 	}
 
-    /**
-     * Gets all the {@link nuclibook.models.ActionLog}s on the database.
-     * @return  the list of all <code>ActionLog</code> objects
-     */
+	/**
+	 * Gets all the {@link nuclibook.models.ActionLog}s on the database.
+	 *
+	 * @return the list of all <code>ActionLog</code> objects
+	 */
 	public static List<ActionLog> getAllActions() {
-        return getAllEntities(ActionLog.class);
+		return getAllEntities(ActionLog.class);
 	}
 }
