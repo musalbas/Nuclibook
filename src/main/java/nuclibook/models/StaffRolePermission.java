@@ -9,76 +9,59 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "staff_role_permissions")
 public class StaffRolePermission {
 
-	@DatabaseField(generatedId = true)
-	private Integer id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "staff_role_id", foreignAutoRefresh = true)
-	private StaffRole staffRole;
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_role_id", foreignAutoRefresh = true)
+    private StaffRole staffRole;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id", foreignAutoRefresh = true)
-	private Permission permission;
-
-    /**
-     * Initialise a relationship without the fields.
-     */
-	public StaffRolePermission() {
-	}
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id", foreignAutoRefresh = true)
+    private Permission permission;
 
     /**
      * Initialise a relationship with a StaffRole object and a permission.
-     * @param staffRole the staff role object.
+     *
+     * @param staffRole  the staff role object.
      * @param permission a permission.
      */
-	public StaffRolePermission(StaffRole staffRole, Permission permission) {
-		this.staffRole = staffRole;
-		this.permission = permission;
-	}
+    public StaffRolePermission(StaffRole staffRole, Permission permission) {
+        this.staffRole = staffRole;
+        this.permission = permission;
+    }
 
     /**
      * Gets the ID of the staff role and permission relationship.
+     *
      * @return the ID of the staff role and permission relationship.
      */
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
     /**
      * Sets the ID of the staff role and permission relationship.
+     *
      * @param id the ID of the staff role and permission relationship.
      */
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-    /**
-     * Gets the staff role to which the permission relates.
-     * @return the staff role to which the permission relates.
-     */
-	public StaffRole getStaffRole() {
-		return staffRole;
-	}
-
-    /**
-     * Sets the staff role to which the permission relates.
-     * @param staffRole the staff role to which the permission relates.
-     */
-	public void setStaffRole(StaffRole staffRole) {
-		this.staffRole = staffRole;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * Gets the permission.
+     *
      * @return the permission.
      */
-	public Permission getPermission() {
-		return permission;
-	}
+    public Permission getPermission() {
+        return permission;
+    }
 
     /**
      * Sets the permission.
+     *
      * @param permission the permission.
      */
-	public void setPermission(Permission permission) {
-		this.permission = permission;
-	}
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
 }
