@@ -168,7 +168,6 @@ public abstract class AbstractEntityUtils {
 
 	/**
 	 * Acquires a DAO object for making queries to the database.
-	 * //TODO anything else for this?
 	 *
 	 * @param dbClass the entity type
 	 * @return the DAO object
