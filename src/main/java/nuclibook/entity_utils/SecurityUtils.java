@@ -182,4 +182,14 @@ public class SecurityUtils {
 		return session.attribute("csrf-token").equals(token);
 	}
 
+	/**
+	 * Get the CSRF token.
+	 *
+	 * @param session The browsing session.
+	 * @return The CSRF token.
+	 */
+	public static String getCsrfToken(Session session) {
+		return session.attribute("csrf-token");
+	}
+
 }
