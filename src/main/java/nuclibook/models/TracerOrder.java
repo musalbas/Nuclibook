@@ -9,6 +9,9 @@ import org.joda.time.LocalDate;
 
 import java.util.HashMap;
 
+/**
+ * Model that represents a tracer order.
+ */
 @DatabaseTable(tableName = "tracer_orders")
 public class TracerOrder implements Renderable {
 
@@ -33,57 +36,112 @@ public class TracerOrder implements Renderable {
 	@DatabaseField(width = 16)
 	private String status;
 
+    /**
+     * Initialise the tracer order without the fields.
+     */
 	public TracerOrder() {
 	}
 
+    /**
+     * Gets the ID of the tracer order.
+     * @return the ID of the tracer order.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Gets the tracer being ordered.
+     * @return the tracer being ordered.
+     */
 	public Tracer getTracer() {
 		return tracer;
 	}
 
+    /**
+     * Sets the tracer being ordered.
+     * @param tracer the tracer being ordered.
+     */
 	public void setTracer(Tracer tracer) {
 		this.tracer = tracer;
 	}
 
+    /**
+     * Gets the dose of the tracer being ordered.
+     * @return the dose of the tracer being ordered.
+     */
 	public String getTracerDose() {
 		return tracerDose;
 	}
 
+    /**
+     * Sets the dose of the tracer being ordered.
+     * @param tracerDose the dose of the tracer being ordered.
+     */
 	public void setTracerDose(String tracerDose) {
 		this.tracerDose = tracerDose;
 	}
 
+    /**
+     * Gets the booking for which this order was made.
+     * @return the booking for which this order was made.
+     */
 	public Booking getBooking() {
 		return booking;
 	}
 
+    /**
+     * Sets the booking for which this order was made.
+     * @param booking the booking for which this order was made.
+     */
 	public void setBooking(Booking booking) {
 		this.booking = booking;
 	}
 
+    /**
+     * Gets the date when this tracer is required by.
+     * @return the date when this tracer is required by.
+     */
 	public DateTime getDateRequired() {
 		return new DateTime(dateRequired);
 	}
 
+    /**
+     * Sets the date when this tracer is required by.
+     * @param dateRequired the date when this tracer is required by.
+     */
 	public void setDateRequired(DateTime dateRequired) {
 		this.dateRequired = dateRequired.getMillis();
 	}
 
+    /**
+     * Gets the date which the tracer needs to be ordered by.
+     * @return the date which the tracer needs to be ordered by.
+     */
 	public DateTime getOrderBy() {
 		return new DateTime(orderBy);
 	}
 
+    /**
+     * Sets the date which the tracer needs to be ordered by.
+     * @param orderBy the date which the tracer needs to be ordered by.
+     */
 	public void setOrderBy(DateTime orderBy) {
 		this.orderBy = orderBy.getMillis();
 	}
 
+    /**
+     * Gets the status of the order.
+     * @return the status of the order.
+     */
 	public String getStatus() {
 		return status;
 	}
 
+    /**
+     * Sets the status of the order.
+     * @param status the status of the order.
+     */
 	public void setStatus(String status) {
 		this.status = status;
 	}

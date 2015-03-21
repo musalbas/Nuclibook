@@ -11,6 +11,9 @@ import nuclibook.server.Renderable;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Model to represent a therapy.
+ */
 @DatabaseTable(tableName = "therapies")
 public class Therapy implements Renderable {
 
@@ -38,25 +41,48 @@ public class Therapy implements Renderable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
+    /**
+     * Initialise a therapy without fields.
+     */
 	public Therapy() {
 	}
 
+    /**
+     * Gets the ID of the therapy.
+     * @return the ID of the therapy.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the therapy.
+     * @param id the ID of the therapy.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Get the therapy's name.
+     * @return the therapy's name.
+     */
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * Sets the therapy's name.
+     * @param name the therapy's name.
+     */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+    /**
+     * Get a list the booking pattern sections of the therapy.
+     * @return a list the booking pattern sections of the therapy.
+     */
 	public List<BookingPatternSection> getBookingPatternSections() {
 		ArrayList<BookingPatternSection> output = new ArrayList<>();
 		try {
@@ -85,6 +111,10 @@ public class Therapy implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a list the booking pattern sections of the therapy in the form of a string.
+     * @return a list the booking pattern sections of the therapy in the form of a string.
+     */
 	public String getBookingPatternSectionListString() {
 		List<BookingPatternSection> bookingPatternSectionList = getBookingPatternSections();
 		if (bookingPatternSectionList.isEmpty()) return "[]";
@@ -96,22 +126,42 @@ public class Therapy implements Renderable {
 		return sb.substring(0, sb.length() - 1) + "]";
 	}
 
+    /**
+     * Gets the tracer required for the therapy.
+     * @return the tracer required for the therapy.
+     */
 	public Tracer getTracerRequired() {
 		return tracerRequired;
 	}
 
+    /**
+     * Sets the tracer required for the therapy.
+     * @param tracerRequired the tracer required for the therapy.
+     */
 	public void setTracerRequired(Tracer tracerRequired) {
 		this.tracerRequired = tracerRequired;
 	}
 
+    /**
+     * Gets the dose of the tracer required.
+     * @return the dose of the tracer required.
+     */
 	public String getTracerDose() {
 		return tracerDose;
 	}
 
+    /**
+     * Sets the dose of the tracer required.
+     * @param tracerDose the dose of the tracer required.
+     */
 	public void setTracerDose(String tracerDose) {
 		this.tracerDose = tracerDose;
 	}
 
+    /**
+     * Gets a list of suitable camera types.
+     * @return a list of suitable camera types.
+     */
 	public List<CameraType> getCameraTypes() {
 		ArrayList<CameraType> output = new ArrayList<>();
 		CloseableIterator<TherapyCameraType> iterator = therapyCameraTypes.closeableIterator();
@@ -127,6 +177,10 @@ public class Therapy implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a summarised String of suitable camera types.
+     * @return a summarised String of suitable camera types.
+     */
 	public String getCameraTypesSummary() {
 		// get camera types in a simple format
 		List<CameraType> cameraTypes = getCameraTypes();
@@ -162,6 +216,10 @@ public class Therapy implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a CSV string of the IDs of camera types, which are used in the front end.
+     * @return a CSV string of the IDs of camera types.
+     */
 	public String getCameraTypesIdString() {
 		List<CameraType> cameraTypeList = getCameraTypes();
 		if (cameraTypeList.isEmpty()) return "0";
@@ -172,6 +230,9 @@ public class Therapy implements Renderable {
 		return sb.substring(0, sb.length() - 1);
 	}
 
+    /**
+     * Removes all suitable camera types from this therapy.
+     */
 	public void clearCameraTypes() {
 		if (therapyCameraTypes == null) return;
 		CloseableIterator<TherapyCameraType> iterator = therapyCameraTypes.closeableIterator();
@@ -184,10 +245,18 @@ public class Therapy implements Renderable {
 		}
 	}
 
+    /**
+     * Adds a suitable camera type for this therapy.
+     * @param ct a camera type.
+     */
 	public void addCameraType(CameraType ct) {
 		AbstractEntityUtils.createEntity(TherapyCameraType.class, new TherapyCameraType(this, ct));
 	}
 
+    /**
+     * Gets a list of questions that the user needs to ask the patient before booking the therapy.
+     * @return a list of questions that the user needs to ask the patient before booking the therapy.
+     */
 	public List<PatientQuestion> getPatientQuestions() {
 		ArrayList<PatientQuestion> output = new ArrayList<>();
 		try {
@@ -216,6 +285,11 @@ public class Therapy implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a list of questions that the user needs to ask the patient before booking
+     * the therapy in the form of a String.
+     * @return a String with the list of questions a user asks the patient before booking a therapy
+     */
 	public String getPatientQuestionListString() {
 		List<PatientQuestion> patientQuestionList = getPatientQuestions();
 		if (patientQuestions.isEmpty()) return "[]";
@@ -227,10 +301,18 @@ public class Therapy implements Renderable {
 		return sb.substring(0, sb.length() - 1) + "]";
 	}
 
+    /**
+     * Gets whether it's enabled.
+     * @return whether it's enabled.
+     */
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+    /**
+     * Sets whether it's enabled.
+     * @param enabled whether it's enabled.
+     */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
