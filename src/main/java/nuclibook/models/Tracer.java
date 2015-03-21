@@ -6,6 +6,9 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
+/**
+ * Model to represent a tracer.
+ */
 @DatabaseTable(tableName = "tracers")
 public class Tracer implements Renderable {
 
@@ -21,37 +24,72 @@ public class Tracer implements Renderable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
+    /**
+     * Initialise a tracer without the fields.
+     */
 	public Tracer() {
 	}
 
+    /**
+     * Gets the ID of the tracer.
+     * @return the ID of the tracer.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the tracer.
+     * @param id the ID of the tracer.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Gets the name of the tracer.
+     * @return the name of the tracer.
+     */
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * Sets the name of the tracer.
+     * @param name the name of the tracer.
+     */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+    /**
+     * Gets the lead order time of the tracer.
+     * @return the lead order time of the tracer.
+     */
 	public int getOrderTime() {
 		return orderTime;
 	}
 
+    /**
+     * Sets the lead order time of the tracer.
+     * @param orderTime the lead order time of the tracer.
+     */
 	public void setOrderTime(int orderTime) {
 		this.orderTime = orderTime;
 	}
 
+    /**
+     * Gets whether it's enabled.
+     * @return whether it's enabled.
+     */
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+    /**
+     * Sets whether it's enabled.
+     * @param enabled whether it's enabled.
+     */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}

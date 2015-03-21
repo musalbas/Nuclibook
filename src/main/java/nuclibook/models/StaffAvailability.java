@@ -6,6 +6,9 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
+/**
+ * Model that represents a time instance in which the staff member will be usually available.
+ */
 @DatabaseTable(tableName = "staff_availabilities")
 public class StaffAvailability implements Renderable {
 
@@ -24,33 +27,64 @@ public class StaffAvailability implements Renderable {
 	@DatabaseField(columnName = "end_time")
 	private int endTime;
 
+    /**
+     * Initialise a staff availability without fields.
+     */
 	public StaffAvailability() {
 	}
 
+    /**
+     * Gets the ID of the staff availability.
+     * @return the ID of the staff availability.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the staff availability.
+     * @param id the ID of the staff availability.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Get the staff member who this availability is about.
+     * @return the staff member who this availability is about.
+     */
 	public Staff getStaff() {
 		return staff;
 	}
 
+    /**
+     * Sets the staff member who this availability is about.
+     * @param staff the staff member who this availability is about.
+     */
 	public void setStaff(Staff staff) {
 		this.staff = staff;
 	}
 
+    /**
+     * Gets the day of the week in which the staff will be available.
+     * @return the day of the week in which the staff will be available.
+     */
 	public int getDay() {
 		return day;
 	}
 
+    /**
+     * Sets the day of the week in which the staff will be available.
+     * @param day the day of the week in which the staff will be available.
+     */
 	public void setDay(int day) {
 		this.day = day;
 	}
 
+    /**
+     * Gets the time of day in which the staff will be available.
+     * @return the time of day in which the staff will be available.
+     */
 	public TimeOfDay getStartTime() {
 		try {
 			return new TimeOfDay(startTime);
@@ -60,10 +94,18 @@ public class StaffAvailability implements Renderable {
 		}
 	}
 
+    /**
+     * Sets the time of day in which the staff will be available.
+     * @param startTime the time of day in which the staff will be available.
+     */
 	public void setStartTime(TimeOfDay startTime) {
 		this.startTime = startTime.getSecondsPastMidnight();
 	}
 
+    /**
+     * Gets the time of day in which the staff will no longer be available.
+     * @return the time of day in which the staff will no longer be available.
+     */
 	public TimeOfDay getEndTime() {
 		try {
 			return new TimeOfDay(endTime);
@@ -73,6 +115,10 @@ public class StaffAvailability implements Renderable {
 		}
 	}
 
+    /**
+     * Sets the time of day in which the staff will no longer be available.
+     * @param endTime the time of day in which the staff will no longer be available.
+     */
 	public void setEndTime(TimeOfDay endTime) {
 		this.endTime = endTime.getSecondsPastMidnight();
 	}

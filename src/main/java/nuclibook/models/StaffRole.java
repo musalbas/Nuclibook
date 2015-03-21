@@ -11,6 +11,9 @@ import nuclibook.server.Renderable;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Model that represents a staff's role, which has specific permissions.
+ */
 @DatabaseTable(tableName = "staff_roles")
 public class StaffRole implements Renderable {
 
@@ -26,25 +29,47 @@ public class StaffRole implements Renderable {
 	@DatabaseField(defaultValue = "true")
 	private Boolean enabled;
 
+    /**
+     * Initialise a staff role without the field.
+     */
 	public StaffRole() {
 	}
 
+    /**
+     * Gets the ID of the staff role.
+     * @return the ID of the staff role.
+     */
 	public Integer getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the staff role.
+     * @param id the ID of the staff role.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Gets the label of the staff role.
+     * @return the label of the staff role.
+     */
 	public String getLabel() {
 		return label;
 	}
 
+    /**
+     * Sets the label of the staff role.
+     * @param label the label of the staff role.
+     */
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
+    /**
+     * Refresh the permissions of the staff role.
+     */
 	public void refreshPermissions() {
 		try {
 			staffRolePermissions.refreshCollection();
@@ -53,6 +78,10 @@ public class StaffRole implements Renderable {
 		}
 	}
 
+    /**
+     * Get a list of the staff role's permissions.
+     * @return a list of the staff role's permissions.
+     */
 	public List<Permission> getPermissions() {
 		ArrayList<Permission> output = new ArrayList<>();
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
@@ -68,6 +97,10 @@ public class StaffRole implements Renderable {
 		return output;
 	}
 
+    /**
+     * Get a summarised String of the permissions.
+     * @return a summarised String of the permissions.
+     */
 	public String getPermissionSummary() {
 		// get permissions in a simple format
 		List<Permission> permissions = getPermissions();
@@ -103,6 +136,10 @@ public class StaffRole implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a CSV string of the IDs of the permissions, which are used in the front end.
+     * @return a CSV string of the IDs of the permissions.
+     */
 	public String getPermissionsIdString() {
 		List<Permission> permissions = getPermissions();
 		if (permissions.isEmpty()) return "0";
@@ -113,6 +150,9 @@ public class StaffRole implements Renderable {
 		return sb.substring(0, sb.length() - 1);
 	}
 
+    /**
+     * Removes the staff role's permissions.
+     */
 	public void clearPermissions() {
 		if (staffRolePermissions == null) return;
 		CloseableIterator<StaffRolePermission> iterator = staffRolePermissions.closeableIterator();
@@ -125,14 +165,26 @@ public class StaffRole implements Renderable {
 		}
 	}
 
+    /**
+     * Adds a permission 'p' to the staff role.
+     * @param p a permission 'p'
+     */
 	public void addPermission(Permission p) {
 		AbstractEntityUtils.createEntity(StaffRolePermission.class, new StaffRolePermission(this, p));
 	}
 
+    /**
+     * Gets whether it's enabled.
+     * @return whether it's enabled.
+     */
 	public Boolean getEnabled() {
 		return enabled;
 	}
 
+    /**
+     * Sets whether it's enabled.
+     * @param enabled whether it's enabled.
+     */
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}

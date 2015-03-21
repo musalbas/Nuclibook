@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Model that represents a staff member in the database.
+ */
 @DatabaseTable(tableName = "staff")
 public class Staff implements Renderable {
 
@@ -74,63 +77,129 @@ public class Staff implements Renderable {
 
 	private ArrayList<P> permissions = null;
 
+    /**
+     * Initialises a staff member without the fields.
+     */
 	public Staff() {
 	}
 
+    /**
+     * Gets the ID of the staff member.
+     * @return the ID of the staff member.
+     */
 	public int getId() {
 		return id;
 	}
 
+    /**
+     * Sets the ID of the staff member.
+     * @param id the ID of the staff member.
+     */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+    /**
+     * Gets the username of the staff member.
+     * @return the username of the staff member.
+     */
 	public String getUsername() {
 		return username;
 	}
 
+    /**
+     * Sets the username of the staff member.
+     * @param username the username of the staff member.
+     */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+    /**
+     * Gets the name of the staff member.
+     * @return the name of the staff member.
+     */
 	public String getName() {
 		return name;
 	}
 
+    /**
+     * Sets the name of the staff member.
+     * @param name the name of the staff member.
+     */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+    /**
+     * Gets the role of the staff member.
+     * @return the role of the staff member.
+     */
 	public StaffRole getRole() {
 		return role;
 	}
 
+    /**
+     * Sets the role of the staff member.
+     * @param role the role of the staff member.
+     */
 	public void setRole(StaffRole role) {
 		this.role = role;
 	}
 
+    /**
+     * Gets whether it's enabled.
+     * @return whether it's enabled.
+     */
 	public boolean isEnabled() {
 		return enabled;
 	}
 
+    /**
+     * Sets whether it's enabled.
+     * @param enabled whether it's enabled.
+     */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
 	/* PASSWORDS */
 
+    /**
+     * Gets the date in which the password was last changed.
+     * @return the date in which the password was last changed.
+     */
 	public DateTime getPasswordChangeDate() {
 		return new DateTime(this.passwordChangeDate);
 	}
 
+    /**
+     * Updates the date in which the password was last changed.
+     */
 	private void updatePasswordChangeDate() {
 		this.passwordChangeDate = new DateTime().getMillis();
 	}
 
+    /**
+     * Calls polymorphic method that checks to see if the password can be hashed.
+     *
+     * @param password
+     * @return whether the password can be hashed
+     * @throws CannotHashPasswordException
+     */
 	public boolean checkPassword(String password) throws CannotHashPasswordException {
 		return checkPassword(this.passwordSalt, this.passwordHash, password);
 	}
 
+    /**
+     * Check whether the password can be hashed.
+     *
+     * @param passwordSalt the salt used when hashing the password
+     * @param passwordHash the hashed password
+     * @param password the password itself
+     * @return whether the password can be hashed
+     * @throws CannotHashPasswordException
+     */
 	public boolean checkPassword(String passwordSalt, String passwordHash, String password) throws CannotHashPasswordException {
 		// Add salt to password
 		password = passwordSalt + password;
@@ -139,6 +208,12 @@ public class Staff implements Renderable {
 		return generateHash(password).equals(passwordHash);
 	}
 
+    /**
+     * Sets the user's password.
+     *
+     * @param password the new password.
+     * @throws CannotHashPasswordException
+     */
 	public void setPassword(String password) throws CannotHashPasswordException {
 		// Generate new random salt
 		SecureRandom random = new SecureRandom();
@@ -168,6 +243,12 @@ public class Staff implements Renderable {
 		updatePasswordChangeDate();
 	}
 
+    /**
+     * Checks to see if the user's new password is similar to the previous three.
+     * @param password
+     * @return whether the user's new password is similar to the previous three.
+     * @throws CannotHashPasswordException
+     */
 	public boolean isInLastPasswords(String password) throws CannotHashPasswordException {
 		// Check that the password is not equivalent to the past 3 passwords
 		return checkPassword(this.passwordSalt1, this.passwordHash1, password)
@@ -176,6 +257,12 @@ public class Staff implements Renderable {
 				|| checkPassword(password);
 	}
 
+    /**
+     * Generate a hash of the text given.
+     * @param text the text to be hashed.
+     * @return the hashed text.
+     * @throws CannotHashPasswordException
+     */
 	private String generateHash(String text) throws CannotHashPasswordException {
 		MessageDigest digest;
 		try {
@@ -194,12 +281,20 @@ public class Staff implements Renderable {
 		return String.format("%0128x", new BigInteger(1, hash));
 	}
 
+    /**
+     * Gets the number of days remaining until the password has to change.
+     * @return the number of days remaining until the password has to change.
+     */
 	public int getDaysRemainingToPasswordChange() {
 		return 90 - Days.daysBetween(getPasswordChangeDate().toLocalDate(), new LocalDate()).getDays();
 	}
 
 	/* PERMISSIONS */
 
+    /**
+     * Loads the permissions the user has.
+     * @param force whether it should force reload the permissions
+     */
 	private void loadPermissions(boolean force) {
 		// already done the work?
 		if (!force && permissions != null) return;
@@ -221,10 +316,18 @@ public class Staff implements Renderable {
 		}
 	}
 
+    /**
+     * Refreshes the user's permissions.
+     */
 	public void refreshPermissions() {
 		loadPermissions(true);
 	}
 
+    /**
+     * Checks if the user has permission to access a functionality of the system.
+     * @param p the permission.
+     * @return whether the user has permission to access a functionality of the system.
+     */
 	public boolean hasPermission(P p) {
 		loadPermissions(false);
 		return permissions.contains(p);
@@ -232,6 +335,10 @@ public class Staff implements Renderable {
 
     /* AVAILABILITIES */
 
+    /**
+     * Gets the list of times and dates in which the staff will be available.
+     * @return the availability of the staff.
+     */
 	public List<StaffAvailability> getStaffAvailability() {
 		ArrayList<StaffAvailability> output = new ArrayList<>();
 		CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
@@ -247,6 +354,11 @@ public class Staff implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a CSV string of the IDs of registered StaffAvailability
+     * objects registered to this staff member, which is used in the front end.
+     * @return a CSV string of related StaffAvailability objects
+     */
 	public String getStaffAvailabilityIdString() {
 		List<StaffAvailability> staffAvailability = getStaffAvailability();
 		if (staffAvailability.isEmpty()) return "0";
@@ -257,6 +369,9 @@ public class Staff implements Renderable {
 		return sb.substring(0, sb.length() - 1);
 	}
 
+    /**
+     * Removes all related StaffAvailability objects.
+     */
 	public void clearStaffAvailability() {
 		CloseableIterator<StaffAvailability> iterator = availabilities.closeableIterator();
 		try {
@@ -268,6 +383,10 @@ public class Staff implements Renderable {
 		}
 	}
 
+    /**
+     * Adds a staff availability in the form of a StaffAvailability object.
+     * @param sa a staff availability in the form of a StaffAvailability object.
+     */
 	public void addStaffAvailability(StaffAvailability sa) {
 		sa.setStaff(this);
 		AbstractEntityUtils.createEntity(StaffAvailability.class, sa);
@@ -275,6 +394,10 @@ public class Staff implements Renderable {
 
     /* ABSENCES */
 
+    /**
+     * Gets the list of times and dates in which the staff will be absent.
+     * @return the list of times and dates in which the staff will be absent.
+     */
 	public List<StaffAbsence> getStaffAbsences() {
 		ArrayList<StaffAbsence> output = new ArrayList<>();
 		CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
@@ -290,6 +413,11 @@ public class Staff implements Renderable {
 		return output;
 	}
 
+    /**
+     * Gets a CSV string of the IDs of registered StaffAbsence
+     * objects registered to this staff member, which is used in the front end.
+     * @return a CSV string of related StaffAbsence objects
+     */
 	public String getStaffAbsencesIdString() {
 		List<StaffAbsence> staffAbsence = getStaffAbsences();
 		if (staffAbsence.isEmpty()) return "0";
@@ -300,6 +428,9 @@ public class Staff implements Renderable {
 		return sb.substring(0, sb.length() - 1);
 	}
 
+    /**
+     * Removes all related StaffAbsence objects.
+     */
 	public void clearStaffAbsences() {
 		CloseableIterator<StaffAbsence> iterator = absences.closeableIterator();
 		try {
@@ -311,6 +442,9 @@ public class Staff implements Renderable {
 		}
 	}
 
+    /**
+     * Adds a StaffAbsence object for this staff member.
+     */
 	public void addStaffAbsences(StaffAbsence sa) {
 		sa.setStaff(this);
 		AbstractEntityUtils.createEntity(StaffAbsence.class, sa);
