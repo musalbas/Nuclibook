@@ -28,12 +28,6 @@ public class StaffAvailability implements Renderable {
 	private int endTime;
 
     /**
-     * Initialise a staff availability without fields.
-     */
-	public StaffAvailability() {
-	}
-
-    /**
      * Gets the ID of the staff availability.
      * @return the ID of the staff availability.
      */
