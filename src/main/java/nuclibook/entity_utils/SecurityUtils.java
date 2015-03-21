@@ -10,6 +10,8 @@ import nuclibook.server.SqlServerConnection;
 import spark.Response;
 import spark.Session;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashMap;
 
 /**
@@ -55,6 +57,9 @@ public class SecurityUtils {
 
 						// set session timeout
 						session.maxInactiveInterval(C.AUTOMATIC_TIMEOUT);
+
+						// assign CSRF token
+						assignCsrfToken(session);
 
 						return staff;
 					}
@@ -157,6 +162,24 @@ public class SecurityUtils {
 			return null;
 		}
 		return found.getValue();
+	}
+
+	private static void assignCsrfToken(Session session) {
+		SecureRandom random = new SecureRandom();
+		String token = new BigInteger(130, random).toString(32);
+
+		session.attribute("csrf-token", token);
+	}
+
+	/**
+	 * Check that the CSRF token matches the one for the session.
+	 *
+	 * @param session The browsing session.
+	 * @param token The CSRF token.
+	 * @return true if it the token matches, false otherwise.
+	 */
+	public static boolean checkCsrfToken(Session session, String token) {
+		return session.attribute("csrf-token").equals(token);
 	}
 
 }
