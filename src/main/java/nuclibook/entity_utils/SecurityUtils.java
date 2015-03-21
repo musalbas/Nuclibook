@@ -58,9 +58,6 @@ public class SecurityUtils {
 						// set session timeout
 						session.maxInactiveInterval(C.AUTOMATIC_TIMEOUT);
 
-						// assign CSRF token
-						assignCsrfToken(session);
-
 						return staff;
 					}
 				}
@@ -179,6 +176,10 @@ public class SecurityUtils {
 	 * @return true if it the token matches, false otherwise.
 	 */
 	public static boolean checkCsrfToken(Session session, String token) {
+		if (session.attribute("csrf-token") == null) {
+			return false;
+		}
+
 		return session.attribute("csrf-token").equals(token);
 	}
 
@@ -189,6 +190,10 @@ public class SecurityUtils {
 	 * @return The CSRF token.
 	 */
 	public static String getCsrfToken(Session session) {
+		if (session.attribute("csrf-token") == null) {
+			assignCsrfToken(session);
+		}
+
 		return session.attribute("csrf-token");
 	}
 
