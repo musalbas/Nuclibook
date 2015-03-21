@@ -145,10 +145,10 @@ public abstract class AbstractEntityUtils {
 	}
 
 	/**
-	 * Deletes a record in the database by the specified id.
+	 * Deletes a record in the database by the specified ID.
 	 *
 	 * @param dbClass the  entity type
-	 * @param id      the entity id
+	 * @param id      the entity ID
 	 */
 	public static <E> void deleteEntityById(Class dbClass, int id) {
 		// set up server connection

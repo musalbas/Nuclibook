@@ -10,9 +10,9 @@ import java.util.List;
 public class ActionLogUtils extends AbstractEntityUtils {
 
 	/**
-	 * Gets the {@link nuclibook.models.ActionLog} for the specified id.
+	 * Gets the {@link nuclibook.models.ActionLog} for the specified ID.
 	 *
-	 * @param id the <code>ActionLog</code> id
+	 * @param id the <code>ActionLog</code> ID
 	 * @return the associated <code>ActionLog</code> object
 	 */
 	public static ActionLog getActionLog(String id) {
@@ -24,9 +24,9 @@ public class ActionLogUtils extends AbstractEntityUtils {
 	}
 
 	/**
-	 * Gets the {@link nuclibook.models.ActionLog} for the specified id.
+	 * Gets the {@link nuclibook.models.ActionLog} for the specified ID.
 	 *
-	 * @param id the <code>ActionLog</code> id
+	 * @param id the <code>ActionLog</code> ID
 	 * @return the associated <code>ActionLog</code> object
 	 */
 	public static ActionLog getActionLog(int id) {
