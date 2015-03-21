@@ -4,7 +4,14 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 
+/**
+ * A class for loading and storing constants from a .properties file
+ */
 public class C {
+
+    //private constructor to prevent construction
+    private C(){
+    }
 
 	// server
 	public static String MYSQL_URI;
@@ -14,6 +21,10 @@ public class C {
 	// security
 	public static int AUTOMATIC_TIMEOUT;
 
+    /**
+     * Loads the constants from the .properties file using a
+     * PropertiesConfiguration object
+     */
 	public static void initConstants() throws ConfigurationException {
 		PropertiesConfiguration config = new PropertiesConfiguration("database.properties");
 		MYSQL_URI = config.getString("database.URI");
