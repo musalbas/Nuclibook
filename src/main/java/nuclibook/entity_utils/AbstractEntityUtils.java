@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * A helper class for manipulating the database objects.
- * <p>
  * It provides code that can be reused.
  */
 public abstract class AbstractEntityUtils {
