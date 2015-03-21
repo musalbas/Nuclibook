@@ -13,9 +13,18 @@ import spark.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The class redirects the user to the day-summary.html page.
+ */
 public class DaySummaryRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to view day-summary.html page.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return The rendered template of the day-summary.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle(request);

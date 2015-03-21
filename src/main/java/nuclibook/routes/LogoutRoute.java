@@ -7,9 +7,17 @@ import nuclibook.models.Staff;
 import spark.Request;
 import spark.Response;
 import spark.Session;
-
+/**
+ * This class is called when the user logs out.
+ */
 public class LogoutRoute extends DefaultRoute {
-
+    /**
+     * method redirects to the login page with the appropriate message that states that the user has been logged out.
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return null.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle(request);

@@ -14,9 +14,18 @@ import spark.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The class redirects the user to the patient-details.html page if he has a permission to view the page.
+ */
 public class PatientDetailsRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to view patient-details.html page.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return The rendered template of the patient-details.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

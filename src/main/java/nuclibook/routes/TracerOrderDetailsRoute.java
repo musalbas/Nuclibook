@@ -11,8 +11,18 @@ import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
+/**
+ * The class redirects the user to the tracer-order-details.html page if he has a permission to view the page.
+ */
 public class TracerOrderDetailsRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to view tracer-order-details.html page.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return The rendered template of the tracer-order-details.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

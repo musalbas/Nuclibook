@@ -11,8 +11,18 @@ import spark.Response;
 
 import java.util.List;
 
+/**
+ * The class redirects the user to the generic-events.html page.
+ */
 public class GenericEventsRoute extends DefaultRoute {
-
+    /**
+     * method handles user's request to view generic-events.html page.
+     *
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return The rendered template of the generic-events.html page.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

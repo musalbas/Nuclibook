@@ -13,10 +13,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ *This class is called whenever the user wants to update the information about resources or about staff.
+ */
 public class CrudCreateUpdateRoute extends DefaultRoute {
-
+    /**
+     * boolean value that checks if the entity needs to be created.
+     */
 	private boolean createNew = false;
 
+    /**
+     * method handles user's request.
+     * @param request  Information sent by the client.
+     * @param response Information sent to the client.
+     * @return the Status of the user's request.
+     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		prepareToHandle(request);
@@ -199,7 +211,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// fail safe
 		return "error";
 	}
-
+    /**
+     * creates new Camera or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateCamera(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -234,7 +251,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new CameraType or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateCameraType(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -265,7 +287,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Generic event or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
     private Pair<Status, Object> createUpdateGenericEvent(int entityId, Request request) {
         // get current user
         Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -315,7 +342,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
         return new Pair<>(Status.OK, entity);
     }
-
+    /**
+     * creates new Patient or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdatePatient(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -365,7 +397,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Staff or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateStaff(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -438,7 +475,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Staff Absence or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateStaffAbsence(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -482,7 +524,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Staff availability or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateStaffAvailability(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -532,7 +579,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Staff password or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateStaffPassword(Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -580,7 +632,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 
 		return new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Staff role or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateStaffRole(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -654,7 +711,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		// don't let it be created again if it's new
 		return createNew ? null : new Pair<>(Status.OK, entity);
 	}
-
+    /**
+     * creates new Therapy or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateTherapy(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -836,6 +898,12 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return createNew ? null : new Pair<>(Status.OK, entity);
 	}
 
+    /**
+     * creates new Tracer or updates existing.
+     * @param entityId Entity ID.
+     * @param request Information request sent by the client.
+     * @return entity with the the request status.
+     */
 	private Pair<Status, Object> createUpdateTracer(int entityId, Request request) {
 		// get current user
 		Staff user = SecurityUtils.getCurrentUser(request.session());
@@ -875,6 +943,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		return new Pair<>(Status.OK, entity);
 	}
 
+    /**
+     * four possible values that status of the user's request may have.
+     */
 	private enum Status {
 		OK,
 		FAILED_VALIDATION,
