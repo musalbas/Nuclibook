@@ -4,57 +4,58 @@ import nuclibook.constants.P;
 import nuclibook.entity_utils.*;
 import nuclibook.models.CameraType;
 import nuclibook.models.Staff;
-import nuclibook.models.Tracer;
 import nuclibook.models.Therapy;
+import nuclibook.models.Tracer;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
 import java.util.List;
+
 /**
  * The class redirects the user to the therapies.html page if he has a permission to view the page.
  */
 public class TherapiesRoute extends DefaultRoute {
     /**
-     * method handles user's request to view therapies.html page.
+     * Method handles user's request to view therapies.html page.
      *
-     * @param request  Information sent by the client.
-     * @param response Information sent to the client.
-     * @return The rendered template of the therapies.html page.
-     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     * @param request  Information sent by the client
+     * @param response Information sent to the client
+     * @return The rendered template of the therapies.html page
+     * @throws Exception if something goes wrong, for example, loss of connection with a server
      */
-	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		// necessary prelim routine
-		prepareToHandle(request);
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        // necessary prelim routine
+        prepareToHandle(request);
 
-		// get current user
-		Staff user = SecurityUtils.getCurrentUser(request.session());
+        // get current user
+        Staff user = SecurityUtils.getCurrentUser(request.session());
 
-		// security check
-		if (!SecurityUtils.requirePermission(user, P.VIEW_THERAPIES, response)) {
+        // security check
+        if (!SecurityUtils.requirePermission(user, P.VIEW_THERAPIES, response)) {
             ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_THERAPIES, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
-		// start renderer
-		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("therapies.html");
+        // start renderer
+        HtmlRenderer renderer = getRenderer();
+        renderer.setTemplateFile("therapies.html");
 
-		// get therapies and add to renderer
-		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
-		renderer.setCollection("therapies", allTherapies);
+        // get therapies and add to renderer
+        List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
+        renderer.setCollection("therapies", allTherapies);
 
-		// get camera types and add to renderer
-		List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
-		renderer.setCollection("camera-types", allCameraTypes);
+        // get camera types and add to renderer
+        List<CameraType> allCameraTypes = CameraTypeUtils.getAllCameraTypes(true);
+        renderer.setCollection("camera-types", allCameraTypes);
 
-		// get tracers and add to renderer
-		List<Tracer> allTracers = TracerUtils.getAllTracers(true);
-		renderer.setCollection("tracers", allTracers);
+        // get tracers and add to renderer
+        List<Tracer> allTracers = TracerUtils.getAllTracers(true);
+        renderer.setCollection("tracers", allTracers);
 
         ActionLogger.logAction(user, ActionLogger.VIEW_THERAPIES, 0);
 
-		return renderer.render();
-	}
+        return renderer.render();
+    }
 }
