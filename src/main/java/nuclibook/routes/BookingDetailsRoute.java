@@ -63,7 +63,10 @@ public class BookingDetailsRoute extends DefaultRoute {
 		// add patient
 		Patient patient = booking.getPatient();
 		renderer.setBulkFields(patient.getHashMap());
+        renderer.setField("patient-id", patient.getId());
 
+        //add therapy
+        renderer.setField("therapy-id", therapy.getId());
         // add cameras
         renderer.setCollection("cameras", CameraUtils.getCamerasForTherapy(therapy));
 
@@ -84,6 +87,9 @@ public class BookingDetailsRoute extends DefaultRoute {
         });
         renderer.setCollection("staff", allStaff);
 
-		return renderer.render();
+        // add notes
+        renderer.setField("notes-all", "test");
+
+        return renderer.render();
 	}
 }

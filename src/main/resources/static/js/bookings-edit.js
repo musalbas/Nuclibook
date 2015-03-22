@@ -247,6 +247,7 @@ $(document).ready(function () {
         }
         $('#current-staff-id').val(stringStaffList);
         $('#current-staff').val(stringStafListNames);
+
         // off we go!
        $('.edit-booking-form').submit();
     });

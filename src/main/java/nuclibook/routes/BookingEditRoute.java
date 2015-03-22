@@ -30,13 +30,11 @@ public class BookingEditRoute extends DefaultRoute {
         Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer"));
         String tracerDose = request.queryParams("tracer-dose");
         String notes = request.queryParams("notes");
+        System.out.println("Notes : " + notes);
 
         // get assigned staff
         ArrayList<Staff> assignedStaff = new ArrayList<>();
         String[] assignedStaffIds = request.queryParams("current-staff-id").split(", ");
-        for (int i = 0; i < assignedStaffIds.length; ++i) {
-            System.out.println(assignedStaffIds[i]);
-        }
         for (String staffId : assignedStaffIds) {
             if (!staffId.equals("0")) {
                 Staff staff = StaffUtils.getStaff(staffId);
