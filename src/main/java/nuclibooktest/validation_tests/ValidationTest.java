@@ -13,10 +13,7 @@ import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.xml.XmlDataSet;
 import org.dbunit.ext.h2.H2Connection;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import spark.Session;
 import spark.Spark;
 import spark.utils.IOUtils;
@@ -33,11 +30,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.*;
+
 public class ValidationTest {
 
     protected static ConnectionSource connectionSource;
     protected static H2Connection dbunitConnection;
     protected static String sessionID;
+    protected static String csrf;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -64,9 +64,15 @@ public class ValidationTest {
         insertDataset("/test_datasets/staff_data_set.xml");
         insertDataset("/test_datasets/staff_roles_data_set.xml");
         insertDataset("/test_datasets/staff_role_permissions_data_set.xml");
-        Staff a = StaffUtils.getStaff(1);
-        a.setPassword("testpassword");
-        AbstractEntityUtils.updateEntity(Staff.class, a);
+        Staff staff = StaffUtils.getStaff(1);
+        staff.setPassword("testpassword");
+        AbstractEntityUtils.updateEntity(Staff.class, staff);
+
+        if(csrf == null) {
+            TestResponse loginpage = request("GET", "/login");
+            csrf = loginpage.getTagValue();
+            TestResponse loginResponse = request("POST", "/login?csrf-token=" + csrf + "&username=TestUsername1&password=testpassword");
+        }
     }
 
     @AfterClass
@@ -75,17 +81,124 @@ public class ValidationTest {
     }
 
     @Test
-    public void testCreateUpdateCameraWithPermissions() throws SQLException, IOException {
+    public void testCreateUpdatePatientValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                        "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=fsdagfsdgsdg&hospital-number=sdfgdsgdsgfds&nhs-number=fsdgsdgfsdg&sex=Male&date-of-birth=2004-09-14");
 
-        TestResponse response = request("GET", "/login");
-        String csrf = response.getTagValue();
-        TestResponse loginResponse = request("POST", "/login?csrf-token=" + csrf + "&username=TestUsername1&password=testpassword");
+            assertTrue(testResponse.status == 200);
 
-        JdbcDatabaseConnection jdbcDatabaseConnection = (JdbcDatabaseConnection)connectionSource.getReadOnlyConnection();
-        org.h2.tools.Server.startWebServer(jdbcDatabaseConnection.getInternalConnection());
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=978!!!!&hospital-number=sdfgdsgdsgfds&nhs-number=fsdgsdgfsdg&sex=Male&date-of-birth=2004-09-14");
 
-        //TestResponse respone1 = response("POST", "/entity-update?");
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=Test&hospital-number=!!!!+++&nhs-number=fsdgsdgfsdg&sex=Male&date-of-birth=2004-09-14");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=Test&hospital-number=hospital2&nhs-number=!!!!!+++&sex=Male&date-of-birth=2004-09-14");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=Test&hospital-number=hospital2&nhs-number=abc23=Male&date-of-birth=gfd!!+");
+
+            assertEquals("failed_validation", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
+
+    @Test
+    public void testCreateUpdateTracerValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=tracer&entity-id=0&name=testTracer&order-time=23");
+
+            assertTrue(testResponse.status == 200);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=tracer&entity-id=0&name=!!!!++++&order-time=23");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=tracer&entity-id=0&name=testTrace&order-time=!!!!");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=tracer&entity-id=0&name=testTrace&order-time=twenty");
+
+            assertEquals("failed_validation", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCreateUpdateStaffValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=testuser&username=testuser&role-id=2&password=password&password_check=password");
+
+            assertTrue(testResponse.status == 200);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=7623&username=testuser&role-id=2&password=password&password_check=password");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=!!+++&username=testuser1&role-id=2&password=password&password_check=password");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=testuser&username=!!!!++++&role-id=2&password=password&password_check=password");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=testuser&username=testuser&role-id=2&password=password&password_check=password");
+
+            assertEquals("CUSTOM:Username has been taken", testResponse.body );
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff&entity-id=0&name=testuser&username=testuser1&role-id=2&password=1234&password_check=pass");
+
+            assertEquals("CUSTOM:Password must be at least 6 characters long.", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /*@Test
+    public void testCreateUpdatePatientWithoutPermissions() throws SQLException {
+        try{
+            TestResponse loginpage = request("GET", "/login");
+            String csrf = loginpage.getTagValue();
+            TestResponse loginResponse = request("POST", "/login?csrf-token=" + csrf + "&username=TestUsername2&password=testpassword");
+
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=fsdagfsdgsdg&hospital-number=sdfgdsgdsgfds&nhs-number=fsdgsdgfsdg&sex=Male&date-of-birth=2004-09-14");
+
+            assertEquals("no_permission", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }*/
 
     private static TestResponse request(String method, String path) throws IOException {
         URL url = new URL("http://localhost:4567" + path);
@@ -116,7 +229,6 @@ public class ValidationTest {
             String cookie = connection.getHeaderField("Set-Cookie");
             sessionID = cookie.substring(cookie.indexOf('=') + 1, cookie.indexOf(';'));
         }
-        //System.out.println(cookie);
         System.out.println(sessionID);
 
         return new TestResponse(connection.getResponseCode(), body , connection.getHeaderFields());

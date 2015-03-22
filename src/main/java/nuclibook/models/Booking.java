@@ -9,6 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import nuclibook.server.Renderable;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,7 +53,7 @@ public class Booking implements Renderable {
 	private String notes;
 
 	/**
-	 * Initialise a booking.
+	 * Blank constructor for ORM.
 	 */
 	public Booking() {
 	}
@@ -225,6 +226,31 @@ public class Booking implements Renderable {
 	}
 
 	/**
+	 * Get the list of staff for this booking.
+	 *
+	 * @return The list of staff for this booking.
+	 */
+	public List<BookingStaff> getBookingStaff() {
+		ArrayList<BookingStaff> output = new ArrayList<>();
+		try {
+			bookingStaff.refreshCollection();
+		} catch (SQLException | NullPointerException e) {
+			return output;
+		}
+		CloseableIterator<BookingStaff> iterator = bookingStaff.closeableIterator();
+		try {
+			BookingStaff bs;
+			while (iterator.hasNext()) {
+				bs = iterator.next();
+				if (bs != null) output.add(bs);
+			}
+		} finally {
+			iterator.closeQuietly();
+		}
+		return output;
+	}
+
+	/**
 	 * Get the status of the booking.
 	 *
 	 * @return The status of the booking.
@@ -266,9 +292,11 @@ public class Booking implements Renderable {
 			put("booking-id", getId().toString());
 			put("patient-name", getPatient().getName());
 			put("therapy-name", getTherapy().getName());
+			put("camera-id", getCamera().getId().toString());
 			put("camera-type-label", getCamera().getType().getLabel());
 			put("camera-room-number", getCamera().getRoomNumber());
 			put("tracer-name", getTracer().getName());
+			put("tracer-id", getTracer().getId().toString());
 			put("tracer-dose", getTracerDose());
 			put("status", getStatus());
 
@@ -287,21 +315,25 @@ public class Booking implements Renderable {
 				put("date", bookingSections.get(0).getStart().toString("YYYY-MM-dd"));
 			}
 
-            // set up booking sections as string for day summary
-            String bookingSectionsAsString = "";
-            if (!bookingSections.isEmpty()) {
+			// set up booking sections as string for day summary
+			String bookingSectionsAsString = "";
+			String bookingSectionsAsStringTimeOnly = "";
+			if (!bookingSections.isEmpty()) {
 
-                for (BookingSection b : bookingSections) {
-                    bookingSectionsAsString += "<li class=\"list-group-item\">\n";
-                    String startTime = b.getStart().toString("HH:mm");
-                    String endTime = b.getEnd().toString("HH:mm");
-                    bookingSectionsAsString += (startTime + " to " + endTime + " \n");
-                    bookingSectionsAsString += "</li>";
-                }
-            } else {
-                bookingSectionsAsString = "<em>None</em>\n";
-            }
-            put("booking-sections-as-string", bookingSectionsAsString);
+				for (BookingSection b : bookingSections) {
+					bookingSectionsAsString += "<li class=\"list-group-item\">\n";
+					String startTime = b.getStart().toString("HH:mm");
+					String endTime = b.getEnd().toString("HH:mm");
+					bookingSectionsAsString += (startTime + " to " + endTime + " \n");
+					bookingSectionsAsString += "</li>";
+					bookingSectionsAsStringTimeOnly += (startTime + " - " + endTime + ", ");
+				}
+			} else {
+				bookingSectionsAsString = "<em>None</em>\n";
+			}
+			bookingSectionsAsStringTimeOnly = bookingSectionsAsStringTimeOnly.substring(0, bookingSectionsAsStringTimeOnly.length() - 2);
+			put("booking-sections-as-string", bookingSectionsAsString);
+			put("booking-sections-as-string-time-only", bookingSectionsAsStringTimeOnly);
 
 			// get days until
 			if (bookingSections.isEmpty()) {
@@ -330,6 +362,19 @@ public class Booking implements Renderable {
 				staff = staff.substring(0, staff.length() - 2);
 			}
 			put("staff", staff);
+			//get staffID
+			String staffId = "";
+			if (getStaff().isEmpty()) {
+				staffId = "<em>None</em>";
+			} else {
+				List<Staff> assignedStaff = getStaff();
+				for (Staff s : assignedStaff) {
+					staffId += s.getId() + ", ";
+				}
+
+				staffId = staffId.substring(0, staffId.length() - 2);
+			}
+			put("staff-id-list", staffId);
 
 			// get notes
 			String notes = getNotes();
@@ -339,6 +384,7 @@ public class Booking implements Renderable {
 				notes = notes.replace("\n", "<br />");
 			}
 			put("notes", notes);
+			put("notes-unformatted", getNotes());
 		}};
 	}
 }

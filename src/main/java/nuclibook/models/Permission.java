@@ -12,53 +12,56 @@ import java.util.HashMap;
  * a part of the system.
  */
 @DatabaseTable(tableName = "permissions")
-public class Permission  implements Renderable{
+public class Permission implements Renderable {
 
-	@DatabaseField(generatedId = true)
-	private Integer id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
 
-	@DatabaseField(width = 32)
-	private String label;
+    @DatabaseField(width = 32)
+    private String label;
 
-	@DatabaseField(width = 64)
-	private String description;
+    @DatabaseField(width = 64)
+    private String description;
 
-    /**
-     * Initialise the permission without fields.
-     */
+	/**
+	 * Blank constructor for ORM.
+	 */
 	public Permission() {
 	}
 
     /**
      * Gets the ID of the permission.
+     *
      * @return the ID of the permission.
      */
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
     /**
      * Gets the label of the permission.
+     *
      * @return the label of the permission.
      */
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
     /**
      * Gets the description of the permission.
+     *
      * @return the description of the permission.
      */
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>(){{
-			put("id", getId().toString());
-			put("label", getLabel());
-			put("description", getDescription());
-		}};
-	}
+    @Override
+    public HashMap<String, String> getHashMap() {
+        return new HashMap<String, String>() {{
+            put("id", getId().toString());
+            put("label", getLabel());
+            put("description", getDescription());
+        }};
+    }
 }

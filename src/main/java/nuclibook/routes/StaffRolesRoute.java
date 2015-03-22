@@ -16,42 +16,52 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * The class redirects the user to the staff-roles.html page if he has a permission to view the page.
+ */
 public class StaffRolesRoute extends DefaultRoute {
+    /**
+     * Method handles user's request to view staff-roles.html page.
+     *
+     * @param request  Information sent by the client
+     * @param response Information sent to the client
+     * @return The rendered template of the staff-roles.html page
+     * @throws Exception if something goes wrong, for example, loss of connection with a server
+     */
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        // necessary prelim routine
+        prepareToHandle(request);
 
-	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		// necessary prelim routine
-		prepareToHandle(request);
+        // get current user
+        Staff user = SecurityUtils.getCurrentUser(request.session());
 
-		// get current user
-		Staff user = SecurityUtils.getCurrentUser(request.session());
-
-		// security check
-		if (!SecurityUtils.requirePermission(user, P.VIEW_STAFF_ROLES, response)) {
+        // security check
+        if (!SecurityUtils.requirePermission(user, P.VIEW_STAFF_ROLES, response)) {
             ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_STAFF_ROLES, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
-		// start renderer
-		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("staff-roles.html");
+        // start renderer
+        HtmlRenderer renderer = getRenderer();
+        renderer.setTemplateFile("staff-roles.html");
 
-		// get staff roles and add to renderer
-		List<StaffRole> allStaffRoles = StaffRoleUtils.getAllStaffRoles(true);
-		renderer.setCollection("staff-roles", allStaffRoles);
+        // get staff roles and add to renderer
+        List<StaffRole> allStaffRoles = StaffRoleUtils.getAllStaffRoles(true);
+        renderer.setCollection("staff-roles", allStaffRoles);
 
-		// get permissions and add to renderer
-		List<Permission> allPermissions = PermissionUtils.getAllPermissions();
-		Collections.sort(allPermissions, new Comparator<Permission>() {
-			@Override
-			public int compare(Permission o1, Permission o2) {
-				return o1.getDescription().compareTo(o2.getDescription());
-			}
-		});
-		renderer.setCollection("permissions", allPermissions);
+        // get permissions and add to renderer
+        List<Permission> allPermissions = PermissionUtils.getAllPermissions();
+        Collections.sort(allPermissions, new Comparator<Permission>() {
+            @Override
+            public int compare(Permission o1, Permission o2) {
+                return o1.getDescription().compareTo(o2.getDescription());
+            }
+        });
+        renderer.setCollection("permissions", allPermissions);
 
         ActionLogger.logAction(user, ActionLogger.VIEW_STAFF_ROLES, 0);
 
-		return renderer.render();
-	}
+        return renderer.render();
+    }
 }

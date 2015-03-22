@@ -9,6 +9,7 @@ public interface Exportable {
 
     /**
      * Gets a hashmap of exportable data.
+     *
      * @return a hashmap of exportable data.
      */
     HashMap<String, String> getExportableHashMap();

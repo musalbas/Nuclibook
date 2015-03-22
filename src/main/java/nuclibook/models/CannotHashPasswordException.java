@@ -7,10 +7,11 @@ public class CannotHashPasswordException extends Exception {
 
     /**
      * Constructor to initialise the exception.
+     *
      * @param message the error message resulting from the exception.
      */
-	public CannotHashPasswordException(String message) {
-		super(message);
-	}
+    public CannotHashPasswordException(String message) {
+        super(message);
+    }
 
 }

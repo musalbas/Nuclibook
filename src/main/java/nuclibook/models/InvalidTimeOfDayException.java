@@ -7,6 +7,7 @@ public class InvalidTimeOfDayException extends Exception {
 
     /**
      * Constructor to initialise the exception.
+     *
      * @param message the error message resulting from the exception.
      */
     public InvalidTimeOfDayException(String message) {
