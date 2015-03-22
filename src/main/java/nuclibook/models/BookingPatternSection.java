@@ -3,75 +3,141 @@ package nuclibook.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Model to represent a section of the pattern for a booking.
+ */
 @DatabaseTable(tableName = "booking_pattern_sections")
 public class BookingPatternSection {
 
-	@DatabaseField(generatedId = true)
-	private Integer id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
 
-	@DatabaseField(canBeNull = false, foreign = true, columnName = "therapy_id", foreignAutoRefresh = true)
-	private Therapy therapy;
+    @DatabaseField(canBeNull = false, foreign = true, columnName = "therapy_id", foreignAutoRefresh = true)
+    private Therapy therapy;
 
-	@DatabaseField
-	private boolean busy;
+    @DatabaseField
+    private boolean busy;
 
-	@DatabaseField
-	private int minLength;
+    @DatabaseField
+    private int minLength;
 
-	@DatabaseField
-	private int maxLength;
+    @DatabaseField
+    private int maxLength;
 
-	@DatabaseField
-	private int sequence;
+    @DatabaseField
+    private int sequence;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
 	public BookingPatternSection() {
 	}
 
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Get the ID of the booking pattern section.
+     *
+     * @return the ID of the booking pattern section.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Set the ID of the booking pattern section.
+     *
+     * @param id the ID of the booking pattern section.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Therapy getTherapy() {
-		return therapy;
-	}
+    /**
+     * Get the therapy which this pattern's booking represents.
+     *
+     * @return the therapy which this pattern's booking represents.
+     */
+    public Therapy getTherapy() {
+        return therapy;
+    }
 
-	public void setTherapy(Therapy therapy) {
-		this.therapy = therapy;
-	}
+    /**
+     * Set the therapy which this pattern's booking represents.
+     *
+     * @param therapy the therapy which this pattern's booking represents.
+     */
+    public void setTherapy(Therapy therapy) {
+        this.therapy = therapy;
+    }
 
-	public boolean isBusy() {
-		return busy;
-	}
+    /**
+     * Checks if the section is busy or free.
+     *
+     * @return whether the section is busy or free.
+     */
+    public boolean isBusy() {
+        return busy;
+    }
 
-	public void setBusy(boolean busy) {
-		this.busy = busy;
-	}
+    /**
+     * Sets whether the section is busy or free.
+     *
+     * @param busy whether the section is busy or free.
+     */
+    public void setBusy(boolean busy) {
+        this.busy = busy;
+    }
 
-	public int getMinLength() {
-		return minLength;
-	}
+    /**
+     * Gets the minimum length (in minutes) of a section.
+     *
+     * @return the minimum length (in minutes) of a section.
+     */
+    public int getMinLength() {
+        return minLength;
+    }
 
-	public void setMinLength(int minLength) {
-		this.minLength = minLength;
-	}
+    /**
+     * Sets the minimum the minimum length (in minutes) of a section.
+     *
+     * @param minLength the minimum length (in minutes) of a section.
+     */
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    }
 
-	public int getMaxLength() {
-		return maxLength;
-	}
+    /**
+     * Gets the maximum length (in minutes) of a section.
+     *
+     * @return the maximum length (in minutes) of a section.
+     */
+    public int getMaxLength() {
+        return maxLength;
+    }
 
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	}
+    /**
+     * Sets the minimum the maximum length (in minutes) of a section.
+     *
+     * @param maxLength the maximum length (in minutes) of a section.
+     */
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    }
 
-	public int getSequence() {
-		return sequence;
-	}
+    /**
+     * Gets the ordering of the section.
+     *
+     * @return the ordering of the section.
+     */
+    public int getSequence() {
+        return sequence;
+    }
 
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
-	}
+    /**
+     * Sets the ordering of the section.
+     *
+     * @param sequence the ordering of the section.
+     */
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
 }

@@ -6,39 +6,62 @@ import nuclibook.server.Renderable;
 
 import java.util.HashMap;
 
+/**
+ * Model that represents a permission that allows a user to
+ * accomplish a task on the application, or gain access to
+ * a part of the system.
+ */
 @DatabaseTable(tableName = "permissions")
-public class Permission  implements Renderable{
+public class Permission implements Renderable {
 
-	@DatabaseField(generatedId = true)
-	private Integer id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
 
-	@DatabaseField(width = 32)
-	private String label;
+    @DatabaseField(width = 32)
+    private String label;
 
-	@DatabaseField(width = 64)
-	private String description;
+    @DatabaseField(width = 64)
+    private String description;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
 	public Permission() {
 	}
 
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Gets the ID of the permission.
+     *
+     * @return the ID of the permission.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    /**
+     * Gets the label of the permission.
+     *
+     * @return the label of the permission.
+     */
+    public String getLabel() {
+        return label;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * Gets the description of the permission.
+     *
+     * @return the description of the permission.
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>(){{
-			put("id", getId().toString());
-			put("label", getLabel());
-			put("description", getDescription());
-		}};
-	}
+    @Override
+    public HashMap<String, String> getHashMap() {
+        return new HashMap<String, String>() {{
+            put("id", getId().toString());
+            put("label", getLabel());
+            put("description", getDescription());
+        }};
+    }
 }

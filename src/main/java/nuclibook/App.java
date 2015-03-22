@@ -1,110 +1,99 @@
 package nuclibook;
 
-import javafx.animation.Animation;
-import javafx.animation.Transition;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
-import java.util.Timer;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class App extends Application {
 
-	// toolbar and hbox to be used by animation objects
-	final ToolBar toolBar = new ToolBar();
-	final HBox hBox = new HBox(toolBar);
-
-	// animation to hide the loading bar panel
-	final Animation hidePanel = new Transition() {
-		{
-			setCycleDuration(Duration.millis(250));
-			setCycleCount(0);
-		}
-
-		@Override
-		protected void interpolate(double f) {
-			final double size = 30 * (1.0 - f);
-			hBox.setPrefHeight(size);
-		}
-	};
-
-	// animation to show the loading bar panel
-	final Animation showPanel = new Transition() {
-		{
-			setCycleDuration(Duration.millis(250));
-			setDelay(Duration.millis(1000));
-		}
-
-		@Override
-		protected void interpolate(double f) {
-			final double size = 30 * f;
-			hBox.setPrefHeight(size);
-		}
-	};
-
+	/**
+	 * Runs when the app is launched to start the JavaFX application.
+	 *
+	 * @param args Any command line arguments; ignored in this application.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Sets up the stage, including loading icon, web view and close confirmation.
+	 *
+	 * @param stage the primary stage for this application, onto which the application scene can be set.
+	 */
 	@Override
 	public void start(Stage stage) {
 		// initialise
 		final WebView webView = new WebView();
 		final WebEngine webEngine = webView.getEngine();
 
-		// set up progress bar
-		final ProgressBar progressBar = new ProgressBar(0);
-		progressBar.prefWidthProperty().bind(toolBar.widthProperty().subtract(30));
-		toolBar.getItems().add(progressBar);
-		progressBar.progressProperty().bind(webEngine.getLoadWorker().progressProperty());
+		// set up loading icon
+		final ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("static/images/loading.gif")));
+		loadingImage.setTranslateY(-10);
+		loadingImage.setTranslateX(10);
 
 		// set up webView
-		webView.getEngine().load("http://localhost:4567");
-		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
-			Timer timer = new Timer();
-			Worker.State currentState;
-			boolean panelShown = false;
+		webEngine.load("http://localhost:4567");
+		webEngine.documentProperty().addListener(new ChangeListener<Document>() {
+			@Override
+			public void changed(ObservableValue<? extends Document> observable, Document oldValue, Document newValue) {
+				try {
+					// get HTML of new document
+					DOMSource domSource = new DOMSource(newValue);
+					StringWriter writer = new StringWriter();
+					StreamResult result = new StreamResult(writer);
+					TransformerFactory tf = TransformerFactory.newInstance();
+					Transformer transformer = tf.newTransformer();
+					transformer.transform(domSource, result);
+					String htmlString = writer.toString();
 
+					// does it contain an instruction to open in the browser?
+					Pattern openPattern = Pattern.compile("(.*)<!\\-\\-OPEN:(.*)\\-\\->(.*)");
+					Matcher openMatcher = openPattern.matcher(htmlString);
+					if (openMatcher.matches() && openMatcher.groupCount() >= 3 && openMatcher.group(2).contains("http")) {
+						getHostServices().showDocument(openMatcher.group(2));
+					}
+				} catch (TransformerException e) {
+					// nothing
+				}
+			}
+		});
+		webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
 			@Override
 			public void changed(ObservableValue<? extends Worker.State> value, Worker.State oldState, Worker.State newState) {
+				// show progress bar
+				if (newState == Worker.State.RUNNING) {
+					loadingImage.setVisible(true);
+				}
 
-				currentState = newState;
-
-				// only show progress bar if some time has passed and page has not loaded and if the progress value is less than 50%
-				timer.schedule(
-						new java.util.TimerTask() {
-							@Override
-							public void run() {
-								if (currentState == Worker.State.RUNNING && progressBar.getProgress() < 0.5) {
-									panelShown = true;
-									showPanel.play();
-								}
-							}
-						}, 500);
-
-				// hide progress bar if it has been shown after 2 seconds
-				if (currentState == Worker.State.SUCCEEDED && panelShown) {
-					timer.schedule(
-							new java.util.TimerTask() {
-								@Override
-								public void run() {
-									panelShown = false;
-									hidePanel.play();
-								}
-							}, 2000);
+				// hide progress bar
+				if (newState == Worker.State.SUCCEEDED) {
+					loadingImage.setVisible(false);
 				}
 
 				// set page title
@@ -116,14 +105,9 @@ public class App extends Application {
 
 		// set up panes for scene
 		final StackPane mainPane = new StackPane();
-		final BorderPane pane = new BorderPane();
-		HBox.setHgrow(toolBar, Priority.ALWAYS);
-		hBox.setPrefHeight(0);
-		hBox.setMinHeight(0);
-		pane.setBottom(hBox);
-		pane.setPickOnBounds(false);
 		mainPane.getChildren().add(webView);
-		mainPane.getChildren().add(pane);
+		mainPane.getChildren().add(loadingImage);
+		StackPane.setAlignment(loadingImage, Pos.BOTTOM_LEFT);
 
 		// set up stage
 		Scene scene = new Scene(mainPane, 1132, 700);
@@ -132,9 +116,47 @@ public class App extends Application {
 		stage.setMinWidth(600);
 		stage.setMaximized(true);
 		stage.show();
+
+		// confirm close
+		scene.getWindow().setOnCloseRequest(event -> {
+			// prevent the close action
+			event.consume();
+
+			// build a dialog
+			final Stage dialog = new Stage();
+			Label label = new Label("Are you sure you want to exit Nuclibook?");
+			Button okButton = new Button("OK");
+			okButton.setOnAction(event1 -> {
+				// close dialog and stage
+				dialog.close();
+				stage.close();
+			});
+			Button cancelButton = new Button("Cancel");
+			cancelButton.setOnAction(event1 -> {
+				// close dialog only
+				dialog.close();
+			});
+			FlowPane buttonPane = new FlowPane(10, 10);
+			buttonPane.setAlignment(Pos.CENTER);
+			buttonPane.getChildren().addAll(okButton, cancelButton);
+			VBox vBox = new VBox(10);
+			vBox.setAlignment(Pos.CENTER);
+			vBox.getChildren().addAll(label, buttonPane);
+			vBox.setPadding(new Insets(10));
+			Scene scene1 = new Scene(vBox);
+			dialog.setScene(scene1);
+			dialog.show();
+		});
 	}
 
-	// adapted from http://goo.gl/GA9fkd
+	/**
+	 * Get the title from the <title> HTML tags of the page currently loaded in the web engine.
+	 * Defaults to the page URL if no title can be found.
+	 * Code adapted from http://goo.gl/GA9fkd
+	 *
+	 * @param webEngine The web engine to extract the title from.
+	 * @return The title from the provided web engine.
+	 */
 	private String getTitle(WebEngine webEngine) {
 		Document doc = webEngine.getDocument();
 		NodeList heads = doc.getElementsByTagName("head");

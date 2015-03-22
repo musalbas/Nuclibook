@@ -2,38 +2,44 @@ package nuclibook.routes;
 
 import nuclibook.constants.P;
 import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.PatientUtils;
 import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
 import spark.Response;
 
-import java.util.List;
-
+/**
+ * The class redirects the user to the patients.html page if he has a permission to view the page.
+ */
 public class PatientsRoute extends DefaultRoute {
+    /**
+     * Method handles user's request to view patients.html page.
+     *
+     * @param request  Information sent by the client
+     * @param response Information sent to the client
+     * @return The rendered template of the patients.html page
+     * @throws Exception if something goes wrong, for example, loss of connection with a server
+     */
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        // necessary prelim routine
+        prepareToHandle(request);
 
-	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		// necessary prelim routine
-		prepareToHandle();
+        // get current user
+        Staff user = SecurityUtils.getCurrentUser(request.session());
 
-		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
+        // security check
+        if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_LIST, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_VIEW_PATIENTS, 0, "Failed as user does not have permissions for this action");
             return null;
         }
 
-		// start renderer
-		HtmlRenderer renderer = getRenderer();
-		renderer.setTemplateFile("patients.html");
+        // start renderer
+        HtmlRenderer renderer = getRenderer();
+        renderer.setTemplateFile("patients.html");
 
-		// get patients and add to renderer
-		List<Patient> allPatients = PatientUtils.getAllPatients(true);
-		renderer.setCollection("patients", allPatients);
-
-        ActionLogger.logAction(ActionLogger.VIEW_PATIENTS, 0);
+        ActionLogger.logAction(user, ActionLogger.VIEW_PATIENTS, 0);
 
         return renderer.render();
-	}
+    }
 }

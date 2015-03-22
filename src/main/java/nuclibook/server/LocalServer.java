@@ -3,9 +3,15 @@ package nuclibook.server;
 import nuclibook.constants.C;
 import nuclibook.constants.RequestType;
 import nuclibook.entity_utils.SecurityUtils;
+import nuclibook.models.Staff;
 import nuclibook.routes.*;
 import org.apache.commons.configuration.ConfigurationException;
+import spark.Session;
 import spark.Spark;
+
+import java.awt.*;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 public class LocalServer {
 
@@ -29,6 +35,18 @@ public class LocalServer {
 			// get path
 			String path = request.pathInfo();
 
+			// get current session and user
+			Session session = request.session();
+			if (request.queryParams("token") != null) {
+				session = SecurityUtils.checkOneOffSession(request.queryParams("token"));
+			}
+			Staff user = SecurityUtils.getCurrentUser(session);
+
+			// require all POST requests to be authenticated with a CSRF token
+			if (request.requestMethod().toLowerCase().equals("post") && !SecurityUtils.checkCsrfToken(session, request.queryParams("csrf-token"))) {
+				Spark.halt(403, "Security token invalid.");
+			}
+
 			// check if they are accessing non-page
 			if (path.startsWith("/css")
 					|| path.startsWith("/images")
@@ -39,9 +57,9 @@ public class LocalServer {
 			}
 
 			// check for a password force-change
-			if (SecurityUtils.checkLoggedIn()
-					&& SecurityUtils.getCurrentUser() != null
-					&& SecurityUtils.getCurrentUser().getDaysRemainingToPasswordChange() < 1
+			if (SecurityUtils.checkLoggedIn(session)
+					&& user != null
+					&& user.getDaysRemainingToPasswordChange() < 1
 					&& !path.startsWith("/profile")) {
 				response.redirect("/profile?changepw=1&force=1");
 			}
@@ -53,9 +71,23 @@ public class LocalServer {
 			}
 
 			// not authenticated?
-			if (!SecurityUtils.checkLoggedIn()) {
+			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
+			}
+
+			// CSV page
+			if (path.endsWith(".goto-csv")) {
+				if (Desktop.isDesktopSupported()) {
+					// generate token
+					SecureRandom random = new SecureRandom();
+					String token = new BigInteger(130, random).toString(32);
+					SecurityUtils.setOneOffToken(token, session);
+
+					// redirect
+					String toOpen = "http://localhost:4567" + path.replace("goto-csv", "csv") + "?token=" + token;
+					Spark.halt("<!--OPEN:" + toOpen + "-->Your file will download now. Please wait...<script type=\"text/javascript\">window.history.back();</script>");
+				}
 			}
 		});
 
@@ -85,8 +117,8 @@ public class LocalServer {
 		// basic pages
 		Spark.get("/", new DashboardRoute());
 
-        // day summary
-        Spark.get("/day-summary", new DaySummaryRoute());
+		// day summary
+		Spark.get("/day-summary", new DaySummaryRoute());
 
 		// security
 		Spark.get("/access-denied", new AccessDeniedRoute());
@@ -94,6 +126,7 @@ public class LocalServer {
 		Spark.post("/login", new LoginRoute(RequestType.POST));
 		Spark.get("/logout", new LogoutRoute());
 		Spark.get("/profile", new ProfileRoute());
+		Spark.get("/renew-session", new RenewSessionRoute());
 
 		// action logs
 		Spark.get("/action-log", new ActionLogRoute());
@@ -110,6 +143,7 @@ public class LocalServer {
 		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 		Spark.get("/tracers", new TracersRoute());
+        Spark.get("/generic-events", new GenericEventsRoute());
 
 		// staff absences and availabilities
 		Spark.get("/select-staff/:target:", new SelectStaffRoute());
@@ -124,8 +158,11 @@ public class LocalServer {
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
-		// calendar data
-		Spark.get("/calendar-data", new CalendarDataRoute());
+		// AJAX routes
+		Spark.get("/ajax/calendar-data", new AjaxCalendarDataRoute());
+		Spark.get("/ajax/patient-data/0", new AjaxPatientDataRoute(0));
+		Spark.get("/ajax/patient-data/1", new AjaxPatientDataRoute(1));
+		Spark.get("/ajax/action-log-data", new AjaxActionLogDataRoute());
 
 		// tracer orders
 		Spark.get("/tracer-orders", new TracerOrdersRoute());
@@ -137,6 +174,9 @@ public class LocalServer {
 
 		// export
 		Spark.get("/export/:file:", new ExportRoute());
+
+		// import
+		Spark.post("/import", new ImportRoute());
 	}
 
 }

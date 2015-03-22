@@ -18,6 +18,7 @@
 			</div>
 			<div class="panel-body">
 				<form id="login-form" action="/login" method="post">
+					<input type="hidden" name="csrf-token" value="#csrf-token">
 					#[!if: stage = 2]
 					#[if: error-bad-staff-id]
 					<div class="alert alert-danger login-message">

@@ -166,7 +166,7 @@ function updateCalendar(selector, startDate, endDate, options) {
 		+ ((endDate.getDate()) < 10 ? '0' : '') + (endDate.getDate());
 
 	// build URL
-	var url = '/calendar-data?start=' + startDateString + '&end=' + endDateString;
+	var url = '/ajax/calendar-data?start=' + startDateString + '&end=' + endDateString;
 	for (var key in options) url += '&' + key + '=' + (options[key] === true ? '1' : options[key]);
 	for (key in calendarChannelOptions) url += '&' + key + '=' + (calendarChannelOptions[key] === true ? '1' : calendarChannelOptions[key]);
 	url += '&cameras=';
@@ -295,6 +295,21 @@ function openCameraSelectModal() {
 	modal.removeClass('hide').modal({
 		backdrop: 'static',
 		keyboard: false
+	});
+
+	modal.find("input:checkbox").each(function (i, e) {
+		if (selectedCameras == null) {
+			$(e).prop('checked', true);
+			return;
+		}
+		var id = $(e).attr('id');
+		for (i in selectedCameras) {
+			if (id == "camera-" + selectedCameras[i]) {
+				$(e).prop('checked', true);
+				return;
+			}
+		}
+		$(e).prop('checked', false);
 	});
 
 	$('.btn-update').unbind('click').click(function (e) {

@@ -1,11 +1,10 @@
 package nuclibook.routes;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.ActionLogger;
-import nuclibook.entity_utils.PatientUtils;
-import nuclibook.entity_utils.SecurityUtils;
-import nuclibook.entity_utils.TherapyUtils;
+import nuclibook.entity_utils.*;
+import nuclibook.models.Camera;
 import nuclibook.models.Patient;
+import nuclibook.models.Staff;
 import nuclibook.models.Therapy;
 import nuclibook.server.HtmlRenderer;
 import spark.Request;
@@ -18,19 +17,22 @@ public class NewBookingRouteStage1 extends DefaultRoute {
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
-		prepareToHandle();
+		prepareToHandle(request);
+
+		// get current user
+		Staff user = SecurityUtils.getCurrentUser(request.session());
 
 		// security check
-		if (!SecurityUtils.requirePermission(P.VIEW_PATIENT_LIST, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all patients");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_PATIENT_LIST, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all patients");
             return null;
         }
-		if (!SecurityUtils.requirePermission(P.VIEW_THERAPIES, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all therapies");
+		if (!SecurityUtils.requirePermission(user, P.VIEW_THERAPIES, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to view all therapies");
             return null;
         }
-		if (!SecurityUtils.requirePermission(P.EDIT_APPOINTMENTS, response)) {
-            ActionLogger.logAction(ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to edit or create bookings");
+		if (!SecurityUtils.requirePermission(user, P.EDIT_APPOINTMENTS, response)) {
+            ActionLogger.logAction(user, ActionLogger.ATTEMPT_CREATE_BOOKING, 0, "Failed as user does not have permissions to edit or create bookings");
             return null;
         }
 
@@ -45,6 +47,10 @@ public class NewBookingRouteStage1 extends DefaultRoute {
 		// get therapies and add to renderer
 		List<Therapy> allTherapies = TherapyUtils.getAllTherapies(true);
 		renderer.setCollection("therapies", allTherapies);
+
+		// get cameras
+		List<Camera> cameras = CameraUtils.getAllCameras(true);
+		renderer.setCollection("cameras", cameras);
 
 		return renderer.render();
 	}

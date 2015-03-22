@@ -1,23 +1,47 @@
 package nuclibook.entity_utils;
 
 import com.j256.ormlite.support.ConnectionSource;
+import javafx.util.Pair;
+import nuclibook.constants.C;
 import nuclibook.constants.P;
 import nuclibook.models.CannotHashPasswordException;
 import nuclibook.models.Staff;
 import nuclibook.server.SqlServerConnection;
 import spark.Response;
+import spark.Session;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.HashMap;
+
+/**
+ * Utilities for managing user sessions and login tasks.
+ */
 public class SecurityUtils {
 
-	/* singleton pattern */
-
-	private static Staff loggedInAs = null;
+	private static HashMap<String, Pair<Long, Session>> oneOffTokens = new HashMap<>();
 
 	private SecurityUtils() {
 		// prevent instantiation
 	}
 
-	public static Staff attemptLogin(String username, String password) {
+	private static void setUser(Session session, Staff user) {
+		session.attribute("user", user);
+	}
+
+	private static Staff getUser(Session session) {
+		return session == null ? null : session.attribute("user");
+	}
+
+	/**
+	 * Attempt a login.
+	 *
+	 * @param session  The browsing session.
+	 * @param username The username of the user.
+	 * @param password The password of the user.
+	 * @return The Staff object representing the logged in user, otherwise null if the login failed.
+	 */
+	public static Staff attemptLogin(Session session, String username, String password) {
 		// set up server connection
 		ConnectionSource conn = SqlServerConnection.acquireConnection();
 		if (conn != null) {
@@ -27,8 +51,13 @@ public class SecurityUtils {
 				if (staff != null) {
 					// check their password
 					if (staff.checkPassword(password)) {
+
 						// correct login!
-						loggedInAs = staff;
+						setUser(session, staff);
+
+						// set session timeout
+						session.maxInactiveInterval(C.AUTOMATIC_TIMEOUT);
+
 						return staff;
 					}
 				}
@@ -39,20 +68,45 @@ public class SecurityUtils {
 		return null;
 	}
 
-	public static boolean checkLoggedIn() {
-		return loggedInAs != null;
+	/**
+	 * Check if the user is logged in.
+	 *
+	 * @param session The browsing session.
+	 * @return true if the user is logged in, otherwise false.
+	 */
+	public static boolean checkLoggedIn(Session session) {
+		return getUser(session) != null;
 	}
 
-	public static void destroyLogin() {
-		loggedInAs = null;
+	/**
+	 * De-authenticate the user.
+	 *
+	 * @param session The browsing session.
+	 */
+	public static void destroyLogin(Session session) {
+		session.invalidate();
 	}
 
-	public static Staff getCurrentUser() {
-		return loggedInAs;
+	/**
+	 * Get the user logged in.
+	 *
+	 * @param session The browsing session.
+	 * @return The Staff object for the logged in user.
+	 */
+	public static Staff getCurrentUser(Session session) {
+		return getUser(session);
 	}
 
-	public static boolean requirePermission(P p, Response response) {
-		if (loggedInAs == null || !loggedInAs.hasPermission(p)) {
+	/**
+	 * Redirect the user to an "access denied" page if the user doesn't have the required permissions.
+	 *
+	 * @param user     The Staff object for the user.
+	 * @param p        The required permission
+	 * @param response The server response object.
+	 * @return false if the user does not have the required permission (and redirect the user to an "access denied" page in the response), otherwise true.
+	 */
+	public static boolean requirePermission(Staff user, P p, Response response) {
+		if (user == null || !user.hasPermission(p)) {
 			try {
 				response.redirect("/access-denied");
 			} catch (IllegalStateException e) {
@@ -63,14 +117,84 @@ public class SecurityUtils {
 		return true;
 	}
 
-	public static String validateNewPassword(Staff staff, String password) throws CannotHashPasswordException {
+	/**
+	 * Check that a new password fits within the new password policy.
+	 *
+	 * @param user     The Staff object representing the user.
+	 * @param password The new password for the user.
+	 * @return null if the new password is valid, otherwise a String that states why the password does not comply with the new password policy.
+	 * @throws CannotHashPasswordException  when the password could not be hashed successfully
+	 */
+	public static String validateNewPassword(Staff user, String password) throws CannotHashPasswordException {
 		if (password.length() < 6) {
 			return "Password must be at least 6 characters long.";
-		} else if (staff.isInLastPasswords(password)) {
+		} else if (user.isInLastPasswords(password)) {
 			return "Password must not be the same as the last few passwords.";
 		}
 
 		return null;
+	}
+
+	/**
+	 * Set a one-off security token to identify the user's session.
+	 *
+	 * @param token   The token.
+	 * @param session The browsing session.
+	 */
+	public static void setOneOffToken(String token, Session session) {
+		oneOffTokens.put(token, new Pair<>(System.currentTimeMillis(), session));
+	}
+
+	/**
+	 * Check that a one-off security token is valid and return the session associated with it.
+	 *
+	 * @param token The token.
+	 * @return The Session if the token is valid, otherwise null.
+	 */
+	public static Session checkOneOffSession(String token) {
+		Pair<Long, Session> found = oneOffTokens.get(token);
+		if (found == null) return null;
+		if (found.getKey() + (2 * 60 * 1000) < System.currentTimeMillis()) {
+			oneOffTokens.remove(token);
+			return null;
+		}
+		return found.getValue();
+	}
+
+	private static void assignCsrfToken(Session session) {
+		SecureRandom random = new SecureRandom();
+		String token = new BigInteger(130, random).toString(32);
+
+		session.attribute("csrf-token", token);
+	}
+
+	/**
+	 * Check that the CSRF token matches the one for the session.
+	 *
+	 * @param session The browsing session.
+	 * @param token The CSRF token.
+	 * @return true if it the token matches, false otherwise.
+	 */
+	public static boolean checkCsrfToken(Session session, String token) {
+		if (session.attribute("csrf-token") == null) {
+			return false;
+		}
+
+		return session.attribute("csrf-token").equals(token);
+	}
+
+	/**
+	 * Get the CSRF token.
+	 *
+	 * @param session The browsing session.
+	 * @return The CSRF token.
+	 */
+	public static String getCsrfToken(Session session) {
+		if (session.attribute("csrf-token") == null) {
+			assignCsrfToken(session);
+		}
+
+		return session.attribute("csrf-token");
 	}
 
 }

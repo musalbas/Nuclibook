@@ -88,10 +88,10 @@
 		<p><strong>Update Status:</strong></p>
 	</div>
 	<div class="col-md-8 col-lg-8">
-		<button class="btn confirm-button link-button" data-id="#id" data-target="/booking-details/#booking-id/confirmed"><i class="fa fa-check-circle"></i> Confirmed</button>
-		<button class="btn edit-button link-button" data-id="#id" data-target="/booking-details/#booking-id/unconfirmed"><i class="fa fa-minus-circle"></i> Unconfirmed</button>
-		<button class="btn delete-button link-button" data-id="#id" data-target="/booking-details/#booking-id/cancelled"><i class="fa fa-times-circle"></i> Cancelled</button>
-		<button class="btn info-button link-button" data-id="#id" data-target="/booking-details/#booking-id/rebooked"><i class="fa fa-refresh"></i> Re-booked</button>
+		<button class="btn confirm-button link-button" data-id="#id" data-target="/booking-details/#booking-id/confirmed?csrf-token=#csrf-token"><i class="fa fa-check-circle"></i> Confirmed</button>
+		<button class="btn edit-button link-button" data-id="#id" data-target="/booking-details/#booking-id/unconfirmed?csrf-token=#csrf-token"><i class="fa fa-minus-circle"></i> Unconfirmed</button>
+		<button class="btn delete-button link-button" data-id="#id" data-target="/booking-details/#booking-id/cancelled?csrf-token=#csrf-token"><i class="fa fa-times-circle"></i> Cancelled</button>
+		<button class="btn info-button link-button" data-id="#id" data-target="/booking-details/#booking-id/rebooked?csrf-token=#csrf-token"><i class="fa fa-refresh"></i> Re-booked</button>
 	    <button class="btn btn-primary" id="edit-button-modal"><i class="fa fa-pencil-square-o"></i> Edit</button>
     </div>
 </div>

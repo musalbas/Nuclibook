@@ -65,6 +65,7 @@
 				</div>
 				#[/if]
 				<form class="form-horizontal edit-form">
+					<input type="hidden" name="csrf-token" value="#csrf-token">
 					<input type="hidden" name="entity-type" value="staff-password-change"/>
 					<input type="hidden" class="location-override" value="/profile"/>
 
@@ -92,7 +93,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-cancel">Cancel</button>
+				<button type="button" class="btn btn-default btn-cancel">Cancel</button>
 				<button type="button" class="btn btn-primary btn-save">Ok</button>
 			</div>
 		</div>

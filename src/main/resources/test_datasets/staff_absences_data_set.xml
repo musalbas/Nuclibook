@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "dataset.dtd">
+<dataset>
+    <table name="staff_absences">
+        <column>id</column>
+        <column>staff_id</column>
+        <column>from</column>
+        <column>to</column>
+        <row>
+            <value>1</value>
+            <value>2</value>
+            <value>12345678</value>
+            <value>12345679</value>
+        </row>
+    </table>
+</dataset>

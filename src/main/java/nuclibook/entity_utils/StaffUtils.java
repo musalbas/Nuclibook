@@ -5,8 +5,17 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+/**
+ * A class for reading data from the staff table in the database.
+ */
 public class StaffUtils extends AbstractEntityUtils {
 
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified ID.
+	 *
+	 * @param id the <code>Staff</code> ID
+	 * @return the associated <code>Staff</code> object
+	 */
 	public static Staff getStaff(String id) {
 		try {
 			return getStaff(Integer.parseInt(id));
@@ -15,10 +24,22 @@ public class StaffUtils extends AbstractEntityUtils {
 		}
 	}
 
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified ID.
+	 *
+	 * @param id the <code>Staff</code> ID
+	 * @return the associated <code>Staff</code> object
+	 */
 	public static Staff getStaff(int id) {
 		return getEntityById(Staff.class, id);
 	}
 
+	/**
+	 * Gets the {@link nuclibook.models.Staff} object with the specified username.
+	 *
+	 * @param username the <code>Staff</code> username
+	 * @return the associated <code>Staff</code> object with that username
+	 */
 	public static Staff getStaffByUsername(String username) {
 		List<Staff> matched = getEntitiesByField(Staff.class, "username", username);
 		if (matched == null || matched.size() != 1) {
@@ -27,10 +48,14 @@ public class StaffUtils extends AbstractEntityUtils {
 		return matched.get(0);
 	}
 
-	public static List<Staff> getAllStaff() {
-		return getAllStaff(false);
-	}
-
+	/**
+	 * Gets all the {@link nuclibook.models.Staff} objects in the database.
+	 * <p>
+	 * Can return data only for the <code>enabled</code> fields.
+	 *
+	 * @param enabledOnly specifies whether the method should get only <code>enabled Staff</code> records
+	 * @return a list of <code>Staff</code> objects
+	 */
 	public static List<Staff> getAllStaff(boolean enabledOnly) {
 		if (enabledOnly) {
 			return getEntitiesByField(Staff.class, "enabled", "1");
@@ -40,71 +65,11 @@ public class StaffUtils extends AbstractEntityUtils {
 	}
 
 	/**
-	 * A method for checking if a staff member is available during a certain period, specified by the user.
+	 * Checks if the specified <code>username</code> already exists in the database.
 	 *
-	 * @param staff     the staff member whose availability we're checking
-	 * @param startDate the start date of the queried time interval
-	 * @param endDate   the end date of the queried time interval
-	 * @return true if the staff member is available within the specified period; false otherwise
+	 * @param username the username to be checked
+	 * @return true if the username already exists in the database; false otherwise
 	 */
-	public static boolean isAvailable(Staff staff, DateTime startDate, DateTime endDate) {
-		int staffId = staff.getId();
-
-		// endDate can't be earlier than startDate
-		if (endDate.isBefore(startDate)) {
-			return false;
-		}
-
-        /* STAFF DEFAULT AVAILABILITY */
-
-		// convert dates to seconds past midnight
-		long startDateSecondsPastMidnight = startDate.getSecondOfDay();
-		long endDateSecondsPastMidnight = endDate.getSecondOfDay();
-		int dayOfTheWeek = startDate.getDayOfWeek();
-
-		// get availability for staff
-		List<StaffAvailability> staffAvailabilities = StaffAvailabilityUtils.getAvailabilitiesByStaffId(staffId);
-		boolean passedAvailableCheck = false;
-
-		// check availability for staff
-		for (StaffAvailability sa : staffAvailabilities) {
-			if (sa.getDay() == dayOfTheWeek) {
-				if (sa.getStartTime().getSecondsPastMidnight() <= startDateSecondsPastMidnight
-						&& sa.getEndTime().getSecondsPastMidnight() >= endDateSecondsPastMidnight) {
-					passedAvailableCheck = true;
-					break;
-				}
-			}
-		}
-		if (!passedAvailableCheck) return false;
-
-        /* STAFF ABSENCES */
-		List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByStaffId(staffId);
-		for (StaffAbsence sa : staffAbsences) {
-			if ((sa.getFrom().isBefore(startDate) && sa.getTo().isAfter(endDate))
-					|| (sa.getFrom().isAfter(startDate) && sa.getTo().isBefore(endDate))
-					|| (sa.getFrom().isAfter(startDate) && sa.getFrom().isBefore(endDate))
-					|| (sa.getTo().isAfter(startDate) && sa.getTo().isBefore(endDate))) {
-				return false; // not allowed to overlap with ANY absences
-			}
-		}
-
-        /* BOOKINGS */
-        List<Booking> bookings = BookingUtils.getBookingsByStaffId(staffId);
-        for(Booking b: bookings) {
-            for(BookingSection bs: b.getBookingSections()) {
-                if ((bs.getStart().isBefore(startDate) && bs.getEnd().isAfter(endDate))
-                        || (bs.getStart().isAfter(startDate) && bs.getEnd().isBefore(endDate))
-                        || (bs.getStart().isAfter(startDate) && bs.getStart().isBefore(endDate))
-                        || (bs.getEnd().isAfter(startDate) && bs.getEnd().isBefore(endDate))) {
-                    return false; // not allowed to overlap with ANY bookings
-                }
-            }
-        }
-
-		return true;
-	}
-
 	public static boolean usernameExists(String username) {
 		return (getStaffByUsername(username) != null);
 	}

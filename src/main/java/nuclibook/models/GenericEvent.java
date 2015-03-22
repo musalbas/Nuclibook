@@ -7,82 +7,136 @@ import org.joda.time.DateTime;
 
 import java.util.HashMap;
 
+/**
+ * Model to represent a generic event, such as camera maintenance.
+ */
 @DatabaseTable(tableName = "generic_events")
 public class GenericEvent implements Renderable {
 
-	@DatabaseField(generatedId = true)
-	private Integer id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
 
-	@DatabaseField(width = 64)
-	private String title;
+    @DatabaseField(width = 64)
+    private String title;
 
-	@DatabaseField
-	private String description;
+    @DatabaseField
+    private String description;
 
-	@DatabaseField
-	private long from;
+    @DatabaseField
+    private long from;
 
-	@DatabaseField
-	private long to;
+    @DatabaseField
+    private long to;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
 	public GenericEvent() {
 	}
 
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Gets the ID of the event.
+     *
+     * @return the ID of the event.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Sets the ID of the event.
+     *
+     * @param id the ID of the event.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * Gets the title of the event.
+     *
+     * @return the title of the event.
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * Sets the title of the event.
+     *
+     * @param title the title of the event.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * Gets the description of the event.
+     *
+     * @return the description of the event.
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * Sets the description of the event.
+     *
+     * @param description the description of the event.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public DateTime getFrom() {
-		return new DateTime(from);
-	}
+    /**
+     * Gets the starting time of the event.
+     *
+     * @return the starting time of the event.
+     */
+    public DateTime getFrom() {
+        return new DateTime(from);
+    }
 
-	public void setFrom(DateTime from) {
-		this.from = from.getMillis();
-	}
+    /**
+     * Sets the starting time of the event.
+     *
+     * @param from the starting time of the event.
+     */
+    public void setFrom(DateTime from) {
+        this.from = from.getMillis();
+    }
 
-	public DateTime getTo() {
-		return new DateTime(to);
-	}
+    /**
+     * Gets the end time of the event.
+     *
+     * @return the end time of the event.
+     */
+    public DateTime getTo() {
+        return new DateTime(to);
+    }
 
-	public void setTo(DateTime to) {
-		this.to = to.getMillis();
-	}
+    /**
+     * Sets the end time of the event.
+     *
+     * @param to the end time of the event.
+     */
+    public void setTo(DateTime to) {
+        this.to = to.getMillis();
+    }
 
-	@Override
-	public HashMap<String, String> getHashMap() {
-		return new HashMap<String, String>() {{
-			put("id", getId().toString());
-
-			put("title", getTitle());
-			put("description", getDescription());
-
-			put("from", getFrom().toString("YYYY-MM-dd HH:mm"));
-			put("from-date", getFrom().toString("YYYY-MM-dd"));
-			put("from-time", getFrom().toString("HH:mm"));
-
-			put("to", getTo().toString("YYYY-MM-dd HH:mm"));
-			put("to-date", getTo().toString("YYYY-MM-dd"));
-			put("to-time", getTo().toString("HH:mm"));
-		}};
-	}
+    @Override
+    public HashMap<String, String> getHashMap() {
+        return new HashMap<String, String>() {{
+            put("id", getId().toString());
+            put("title", getTitle());
+            put("event-title", getTitle());
+            put("description", getDescription());
+            put("from", getFrom().toString("YYYY-MM-dd HH:mm"));
+            put("from-date", getFrom().toString("YYYY-MM-dd"));
+            put("from-time", getFrom().toString("HH:mm"));
+            put("to", getTo().toString("YYYY-MM-dd HH:mm"));
+            put("to-date", getTo().toString("YYYY-MM-dd"));
+            put("to-time", getTo().toString("HH:mm"));
+        }};
+    }
 }

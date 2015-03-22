@@ -86,5 +86,7 @@ var findNumOfSelectedCheckboxes = function(formObject) {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#staff-roles-table', 0, [[1, 1], [0, 1], [0, 0]]);
+	setUpDataTable('#staff-roles-table', [[1, 1], [0, 1], [0, 0]], {
+		order: [0, 'asc']
+	});
 });
