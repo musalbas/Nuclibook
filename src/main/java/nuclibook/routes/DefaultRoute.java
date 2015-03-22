@@ -31,7 +31,6 @@ public abstract class DefaultRoute implements Route {
 
     /**
      * Method performs the routines common to all the routes in the application.
-     * <p>
      * These routines are necessary to perform before handling each user's request.
      *
      * @param request Information sent by the client.
@@ -59,6 +58,7 @@ public abstract class DefaultRoute implements Route {
             renderer.setCurrentUser(user);
 
             // add staff details;
+            renderer.setField("current-user-id", user.getId());
             renderer.setField("current-user-username", user.getUsername());
             renderer.setField("current-user-name", user.getName());
             renderer.setField("current-user-role", user.getRole().getLabel());
