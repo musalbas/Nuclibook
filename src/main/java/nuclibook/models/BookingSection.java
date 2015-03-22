@@ -22,6 +22,9 @@ public class BookingSection implements Renderable {
     @DatabaseField
     private long end;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
     public BookingSection() {
     }
 

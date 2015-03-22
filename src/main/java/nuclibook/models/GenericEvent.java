@@ -28,6 +28,12 @@ public class GenericEvent implements Renderable {
     @DatabaseField
     private long to;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public GenericEvent() {
+	}
+
     /**
      * Gets the ID of the event.
      *

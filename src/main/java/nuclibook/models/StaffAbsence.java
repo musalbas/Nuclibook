@@ -25,6 +25,12 @@ public class StaffAbsence implements Renderable {
     @DatabaseField
     private long to;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public StaffAbsence() {
+	}
+
     /**
      * Gets the ID of the staff absence.
      *

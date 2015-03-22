@@ -18,6 +18,12 @@ public class TherapyCameraType {
     @DatabaseField(canBeNull = false, foreign = true, columnName = "camera_type_id", foreignAutoRefresh = true)
     private CameraType cameraType;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public TherapyCameraType() {
+	}
+
     /**
      * Initialise a relationship with a therapy and a camera type.
      *

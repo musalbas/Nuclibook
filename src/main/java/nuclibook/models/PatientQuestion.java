@@ -24,6 +24,12 @@ public class PatientQuestion implements Renderable {
     @DatabaseField
     private int sequence;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public PatientQuestion() {
+	}
+
     /**
      * Gets the ID of the question.
      *

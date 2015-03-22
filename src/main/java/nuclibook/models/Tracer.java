@@ -24,6 +24,12 @@ public class Tracer implements Renderable {
     @DatabaseField(defaultValue = "true")
     private Boolean enabled;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Tracer() {
+	}
+
     /**
      * Gets the ID of the tracer.
      *

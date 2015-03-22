@@ -18,6 +18,12 @@ public class ActionLogEvent {
     @DatabaseField(columnName = "is_error")
     private boolean isError;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public ActionLogEvent() {
+	}
+
     /**
      * Get the ID of the event.
      *

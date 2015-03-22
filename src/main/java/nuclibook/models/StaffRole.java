@@ -29,6 +29,12 @@ public class StaffRole implements Renderable {
     @DatabaseField(defaultValue = "true")
     private Boolean enabled;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public StaffRole() {
+	}
+
     /**
      * Gets the ID of the staff role.
      *

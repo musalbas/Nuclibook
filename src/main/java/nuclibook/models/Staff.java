@@ -76,6 +76,12 @@ public class Staff implements Renderable {
 
     private ArrayList<P> permissions = null;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Staff() {
+	}
+
     /**
      * Gets the ID of the staff member.
      *

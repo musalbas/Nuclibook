@@ -41,6 +41,12 @@ public class Therapy implements Renderable {
     @DatabaseField(defaultValue = "true")
     private Boolean enabled;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Therapy() {
+	}
+
     /**
      * Gets the ID of the therapy.
      *
