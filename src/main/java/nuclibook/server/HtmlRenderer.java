@@ -190,6 +190,9 @@ public class HtmlRenderer {
 	 * CONSTRUCTOR
 	 */
 
+	/**
+	 * Initialise a renderer and set the fields and collections as blank.
+	 */
 	public HtmlRenderer() {
 		fields = new HashMap<>();
 		collections = new HashMap<>();
@@ -199,27 +202,48 @@ public class HtmlRenderer {
 	 * DATA SETTERS
 	 */
 
-	// set the user requesting the page
+	/**
+	 * Sets the user currently requesting this page
+	 * @param user The user currently requesting this page
+	 */
 	public void setCurrentUser(Staff user) {
 		this.currentUser = user;
 	}
 
-	// set the template file
+	/**
+	 * Sets the HTML template file that is to be used with this engine
+	 * @param templateFile The HTML template file that is to be used
+	 */
 	public void setTemplateFile(String templateFile) {
 		this.templateFile = templateFile;
 	}
 
-	// set a data field (set null to "remove")
+	/**
+	 * Set a public data field
+	 * Set as null to remove
+	 * @param key The name of the field to set
+	 * @param value The value of the field to set
+	 */
 	public void setField(String key, String value) {
 		fields.put(key, value);
 	}
 
-	// set a data field (set null to "remove")
+	/**
+	 * Set a public data field
+	 * Set as null to remove
+	 * @param key The name of the field to set
+	 * @param value The value of the field to set
+	 */
 	public void setField(String key, Integer value) {
 		fields.put(key, value == null ? null : value.toString());
 	}
 
-	// set a data collection (set null to "remove")
+	/**
+	 * Set a public data collection
+	 * Set as null to remove
+	 * @param key The name of the collection to set
+	 * @param collection The value of the collection to set
+	 */
 	public <E> void setCollection(String key, Collection<E> collection) {
 		ArrayList<Renderable> renderableCollection = new ArrayList<>(collection.size());
 		try {
@@ -231,26 +255,36 @@ public class HtmlRenderer {
 		}
 	}
 
-	// set all fields in one go
+	/**
+	 * Set multiple fields at once (merged with current)
+	 * @param fields Map of fields to be set
+	 */
 	public void setBulkFields(HashMap<String, String> fields) {
 		HashMap<String, String> tmp = new HashMap<>(fields);
 		tmp.keySet().removeAll(this.fields.keySet());
 		this.fields.putAll(tmp);
 	}
 
-	// set all collections in one go
+	/**
+	 * Set multiple collections at once (merged with current)
+	 * @param collections Map of fields to be set
+	 */
 	public void setBulkCollections(HashMap<String, Collection<Renderable>> collections) {
 		HashMap<String, Collection<Renderable>> tmp = new HashMap<>(collections);
 		tmp.keySet().removeAll(this.collections.keySet());
 		this.collections.putAll(tmp);
 	}
 
-	// remove all fields
+	/**
+	 * Remove all fields
+	 */
 	public void clearFields() {
 		fields.clear();
 	}
 
-	// remove all collections
+	/**
+	 * Remove all collections
+	 */
 	public void clearCollections() {
 		collections.clear();
 	}
@@ -259,7 +293,11 @@ public class HtmlRenderer {
 	 * DEFINITION PARSING
 	 */
 
-	// parse any defined fields
+	/**
+	 * Parse any on-page field definitions
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseDefinitions(String html) {
 		Matcher definitionMatcher = definitionPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -275,7 +313,11 @@ public class HtmlRenderer {
 	 * FILE PARSING
 	 */
 
-	// include referenced files
+	/**
+	 * Parse any on-page file inclusions
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseFiles(String html) {
 		Matcher fileMatcher = filePattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -286,7 +328,11 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// get a referenced file
+	/**
+	 * Get the HTML for an included file
+	 * @param path The file name to load
+	 * @return HTML of the loaded file
+	 */
 	private String getFile(String path) {
 		HtmlRenderer renderer = new HtmlRenderer();
 		renderer.setTemplateFile(path);
@@ -300,7 +346,11 @@ public class HtmlRenderer {
 	 * COLLECTION PARSING
 	 */
 
-	// parse any collection statements
+	/**
+	 * Parse any collection fields
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseCollections(String html) {
 		Matcher collectionMatcher = collectionPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -311,7 +361,12 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the HTML for an iterated collection
+	/**
+	 * Generate the HTML for a collection
+	 * @param key They key of the collection objects
+	 * @param original The full HTML of the collection block
+	 * @return Output HMTL
+	 */
 	private String getCollectionHtml(String key, String original) {
 		// get collection iteration "chunks"
 		String pre = getSegment(original, "pre");
@@ -360,7 +415,11 @@ public class HtmlRenderer {
 	 * COLLECTION MAP PARSING
 	 */
 
-	// parse any collection statements
+	/**
+	 * Parse any collection maps
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseCollectionMaps(String html) {
 		Matcher collectionMapMatcher = collectionMapPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -371,6 +430,12 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
+	/**
+	 * Generate the collection map HTML for a given collection key and variable name
+	 * @param key The key of the collection to be rendered
+	 * @param varName The variable name to use in the code output
+	 * @return Output HTML
+	 */
 	private String getCollectionMapHtml(String key, String varName) {
 		// get collection
 		if (!collections.containsKey(key) || collections.get(key) == null) {
@@ -380,6 +445,12 @@ public class HtmlRenderer {
 		return getCollectionMapHtml(collection, varName);
 	}
 
+	/**
+	 * Generate the collection map HTML for a given collection key and variable name
+	 * @param collection The collection to be rendered
+	 * @param varName The variable name to use in the code output
+	 * @return Output HTML
+	 */
 	public static <E> String getCollectionMapHtml(Collection<E> collection, String varName) {
 		ArrayList<Renderable> renderableCollection = new ArrayList<>(collection.size());
 		try {
@@ -429,7 +500,11 @@ public class HtmlRenderer {
 	 * CONDITIONAL SET FIELD PARSING
 	 */
 
-	// parse any conditional set field statements, defaulting to the global fields
+	/**
+	 * Parse any conditional set field statements
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseConditionalSetFields(String html) {
 		return parseConditionalSetFields(html, fields);
 	}
@@ -458,7 +533,11 @@ public class HtmlRenderer {
 	 * CONDITIONAL VALUE FIELD CHECKING
 	 */
 
-	// parse any conditional value field statements, defaulting to the global fields
+	/**
+	 * Parse any conditional value field statements
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseConditionalValueFields(String html) {
 		return parseConditionalValueFields(html, fields);
 	}
@@ -487,7 +566,11 @@ public class HtmlRenderer {
 	 * CONDITIONAL PERMISSION FIELD CHECKING
 	 */
 
-	// parse any conditional permission field statements
+	/**
+	 * Parse any conditional permission field
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseConditionalPermissionFields(String html) {
 		Matcher matcher = conditionalPermissionFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -517,7 +600,11 @@ public class HtmlRenderer {
 	 * SIMPLE FIELD PARSING
 	 */
 
-	// parse any field statements, defaulting to the global fields
+	/**
+	 * Parse any field statements
+	 * @param html Input HTML
+	 * @return Output HTML
+	 */
 	private String parseFields(String html) {
 		return parseFields(html, fields);
 	}
