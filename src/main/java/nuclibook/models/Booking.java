@@ -332,7 +332,6 @@ public class Booking implements Renderable {
             } else {
 				bookingSectionsAsString = "<em>None</em>\n";
 			}
-			bookingSectionsAsStringTimeOnly = bookingSectionsAsStringTimeOnly.substring(0, bookingSectionsAsStringTimeOnly.length() - 2);
 			put("booking-sections-as-string", bookingSectionsAsString);
 			put("booking-sections-as-string-time-only", bookingSectionsAsStringTimeOnly);
 
