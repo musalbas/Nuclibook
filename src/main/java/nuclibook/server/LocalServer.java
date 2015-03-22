@@ -150,13 +150,15 @@ public class LocalServer {
 		Spark.get("/staff-absences/:staffid:", new StaffAbsencesRoute());
 		Spark.get("/staff-availabilities/:staffid:", new StaffAvailabilitiesRoute());
 
-		// bookings
-		Spark.get("/new-booking-1", new NewBookingRouteStage1());
-		Spark.post("/new-booking-2", new NewBookingRouteStage2());
-		Spark.post("/new-booking-3", new NewBookingRouteStage3());
-		Spark.get("/bookings", new BookingsRoute());
-		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
-		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
+        // bookings
+        Spark.get("/new-booking-1", new NewBookingRouteStage1());
+        Spark.post("/new-booking-2", new NewBookingRouteStage2());
+        Spark.post("/new-booking-3", new NewBookingRouteStage3());
+        Spark.get("/bookings", new BookingsRoute());
+        Spark.post("/booking-edit", new BookingEditRoute());
+        Spark.post("/booking-details/:bookingid:", new BookingDetailsRoute());
+        Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
+        Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
 		// AJAX routes
 		Spark.get("/ajax/calendar-data", new AjaxCalendarDataRoute());

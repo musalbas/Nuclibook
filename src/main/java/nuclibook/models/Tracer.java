@@ -107,8 +107,10 @@ public class Tracer implements Renderable {
         return new HashMap<String, String>() {{
             put("id", getId().toString());
             put("tracer-id", getId().toString());
+            put("tracer-id-all", getId().toString());
             put("name", getName());
             put("tracer-name", getName());
+            put("tracer-name-all", getName());
             put("order-time", ((Integer) getOrderTime()).toString());
         }};
     }

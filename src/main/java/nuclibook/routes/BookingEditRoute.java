@@ -30,21 +30,19 @@ public class BookingEditRoute extends DefaultRoute {
 		Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer"));
 		String tracerDose = request.queryParams("tracer-dose");
 
-		//        // get tracer order date
-		//        DateTime tracerOrderDate = null;
-		//        if (request.queryParams("no-tracer-order") == null || !request.queryParams("no-tracer-order").equals("1")) {
-		//            tracerOrderDate = new DateTime(request.queryParams("tracer-order-due"));
-		//        }
-		//
 		// get assigned staff
 		ArrayList<Staff> assignedStaff = new ArrayList<>();
-		String[] assignedStaffIds = request.queryParams("assigned-staff").split(",");
+		String[] assignedStaffIds = request.queryParams("current-staff-id").split(", ");
+        for (int i = 0; i < assignedStaffIds.length; ++i) {
+            System.out.println(assignedStaffIds[i]);
+        }
 		for (String staffId : assignedStaffIds) {
 			if (!staffId.equals("0")) {
 				Staff staff = StaffUtils.getStaff(staffId);
 				if (staff != null) assignedStaff.add(staff);
 			}
 		}
+
 		// get booking sections
 		ArrayList<BookingSection> bookingSections = new ArrayList<>();
 		String[] bookingSectionsStringArray = request.queryParams("booking-sections-as-string-time-only").split(", ");
@@ -117,7 +115,7 @@ public class BookingEditRoute extends DefaultRoute {
 		ActionLogger.logAction(user, ActionLogger.UPDATE_BOOKING, booking.getId());
 
 		// forward to booking details
-		response.redirect("/booking-details/10");
+		response.redirect("/booking-details/" + booking.getId());
 		return null;
 	}
 }
