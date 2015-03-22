@@ -328,7 +328,8 @@ public class Booking implements Renderable {
 					bookingSectionsAsString += "</li>";
 					bookingSectionsAsStringTimeOnly += (startTime + " - " + endTime + ", ");
 				}
-			} else {
+                bookingSectionsAsStringTimeOnly = bookingSectionsAsStringTimeOnly.substring(0, bookingSectionsAsStringTimeOnly.length() - 2);
+            } else {
 				bookingSectionsAsString = "<em>None</em>\n";
 			}
 			bookingSectionsAsStringTimeOnly = bookingSectionsAsStringTimeOnly.substring(0, bookingSectionsAsStringTimeOnly.length() - 2);
