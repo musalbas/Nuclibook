@@ -13,12 +13,12 @@ import spark.Response;
  */
 public class ActionLogRoute extends DefaultRoute {
     /**
-     * method handles the user's request to view action-log.html page.
+     * Method handles the user's request to view action-log.html page.
      *
-     * @param request  Information sent by the client.
-     * @param response Information sent to the client.
-     * @return The rendered template of the action-log.html page.
-     * @throws Exception if something goes wrong, for example, loss of connection with a server.
+     * @param request  Information sent by the client
+     * @param response Information sent to the client
+     * @return The rendered template of the action-log.html page
+     * @throws Exception if something goes wrong, for example, loss of connection with a server
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
