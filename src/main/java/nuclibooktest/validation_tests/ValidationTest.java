@@ -4,7 +4,6 @@ import com.j256.ormlite.jdbc.JdbcDatabaseConnection;
 import com.j256.ormlite.support.ConnectionSource;
 import nuclibook.constants.C;
 import nuclibook.entity_utils.AbstractEntityUtils;
-import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import nuclibook.server.LocalServer;
@@ -14,7 +13,6 @@ import org.dbunit.dataset.xml.XmlDataSet;
 import org.dbunit.ext.h2.H2Connection;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.*;
-import spark.Session;
 import spark.Spark;
 import spark.utils.IOUtils;
 
@@ -23,10 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,11 +60,11 @@ public class ValidationTest {
         insertDataset("/test_datasets/staff_data_set.xml");
         insertDataset("/test_datasets/staff_roles_data_set.xml");
         insertDataset("/test_datasets/staff_role_permissions_data_set.xml");
-        Staff staff = StaffUtils.getStaff(1);
-        staff.setPassword("testpassword");
-        AbstractEntityUtils.updateEntity(Staff.class, staff);
 
         if(csrf == null) {
+            Staff staff = StaffUtils.getStaff(1);
+            staff.setPassword("testpassword");
+            AbstractEntityUtils.updateEntity(Staff.class, staff);
             TestResponse loginpage = request("GET", "/login");
             csrf = loginpage.getTagValue();
             TestResponse loginResponse = request("POST", "/login?csrf-token=" + csrf + "&username=TestUsername1&password=testpassword");
@@ -78,6 +74,99 @@ public class ValidationTest {
     @AfterClass
     public static void afterClass() {
         Spark.stop();
+    }
+
+    @Test
+    public void testCreateUpdateStaffAvailabilityValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-availability&entity-id=0&staff-id=1&day-of-week=1&start-time=04%3A00&end-time=05%3A00");
+
+            assertTrue(testResponse.status == 200);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-availability&entity-id=0&staff-id=1&day-of-week=monday&start-time=04%3A00&end-time=05%3A00");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-availability&entity-id=0&staff-id=1&day-of-week=1&start-time=four&end-time=five");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-availability&entity-id=0&staff-id=1&day-of-week=1&start-time=64%3A00&end-time=64%3A00");
+
+            assertEquals("failed_validation", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    //csrf-token=gv1q3lev9ee3k3je6te9vvljap&entity-type=staff-password-change&password_old=nuclibook&password=nuclibook&password_check=nuclibook
+
+    @Test
+    public void testCreateUpdateStaffPasswordChangeValidation() throws SQLException {
+        try{
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-password-change&password_old=nuclibook&password=nuclibook&password_check=nuclibook");
+
+            assertEquals("CUSTOM:Your current password was incorrect", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-password-change&password_old=testpassword&password=nuclibook&password_check=nucdfflibook");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-password-change&password_old=testpassword&password=&password_check=nucdfflibook");
+
+            assertEquals("CUSTOM:Password must be at least 6 characters long.", testResponse.body);
+            
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCreateUpdateStaffAbsenceValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-absence&entity-id=0&staff-id=1&from-date=2015-01-10" +
+                            "&from-time=03%3A00&to-date=2015-01-14&to-time=10%3A00");
+
+            assertTrue(testResponse.status == 200);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-absence&entity-id=0&staff-id=1&from-date=2015-a-10" +
+                            "&from-time=03%3A00&to-date=2015-v-14&to-time=10%3A00");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-absence&entity-id=0&staff-id=1&from-date=2015-00001-10" +
+                            "&from-time=03%3A00&to-date=2015-00001-14&to-time=10%3A00");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-absence&entity-id=0&staff-id=1&from-date=2015-01-10" +
+                            "&from-time=93%3A00&to-date=2015-01-14&to-time=80%3A67");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-absence&entity-id=0&staff-id=1&from-date=2015-01-10" +
+                            "&from-time=03%3A00&to-date=2015-01-09&to-time=03%3A00");
+
+            assertEquals("failed_validation", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -181,6 +270,42 @@ public class ValidationTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testCreateUpdateStaffRoleValidation() throws SQLException {
+        try{
+            //create the entity
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-role&entity-id=0&label=Doctor&permission-4=4" +
+                            "&permission-26=26&permission-1=1&permission-3=3&permission-18=18&permission-19=19&permission-9=9" +
+                            "&permission-11=11&permission-27=27");
+            assertTrue(testResponse.status == 200);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-role&entity-id=0&label=Doctor!!!!!&permission-4=4" +
+                            "&permission-26=26&permission-1=1&permission-3=3&permission-18=18&permission-19=19&permission-9=9" +
+                            "&permission-11=11&permission-27=27");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-role&entity-id=0&label=Doctorlabellabellabellabellabellabellabel" +
+                            "&permission-4=4&permission-26=26&permission-1=1&permission-3=3&permission-18=18&permission-19=19&permission-9=9" +
+                            "&permission-11=11&permission-27=27");
+
+            assertEquals("failed_validation", testResponse.body);
+
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=staff-role&entity-id=0&label=Doctor");
+
+            assertEquals("CUSTOM:Please select at least one permission", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+
 
     /*@Test
     public void testCreateUpdatePatientWithoutPermissions() throws SQLException {
