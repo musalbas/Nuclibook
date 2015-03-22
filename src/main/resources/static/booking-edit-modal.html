@@ -32,7 +32,7 @@
                                 #[pre]#[/pre]
 
                                 #[each]
-                                <option value="#camera-id">#camera-type-label, #room-number</option>
+                                <option value="#camera-id-all">#camera-type-label, #room-number</option>
                                 #[/each]
 
                                 #[post]#[/post]
@@ -55,7 +55,7 @@
                                 #[pre]#[/pre]
 
                                 #[each]
-                                <option value="#tracer-id">#tracer-name (#order-time day to order)</option>
+                                <option value="#tracer-id-all">#tracer-name-all (#order-time day to order)</option>
                                 #[/each]
 
                                 #[post]#[/post]
@@ -99,8 +99,8 @@
                             <label for="staff" class="control-label">Staff Members:</label>
                         </div>
                         <div class="col-md-7 col-lg-7">
-                            <input type="hidden" id="current-staff" value="#staff">
-                            <input type="hidden" id="current-staff-id" value="#staff-id-list">
+                            <input type="hidden" name="current-staff" id="current-staff" value="#staff">
+                            <input type="hidden" name="current-staff-id" id="current-staff-id" value="#staff-id-list">
                             <input type="hidden" name="assigned-staff" value="0"/>
                             <select class="form-control" name="staff" id="staff">
                                 <option value="0" disabled selected>Select a staff member and click '+ Add'</option>

@@ -1,4 +1,5 @@
 var assignedStaff = [];
+var assignedStaffNames = [];
 var assignedBooking = [];
 
 $(document).ready(function () {
@@ -31,9 +32,6 @@ $(document).ready(function () {
 
         //set up booking section adding
         $('.add-booking-section').click(function (e) {
-            //var selectedOption = $('#staff').find('option:selected');
-            //var staffId = selectedOption.val();
-            //var staffName = selectedOption.text();
             var dateOfBooking = $('.date-selector-output[data-sequence="2"]').val();
             var startTimeOfBooking = $('.time-selector-output[data-sequence="1"]').val();
             var endTimeOfBooking = $('.time-selector-output[data-sequence="2"]').val();
@@ -62,8 +60,13 @@ $(document).ready(function () {
         //staff
         var currentStaff = $('#current-staff').val();
         var currentStaffId = $('#current-staff-id').val();
-        var staffArray = currentStaff.split(", ");
-        var staffIdArray = currentStaffId.split(", ");
+        if (currentStaff == "<em>None</em>") {
+            var staffArray = [];
+            var staffIdArray = [];
+        } else {
+            var staffArray = currentStaff.split(", ");
+            var staffIdArray = currentStaffId.split(", ");
+        }
         // add staff to output
         for (var i in staffArray) {
             console.log(staffIdArray[i] + " " + staffArray[i]);
@@ -78,6 +81,7 @@ $(document).ready(function () {
 
             // add to list
             assignedStaff.push(staffIdArray[i]);
+            assignedStaffNames.push(staffArray[i]);
 
             // set up removal button
             $('.remove-assigned-staff').unbind('click').click(function (e) {
@@ -151,6 +155,7 @@ $(document).ready(function () {
 
         // add to list
         assignedStaff.push(staffId);
+        assignedStaffNames.push(staffName);
 
         // set up removal button
         $('.remove-assigned-staff').unbind('click').click(function (e) {
@@ -166,10 +171,16 @@ $(document).ready(function () {
 
         // remove from array
         var newAssignedStaff = [];
+        var newAssignedStaffNames = [];
         for (var i in assignedStaff) {
-            if (assignedStaff[i] != staffId) newAssignedStaff.push(assignedStaff[i]);
+            if (assignedStaff[i] != staffId) {
+                newAssignedStaff.push(assignedStaff[i]);
+                newAssignedStaffNames.push(assignedStaffNames[i]);
+            }
         }
+
         assignedStaff = newAssignedStaff;
+        assignedStaffNames = newAssignedStaffNames;
     }
 
     //Add booking
@@ -217,7 +228,26 @@ $(document).ready(function () {
     }
 
     $('.btn-save').click(function() {
+        var stringStaffList = "";
+        var stringStafListNames = "";
+        for (var i in assignedStaff) {
+            stringStaffList += assignedStaff[i] + ", ";
+        }
+        for (var i in assignedStaffNames) {
+            stringStafListNames += assignedStaffNames[i] + ", ";
+        }
+        if (stringStaffList == "") {
+            stringStaffList =  "<em>None</em>";
+            stringStafListNames = "<em>None</em>";
+
+        } else {
+            stringStaffList = stringStaffList.substring(0, stringStaffList.length-2);
+            stringStafListNames = stringStafListNames.substring(0, stringStafListNames.length-2);
+
+        }
+        $('#current-staff-id').val(stringStaffList);
+        $('#current-staff').val(stringStafListNames);
         // off we go!
-        $('.edit-booking-form').submit();
+       $('.edit-booking-form').submit();
     });
 });
