@@ -9,9 +9,7 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
  */
 public class C {
 
-    //private constructor to prevent construction
-    private C(){
-    }
+    public static String path = "database.properties";
 
 	// server
 	public static String MYSQL_URI;
@@ -21,12 +19,16 @@ public class C {
 	// security
 	public static int AUTOMATIC_TIMEOUT;
 
+    //private constructor to prevent construction
+    private C(){
+    }
+
     /**
      * Loads the constants from the .properties file using a
      * PropertiesConfiguration object
      */
 	public static void initConstants() throws ConfigurationException {
-		PropertiesConfiguration config = new PropertiesConfiguration("database.properties");
+		PropertiesConfiguration config = new PropertiesConfiguration(path);
 		MYSQL_URI = config.getString("database.URI");
 		MYSQL_USERNAME = config.getString("database.user.name");
 		MYSQL_PASSWORD = config.getString("database.user.password");
