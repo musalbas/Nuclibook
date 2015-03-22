@@ -169,6 +169,9 @@ public class HtmlRenderer {
 	private HashMap<String, String> fields;
 	private HashMap<String, Collection<Renderable>> collections;
 
+	// the user requesting the page
+	private Staff currentUser;
+
 	/**
 	 * PATTERNS
 	 */
@@ -195,6 +198,11 @@ public class HtmlRenderer {
 	/**
 	 * DATA SETTERS
 	 */
+
+	// set the user requesting the page
+	public void setCurrentUser(Staff user) {
+		this.currentUser = user;
+	}
 
 	// set the template file
 	public void setTemplateFile(String templateFile) {
@@ -284,6 +292,7 @@ public class HtmlRenderer {
 		renderer.setTemplateFile(path);
 		renderer.setBulkFields(fields);
 		renderer.setBulkCollections(collections);
+		renderer.setCurrentUser(currentUser);
 		return renderer.render();
 	}
 
@@ -495,7 +504,7 @@ public class HtmlRenderer {
 	private String getConditionalPermissionFieldValue(String ifField, String key, String original) {
 		try {
 			P p = P.valueOf(key);
-			Staff currentStaff = StaffUtils.getStaff(fields.get("current-user-id"));
+			Staff currentStaff = currentUser;
 			return ifField.startsWith("!") ?
 					((currentStaff == null || !currentStaff.hasPermission(p)) ? original : "") :
 					((currentStaff != null && currentStaff.hasPermission(p)) ? original : "");

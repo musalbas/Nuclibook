@@ -31,7 +31,6 @@ public abstract class DefaultRoute implements Route {
 
     /**
      * Method performs the routines common to all the routes in the application.
-     * <p>
      * These routines are necessary to perform before handling each user's request.
      *
      * @param request Information sent by the client.
@@ -54,6 +53,9 @@ public abstract class DefaultRoute implements Route {
 
             // automatic logout timer
             renderer.setField("automatic-timeout", C.AUTOMATIC_TIMEOUT);
+
+            // set user
+            renderer.setCurrentUser(user);
 
             // add staff details;
             renderer.setField("current-user-id", user.getId());
