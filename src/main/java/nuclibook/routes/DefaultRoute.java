@@ -55,8 +55,10 @@ public abstract class DefaultRoute implements Route {
             // automatic logout timer
             renderer.setField("automatic-timeout", C.AUTOMATIC_TIMEOUT);
 
+            // set user
+            renderer.setCurrentUser(user);
+
             // add staff details;
-            renderer.setField("current-user-id", user.getId());
             renderer.setField("current-user-username", user.getUsername());
             renderer.setField("current-user-name", user.getName());
             renderer.setField("current-user-role", user.getRole().getLabel());
