@@ -1,7 +1,6 @@
 package nuclibook.server;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.SecurityUtils;
 import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -537,10 +536,11 @@ public class HtmlRenderer {
 	// read the plain template in as a string
 	private String readSimpleFile() {
 		// load file
+		URL url = null;
 		try {
-			URL url = getClass().getClassLoader().getResource("static/" + templateFile);
+			url = getClass().getClassLoader().getResource("static/" + templateFile);
 			if (url == null) throw new NullPointerException();
-			File file = new File(url.getFile());
+			File file = new File(url.getPath());
 
 			// read HTML
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -553,11 +553,13 @@ public class HtmlRenderer {
 			}
 			return sb.toString();
 		} catch (IOException | NullPointerException e) {
+			e.printStackTrace();
 			return "<html>" +
 					"<head>" +
 					"</head>" +
 					"<body>" +
-					"Failed to load template: <em>" + templateFile + "</em>" +
+					"<p>Failed to load template: <em>" + templateFile + "</em></p>" +
+					"<p>Searching in: <em>" + (url == null ? "null" : url.toString()) + "</em></p>" +
 					"</body>" +
 					"</html>";
 		}
