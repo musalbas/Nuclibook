@@ -217,48 +217,6 @@ $(document).ready(function () {
     }
 
     $('.btn-save').click(function() {
-        alert("Ok clicked. Watch out ");
-        var jsonToSend = "";
-        var cameraId = $('select[name=camera]').val();
-        var tracerId = $('select[name=tracer]').val();
-        var tracerDose = $('input[name=tracer-dose]').val();
-        //var tracerOrderDate = $('input[name=tracer-order-due]').val();
-        //var tracerOrderNeeded = !$('input[name=no-tracer-order]').is(':checked');
-        var staffAssigned = assignedStaff;
-
-        //// start validation
-        //var failedValidation = false;
-        //
-        //// validate camera ID
-        //if (!$.isNumeric(cameraId)) {
-        //    toastr.error("Please select a camera.");
-        //    failedValidation = true;
-        //}
-        //
-        //// validate tracer ID
-        //if (!$.isNumeric(tracerId)) {
-        //    toastr.error("Please select a tracer.");
-        //    failedValidation = true;
-        //}
-        //
-        //// validate tracer dose
-        //if (tracerDose.length == 0) {
-        //    toastr.error("Please enter a tracer dose.");
-        //    failedValidation = true;
-        //}
-        //
-        //// validate tracer order date
-        //if (tracerOrderNeeded && !tracerOrderDate.match(/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/)) {
-        //    toastr.error("Please select a tracer order date.");
-        //    failedValidation = true;
-        //}
-        //
-        //// fail?
-        //if (failedValidation) return;
-
-        // fill in necessary parts of form
-        $('input[name=assigned-staff]').val(staffAssigned.join(','));
-
         // off we go!
         $('.edit-booking-form').submit();
     });
