@@ -27,6 +27,12 @@ public class StaffAvailability implements Renderable {
     @DatabaseField(columnName = "end_time")
     private int endTime;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public StaffAvailability() {
+	}
+
     /**
      * Gets the ID of the staff availability.
      *

@@ -52,9 +52,9 @@ public class Booking implements Renderable {
     @DatabaseField(dataType = DataType.LONG_STRING)
     private String notes;
 
-    /**
-     * Initialise a booking.
-     */
+	/**
+	 * Blank constructor for ORM.
+	 */
     public Booking() {
     }
 

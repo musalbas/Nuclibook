@@ -18,6 +18,12 @@ public class BookingStaff {
     @DatabaseField(canBeNull = false, foreign = true, columnName = "staff_id", foreignAutoRefresh = true)
     private Staff staff;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public BookingStaff() {
+	}
+
     /**
      * Initialise a booking and staff relationship.
      *

@@ -27,6 +27,12 @@ public class BookingPatternSection {
     @DatabaseField
     private int sequence;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public BookingPatternSection() {
+	}
+
     /**
      * Get the ID of the booking pattern section.
      *

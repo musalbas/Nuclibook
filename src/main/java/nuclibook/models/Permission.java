@@ -23,6 +23,12 @@ public class Permission implements Renderable {
     @DatabaseField(width = 64)
     private String description;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Permission() {
+	}
+
     /**
      * Gets the ID of the permission.
      *

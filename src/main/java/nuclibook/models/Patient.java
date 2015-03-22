@@ -34,6 +34,12 @@ public class Patient implements Renderable, Exportable {
     @DatabaseField(defaultValue = "true")
     private Boolean enabled;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Patient() {
+	}
+
     /**
      * Gets the ID of the patient.
      *

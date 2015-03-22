@@ -28,7 +28,13 @@ public class ActionLog {
     @DatabaseField
     private String note;
 
-    /**
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public ActionLog() {
+	}
+
+	/**
      * Initialise action log.
      *
      * @param staff        Staff who performed the action.
@@ -43,6 +49,15 @@ public class ActionLog {
         this.when = when.getMillis();
     }
 
+	/**
+	 * Initialise action log.
+	 *
+	 * @param staff        Staff who performed the action.
+	 * @param when         Date the action was performed.
+	 * @param actionId     The action (constant from entity_utils.ActionLogger).
+	 * @param associatedId The ID of the object that the action was performed on.
+	 * @param note         A note associated this this event.
+	 */
     public ActionLog(Staff staff, DateTime when, Integer actionId, Integer associatedId, String note) {
         this.staff = staff;
         this.actionId = actionId;

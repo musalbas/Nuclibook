@@ -24,6 +24,12 @@ public class Camera implements Renderable {
     @DatabaseField(defaultValue = "true")
     private Boolean enabled;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public Camera() {
+	}
+
     /**
      * Gets the ID of the camera.
      *

@@ -18,6 +18,12 @@ public class StaffRolePermission {
     @DatabaseField(canBeNull = false, foreign = true, columnName = "permission_id", foreignAutoRefresh = true)
     private Permission permission;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public StaffRolePermission() {
+	}
+
     /**
      * Initialise a relationship with a StaffRole object and a permission.
      *

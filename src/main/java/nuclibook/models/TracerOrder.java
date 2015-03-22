@@ -36,6 +36,12 @@ public class TracerOrder implements Renderable {
     @DatabaseField(width = 16)
     private String status;
 
+	/**
+	 * Blank constructor for ORM.
+	 */
+	public TracerOrder() {
+	}
+
     /**
      * Gets the ID of the tracer order.
      *
