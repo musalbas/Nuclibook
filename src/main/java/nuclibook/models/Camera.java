@@ -107,6 +107,7 @@ public class Camera implements Renderable {
         return new HashMap<String, String>() {{
             put("id", getId().toString());
             put("camera-id", getId().toString());
+            put("camera-id-all", getId().toString());
             put("camera-type-id", getType().getId().toString());
             put("camera-type-label", getType().getLabel());
             put("room-number", getRoomNumber());

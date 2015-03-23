@@ -153,7 +153,7 @@ public class LocalServer {
 		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 		Spark.get("/tracers", new TracersRoute());
-        Spark.get("/generic-events", new GenericEventsRoute());
+		Spark.get("/generic-events", new GenericEventsRoute());
 
 		// staff absences and availabilities
 		Spark.get("/select-staff/:target:", new SelectStaffRoute());
@@ -165,6 +165,8 @@ public class LocalServer {
 		Spark.post("/new-booking-2", new NewBookingRouteStage2());
 		Spark.post("/new-booking-3", new NewBookingRouteStage3());
 		Spark.get("/bookings", new BookingsRoute());
+		Spark.post("/booking-edit", new BookingEditRoute());
+		Spark.post("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
