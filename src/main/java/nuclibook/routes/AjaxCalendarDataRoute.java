@@ -11,11 +11,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This route provides data on calendar events (bookings, staff absences and generic events) in a JSON format and supports ordering and searching.
+ */
 public class AjaxCalendarDataRoute extends DefaultRoute {
 
     private HashMap<Integer, Integer> cameraIdColours = new HashMap<>();
 
-    @Override
+	/**
+	 * Handles the request for camera data
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return JSON formatting of the requested data, or null in an error condition
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
+	@Override
     public Object handle(Request request, Response response) throws Exception {
         // necessary prelim routine
         prepareToHandle(request);
@@ -149,7 +159,7 @@ public class AjaxCalendarDataRoute extends DefaultRoute {
 		STAFF ABSENCES SECTION
 		 */
 
-        if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1")) {
+        if (request.queryParams("staffAbsences") != null && request.queryParams("staffAbsences").equals("1") && user.hasPermission(P.VIEW_STAFF_ABSENCES)) {
             // get absences between start/end dates
             List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(startDate, endDate);
 
