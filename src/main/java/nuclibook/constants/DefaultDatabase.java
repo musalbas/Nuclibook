@@ -119,14 +119,14 @@ public class DefaultDatabase {
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(4, 'EDIT_CAMERAS', 'Create, edit and remove cameras and camera types');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(5, 'EDIT_THERAPIES', 'Create, edit and remove therapies');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(6, 'EDIT_STAFF', 'Create, edit and remove staff members and assign roles');\n" +
-			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(7, 'EDIT_APPOINTMENTS', 'Create, edit and remove appointments');\n" +
+			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(7, 'EDIT_APPOINTMENTS', 'Create, edit and remove bookings');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(8, 'VIEW_PATIENT_LIST', 'View the patient list');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(9, 'VIEW_PATIENT_DETAILS', 'View the details and history of a single patient');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(10, 'VIEW_TRACERS', 'View the list of tracers');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(11, 'VIEW_CAMERAS', 'View the list of cameras and camera types');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(12, 'VIEW_THERAPIES', 'View the list of therapies');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(13, 'VIEW_STAFF', 'View the list of staff members');\n" +
-			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(14, 'VIEW_APPOINTMENTS', 'View the calendar of existing appointments');\n" +
+			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(14, 'VIEW_APPOINTMENTS', 'View the calendar of existing bookings');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(15, 'VIEW_ACTION_LOG', 'View the staff action log');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(16, 'EDIT_STAFF_ROLES', 'Edit the permissions assigned to each staff role');\n" +
 			"INSERT INTO `permissions` (`id`, `label`, `description`) VALUES(17, 'VIEW_STAFF_ROLES', 'View the list of staff roles and assigned permissions');\n" +
