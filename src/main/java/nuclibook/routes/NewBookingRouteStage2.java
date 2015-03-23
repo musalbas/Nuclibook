@@ -20,8 +20,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This route provides the first stage of the booking process (select camera, select staff, select tracer)
+ */
 public class NewBookingRouteStage2 extends DefaultRoute {
 
+	/**
+	 * Handles the second stage of the booking process
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return A fully rendered version of the front-end for the second stage of the booking process
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
