@@ -1,9 +1,12 @@
 package nuclibook.server;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
+import nuclibook.entity_utils.AbstractEntityUtils;
 import nuclibook.models.*;
 
 import java.sql.SQLException;
@@ -55,7 +58,12 @@ public class SqlServerConnection {
 	 * Creates all tables (if needed)
 	 * @param connection The connection source, linked to the DB to be used.
 	 */
-	public static void initDB(ConnectionSource connection) {
+	public static void initDB(ConnectionSource connection) throws SQLException, CannotHashPasswordException {
+		Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
+		if (actionLogDao.isTableExists()) {
+			return;
+		}
+
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
 			TableUtils.createTableIfNotExists(connection, ActionLogEvent.class);
@@ -82,5 +90,11 @@ public class SqlServerConnection {
 			e.printStackTrace();
 			LocalServer.fatalError("database tables could not be fully created");
 		}
+
+		// Create default user
+		Staff user = new Staff();
+		user.setUsername("admin");
+		user.setTempPassword("changeme");
+		AbstractEntityUtils.createEntity(Patient.class, user);
 	}
 }
