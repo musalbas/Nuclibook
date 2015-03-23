@@ -219,10 +219,21 @@ public class Staff implements Renderable {
     }
 
     /**
+     * Set a user password that must be changed immediately on login.
+     *
+     * @param password the new password.
+     * @throws CannotHashPasswordException when the password cannot be hashed.
+     */
+    public void setTempPassword(String password) throws CannotHashPasswordException {
+        setPassword(password);
+        this.passwordChangeDate = 0;
+    }
+
+    /**
      * Sets the user's password.
      *
      * @param password the new password.
-     * @throws CannotHashPasswordException when the password cannot be hashed
+     * @throws CannotHashPasswordException when the password cannot be hashed.
      */
     public void setPassword(String password) throws CannotHashPasswordException {
         // Generate new random salt
