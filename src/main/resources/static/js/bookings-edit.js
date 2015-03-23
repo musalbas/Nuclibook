@@ -69,7 +69,6 @@ $(document).ready(function () {
         }
         // add staff to output
         for (var i in staffArray) {
-            console.log(staffIdArray[i] + " " + staffArray[i]);
             var assignedStaffOutput = $('.assigned-staff');
             assignedStaffOutput.html(
                 assignedStaffOutput.html()
@@ -92,20 +91,14 @@ $(document).ready(function () {
         }
 
         //booking sections
-        var bookingDate = $('#current-bookings-date').val();
+        var bookingDate ="";
         var bookingTimers = $('#current-bookings-timers').val();
         var bookingTimersArray = bookingTimers.split(", ");
-        console.log(bookingTimersArray);
         for (var i in bookingTimersArray) {
-            var startTime = bookingTimersArray[i].split(" - ")[0];
-            var endTime = bookingTimersArray[i].split(" - ")[1];
+            var startTime = bookingTimersArray[i].substring(10,15);
+            var endTime = bookingTimersArray[i].substring(15);
+            bookingDate = bookingTimersArray[i].substring(0, 10);
             var stringDate = bookingDate + startTime + endTime;
-            for (var i in assignedBooking) {
-                if (assignedBooking[i] == stringDate ) {
-                    toastr.error("<b>" + bookingDate + "</b>" + " @ " + startTime + " - " + endTime + " is already assigned.");
-                    return;
-                }
-            }
 
             // add to output
             var assignedBookingOutput = $('.assigned-booking-section');
@@ -149,7 +142,7 @@ $(document).ready(function () {
             assignedStaffOutput.html()
             + "<span class=\"assigned-staff-" + staffId + "\">"
             + staffName
-            + " <a class=\"remove-assigned-staff\" data-id=\"" + staffId + "\" href=\"javascript:;\">[remove]</a>"
+            + " <a class=\"remove-assigned-staff\" data-id=\"" + staffId + "\" href=\"javascript:;\"> [remove]</a>"
             + "</br></span>"
         );
 
@@ -200,7 +193,7 @@ $(document).ready(function () {
             assignedBookingOutput.html()
             + "<span class=\"assigned-booking-section-" + stringDate + "\">"
             + "<b>" + date + "</b>" + " @ " + startTime + " - " + endTime
-            + " <a class=\"remove-assigned-booking\" data-id=\"" + stringDate + "\" href=\"javascript:;\">[remove]</a>"
+            + " <a class=\"remove-assigned-booking\" data-id=\"" + stringDate + "\" href=\"javascript:;\"> [remove]</a>"
             + "</br></span>"
         );
 
@@ -222,12 +215,15 @@ $(document).ready(function () {
         // remove from array
         var newAssignedBooking = [];
         for (var i in assignedBooking) {
-            if (assignedBooking[i] != bookingId) newAssignedBooking.push(assignedBooking[i]);
+            if (assignedBooking[i] != bookingId) {
+                newAssignedBooking.push(assignedBooking[i]);
+            }
         }
         assignedBooking = newAssignedBooking;
     }
 
     $('.btn-save').click(function() {
+        // add Staff to the hidden input field
         var stringStaffList = "";
         var stringStafListNames = "";
         for (var i in assignedStaff) {
@@ -247,6 +243,34 @@ $(document).ready(function () {
         }
         $('#current-staff-id').val(stringStaffList);
         $('#current-staff').val(stringStafListNames);
+
+
+        // add booking to the hidden field bookingSections
+        var stringDatetoSent = "";
+        for (var i in assignedBooking) {
+            stringDatetoSent += assignedBooking[i] + ", ";
+        }
+        stringDatetoSent = stringDatetoSent.substring(0, stringDatetoSent.length-2);
+        $('#current-bookings-timers').val(stringDatetoSent);
+
+        //Fields verification
+        var tracerDose = $('input[name=tracer-dose]').val();
+        var tracerOrderDate = $('input[name=tracer-order-due]').val();
+        var tracerOrderNeeded = !$('input[name=no-tracer-order]').is(':checked');
+        var staffAssigned = assignedStaff;
+
+        // start validation
+        var failedValidation = false;
+
+
+        // validate tracer dose
+        if (tracerDose.length == 0) {
+            toastr.error("Please enter a tracer dose.");
+            failedValidation = true;
+        }
+
+        // fail?
+        if (failedValidation) return;
 
         // off we go!
        $('.edit-booking-form').submit();

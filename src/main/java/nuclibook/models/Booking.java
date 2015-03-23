@@ -321,12 +321,13 @@ public class Booking implements Renderable {
 			if (!bookingSections.isEmpty()) {
 
 				for (BookingSection b : bookingSections) {
+                    String date = b.getStart().toString().substring(0,10);
 					bookingSectionsAsString += "<li class=\"list-group-item\">\n";
 					String startTime = b.getStart().toString("HH:mm");
 					String endTime = b.getEnd().toString("HH:mm");
 					bookingSectionsAsString += (startTime + " to " + endTime + " \n");
 					bookingSectionsAsString += "</li>";
-					bookingSectionsAsStringTimeOnly += (startTime + " - " + endTime + ", ");
+					bookingSectionsAsStringTimeOnly += (date + startTime  + endTime + ", ");
 				}
                 bookingSectionsAsStringTimeOnly = bookingSectionsAsStringTimeOnly.substring(0, bookingSectionsAsStringTimeOnly.length() - 2);
             } else {

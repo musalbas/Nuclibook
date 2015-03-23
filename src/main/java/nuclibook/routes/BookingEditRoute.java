@@ -30,7 +30,6 @@ public class BookingEditRoute extends DefaultRoute {
         Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer"));
         String tracerDose = request.queryParams("tracer-dose");
         String notes = request.queryParams("notes");
-        System.out.println("Notes : " + notes);
 
         // get assigned staff
         ArrayList<Staff> assignedStaff = new ArrayList<>();
@@ -45,10 +44,10 @@ public class BookingEditRoute extends DefaultRoute {
         // get booking sections
         ArrayList<BookingSection> bookingSections = new ArrayList<>();
         String[] bookingSectionsStringArray = request.queryParams("booking-sections-as-string-time-only").split(", ");
-        String bookingDate = request.queryParams("date");
         for (int i = 0; i < bookingSectionsStringArray.length; ++i) {
-            String startTime = bookingDate + "T" + bookingSectionsStringArray[i].split(" - ")[0];
-            String endTime = bookingDate + "T" + bookingSectionsStringArray[i].split(" - ")[1];
+            String bookingDate = bookingSectionsStringArray[i].split(" - ")[0].substring(0, 10);
+            String startTime = bookingDate + "T" + bookingSectionsStringArray[i].substring(10, 15);
+            String endTime = bookingDate + "T" + bookingSectionsStringArray[i].substring(15);
             BookingSection tempBookingSection = new BookingSection(new DateTime(startTime), new DateTime(endTime));
             bookingSections.add(tempBookingSection);
         }
