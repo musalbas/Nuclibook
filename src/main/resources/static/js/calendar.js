@@ -96,7 +96,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'</span>' +
 	'<span class="calendar-channel-filters hide">' +
 	(
-		!hideStaffAbsences ?
+		hideStaffAbsences ?
 			''
 			: '<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
 		'&nbsp;&nbsp;'
