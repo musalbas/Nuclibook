@@ -8,6 +8,10 @@ import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
 import nuclibook.models.*;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 /**
@@ -46,6 +50,7 @@ public class SqlServerConnection {
 				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
+				e.printStackTrace();
 				LocalServer.fatalError("a connection could not be made to the database");
 			}
 		}
@@ -57,11 +62,11 @@ public class SqlServerConnection {
 	 * Creates all tables (if needed)
 	 * @param connection The connection source, linked to the DB to be used.
 	 */
-	public static void initDB(ConnectionSource connection) throws SQLException {
-		Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
+	public static void initDB(ConnectionSource connection) throws SQLException, IOException {
+		/*Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
 		if (actionLogDao.isTableExists()) {
 			return;
-		}
+		}*/
 
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
@@ -89,5 +94,10 @@ public class SqlServerConnection {
 			e.printStackTrace();
 			LocalServer.fatalError("database tables could not be fully created");
 		}
+
+		// export default database
+		URL queryURL = SqlServerConnection.class.getClass().getClassLoader().getResource("default_database.sql");
+		String query = new String(Files.readAllBytes(Paths.get(queryURL.toString())));
+		System.out.println(query);
 	}
 }
