@@ -337,17 +337,19 @@ public class ValidationTest {
     @Test
     public void testCreateUpdateCameraTypeValidation() throws Exception {
         try{
-            //create the entity
+            //valid request
             TestResponse testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=camera-type&entity-id=0&label=TestType");
 
             assertTrue(testResponse.status == 200);
 
+            //invalid label value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=camera-type&entity-id=0&label=TestType45!");
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid label value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=camera-type&entity-id=0&label=TestTypeTestTypeTestType" +
                             "TestTypeTestTypeTestTypeTestTypeTestTypeTestType");
@@ -363,7 +365,8 @@ public class ValidationTest {
     public void testCreateUpdateTherapyValidation() throws Exception {
         try{
             insertDataset("/test_datasets/tracer_data_set.xml");
-            //create the entity
+
+            //valid request
             TestResponse testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=busy" +
                             "&booking-section-0b=15&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=20mg" +
@@ -371,6 +374,7 @@ public class ValidationTest {
 
             assertTrue(testResponse.status == 200);
 
+            //invalid name value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy56&booking-section-0a=busy" +
                             "&booking-section-0b=15&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=20mg" +
@@ -378,6 +382,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid tracer dose value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=busy" +
                             "&booking-section-0b=15&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=!!20mg" +
@@ -385,13 +390,15 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=busy" +
-                            "&booking-section-0b=15&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=!!20mg" +
+                            "&booking-section-0b=15&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=20mg" +
                             "&camera-type-1=1&camera-type-2=2&patient-question-0=Test+Question1");
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid booking section values
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=notBusy" +
                             "&booking-section-0b=15&booking-section-1a=notWaiting&booking-section-1b=10&tracer-required-id=1&tracer-dose=20mg" +
@@ -399,6 +406,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid booking-section value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=busy" +
                             "&booking-section-0b=abc&booking-section-1a=wait&booking-section-1b=abc&tracer-required-id=1&tracer-dose=20mg" +
@@ -406,6 +414,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid booking-section value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=therapy&entity-id=0&name=Test+Therapy&booking-section-0a=busy" +
                             "&booking-section-0b=15-30b&booking-section-1a=wait&booking-section-1b=10&tracer-required-id=1&tracer-dose=20mg" +
@@ -423,7 +432,7 @@ public class ValidationTest {
     @Test
     public void testCreateUpdateGenericEventValidation() throws Exception {
         try{
-            //create the entity
+            //valid request
             TestResponse testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=Mission+Briefing" +
                             "&description=In+the+home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-18&" +
@@ -431,6 +440,7 @@ public class ValidationTest {
 
             assertTrue(testResponse.status == 200);
 
+            //title valid less than 1 character long
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=" +
                             "&description=In+the+home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-18&" +
@@ -438,6 +448,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid title value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=Mission+Briefing!!++" +
                             "&description=In+the+home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-18&" +
@@ -445,6 +456,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //invalid description value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=Mission+Briefing" +
                             "&description=In+the+!!!!home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-18&" +
@@ -452,7 +464,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
-
+            //invalid from-date value
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=Mission+Briefing" +
                             "&description=In+the+home+cinema+room.&from-date=Two-Three-18&from-time=10%3A30&to-date=2015-03-18&" +
@@ -460,6 +472,7 @@ public class ValidationTest {
 
             assertEquals("failed_validation", testResponse.body);
 
+            //from-date is greater than to-date
             testResponse = request("POST",
                     "/entity-update?csrf-token=" + csrf + "&entity-type=generic-event&entity-id=0&title=Mission+Briefing" +
                             "&description=In+the+home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-11&" +
@@ -472,24 +485,7 @@ public class ValidationTest {
         }
     }
 
-    /*@Test
-    public void testCreateUpdatePatientWithoutPermissions() throws SQLException {
-        try{
-            TestResponse loginpage = request("GET", "/login");
-            String csrf = loginpage.getTagValue();
-            TestResponse loginResponse = request("POST", "/login?csrf-token=" + csrf + "&username=TestUsername2&password=testpassword");
-
-            //create the entity
-            TestResponse testResponse = request("POST",
-                    "/entity-update?csrf-token=" + csrf +"&entity-type=patient&entity-id=0&name=fsdagfsdgsdg&hospital-number=sdfgdsgdsgfds&nhs-number=fsdgsdgfsdg&sex=Male&date-of-birth=2004-09-14");
-
-            assertEquals("no_permission", testResponse.body);
-
-        }catch (IOException e) {
-            fail(e.getMessage());
-        }
-    }*/
-
+    //method to open a connection and send a request to the server
     private static TestResponse request(String method, String path) throws IOException {
         URL url = new URL("http://localhost:4567" + path);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
