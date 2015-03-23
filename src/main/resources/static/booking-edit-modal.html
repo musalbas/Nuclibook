@@ -1,14 +1,13 @@
-
-
 <div class="modal hide fade edit-modal booking-edit-modal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Edit Booking [WORK IN PROGRESS. DO NOT TOUCH IT.]</h3>
+                <h3>Edit Booking</h3>
             </div>
             <div class="modal-body">
                 <form method="post" action="/booking-edit" class="form-horizontal edit-form edit-booking-form">
                     <input type="hidden" name="csrf-token" value="#csrf-token">
+
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Booking ID: </label>
                         <h5 class="col-md-8 col-lg-8">#booking-id</h5>
@@ -83,7 +82,7 @@
                         </div>
                         <div class="col-md-8 col-lg-8">
                             <div class="tracer-order-wrapper">
-                                <div class="date-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+                                <div class="date-selector" style="margin:0; padding:0;" data-sequence="1" data-mode="future"></div>
                                 <input type="hidden" name="tracer-order-due" class="date-selector-output"
                                        value="#tracer-order-due" data-sequence="1"/>
                                 <br style="clear: both"/>
@@ -130,48 +129,54 @@
                     <div class="form-group">
                         <label for="bookingTimesDiv" class="control-label col-md-4 col-lg-4 text-right">Booking
                             Schedule: </label>
+
                         <div class="col-md-8">
-                            <input type="hidden" id="current-bookings-timers" name="booking-sections-as-string-time-only" value="#booking-sections-as-string-time-only">
+                            <input type="hidden" id="current-bookings-timers"
+                                   name="booking-sections-as-string-time-only"
+                                   value="#booking-sections-as-string-time-only">
+
                             <p class="help-block assigned-booking-section"></p>
                         </div>
-                        <form class="form-horizontal edit-form text-center">
-                            <div class="col-md-4"></div>
-                            <div id="bookingTimesDiv"    class="col-md-8 col-lg-8">
-                                <div class="col-md-12 col-lg-12 form-group">
-                                    <div class="tracer-order-wrapper">
-                                        <div class="date-selector" style="margin:0; padding:0;" data-sequence="2" data-mode="future"></div>
-                                        <input type="hidden" name="tracer-order-due" class="date-selector-output"
-                                               value="#tracer-order-due" data-sequence="2"/>
-                                        <br style="clear: both"/>
-                                    </div>
+                        <div class="col-md-4"></div>
+                        <div id="bookingTimesDiv" class="col-md-8 col-lg-8">
+                            <div class="col-md-12 col-lg-12 form-group">
+                                <div class="tracer-order-wrapper">
+                                    <div class="date-selector" style="margin:0; padding:0;" data-sequence="2"
+                                         data-mode="future"></div>
+                                    <input type="hidden" name="tracer-order-due" class="date-selector-output"
+                                           value="#tracer-order-due" data-sequence="2"/>
+                                    <br style="clear: both"/>
                                 </div>
-                                <div class="col-md-12 col-lg-12 form-group" style="padding-top: 10px">
-                                    <label class="col-sm-3 control-label">Starts:</label>
-                                    <div class="col-sm-9">
-                                        <div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
-                                        <input type="hidden" name="start-time" class="time-selector-output" data-sequence="1"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Ends:</label>
-                                    <div class="col-sm-9">
-                                        <div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
-                                        <input type="hidden" name="end-time" class="time-selector-output" data-sequence="2"/>
-                                    </div>
-                                </div>
-                                <p class="help-block">
-                                    <a href="javascript:;" class="add-booking-section"><span class="fa fa-plus"></span> Add</a>
-                                </p>
                             </div>
-                        </form>
+                            <div class="col-md-12 col-lg-12 form-group" style="padding-top: 10px">
+                                <label class="col-sm-3 control-label">Starts:</label>
 
+                                <div class="col-sm-9">
+                                    <div class="time-selector" style="margin:0; padding:0;" data-sequence="1"></div>
+                                    <input type="hidden" name="start-time" class="time-selector-output"
+                                           data-sequence="1"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Ends:</label>
+
+                                <div class="col-sm-9">
+                                    <div class="time-selector" style="margin:0; padding:0;" data-sequence="2"></div>
+                                    <input type="hidden" name="end-time" class="time-selector-output"
+                                           data-sequence="2"/>
+                                </div>
+                            </div>
+                            <p class="help-block">
+                                <a href="javascript:;" class="add-booking-section"><span class="fa fa-plus"></span> Add</a>
+                            </p>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 text-right control-label">Notes: </label>
 
                         <div class="col-sm-8">
-                            <input class="col-sm-12" id = "notes-all" name="notes" value="#notes"/>
+                            <textarea class="form-control" name="notes-all" id="notes-all">#notes-unformatted</textarea>
                             <p class="help-block text-center">Optional.</p>
                         </div>
                     </div>

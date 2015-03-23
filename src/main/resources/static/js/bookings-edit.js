@@ -36,9 +36,9 @@ $(document).ready(function () {
             var startTimeOfBooking = $('.time-selector-output[data-sequence="1"]').val();
             var endTimeOfBooking = $('.time-selector-output[data-sequence="2"]').val();
             if (startTimeOfBooking == "" || endTimeOfBooking == ""){
-                toastr.error("TO BE COMPLETED Please select the times");
+                toastr.error("You did not select the times of the booking");
             } else if (startTimeOfBooking > endTimeOfBooking) {
-                toastr.error("TO BE COMPLETED Hours not ok");
+                toastr.error("Hours are not properly selected.");
             } else if (dateOfBooking=="") {
                 toastr.error("Please select a date");
             } else if (new Date(dateOfBooking).getTime() < (new Date()).getTime()) {
@@ -49,6 +49,11 @@ $(document).ready(function () {
         });
 
 //Pre-fill modal
+        // notes
+        var notes = $('#notes-all').val();
+        if (notes == "None") {
+            $('#notes-all').val("None");
+        }
         // camera
         var currentCamera = $('#current-camera').val();
         $("#camera-select").val(currentCamera).attr('selected','selected');
@@ -253,6 +258,9 @@ $(document).ready(function () {
         stringDatetoSent = stringDatetoSent.substring(0, stringDatetoSent.length-2);
         $('#current-bookings-timers').val(stringDatetoSent);
 
+        if ($('#notes-all').val() == "") {
+            $('#notes-all').val("<em>None</em>");
+        }
         //Fields verification
         var tracerDose = $('input[name=tracer-dose]').val();
         var tracerOrderDate = $('input[name=tracer-order-due]').val();

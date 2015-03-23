@@ -77,7 +77,7 @@ public class CameraUtils extends AbstractEntityUtils {
 			List<Camera> cameras = getCamerasByCameraType(ct);
 			if (cameras != null) {
 				for (Camera c : cameras) {
-					allCameras.put(c.getId(), c);
+					if (c.getEnabled()) allCameras.put(c.getId(), c);
 				}
 			}
 		}

@@ -29,8 +29,7 @@ public class BookingEditRoute extends DefaultRoute {
         Camera camera = CameraUtils.getCamera(request.queryParams("camera"));
         Tracer tracer = TracerUtils.getTracer(request.queryParams("tracer"));
         String tracerDose = request.queryParams("tracer-dose");
-        String notes = request.queryParams("notes");
-        System.out.println("Notes: " + notes);
+        String notes = request.queryParams("notes-all");
 
         // get assigned staff
         ArrayList<Staff> assignedStaff = new ArrayList<>();
@@ -73,7 +72,7 @@ public class BookingEditRoute extends DefaultRoute {
         booking.setCamera(camera);
         booking.setTracer(tracer);
         booking.setTracerDose(tracerDose);
-        booking.setNotes(request.queryParams("notes"));
+        booking.setNotes(request.queryParams("notes-all"));
         booking.setStatus("unconfirmed");
         AbstractEntityUtils.updateEntity(Booking.class, booking);
 

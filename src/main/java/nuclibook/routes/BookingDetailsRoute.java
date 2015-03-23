@@ -88,7 +88,7 @@ public class BookingDetailsRoute extends DefaultRoute {
         renderer.setCollection("staff", allStaff);
 
         // add notes
-        renderer.setField("notes-all", "test");
+        renderer.setField("notes-all", booking.getNotes());
 
         return renderer.render();
 	}
