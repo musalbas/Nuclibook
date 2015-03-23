@@ -455,9 +455,9 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 		entity.setUsername(request.queryParams("username"));
 
 		// password
-		if (request.queryParams("password") != null && request.queryParams("password").length() > 0) {
+		if (request.queryParams("password") != null && !request.queryParams("password").equals("") && request.queryParams("password").length() > 0) {
 			// password strength validation
-			if (!createNew && (user == null || !user.hasPermission(P.EDIT_STAFF_PASSWORD))) {
+			if (!createNew && !user.hasPermission(P.EDIT_STAFF_PASSWORD)) {
 				ActionLogger.logAction(user, ActionLogger.ATTEMPT_UPDATE_STAFF_PASSWORD, entityId, "Failed as the user does not have permissions to edit other users' passwords");
 				return new Pair<>(Status.NO_PERMISSION, null);
 			}
