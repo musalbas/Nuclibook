@@ -82,6 +82,7 @@ public class LocalServer {
 			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
+				Spark.halt("Redirecting.");
 			}
 
 			// CSV page
