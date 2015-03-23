@@ -13,7 +13,7 @@ import spark.Response;
 import java.util.List;
 
 /**
- * The class presents the rendered template of the camera-types.html page with camera types data on it if he has a permission to view the page.
+ * The class presents the rendered template of the camera-types.html page with camera types data on it to the user if he has a permission to view the page.
  */
 public class CameraTypesRoute extends DefaultRoute {
     /**
