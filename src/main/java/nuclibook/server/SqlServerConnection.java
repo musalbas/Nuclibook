@@ -1,11 +1,15 @@
 package nuclibook.server;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
+import nuclibook.constants.DefaultDatabase;
 import nuclibook.models.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -23,6 +27,7 @@ public class SqlServerConnection {
 
 	/**
 	 * Acquires the single instance of the SQL connection.
+	 *
 	 * @return The SQL connection source
 	 */
 	public static ConnectionSource acquireConnection() {
@@ -31,7 +36,8 @@ public class SqlServerConnection {
 
 	/**
 	 * Acquires or creates the single instance of the SQL connection
-	 * @param uri The DB URI
+	 *
+	 * @param uri      The DB URI
 	 * @param username The DB username
 	 * @param password The DB password
 	 * @return The SQL connection source
@@ -44,6 +50,7 @@ public class SqlServerConnection {
 				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
+				e.printStackTrace();
 				LocalServer.fatalError("a connection could not be made to the database");
 			}
 		}
@@ -53,9 +60,15 @@ public class SqlServerConnection {
 
 	/**
 	 * Creates all tables (if needed)
+	 *
 	 * @param connection The connection source, linked to the DB to be used.
 	 */
-	public static void initDB(ConnectionSource connection) {
+	public static void initDB(ConnectionSource connection) throws SQLException, IOException {
+		Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
+		if (actionLogDao.isTableExists()) {
+			return;
+		}
+
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
 			TableUtils.createTableIfNotExists(connection, ActionLogEvent.class);
@@ -81,6 +94,11 @@ public class SqlServerConnection {
 		} catch (NullPointerException | SQLException e) {
 			e.printStackTrace();
 			LocalServer.fatalError("database tables could not be fully created");
+		}
+
+		// export default database
+		for (String q : DefaultDatabase.SqlQueries) {
+			actionLogDao.executeRaw(q);
 		}
 	}
 }
