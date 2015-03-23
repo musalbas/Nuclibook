@@ -9,11 +9,11 @@ import spark.Request;
 import spark.Response;
 
 /**
- * The class redirects the user to the patients.html page if he has a permission to view the page.
+ * The class handles user's request to view patients.
  */
 public class PatientsRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view patients.html page.
+     * Handles user's request to view patients.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

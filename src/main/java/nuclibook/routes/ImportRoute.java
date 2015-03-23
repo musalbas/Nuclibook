@@ -13,7 +13,7 @@ import spark.Response;
  */
 public class ImportRoute extends DefaultRoute {
     /**
-     * Method handles user's request to import patients details.
+     * Handles user's request to import patients details.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

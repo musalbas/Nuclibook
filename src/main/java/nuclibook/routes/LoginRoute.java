@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 /**
  * This class handles all the action that the user does on the login page.
- * <p>
  * This class is called when the user tries to access information without logging in or when the user session has been expired.
  */
 public class LoginRoute extends DefaultRoute {

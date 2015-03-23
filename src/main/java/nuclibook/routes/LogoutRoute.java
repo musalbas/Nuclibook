@@ -12,7 +12,7 @@ import spark.Session;
  */
 public class LogoutRoute extends DefaultRoute {
     /**
-     * Method redirects to the login page with the appropriate message that states that the user has been logged out.
+     * Redirects to the login page with the appropriate message that states that the user has been logged out.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

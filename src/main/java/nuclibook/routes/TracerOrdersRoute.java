@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class redirects the user to the tracer-orders.html page if he has a permission to view the page.
+ * The class presents the rendered template of the tracer-orders.html page with data on it to the user if he has a permission to view the page.
  */
 public class TracerOrdersRoute extends DefaultRoute {
     /**
-     * Method handles user's request to access tracer-orders.html page.
+     * Handles user's request to access tracer orders.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

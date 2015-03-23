@@ -14,11 +14,11 @@ import spark.Response;
 import java.util.List;
 
 /**
- * The class redirects the user to the staff-availabilities.html page if he has a permission to view the page.
+ * The class presents rendered template of the staff-availabilities.html page with data on it to the user if he has a permission to view the page.
  */
 public class StaffAvailabilitiesRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view staff-availabilities.html page.
+     * Handles user's request to view staff availabilities.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

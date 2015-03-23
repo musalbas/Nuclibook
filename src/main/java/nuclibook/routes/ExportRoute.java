@@ -15,7 +15,7 @@ import spark.Session;
  */
 public class ExportRoute extends DefaultRoute {
     /**
-     * Method handles user's request to export patients details.
+     * Handles user's request to export patients details.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

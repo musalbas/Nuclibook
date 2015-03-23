@@ -13,7 +13,7 @@ import spark.Response;
  */
 public class CrudDeleteRoute extends DefaultRoute {
     /**
-     * Method handles user's request to delete the information about resources or about staff.
+     * Handles user's request to delete the information about resources or about staff.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

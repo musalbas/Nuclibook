@@ -30,7 +30,7 @@ public abstract class DefaultRoute implements Route {
     }
 
     /**
-     * Method performs the routines common to all the routes in the application.
+     * performs the routines common to all the routes in the application.
      * These routines are necessary to perform before handling each user's request.
      *
      * @param request Information sent by the client.

@@ -24,7 +24,7 @@ public class CrudCreateUpdateRoute extends DefaultRoute {
 	private boolean createNew = false;
 
 	/**
-	 * Method handles user's request.
+	 * Handles user's request.
 	 *
 	 * @param request  Information sent by the client
 	 * @param response Information sent to the client

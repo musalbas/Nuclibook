@@ -17,11 +17,11 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * The class redirects the user to the staff-roles.html page if he has a permission to view the page.
+ * The class presents the staff-roles.html page with data on it to the user if he has a permission to view the page.
  */
 public class StaffRolesRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view staff-roles.html page.
+     * Handles user's request to view staff roles.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client
