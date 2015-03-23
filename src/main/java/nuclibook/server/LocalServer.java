@@ -68,7 +68,8 @@ public class LocalServer {
 			if (SecurityUtils.checkLoggedIn(session)
 					&& user != null
 					&& user.getDaysRemainingToPasswordChange() < 1
-					&& !path.startsWith("/profile")) {
+					&& !path.startsWith("/profile")
+					&& !(path.equals("/entity-update") && request.queryParams("entity-type").equals("staff-password-change"))) {
 				response.redirect("/profile?changepw=1&force=1");
 				Spark.halt("Redirecting.");
 			}
@@ -162,10 +163,10 @@ public class LocalServer {
 
 		// bookings
 		Spark.get("/new-booking-1", new NewBookingRouteStage1());
-		Spark.post("/new-booking-2", new NewBookingRouteStage2());
+			Spark.post("/new-booking-2", new NewBookingRouteStage2());
 		Spark.post("/new-booking-3", new NewBookingRouteStage3());
-		Spark.get("/bookings", new BookingsRoute());
-		Spark.post("/booking-edit", new BookingEditRoute());
+			Spark.get("/bookings", new BookingsRoute());
+			Spark.post("/booking-edit", new BookingEditRoute());
 		Spark.post("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
