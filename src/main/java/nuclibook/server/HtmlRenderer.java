@@ -1,7 +1,6 @@
 package nuclibook.server;
 
 import nuclibook.constants.P;
-import nuclibook.entity_utils.StaffUtils;
 import nuclibook.models.Staff;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -15,152 +14,152 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class HtmlRenderer {
-
-	/**
-	 * This class allows front-end HTML templates to be rendered with the inclusion of data
-	 * from the Java backend. This is achieved via text elements following a specific format,
-	 * as detailed below.
-	 *
-	 * An HtmlRenderer object is created with the name of the HTML template file, relative to
-	 * the resources/static/ folder, e.g.:
-	 *
-	 * HtmlRenderer renderer = new HtmlRenderer("login.html");
-	 *
-	 *
-	 * Fields
-	 * ------
-	 *
-	 * Fields are the most basic method of integrating data into an HTML template. They
-	 * contain simple string values only, and can be reference with a hash (#), followed by
-	 * their name:
-	 *
-	 * You are logged in as #user-first-name
-	 *
-	 * The field-name may consist only of a combination of lower-case letters, digits, and
-	 * dashes (-). The corresponding string value is given on the backend as follows:
-	 *
-	 * renderer.setField(String name, String value);
-	 *
-	 * A missing or null-valued field will result in an empty string when rendered.
-	 *
-	 *
-	 * Defining Fields
-	 * ---------------
-	 *
-	 * Fields can be defined in HTML using the following format:
-	 *
-	 * #[def: name = value]
-	 *
-	 * This is useful in conjunction with referenced files (see below), such as in the following
-	 * example:
-	 *
-	 * #[def: page-title = Login Page]
-	 * ##_header.html
-	 *
-	 *
-	 * Conditional Fields (Check if Set)
-	 * ---------------------------------
-	 *
-	 * These introduce some degree of conditional control based on whether a field has been
-	 * set, and can be used as such:
-	 *
-	 * #[if: status]The status is #status.#[/if]
-	 * #[!if: status]No status is set.#[/!if]
-	 *
-	 *
-	 * Conditional Fields (Check Value)
-	 * --------------------------------
-	 *
-	 * These provide more advanced conditional control by checking the value of a field, like so:
-	 *
-	 * #[if: status=okay]It's all good!#[/if]
-	 * #[!if: status=okay]Uh-oh#[/!if]
-	 *
-	 *
-	 * Conditional Fields (Check Permission)
-	 * -------------------------------------
-	 *
-	 * These provide an easy way to check if a user has a certain permission, like so:
-	 *
-	 * #[ifperm: VIEW_TOP_SECRET_DATA]
-	 *     Hello Mr Bond.
-	 * #[/ifperm]
-	 *
-	 * #[!ifperm: VIEW_TOP_SECRET_DATA]
-	 *     YOU SHALL NOT PASS!
-	 * #[/!ifperm]
-	 *
-	 * The inner content will be shown if the currently active user has the stated permission.
-	 *
-	 * The permission name must match *exactly* with the enum values in nuclibook.constants.P.
-	 *
-	 *
-	 * Collections
-	 * -----------
-	 *
-	 * Collection tags allow you to iterate over a collection of objects that implement the
-	 * Renderable interface. This is useful for lists, tables, etc. A collection has a
-	 * unique name (of the same format as field names) and is defined as follows:
-	 *
-	 * #[collection: names]
-	 *     #[pre]
-	 *         <ul>
-	 *     #[/pre]
-	 *     #[each]
-	 *         <li>#first-name #last-name</li>
-	 *     #[/each]
-	 *     #[post]
-	 *         </ul>
-	 *     #[/post]
-	 *     #[empty]
-	 *         <p>Empty collection.</p>
-	 *     #[/empty]
-	 * #[/collection]
-	 *
-	 * A collection tag MUST have 4 internal sections:
-	 *     pre:   this is printed before the iterative section
-	 *     post:  this is printed after the iterative section
-	 *     each:  this is printed for each iteration and may contain fields from the global
-	 *            set and/or the iterated Renderable object
-	 *     empty: this is printed if the collection is empty, or not set
-	 *
-	 * The collection can be specified on the back-end as:
-	 *
-	 * renderer.setCollection(String name, Collection<Renderable> data)
-	 *
-	 * Two "helper" tags exist within the 'each' section:
-	 *     #_index        prints the index of the current iteration, starting from zero
-	 *     #_guid         prints a GUID for that iteration (useful for an identifier when
-	 *                    the index is unsuitable)
-	 *
-	 *
-	 * Collection Maps
-	 * ---------------
-	 *
-	 * This will produce an ID-indexed array of JavaScript objects with all the fields of the
-	 * entity, useful for any on-page CRUD actions. Usage:
-	 *
-	 * #[collectionmap: varname: collection-name]
-	 *
-	 *
-	 * Files
-	 * -----
-	 *
-	 * Another static HTML file can be included using a double-hash, as follows:
-	 *
-	 * ##header.html
-	 *
-	 * Included files will also be rendered.
-	 *
-	 *
-	 * Rendering
-	 * ---------
-	 *
-	 * Once all of the data has been set, the rendered HTML can be obtained via:
-	 *
-	 * renderer.render();
-	 */
+/**
+ * This class allows front-end HTML templates to be rendered with the inclusion of data
+ * from the Java backend. This is achieved via text elements following a specific format,
+ * as detailed below.
+ *
+ * An HtmlRenderer object is created with the name of the HTML template file, relative to
+ * the resources/static/ folder, e.g.:
+ *
+ * HtmlRenderer renderer = new HtmlRenderer();
+ * renderer.setTemplateFile("login.html");
+ *
+ *
+ * Fields
+ * ------
+ *
+ * Fields are the most basic method of integrating data into an HTML template. They
+ * contain simple string values only, and can be reference with a hash (#), followed by
+ * their name:
+ *
+ * You are logged in as #user-first-name
+ *
+ * The field-name may consist only of a combination of lower-case letters, digits, and
+ * dashes (-). The corresponding string value is given on the backend as follows:
+ *
+ * renderer.setField(String name, String value);
+ *
+ * A missing or null-valued field will result in an empty string when rendered.
+ *
+ *
+ * Defining Fields
+ * ---------------
+ *
+ * Fields can be defined in HTML using the following format:
+ *
+ * #[def: name = value]
+ *
+ * This is useful in conjunction with referenced files (see below), such as in the following
+ * example:
+ *
+ * #[def: page-title = Login Page]
+ * ##_header.html
+ *
+ *
+ * Conditional Fields (Check if Set)
+ * ---------------------------------
+ *
+ * These introduce some degree of conditional control based on whether a field has been
+ * set, and can be used as such:
+ *
+ * #[if: status]The status is #status.#[/if]
+ * #[!if: status]No status is set.#[/!if]
+ *
+ *
+ * Conditional Fields (Check Value)
+ * --------------------------------
+ *
+ * These provide more advanced conditional control by checking the value of a field, like so:
+ *
+ * #[if: status = okay]It's all good!#[/if]
+ * #[!if: status = okay]Uh-oh#[/!if]
+ *
+ *
+ * Conditional Fields (Check Permission)
+ * -------------------------------------
+ *
+ * These provide an easy way to check if a user has a certain permission, like so:
+ *
+ * #[ifperm: VIEW_TOP_SECRET_DATA]
+ *     Hello Mr Bond.
+ * #[/ifperm]
+ *
+ * #[!ifperm: VIEW_TOP_SECRET_DATA]
+ *     YOU SHALL NOT PASS!
+ * #[/!ifperm]
+ *
+ * The inner content will be shown if the currently active user has the stated permission.
+ *
+ * The permission name must match *exactly* with the enum values in nuclibook.constants.P.
+ *
+ *
+ * Collections
+ * -----------
+ *
+ * Collection tags allow you to iterate over a collection of objects that implement the
+ * Renderable interface. This is useful for lists, tables, etc. A collection has a
+ * unique name (of the same format as field names) and is defined as follows:
+ *
+ * #[collection: names]
+ *     #[pre]
+ *         <ul>
+ *     #[/pre]
+ *     #[each]
+ *         <li>#first-name #last-name</li>
+ *     #[/each]
+ *     #[post]
+ *         </ul>
+ *     #[/post]
+ *     #[empty]
+ *         <p>Empty collection.</p>
+ *     #[/empty]
+ * #[/collection]
+ *
+ * A collection tag MUST have 4 internal sections (even if they are empty):
+ *     pre:   this is printed before the iterative section
+ *     post:  this is printed after the iterative section
+ *     each:  this is printed for each iteration and may contain fields from the global
+ *            set and/or the iterated Renderable object
+ *     empty: this is printed if the collection is empty, or not set
+ *
+ * The collection can be specified on the back-end as:
+ *
+ * renderer.setCollection(String name, Collection<Renderable> data)
+ *
+ * Two "helper" tags exist within the 'each' section:
+ *     #_index        prints the index of the current iteration, starting from zero
+ *     #_guid         prints a GUID for that iteration (useful for an identifier when
+ *                    the index is unsuitable)
+ *
+ *
+ * Collection Maps
+ * ---------------
+ *
+ * This will produce an ID-indexed array of JavaScript objects with all the fields of the
+ * entity, useful for any on-page CRUD actions. Usage:
+ *
+ * #[collectionmap: varname: collection-name]
+ *
+ *
+ * Files
+ * -----
+ *
+ * Another static HTML file can be included using a double-hash, as follows:
+ *
+ * ##header.html
+ *
+ * Included files will also be rendered.
+ *
+ *
+ * Rendering
+ * ---------
+ *
+ * Once all of the data has been set, the rendered HTML can be obtained via:
+ *
+ * renderer.render();
+ */
+	public class HtmlRenderer {
 
 	// location of template HTML file
 	private String templateFile;
@@ -232,7 +231,7 @@ public class HtmlRenderer {
 	 * Set a public data field
 	 * Set as null to remove
 	 * @param key The name of the field to set
-	 * @param value The value of the field to set
+	 * @param value The value of the field to set (will be converted to a string)
 	 */
 	public void setField(String key, Integer value) {
 		fields.put(key, value == null ? null : value.toString());
@@ -242,7 +241,7 @@ public class HtmlRenderer {
 	 * Set a public data collection
 	 * Set as null to remove
 	 * @param key The name of the collection to set
-	 * @param collection The value of the collection to set
+	 * @param collection The value of the collection to set - must be a collection of items implementing the {@link nuclibook.server.Renderable} interface
 	 */
 	public <E> void setCollection(String key, Collection<E> collection) {
 		ArrayList<Renderable> renderableCollection = new ArrayList<>(collection.size());
@@ -509,7 +508,12 @@ public class HtmlRenderer {
 		return parseConditionalSetFields(html, fields);
 	}
 
-	// parse any conditional set field statements with a specific set of fields
+	/**
+	 * Parse any conditional set field statements for a specific set of fields
+	 * @param html Input HTML
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String parseConditionalSetFields(String html, HashMap<String, String> fields) {
 		Matcher fieldMatcher = conditionalSetFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -522,7 +526,14 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the original text, or "", for a conditional set field statement
+	/**
+	 * Generates the HTML for a conditional field - either the enclosed HTML from the original block, or ""
+	 * @param ifField The tag type; either "if" or "!if"
+	 * @param key The field to check
+	 * @param original The original HTML block
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String getConditionalSetFieldValue(String ifField, String key, String original, HashMap<String, String> fields) {
 		return ifField.startsWith("!") ?
 				((!fields.containsKey(key) || fields.get(key) == null) ? original : "") :
@@ -542,7 +553,12 @@ public class HtmlRenderer {
 		return parseConditionalValueFields(html, fields);
 	}
 
-	// parse any conditional value field statements with a specific set of fields
+	/**
+	 * Parse any conditional value field statements for a specific set of fields
+	 * @param html Input HTML
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String parseConditionalValueFields(String html, HashMap<String, String> fields) {
 		Matcher matcher = conditionalValueFieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -555,7 +571,15 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the original text, or "", for a conditional value field statement
+	/**
+	 * Generates the HTML for a conditional field - either the enclosed HTML from the original block, or ""
+	 * @param ifField The tag type; either "if" or "!if"
+	 * @param key The field to check
+	 * @param value The value to check for
+	 * @param original The original HTML block
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String getConditionalValueFieldValue(String ifField, String key, String value, String original, HashMap<String, String> fields) {
 		return ifField.startsWith("!") ?
 				((!fields.containsKey(key) || fields.get(key) == null || !fields.get(key).equals(value)) ? original : "") :
@@ -583,7 +607,13 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the original text, or "", for a conditional permission field statement
+	/**
+	 * Generate the HTML for a conditional permission field - either the enclosed HTML from the original block, or ""
+	 * @param ifField The tag type; either "if" or "!if"
+	 * @param key The permission name to check for
+	 * @param original The original HTML block
+	 * @return Output HTML
+	 */
 	private String getConditionalPermissionFieldValue(String ifField, String key, String original) {
 		try {
 			P p = P.valueOf(key);
@@ -609,7 +639,12 @@ public class HtmlRenderer {
 		return parseFields(html, fields);
 	}
 
-	// parse any conditional field statements with a specific set of fields
+	/**
+	 * Parse any field statements for a specific set of fields
+	 * @param html Input HTML
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String parseFields(String html, HashMap<String, String> fields) {
 		Matcher fieldMatcher = fieldPattern.matcher(html);
 		StringBuffer output = new StringBuffer();
@@ -620,7 +655,13 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
-	// return the value, or "", for a given field key
+	/**
+	 * Generate the HTML for a simple field - either the field value or ""
+	 * @param key The field name to insert
+	 * @param htmlOkay Whether HTML should be allowed; either "HTMLOKAY:" or ""
+	 * @param fields The map of fields to check against
+	 * @return Output HTML
+	 */
 	private String getFieldValue(String key, String htmlOkay, HashMap<String, String> fields) {
 		return (fields.containsKey(key) && fields.get(key) != null) ? ((htmlOkay != null && htmlOkay.equals("HTMLOKAY:")) ? fields.get(key) : StringEscapeUtils.escapeHtml(fields.get(key))) : "";
 	}
@@ -629,7 +670,10 @@ public class HtmlRenderer {
 	 * HELPER METHODS
 	 */
 
-	// read the plain template in as a string
+	/**
+	 * Read the template file into a simple string
+	 * @return The template file contents
+	 */
 	private String readSimpleFile() {
 		// load file
 		URL url = null;
@@ -661,7 +705,12 @@ public class HtmlRenderer {
 		}
 	}
 
-	// get an HTML segment between basic #[tag] and #[/tag] wrappers
+	/**
+	 * Get an HTML segment between basic #[tag] and #[/tag] wrappers
+	 * @param html The HTML to extract from
+	 * @param tag The tag to extract
+	 * @return The contents between the tags, or ""
+ 	 */
 	private String getSegment(String html, String tag) {
 		Pattern segmentPattern = Pattern.compile("#\\[" + tag + "\\](.*?)#\\[/" + tag + "\\]", regexOptions);
 		Matcher segmentMatcher = segmentPattern.matcher(html);
@@ -672,7 +721,13 @@ public class HtmlRenderer {
 		}
 	}
 
-	// replace a given keyword with a given value
+	/**
+	 * Replace a simple #tag with a given value
+	 * @param html The HTML to replace in
+	 * @param tag The tag to replace
+	 * @param value The value to be inserted
+	 * @return Output HTML
+	 */
 	private String basicReplace(String html, String tag, String value) {
 		Pattern basicReplacePattern = Pattern.compile("#" + tag, regexOptions);
 		Matcher basicReplaceMatcher = basicReplacePattern.matcher(html);
@@ -684,6 +739,12 @@ public class HtmlRenderer {
 		return output.toString();
 	}
 
+	/**
+	 * Merge two HashMaps together
+	 * @param a HashMap A
+	 * @param b HashMap B
+	 * @return A HashMap built from A, with all fields of B added (fields in B will overwrite A)
+	 */
 	private HashMap<String, String> mergeHashMaps(HashMap<String, String> a,  HashMap<String, String> b) {
 		HashMap<String, String> temp = (HashMap<String, String>) a.clone();
 		temp.putAll(b);
@@ -694,7 +755,10 @@ public class HtmlRenderer {
 	 * RENDERER
 	 */
 
-	// run the parsing methods in the right order
+	/**
+	 * This runs all of the rendering sub-methods in the right order
+	 * @return Fully rendered HTML
+	 */
 	public String render() {
 		String parsedHtml = readSimpleFile();
 		parsedHtml = parseDefinitions(parsedHtml);
