@@ -84,6 +84,27 @@ public class ValidationTest extends AbstractValidationTest{
     }
 
     @Test
+    public void testCreateUpdateCameraValidation() throws Exception {
+        try{
+            insertDataset("/test_datasets/camera_type_data_set.xml");
+            //valid response
+            TestResponse testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=camera&entity-id=0&camera-type-id=1&room-number=Castle");
+
+            assertTrue(testResponse.status == 200);
+
+            //incorrect room number value
+            testResponse = request("POST",
+                    "/entity-update?csrf-token=" + csrf + "&entity-type=camera&entity-id=0&camera-type-id=1&room-number=Castle!");
+
+            assertEquals("failed_validation", testResponse.body);
+
+        }catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
     public void testCreateUpdateStaffAbsenceValidation() throws SQLException {
         try{
             //valid request
