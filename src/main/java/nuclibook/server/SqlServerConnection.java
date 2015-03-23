@@ -1,5 +1,7 @@
 package nuclibook.server;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -55,7 +57,12 @@ public class SqlServerConnection {
 	 * Creates all tables (if needed)
 	 * @param connection The connection source, linked to the DB to be used.
 	 */
-	public static void initDB(ConnectionSource connection) {
+	public static void initDB(ConnectionSource connection) throws SQLException {
+		Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
+		if (actionLogDao.isTableExists()) {
+			return;
+		}
+
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
 			TableUtils.createTableIfNotExists(connection, ActionLogEvent.class);
