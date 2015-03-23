@@ -24,6 +24,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 		allDaySlot: false,
 		timeFormat: 'HH:mm',
 		weekends: true,
+		firstDay: 1,
 		slotMinutes: 15,
 
 		// set data source
