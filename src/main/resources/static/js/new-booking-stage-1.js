@@ -106,7 +106,10 @@ $(document).ready(function () {
 				calendar.fullCalendar('unselect');
 				return;
 			}
-
+            if (start.getTime() >= end.getTime()) {
+                toastr.error("Hours are not properly selected");
+                return;
+            }
 			// pre-fill modal
 			startTimeInput.val(startHours + ':' + startMins);
 			endTimeInput.val(endHours + ':' + endMins);
@@ -132,8 +135,10 @@ $(document).ready(function () {
 
 		// click ok to keep appointment;
 		$('.btn-save').click(function () {
+            console.log()
 			// get start/end time
 			var startTime = startTimeInput.val();
+
 			var endTime = endTimeInput.val();
 
 			// check valid times were entered
@@ -143,8 +148,11 @@ $(document).ready(function () {
 			}
 
 			// check start < end
-			if (new Date('2000-01-01 ' + startTime) >= new Date('2000-01-01 ' + endTime)) {
-				toastr.error("Please ensure the start time is before the end time.");
+            var date1 = "2000-01-01 " + startTime;
+            var date2 = "2000-01-01 " + endTime;
+            var indexOfComparingDates = date1.localeCompare(date2);
+ 			if (indexOfComparingDates != -1) {
+				toastr.error("Hours are not properly selected.");
 				return;
 			}
 

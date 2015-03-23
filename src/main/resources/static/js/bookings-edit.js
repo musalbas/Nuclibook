@@ -27,13 +27,21 @@ $(document).ready(function () {
 			var dateOfBooking = $('.date-selector-output[data-sequence="2"]').val();
 			var startTimeOfBooking = $('.time-selector-output[data-sequence="1"]').val();
 			var endTimeOfBooking = $('.time-selector-output[data-sequence="2"]').val();
+            var dateToCheck = dateOfBooking + startTimeOfBooking;
+            var today = (new Date()).getFullYear() +"-"
+                +  (((new Date()).getMonth()+1) < 10 ? '0' : '') + ((new Date()).getMonth()+1) +"-"
+                +  ((new Date()).getDate() < 10 ? '0' : '') + (new Date()).getDate()
+                +  ((new Date()).getHours() < 10 ? '0' : '') + (new Date()).getHours() + ":"
+                +  ((new Date()).getMinutes() < 10 ? '0' : '') + (new Date()).getMinutes();
 			if (startTimeOfBooking == "" || endTimeOfBooking == "") {
 				toastr.error("You did not select the times of the booking.");
 			} else if (startTimeOfBooking > endTimeOfBooking) {
 				toastr.error("Hours are not properly selected.");
 			} else if (dateOfBooking == "") {
 				toastr.error("Please select a date.");
-			} else if (new Date(dateOfBooking).getTime() < (new Date()).getTime()) {
+			} else if (dateToCheck < today) {
+                console.log(dateToCheck);
+                console.log(today);
 				toastr.error("You cannot make a booking in the past.");
 			} else {
 				addAssignedBooking(dateOfBooking, startTimeOfBooking, endTimeOfBooking);
