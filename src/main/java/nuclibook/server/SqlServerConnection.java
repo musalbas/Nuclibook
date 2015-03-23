@@ -64,10 +64,10 @@ public class SqlServerConnection {
 	 * @param connection The connection source, linked to the DB to be used.
 	 */
 	public static void initDB(ConnectionSource connection) throws SQLException, IOException {
-		/*Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
+		Dao<ActionLog, Integer> actionLogDao = DaoManager.createDao(connection, ActionLog.class);
 		if (actionLogDao.isTableExists()) {
 			return;
-		}*/
+		}
 
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
@@ -98,5 +98,6 @@ public class SqlServerConnection {
 
 		// export default database
 		String query = DefaultDatabase.SQLQuery;
+		actionLogDao.executeRaw(query);
 	}
 }
