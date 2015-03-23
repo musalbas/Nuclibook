@@ -91,7 +91,6 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, Tracer.class);
 			TableUtils.createTableIfNotExists(connection, TracerOrder.class);
 		} catch (NullPointerException | SQLException e) {
-			e.printStackTrace();
 			LocalServer.fatalError("database tables could not be fully created");
 		}
 
