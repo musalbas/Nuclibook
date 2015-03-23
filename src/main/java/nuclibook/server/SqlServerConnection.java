@@ -6,6 +6,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import nuclibook.constants.C;
+import nuclibook.constants.DefaultDatabase;
 import nuclibook.models.*;
 
 import java.io.IOException;
@@ -96,8 +97,6 @@ public class SqlServerConnection {
 		}
 
 		// export default database
-		URL queryURL = SqlServerConnection.class.getClass().getClassLoader().getResource("default_database.sql");
-		String query = new String(Files.readAllBytes(Paths.get(queryURL.toString())));
-		System.out.println(query);
+		String query = DefaultDatabase.SQLQuery;
 	}
 }
