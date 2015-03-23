@@ -69,7 +69,7 @@ public class LocalServer {
 					&& user != null
 					&& user.getDaysRemainingToPasswordChange() < 1
 					&& !path.startsWith("/profile")
-					&& !(path.equals("/entity-update") && request.queryParams("entity-type").equals("staff-password-change"))) {
+					&& !(path.equals("/entity-update") && request.queryParams("entity-type") != null && request.queryParams("entity-type").equals("staff-password-change"))) {
 				response.redirect("/profile?changepw=1&force=1");
 				Spark.halt("Redirecting.");
 			}
