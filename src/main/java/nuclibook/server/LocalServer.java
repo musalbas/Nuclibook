@@ -13,8 +13,16 @@ import java.awt.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+/**
+ * This class creates and manages the server for the entire system.
+ * Its main jobs are to set up the server, route pages, and handle top-level security.
+ */
 public class LocalServer {
 
+	/**
+	 * Create the server and perform initial configuration.
+	 * @param args Any command line arguments; ignored in this application.
+	 */
 	public static void main(String... args) {
 		/*
 		SERVER SETTINGS
@@ -177,6 +185,22 @@ public class LocalServer {
 
 		// import
 		Spark.post("/import", new ImportRoute());
+	}
+
+	/**
+	 * This will stop the server and effectively kill the application in the event of a fatal error
+	 * @param message The message to be delivered to the user
+	 */
+	public static void fatalError(String message) {
+		Spark.halt(500, "<html>" +
+				"<head>" +
+				"</head>" +
+				"<body>" +
+				"<p>A fatal error occurred: <em>" + message + "</em>.</p>" +
+				"<p>Please restart the server and try again.</p>" +
+				"</body>" +
+				"</html>");
+		Spark.stop();
 	}
 
 }
