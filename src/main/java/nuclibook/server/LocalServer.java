@@ -13,8 +13,16 @@ import java.awt.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+/**
+ * This class creates and manages the server for the entire system.
+ * Its main jobs are to set up the server, route pages, and handle top-level security.
+ */
 public class LocalServer {
 
+	/**
+	 * Create the server and perform initial configuration.
+	 * @param args Any command line arguments; ignored in this application.
+	 */
 	public static void main(String... args) {
 		/*
 		SERVER SETTINGS
