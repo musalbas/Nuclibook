@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Class-Path: jetty-servlet-9.0.2.v20130417.jar jetty-util-9.0.2.v201304
+ 17.jar commons-configuration-1.9.jar jetty-io-9.0.2.v20130417.jar com
+ mons-collections-3.2.1.jar jetty-xml-9.0.2.v20130417.jar javax.servle
+ t-3.0.0.v201112011016.jar jetty-server-9.0.2.v20130417.jar persistenc
+ e-api-1.0.2.jar jetty-http-9.0.2.v20130417.jar commons-csv-1.0.jar js
+ on-20141113.jar slf4j-simple-1.7.7.jar ormlite-jdbc-4.48.jar junit-4.
+ 11.jar commons-lang-2.6.jar jetty-webapp-9.0.2.v20130417.jar h2-1.4.1
+ 86.jar commons-logging-1.1.1.jar jasypt-1.9.0.jar ormlite-core-4.48.j
+ ar aspectjrt-1.8.2.jar spark-core-2.1.jar jetty-security-9.0.2.v20130
+ 417.jar hamcrest-core-1.3.jar mysql-connector-java-5.1.6.jar slf4j-ap
+ i-1.7.7.jar dbunit-2.4.9.jar joda-time-2.7.jar
+Main-Class: nuclibook.server.LocalServer
+
