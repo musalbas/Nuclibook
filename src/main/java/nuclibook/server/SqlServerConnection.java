@@ -8,19 +8,34 @@ import nuclibook.models.*;
 
 import java.sql.SQLException;
 
+/**
+ * This singleton class initialises and manages the SQL connection
+ */
 public class SqlServerConnection {
 
-	/* singleton pattern */
-
+	/**
+	 * Private constructor to enforce the singleton pattern
+	 */
 	private SqlServerConnection() {
 	}
 
 	private static ConnectionSource connection = null;
 
+	/**
+	 * Acquires the single instance of the SQL connection.
+	 * @return The SQL connection source
+	 */
 	public static ConnectionSource acquireConnection() {
 		return acquireConnection(C.MYSQL_URI, C.MYSQL_USERNAME, C.MYSQL_PASSWORD);
 	}
 
+	/**
+	 * Acquires or creates the single instance of the SQL connection
+	 * @param uri The DB URI
+	 * @param username The DB username
+	 * @param password The DB password
+	 * @return The SQL connection source
+	 */
 	public static ConnectionSource acquireConnection(String uri, String username, String password) {
 		if (connection == null) {
 			try {
@@ -29,7 +44,6 @@ public class SqlServerConnection {
 				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
-				// TODO deal with exception
 				e.printStackTrace();
 			}
 		}
@@ -37,6 +51,10 @@ public class SqlServerConnection {
 		return connection;
 	}
 
+	/**
+	 * Creates all tables (if needed)
+	 * @param connection The connection source, linked to the DB to be used.
+	 */
 	public static void initDB(ConnectionSource connection) {
 		try {
 			TableUtils.createTableIfNotExists(connection, ActionLog.class);
