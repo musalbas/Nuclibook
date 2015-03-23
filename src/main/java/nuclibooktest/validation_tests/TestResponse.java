@@ -23,7 +23,6 @@ public class TestResponse {
     public String getTagValue(){
         Document doc= Jsoup.parse(body);
         Elements element= doc.select("input[name=csrf-token]");
-        System.out.print(element.val());
         return element.val();
     }
 }
