@@ -29,7 +29,7 @@ var validateCreateForm = function (formObject) {
 };
 
 $(document).ready(function () {
-	setUpDataTable('#cameras-table', [[1, 1], [0, 0]], {
+	setUpDataTable('#cameras-types-table', [[1, 1], [0, 0]], {
 		order: [0, 'asc']
 	});
 });
