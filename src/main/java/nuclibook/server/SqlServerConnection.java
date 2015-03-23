@@ -44,7 +44,7 @@ public class SqlServerConnection {
 				((JdbcConnectionSource) connection).setPassword(password);
 				initDB(connection);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LocalServer.fatalError("a connection could not be made to the database");
 			}
 		}
 
@@ -78,9 +78,9 @@ public class SqlServerConnection {
 			TableUtils.createTableIfNotExists(connection, TherapyCameraType.class);
 			TableUtils.createTableIfNotExists(connection, Tracer.class);
 			TableUtils.createTableIfNotExists(connection, TracerOrder.class);
-		} catch (SQLException e) {
-			// TODO deal with exception
+		} catch (NullPointerException | SQLException e) {
 			e.printStackTrace();
+			LocalServer.fatalError("database tables could not be fully created");
 		}
 	}
 }

@@ -187,4 +187,20 @@ public class LocalServer {
 		Spark.post("/import", new ImportRoute());
 	}
 
+	/**
+	 * This will stop the server and effectively kill the application in the event of a fatal error
+	 * @param message The message to be delivered to the user
+	 */
+	public static void fatalError(String message) {
+		Spark.halt(500, "<html>" +
+				"<head>" +
+				"</head>" +
+				"<body>" +
+				"<p>A fatal error occurred: <em>" + message + "</em>.</p>" +
+				"<p>Please restart the server and try again.</p>" +
+				"</body>" +
+				"</html>");
+		Spark.stop();
+	}
+
 }
