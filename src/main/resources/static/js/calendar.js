@@ -30,9 +30,9 @@ function setupCalendar(selector, onSelect, viewOptions) {
 		// set data source
 		events: calendarEvents,
 
-		// TODO
-		minTime: "08:00:00",
-		maxTime: "19:00:00",
+		// set time limits and position on the calendar
+		minTime: "00:00:00",
+		maxTime: "24:00:00",
 
 		// what to display?
 		viewDisplay: function (e) {
