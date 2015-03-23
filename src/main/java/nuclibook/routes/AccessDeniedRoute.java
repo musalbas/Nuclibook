@@ -8,7 +8,7 @@ import spark.Response;
  */
 public class AccessDeniedRoute extends DefaultRoute {
     /**
-     * Redirects the user to the access-denied.html page.
+     * Presents the rendered template of the access-denied.html page to the user.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client
