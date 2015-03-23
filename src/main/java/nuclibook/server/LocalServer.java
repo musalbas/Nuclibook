@@ -13,8 +13,16 @@ import java.awt.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+/**
+ * This class creates and manages the server for the entire system.
+ * Its main jobs are to set up the server, route pages, and handle top-level security.
+ */
 public class LocalServer {
 
+	/**
+	 * Create the server and perform initial configuration.
+	 * @param args Any command line arguments; ignored in this application.
+	 */
 	public static void main(String... args) {
 		/*
 		SERVER SETTINGS
@@ -62,6 +70,7 @@ public class LocalServer {
 					&& user.getDaysRemainingToPasswordChange() < 1
 					&& !path.startsWith("/profile")) {
 				response.redirect("/profile?changepw=1&force=1");
+				Spark.halt("Redirecting.");
 			}
 
 			// check if they are accessing a non-secure page
@@ -74,6 +83,7 @@ public class LocalServer {
 			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
+				Spark.halt("Redirecting.");
 			}
 
 			// CSV page
@@ -143,7 +153,7 @@ public class LocalServer {
 		Spark.get("/staff-roles", new StaffRolesRoute());
 		Spark.get("/therapies", new TherapiesRoute());
 		Spark.get("/tracers", new TracersRoute());
-        Spark.get("/generic-events", new GenericEventsRoute());
+		Spark.get("/generic-events", new GenericEventsRoute());
 
 		// staff absences and availabilities
 		Spark.get("/select-staff/:target:", new SelectStaffRoute());
@@ -155,6 +165,8 @@ public class LocalServer {
 		Spark.post("/new-booking-2", new NewBookingRouteStage2());
 		Spark.post("/new-booking-3", new NewBookingRouteStage3());
 		Spark.get("/bookings", new BookingsRoute());
+		Spark.post("/booking-edit", new BookingEditRoute());
+		Spark.post("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:", new BookingDetailsRoute());
 		Spark.get("/booking-details/:bookingid:/:newstatus:", new BookingDetailsRoute());
 
@@ -177,6 +189,22 @@ public class LocalServer {
 
 		// import
 		Spark.post("/import", new ImportRoute());
+	}
+
+	/**
+	 * This will stop the server and effectively kill the application in the event of a fatal error
+	 * @param message The message to be delivered to the user
+	 */
+	public static void fatalError(String message) {
+		Spark.halt(500, "<html>" +
+				"<head>" +
+				"</head>" +
+				"<body>" +
+				"<p>A fatal error occurred: <em>" + message + "</em>.</p>" +
+				"<p>Please restart the server and try again.</p>" +
+				"</body>" +
+				"</html>");
+		Spark.stop();
 	}
 
 }
