@@ -15,7 +15,7 @@ A booking system for diagnostic studies and therapies in Nuclear Medicine that m
 * Navi Parmar
 * George Raduta
 
-## Libraries and external APIs used in this software include:
+## Libraries & External APIs Used
 * [Spark](http://sparkjava.com/)
 * [DataTables](http://datatables.net/)
 * [BootStrap](http://getbootstrap.com/)
