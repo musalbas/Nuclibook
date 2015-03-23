@@ -10,8 +10,18 @@ import spark.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This route edits the details of a given booking
+ */
 public class BookingEditRoute extends DefaultRoute {
 
+	/**
+	 * Handles the request by making the relevant changes in the database
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return Nothing; this route completes by redirecting
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine
