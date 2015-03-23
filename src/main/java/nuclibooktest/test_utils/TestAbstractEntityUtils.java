@@ -38,7 +38,7 @@ public class TestAbstractEntityUtils extends AbstractUtilTest{
         assertEquals("Retrieved patient does not have the same hospital number as the patient in the table with and id of 1",
                 retrievedPatient.getHospitalNumber(), "544");
         assertEquals("Retrieved patient does not have the same date of birth number as the patient in the table with and id of 1",
-                retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), "1994-11-12");
+                retrievedPatient.getDateOfBirth().toString("YYYY-MM-dd"), "1970-01-05");
         assertEquals("Retrieved patient does not have the same date of enabled value as the patient in the table with and id of 1",
                 retrievedPatient.getEnabled(), false);
     }

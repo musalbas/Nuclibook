@@ -46,7 +46,8 @@ public class PermissionsTest extends AbstractValidationTest{
                         "&camera-type-1=1&camera-type-2=2&patient-question-0=Test+Question1"},
                 {"/entity-update?csrf-token=&entity-type=generic-event&entity-id=0&title=Mission+Briefing" +
                         "&description=In+the+home+cinema+room.&from-date=2015-03-18&from-time=10%3A30&to-date=2015-03-18&" +
-                        "to-time=11%3A30"}
+                        "to-time=11%3A30"},
+                {"/entity-update?csrf-token=&entity-type=camera&entity-id=0&camera-type-id=1&room-number=Castle"}
         });
     }
 

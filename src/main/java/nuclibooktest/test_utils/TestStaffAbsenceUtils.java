@@ -45,7 +45,7 @@ public class TestStaffAbsenceUtils extends AbstractUtilTest{
     @Test
     public void testGetAllStaffAbsences() throws Exception {
         assertTrue("Size of retrieved list is not equal to number of rows in table",
-                StaffAbsenceUtils.getAllStaffAbsences().size() == 1);
+                StaffAbsenceUtils.getAllStaffAbsences().size() == 2);
     }
 
     @Test
@@ -60,6 +60,6 @@ public class TestStaffAbsenceUtils extends AbstractUtilTest{
         DateTime from = new DateTime(53100l);
         DateTime to = new DateTime(53900l);
         List<StaffAbsence> staffAbsences = StaffAbsenceUtils.getStaffAbsencesByDateRange(from, to);
-        assertTrue(staffAbsences.size() == 2);
+        assertTrue(staffAbsences.size() == 1);
     }
 }

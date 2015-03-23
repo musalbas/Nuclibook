@@ -69,6 +69,6 @@ public class TestCameraUtils extends AbstractUtilTest{
         List<Camera> cameras = CameraUtils.getCamerasForTherapy(therapy);
 
         assertTrue("Size of retrieved list is not equal to number of cameras with a therapy id of 1" ,
-                cameras.size() == 2);
+                cameras.size() == 1);
     }
 }
