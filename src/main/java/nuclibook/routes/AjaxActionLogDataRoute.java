@@ -13,8 +13,18 @@ import spark.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This route provides data from the action log in a JSON format and supports ordering and searching.
+ */
 public class AjaxActionLogDataRoute extends DefaultRoute {
 
+	/**
+	 * Handles the request for action log data
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return JSON formatting of the requested data, or null in an error condition
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         // necessary prelim routine

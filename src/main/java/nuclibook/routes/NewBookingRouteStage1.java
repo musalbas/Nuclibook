@@ -12,8 +12,18 @@ import spark.Response;
 
 import java.util.List;
 
+/**
+ * This route provides the first stage of the booking process (select patient, select therapy, select date periods)
+ */
 public class NewBookingRouteStage1 extends DefaultRoute {
 
+	/**
+	 * Handles the first stage of the booking process
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return A fully rendered version of the front-end for the first stage of the booking process
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

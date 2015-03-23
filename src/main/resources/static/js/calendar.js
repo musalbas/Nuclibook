@@ -78,7 +78,7 @@ function setupCalendar(selector, onSelect, viewOptions) {
 		eventClick: function (calEvent, jsEvent, view) {
 			if (calEvent.url && viewOptions['linkEvents']) {
 
-                window.location.href = calEvent.url;
+				window.location.href = calEvent.url;
 			}
 			return false;
 		},
@@ -95,8 +95,12 @@ function setupCalendar(selector, onSelect, viewOptions) {
 	'&nbsp;&nbsp;&nbsp;&nbsp;' +
 	'</span>' +
 	'<span class="calendar-channel-filters hide">' +
-	'<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
-	'&nbsp;&nbsp;' +
+	(
+		hideStaffAbsences ?
+			''
+			: '<button class="btn btn-default calendar-channel-toggle" data-target="staffAbsences"><i class="fa fa-fw fa-check-square-o"></i> Absences</button>' +
+		'&nbsp;&nbsp;'
+	) +
 	'<button class="btn btn-default calendar-channel-toggle" data-target="genericEvents"><i class="fa fa-fw fa-check-square-o"></i> Events</button>' +
 	'&nbsp;&nbsp;' +
 	'<button class="btn btn-default calendar-channel-cameras"><i class="fa fa-fw fa-camera"></i> Camera Use</button>' +
