@@ -12,8 +12,18 @@ import spark.Response;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 
+/**
+ * This route provides the third stage of the booking process (save to database)
+ */
 public class NewBookingRouteStage3 extends DefaultRoute {
 
+	/**
+	 * Handles the third stage of the booking process
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return Nothing; this route completes by redirecting
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

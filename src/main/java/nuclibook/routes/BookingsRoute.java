@@ -12,8 +12,18 @@ import spark.Response;
 
 import java.util.List;
 
+/**
+ * This route provides the calendar overview of the system's bookings
+ */
 public class BookingsRoute extends DefaultRoute {
 
+	/**
+	 * Handles the request for the bookings page
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return A fully rendered version of the bookings page
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

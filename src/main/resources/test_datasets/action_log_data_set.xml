@@ -5,7 +5,7 @@
         <column>id</column>
         <column>when</column>
         <column>staff_id</column>
-        <column>action</column>
+        <column>action_id</column>
         <column>associated_id</column>
         <column>note</column>
         <row>

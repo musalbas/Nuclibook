@@ -45,7 +45,7 @@ public class TestStaffUtils extends AbstractUtilTest{
         assertTrue("Size of retrieved list is not equal to number of rows in table",
                 StaffUtils.getAllStaff(false).size() == 2);
         assertTrue("Size of retrieved list is not equal to number of enabled staffs in table",
-                StaffUtils.getAllStaff(true).size() == 1);
+                StaffUtils.getAllStaff(true).size() == 2);
     }
 
     @Test

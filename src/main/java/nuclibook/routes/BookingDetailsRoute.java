@@ -11,8 +11,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This route provides details of a given booking and allows for status changes
+ */
 public class BookingDetailsRoute extends DefaultRoute {
 
+	/**
+	 * Handles the request for a booking detail page
+	 * @param request  Information sent by the client
+	 * @param response Information sent to the client
+	 * @return A fully rendered version of the booking details page
+	 * @throws Exception if something goes wrong, for example, loss of connection with a server
+	 */
 	@Override
 	public Object handle(Request request, Response response) throws Exception {
 		// necessary prelim routine

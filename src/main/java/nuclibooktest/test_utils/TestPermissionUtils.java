@@ -31,12 +31,12 @@ public class TestPermissionUtils extends AbstractUtilTest{
     public void testGetPermission(){
         Permission permission = PermissionUtils.getPermission(1);
         assertTrue("Permission which exists which was not found", permission.getId() == 1);
-        assertNull("Permission availability which does not exist found", PermissionUtils.getPermission(20));
+        assertNull("Permission availability which does not exist found", PermissionUtils.getPermission(29));
     }
 
     @Test
     public void testGetAllPermissions(){
         assertTrue("Size of retrieved list is not equal to number of rows in table",
-                PermissionUtils.getAllPermissions().size() == 2);
+                PermissionUtils.getAllPermissions().size() == 25);
     }
 }
