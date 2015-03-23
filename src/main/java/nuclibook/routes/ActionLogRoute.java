@@ -9,11 +9,11 @@ import spark.Request;
 import spark.Response;
 
 /**
- * The class used to redirect the user to the action-log.html page.
+ * The class handles the user's request to login into the system.
  */
 public class ActionLogRoute extends DefaultRoute {
     /**
-     * Method handles the user's request to view action-log.html page.
+     * Handles the user's request to login into the system.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

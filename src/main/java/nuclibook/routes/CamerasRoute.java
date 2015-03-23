@@ -15,11 +15,11 @@ import spark.Response;
 import java.util.List;
 
 /**
- * The class redirects the user to the cameras.html page if he has a permission to view the page.
+ * The class presents the rendered template of the cameras.html page with camera data on it to the user if he has a permission to view the page.
  */
 public class CamerasRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view cameras.html page.
+     * Handles user's request to view cameras.html page.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

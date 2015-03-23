@@ -12,11 +12,11 @@ import spark.Response;
 import java.util.List;
 
 /**
- * The class redirects the user to the select-staff.html page if he has a permission to view the page.
+ * The class handles user's request to view staff availabilities or staff absences.
  */
 public class SelectStaffRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view select-staff.html page.
+     * Handles user's request to view staff availabilities or staff absences.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

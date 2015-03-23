@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class redirects the user to the patient-details.html page if he has a permission to view the page.
+ * The class handles user's request to view patient details.
  */
 public class PatientDetailsRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view patient-details.html page.
+     * Handles user's request to view patient details.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

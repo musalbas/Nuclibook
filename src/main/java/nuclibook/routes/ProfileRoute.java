@@ -5,11 +5,11 @@ import spark.Request;
 import spark.Response;
 
 /**
- * The class redirects the user to the profile.html page which presents information about the user.
+ * The class handles user's request to view user profile.
  */
 public class ProfileRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view profile.html page.
+     * Handles user's request to view user profile.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

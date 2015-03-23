@@ -12,11 +12,11 @@ import spark.Request;
 import spark.Response;
 
 /**
- * The class redirects the user to the tracer-order-details.html page if he has a permission to view the page.
+ * The class presents the rendered template of the tracer-order-details.html page with data on it to the user if he has a permission to view the page.
  */
 public class TracerOrderDetailsRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view tracer-order-details.html page.
+     * Handles user's request to access tracer order details.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

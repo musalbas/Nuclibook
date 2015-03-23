@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * The class redirects the user to the dashboard.html page.
+ * The class presents the rendered template of the dashboard.html page with data on it to the user.
  */
 public class DashboardRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view dashboard.html page.
+     * Handles user's request to view dashboard.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client
@@ -160,6 +160,9 @@ public class DashboardRoute extends DefaultRoute {
         return renderer.render();
     }
 
+    /**
+     * Inner class to represents data on the day summary.
+     */
     private class DaySummaryItem implements Renderable {
 
         private String message;
@@ -168,53 +171,104 @@ public class DashboardRoute extends DefaultRoute {
         private String badgeType = "default";
         private String badgeText = null;
 
+        /**
+         * Default constructor
+         */
         public DaySummaryItem() {
         }
 
+        /**
+         * Creates day summary item with the specified message.
+         * @param message The message to be used
+         */
         public DaySummaryItem(String message) {
             this.message = message;
         }
 
+        /**
+         * Gets the message.
+         * @return The message used.
+         */
         public String getMessage() {
             return message;
         }
 
+        /**
+         * Sets the message.
+         * @param message The message to be used
+         */
         public void setMessage(String message) {
             this.message = message;
         }
 
+        /**
+         * Gets the link.
+         * @return The link used
+         */
         public String getLink() {
             return link;
         }
 
+        /**
+         * Sets the link to be used.
+         * @param link The link to be used
+         */
         public void setLink(String link) {
             this.link = link;
         }
 
+        /**
+         * Gets the icon.
+         * @return The icon used
+         */
         public String getIcon() {
             return icon;
         }
 
+        /**
+         * Sets the icon.
+         * @param icon The icon to be used
+         */
         public void setIcon(String icon) {
             this.icon = icon;
         }
 
+        /**
+         * Gets the badge type.
+         * @return the badge type used.
+         */
         public String getBadgeType() {
             return badgeType;
         }
 
+        /**
+         * Sets the badge type.
+         * @param badgeType The badge type to be used
+         */
         public void setBadgeType(String badgeType) {
             this.badgeType = badgeType;
         }
 
+        /**
+         *Gets the text displayed on the badge.
+         * @return text displayed on the badge
+         */
         public String getBadgeText() {
             return badgeText;
         }
 
+        /**
+         * Sets the text for the badge.
+         * @param badgeText The text to be used on the badge
+         */
         public void setBadgeText(String badgeText) {
             this.badgeText = badgeText;
         }
 
+        /**
+         * Gets the hashmap of the items used in the day summary.
+         * @return HashMap of items used in the day summary
+         */
         @Override
         public HashMap<String, String> getHashMap() {
             return new HashMap<String, String>() {{

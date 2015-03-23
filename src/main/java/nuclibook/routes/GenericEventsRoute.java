@@ -13,11 +13,11 @@ import spark.Response;
 import java.util.List;
 
 /**
- * The class redirects the user to the generic-events.html page.
+ * The class presents the rendered template of the generic-events.html page to the user.
  */
 public class GenericEventsRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view generic-events.html page.
+     * Handles user's request to view generic events.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client

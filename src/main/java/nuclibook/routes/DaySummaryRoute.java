@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class redirects the user to the day-summary.html page.
+ * The class presents the rendered template of the day-summary.html page with day summary data on it to the user.
  */
 public class DaySummaryRoute extends DefaultRoute {
     /**
-     * Method handles user's request to view day-summary.html page.
+     * Handles user's request to view day-summary.html page.
      *
      * @param request  Information sent by the client
      * @param response Information sent to the client
