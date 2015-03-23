@@ -70,6 +70,7 @@ public class LocalServer {
 					&& user.getDaysRemainingToPasswordChange() < 1
 					&& !path.startsWith("/profile")) {
 				response.redirect("/profile?changepw=1&force=1");
+				Spark.halt("Redirecting.");
 			}
 
 			// check if they are accessing a non-secure page
@@ -82,6 +83,7 @@ public class LocalServer {
 			if (!SecurityUtils.checkLoggedIn(session)) {
 				// send them back to the login page
 				response.redirect("/login");
+				Spark.halt("Redirecting.");
 			}
 
 			// CSV page
