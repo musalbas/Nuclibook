@@ -1,4 +1,4 @@
-# SEG Project 3: Nuclibook
+# Nuclibook
 
 ## Brief
 
